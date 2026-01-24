@@ -1,0 +1,3 @@
+[submodule "external/wxFFI"]
+	path = external/wxFFI
+	url = https://github.com/KeyWorksRW/kwxFFI.git

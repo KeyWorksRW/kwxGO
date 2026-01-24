@@ -1,0 +1,5 @@
+wxFFI/
+.private/
+.vscode/
+
+build/
