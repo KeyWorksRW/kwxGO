@@ -3,3 +3,9 @@ wxFFI/
 .vscode/
 
 build/
+bin/
+lib/
+
+# Windows resource files (compiled by windres)
+*.syso
+.shared/
