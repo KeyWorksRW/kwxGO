@@ -1,8 +1,8 @@
 # kwxGO Implementation Plan
-
+Memory saved: kwxgo-plan-v2
 ## Project Goal
 
-Create a Go binding to the wxWidgets library via wxFFI, enabling Go developers to build native cross-platform GUI applications.
+Create a Go binding to the wxWidgets library via kwxFFI, enabling Go developers to build native cross-platform GUI applications.
 
 ---
 
@@ -19,17 +19,30 @@ Create a Go binding to the wxWidgets library via wxFFI, enabling Go developers t
 │  └──────────────┘ └──────────────┘ └──────────────────────────┘ │
 │  ┌──────────────────────────────────────────────────────────────┤
 │  │ Low-level FFI Bindings (cgo)                                 │
-│  │ - C function declarations                                    │
+│  │ - C function declarations via kwxFFI headers                 │
+│  │ - kwxApp C interface for app lifecycle                       │
 │  │ - Type conversions (string ↔ wxString*)                      │
 │  │ - Memory management helpers                                  │
 │  └──────────────────────────────────────────────────────────────┤
 ├─────────────────────────────────────────────────────────────────┤
-│                    wxFFI (C DLL/SO)                             │
-│  - wxffi.dll (Windows) / libwxffi.so (Linux/macOS)              │
+│              kwxFFI (static lib, fetched via CMake)             │
+│  - kwxFFI.lib (Windows) / libkwxFFI.a (Linux/macOS)            │
+│  - kwxApp.cpp compiled into kwxGO static lib                   │
 ├─────────────────────────────────────────────────────────────────┤
-│                    wxWidgets 3.3+                               │
+│                    wxWidgets 3.3.1+                             │
+│  - Fetched automatically by kwxFFI's CMakeLists.txt             │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+### Key Architecture Decisions
+
+1. **FetchContent, not submodules**: kwxFFI and wxWidgets are fetched at CMake configure time via FetchContent (same pattern as kwxFortran). No git submodules.
+
+2. **kwxApp for app lifecycle**: The `kwxApp` pure C interface (from `kwxFFI/examples/CApp/`) handles wxApp initialization. This replaces the old `ELJApp`/`SampleApp` approach. Key functions: `kwxApp_Initialize()`, `kwxApp_MainLoop()`, `kwxApp_ExitMainLoop()`, `kwxApp_Shutdown()`.
+
+3. **Static library default**: kwxFFI builds as a static library by default. The Go build links against `kwxFFI.lib` and `kwxApp.o` plus wxWidgets static libs.
+
+4. **cgo links to build output**: cgo CFLAGS/LDFLAGS point to the CMake build output directory (`build/_deps/kwxffi-src/include` for headers, `build/` for libraries).
 
 ---
 
@@ -40,15 +53,25 @@ Create a Go binding to the wxWidgets library via wxFFI, enabling Go developers t
 | Tool | Version | Purpose |
 |------|---------|---------|
 | **Go** | 1.21+ | Language toolchain with cgo support |
-| **cgo** | (bundled) | C interop - links to wxFFI |
-| **GCC/MinGW** | 13+ | C compiler for cgo (Windows: MinGW-w64) |
-| **CMake** | 3.20+ | Build wxFFI library |
-| **Ninja** | 1.11+ | Build system for wxFFI |
+| **cgo** | (bundled) | C interop - links to kwxFFI |
+| **MSVC** | 2022+ | C/C++ compiler (Windows, for building kwxFFI/wxWidgets) |
+| **GCC/MinGW** | 13+ | C compiler for cgo on Windows (MinGW-w64) |
+| **CMake** | 3.30+ | Build kwxFFI + wxWidgets (CMP0168 for FetchContent perf) |
+| **Ninja** | 1.11+ | Build system for kwxFFI |
+
+### Windows Build Notes
+
+**Important**: kwxFFI and wxWidgets are built with MSVC (via CMake/Ninja). The Go side uses cgo with GCC/MinGW to link against the resulting libraries. This means:
+- CMake build: MSVC compiler
+- cgo compilation: MinGW GCC
+- Linking: MinGW links against MSVC-produced `.lib` files
+
+This is a known working pattern — MSVC static libs are compatible with MinGW linking for C-exported symbols.
 
 ### Windows-Specific Setup
 
 ```powershell
-# Option 1: MSYS2 (recommended)
+# Option 1: MSYS2 (recommended for MinGW)
 pacman -S mingw-w64-ucrt-x86_64-gcc
 
 # Option 2: Pre-built MinGW-w64
@@ -65,19 +88,19 @@ go env CGO_ENABLED  # Should be "1"
 $env:CGO_ENABLED = "1"
 $env:CC = "gcc"  # or path to MinGW gcc
 
-# For linking wxFFI
-$env:CGO_LDFLAGS = "-L/path/to/wxffi/build -lwxffi"
-$env:CGO_CFLAGS = "-I/path/to/wxffi/include"
+# cgo flags are set in wx.go via #cgo directives
+# No manual env vars needed if build/ directory exists
 ```
 
 ### Linux/macOS Setup
 
 ```bash
 # Linux (Ubuntu/Debian)
-sudo apt install gcc build-essential
+sudo apt install gcc build-essential cmake ninja-build
 
 # macOS
 xcode-select --install
+brew install cmake ninja
 
 # Verify
 go env CGO_ENABLED  # Should be "1"
@@ -85,49 +108,169 @@ go env CGO_ENABLED  # Should be "1"
 
 ---
 
-## Implementation Phases
+## Current State
 
-### Phase 1: Project Foundation (Complexity: Simple)
+### Files Already Created
+- `go.mod` — Module definition
+- `wx/wx.go` — Package doc, cgo linkage, `Run()`, `ExitMainLoop()`, `Window` interface
+- `wx/ffi.go` — Raw cgo declarations for string, closure, window, frame, panel, button, statictext, textctrl, sizer, messagebox functions
+- `wx/types.go` — `Point`, `Size`, `Rect`, `DefaultPosition`, `DefaultSize`, `BaseWindow`
+- `wx/string.go` — `WxString`, `NewWxString()`, `Free()`, `wxStringToGo()`, `WxStringToGoAndFree()`, `withWxString()`
+- `examples/minimal/main.go` — Placeholder example (not functional yet)
 
-**Objective:** Set up Go module structure and verify cgo compilation.
+### Issues in Existing Code
 
-**Directory Structure:**
-```
-kwxGO-dev/
-├── go.mod                 # Module definition
-├── wx/                    # Main package
-│   ├── wx.go             # Package doc, initialization
-│   ├── ffi.go            # Low-level cgo bindings
-│   ├── types.go          # Go type definitions
-│   ├── string.go         # wxString conversion helpers
-│   └── constants.go      # wxWidgets constants
-├── examples/
-│   └── minimal/
-│       └── main.go       # Minimal app example
-├── build/                 # Build artifacts
-├── external/
-│   └── wxFFI/            # Submodule (existing)
-└── CMakeLists.txt        # Build wxFFI + examples
-```
+1. **Uses `ELJApp_*` functions**: `wx.go` references `ELJApp_MainLoop`, `ELJApp_ExitMainLoop`, `ELJApp_InitAllImageHandlers`, `ELJApp_Initialized`, `ELJApp_SetTopWindow`. These should be `kwxApp_*` functions from the CApp interface.
 
-**Files to Create:**
-1. `go.mod` - Module initialization
-2. `wx/wx.go` - Package initialization and cgo linkage
-3. `wx/ffi.go` - Raw cgo function declarations
+2. **Wrong include paths**: cgo directives point to `external/kwxFFI/include` (removed submodule). Must point to FetchContent paths: `build/_deps/kwxffi-src/include` for kwxFFI headers, and `build/_deps/kwxffi-src/examples/CApp` for `kwxApp.h`.
 
-**Verification:**
-- `go build ./wx/...` compiles without errors
-- cgo can find wxFFI headers
+3. **No CMakeLists.txt**: Project has no CMakeLists.txt. Need one modeled on kwxFortran to fetch kwxFFI+wxWidgets and build a static Go helper library containing kwxApp.
+
+4. **Missing `kwxApp_Initialize()` call**: The `Run()` function doesn't call `kwxApp_Initialize()` before entering the main loop. This is required.
+
+5. **kwxApp.cpp not compiled**: The kwxApp source from `examples/CApp/` needs to be compiled and linked. The CMakeLists.txt must handle this (same pattern as kwxFortran's `kwxApp.cpp` inclusion).
 
 ---
 
-### Phase 2: Core Type System (Complexity: Moderate)
+## Implementation Phases
 
-**Objective:** Implement type conversions between Go and wxFFI.
+### Phase 1: CMakeLists.txt and Build System (Complexity: Moderate) ✅
 
-**Key Conversions:**
+**Objective:** Create CMakeLists.txt using FetchContent to download kwxFFI and wxWidgets, compile kwxApp.cpp, and produce libraries Go can link to.
 
-| Go Type | wxFFI Type | Conversion |
+**Template:** `kwxRust-dev/CMakeLists.txt` (attached in context)
+
+**CMakeLists.txt must:**
+1. Require CMake 3.30 (CMP0168 for FetchContent performance)
+2. Use FetchContent to fetch kwxFFI from `https://github.com/KeyWorksRW/kwxFFI.git`
+3. kwxFFI's own CMakeLists.txt fetches wxWidgets as a subdependency
+4. Create a `kwxGO` static library target containing:
+   - `examples/CApp/kwxApp.cpp` from the fetched kwxFFI source
+5. Link kwxGO against kwxFFI, wxbase, wxcore
+6. Set output directories so cgo can find libraries in `bin/<Config>/`
+7. Include wxWidgets headers (platform-specific setup.h location)
+
+**Build verification:**
+```powershell
+cmake -B build -G Ninja
+ninja -C build -f build-Debug.ninja
+```
+
+**Key paths after build:**
+- kwxFFI headers: `build/_deps/kwxffi-src/include/`
+- kwxApp header: `build/_deps/kwxffi-src/examples/CApp/kwxApp.h`
+- kwxFFI lib: `build/` (kwxFFI.lib or libkwxFFI.a)
+- kwxGO lib: `lib/<Config>/` (kwxGO.lib containing kwxApp)
+- wxWidgets libs: `build/_deps/wxwidgets-build/lib/`
+
+**Files to create:**
+1. `CMakeLists.txt` — Main build file
+
+---
+
+### Phase 2: Fix cgo Linkage and App Lifecycle (Complexity: Moderate) ✅
+
+**Objective:** Update all Go source files to use correct include paths and kwxApp functions.
+
+**Changes to `wx/wx.go`:**
+- Replace `#cgo CFLAGS: -I${SRCDIR}/../external/kwxFFI/include` with paths to FetchContent output
+- Replace all `ELJApp_*` references with `kwxApp_*` equivalents:
+  - `ELJApp_MainLoop` → `kwxApp_MainLoop`
+  - `ELJApp_ExitMainLoop` → `kwxApp_ExitMainLoop`
+  - `ELJApp_InitAllImageHandlers` → `kwxApp_InitAllImageHandlers`
+  - `ELJApp_Initialized` → `kwxApp_IsTerminating` (inverted logic) or remove
+  - `ELJApp_SetTopWindow` → `kwxApp_SetTopWindow`
+- Add `kwxApp_Initialize()` call in `Run()` before anything else
+- Include `kwxApp.h` in the cgo preamble
+
+**Changes to `wx/ffi.go`:**
+- Update `#cgo CFLAGS` and `#cgo LDFLAGS` paths
+- Replace `ELJApp_*` declarations with `kwxApp_*` equivalents
+- Add remaining kwxApp function declarations
+
+**Changes to `wx/string.go`:**
+- Update cgo include paths (currently uses relative include which may still work)
+
+**kwxApp C API summary (from kwxApp.h):**
+```c
+// Lifecycle
+int kwxApp_Initialize(int argc, char** argv);
+int kwxApp_MainLoop(void);
+void kwxApp_ExitMainLoop(void);
+void kwxApp_Shutdown(void);
+int kwxApp_IsTerminating(void);
+
+// Properties
+const char* kwxApp_GetAppName(void);
+void kwxApp_SetAppName(const char* name);
+const char* kwxApp_GetVendorName(void);
+void kwxApp_SetVendorName(const char* name);
+void* kwxApp_GetTopWindow(void);
+void kwxApp_SetTopWindow(void* window);
+void kwxApp_SetExitOnFrameDelete(int flag);
+
+// Utilities
+void kwxApp_InitAllImageHandlers(void);
+void kwxApp_Bell(void);
+void kwxApp_Sleep(int seconds);
+void kwxApp_MilliSleep(int milliseconds);
+int kwxApp_Yield(void);
+int kwxApp_SafeYield(void* window);
+
+// Idle timer
+void kwxApp_SetIdleCallback(int interval_ms, kwxApp_IdleCallback callback, void* data);
+int kwxApp_GetIdleInterval(void);
+```
+
+**Updated `Run()` pattern:**
+```go
+func Run(init InitFunc) int {
+    runtime.LockOSThread()
+    defer runtime.UnlockOSThread()
+
+    // Initialize wxWidgets via kwxApp
+    if C.kwxApp_Initialize(0, nil) == 0 {
+        return -1
+    }
+
+    // Initialize all image handlers
+    C.kwxApp_InitAllImageHandlers()
+
+    // Call user's init function
+    if init != nil && !init() {
+        C.kwxApp_Shutdown()
+        return 0
+    }
+
+    // Run the main event loop
+    result := int(C.kwxApp_MainLoop())
+
+    // Cleanup
+    C.kwxApp_Shutdown()
+    return result
+}
+```
+
+**Verification:**
+- `go build ./wx/...` compiles without errors
+- cgo can find kwxFFI headers and kwxApp.h
+
+---
+
+### Phase 3: Core Type System Refinement (Complexity: Simple) ✅
+
+**Objective:** Verify and polish type conversions between Go and kwxFFI.
+
+**Already done:** `wx/types.go` and `wx/string.go` exist with core types.
+
+**Remaining:**
+- Verify string round-trip works after Phase 2 linkage is fixed
+- Add `memory.go` if finalizer-based cleanup is needed
+- Unit tests for string conversion (deferred until linkage works)
+
+**Key Conversions (unchanged):**
+
+| Go Type | kwxFFI Type | Conversion |
 |---------|------------|------------|
 | `string` | `wxString*` | `wxString_CreateUTF8()` / `wxString_GetString()` |
 | `int` | `int` | Direct |
@@ -137,125 +280,67 @@ kwxGO-dev/
 | `Size{W, H int}` | `int w, int h` | Struct decomposition |
 | `Rect{X, Y, W, H}` | 4 ints | Struct decomposition |
 
-**String Handling (Critical):**
-
-```go
-// wx/string.go
-
-// WxString wraps a wxString* with automatic cleanup
-type WxString struct {
-    ptr unsafe.Pointer
-}
-
-// NewWxString creates a wxString from Go string
-func NewWxString(s string) *WxString {
-    cstr := C.CString(s)
-    defer C.free(unsafe.Pointer(cstr))
-    return &WxString{ptr: C.wxString_CreateUTF8(cstr)}
-}
-
-// Free releases the wxString memory
-func (w *WxString) Free() {
-    if w.ptr != nil {
-        C.wxString_Delete((*C.wxString)(w.ptr))
-        w.ptr = nil
-    }
-}
-
-// GoString extracts the string and frees the wxString
-func WxStringToGo(ptr unsafe.Pointer) string {
-    if ptr == nil {
-        return ""
-    }
-    wxStr := (*C.wxString)(ptr)
-    length := C.wxString_Length(wxStr)
-    buf := make([]byte, length)
-    C.wxString_GetString(wxStr, (*C.char)(unsafe.Pointer(&buf[0])))
-    C.wxString_Delete(wxStr)
-    return string(buf)
-}
-```
-
-**Files to Create:**
-1. `wx/types.go` - Go struct definitions (Point, Size, Rect, etc.)
-2. `wx/string.go` - wxString conversion helpers
-3. `wx/memory.go` - Memory management utilities
-
-**Verification:**
-- Unit tests for string round-trip conversion
-- No memory leaks (use Go's race detector)
-
 ---
 
-### Phase 3: Constants and Enums (Complexity: Simple)
+### Phase 4: Constants and Enums (Complexity: Simple) ✅
 
 **Objective:** Export wxWidgets constants to Go.
 
 **Approach:**
-- Constants in wxFFI are exported as functions (e.g., `expwxDEFAULT_FRAME_STYLE()`)
+- Constants in kwxFFI are exported as functions (e.g., `expwxDEFAULT_FRAME_STYLE()`)
 - Call these once at init and cache the values
-- Use Go constants where possible for compile-time checks
+- Use Go `var` declarations (not `const` — values come from C at runtime)
 
 **Example:**
 ```go
 // wx/constants.go
 
 var (
-    ID_ANY           = int(C.expwxID_ANY())
-    ID_OK            = int(C.expwxID_OK())
-    ID_CANCEL        = int(C.expwxID_CANCEL())
+    ID_ANY              = int(C.expwxID_ANY())
+    ID_OK               = int(C.expwxID_OK())
+    ID_CANCEL           = int(C.expwxID_CANCEL())
     DEFAULT_FRAME_STYLE = int(C.expwxDEFAULT_FRAME_STYLE())
     // ... hundreds more
 )
 ```
 
-**Files to Create:**
-1. `wx/constants.go` - All wxWidgets constants
+**Source:** Read `kwxFFI/src/defs.cpp` (5000+ lines of `EXPORT int expXXX()` functions)
 
-**Consideration:** May need code generation for 2000+ constants.
+**Consideration:** Code generation recommended for 2000+ constants. Can be delegated to a subagent.
+
+**Files to Create:**
+1. `wx/constants.go` — All wxWidgets constants
 
 ---
 
-### Phase 4: Application Lifecycle (Complexity: Moderate)
+### Phase 5: Application Lifecycle (Complexity: Moderate) ✅
 
-**Objective:** Implement wxApp integration for Go.
+**Objective:** Implement wxApp integration for Go using kwxApp.
 
-**Challenge:** wxWidgets requires running on the main thread, and Go's runtime manages threads differently.
+Already have `Run()` in `wx.go` but it uses wrong API. Phase 2 fixes the API calls.
 
-**Solution Pattern:**
+**Additional app functions to wrap:**
 ```go
 // wx/app.go
 
-// App represents the wxWidgets application
-type App struct {
-    ptr unsafe.Pointer
+func SetAppName(name string) {
+    cname := C.CString(name)
+    defer C.free(unsafe.Pointer(cname))
+    C.kwxApp_SetAppName(cname)
 }
 
-// Run starts the application with the given init function
-// This MUST be called from main()
-func Run(init func() bool) int {
-    // Lock to main thread (required for GUI)
-    runtime.LockOSThread()
-
-    // Create closure for init callback
-    initClosure := createClosure(init)
-
-    // Call wxEntry or equivalent
-    return int(C.ELJApp_MainLoop())
-}
+func SetVendorName(name string) { ... }
+func GetTopWindow() unsafe.Pointer { return C.kwxApp_GetTopWindow() }
+func SetExitOnFrameDelete(flag bool) { ... }
+func Bell() { C.kwxApp_Bell() }
+func Yield() bool { return C.kwxApp_Yield() != 0 }
 ```
 
-**Key Functions to Wrap:**
-- `ELJApp` initialization
-- Main event loop
-- Application termination
-
-**Files to Create:**
-1. `wx/app.go` - Application lifecycle management
+**Thread safety note:** `runtime.LockOSThread()` in `Run()` is critical. All wxWidgets calls must happen on the main OS thread. Go's goroutine scheduler can move goroutines between threads, so the lock prevents that.
 
 ---
 
-### Phase 5: Window Hierarchy (Complexity: Moderate)
+### Phase 6: Window Hierarchy (Complexity: Moderate) ✅
 
 **Objective:** Implement base window types.
 
@@ -282,7 +367,6 @@ type Window interface {
     Hide()
     Destroy()
     SetSize(x, y, w, h int)
-    // ... common methods
 }
 
 // BaseWindow provides common implementation
@@ -293,59 +377,50 @@ type BaseWindow struct {
 func (w *BaseWindow) Ptr() unsafe.Pointer { return w.ptr }
 
 func (w *BaseWindow) Show(show bool) {
-    flag := 0
+    flag := C.int(0)
     if show { flag = 1 }
-    C.wxWindow_Show((*C.wxWindow)(w.ptr), C.int(flag))
+    C.wxWindow_Show(w.ptr, flag)
 }
 ```
 
 **Files to Create:**
-1. `wx/object.go` - Base object wrapper
-2. `wx/evthandler.go` - Event handler base
-3. `wx/window.go` - Window interface and base
-4. `wx/frame.go` - Frame implementation
-5. `wx/panel.go` - Panel implementation
-6. `wx/dialog.go` - Dialog implementation
+1. `wx/object.go` — Base object wrapper
+2. `wx/evthandler.go` — Event handler base
+3. `wx/window.go` — Window interface and base
+4. `wx/frame.go` — Frame implementation
+5. `wx/panel.go` — Panel implementation
+6. `wx/dialog.go` — Dialog implementation
 
 ---
 
-### Phase 6: Event System (Complexity: Complex)
+### Phase 7: Event System (Complexity: Complex) ✅
 
 **Objective:** Implement event handling with Go callbacks.
 
-**Challenge:** wxFFI uses C closures that call back into foreign code. Go's cgo has restrictions on callbacks.
+**Challenge:** kwxFFI uses C closures (`wxClosure`) that call back into foreign code. Go's cgo has restrictions on callbacks — Go functions passed to C must use `//export` and be in a separate file.
 
-**Solution:** Use `//export` for callback functions and a registry pattern.
+**Solution:** Use `//export` for a single callback dispatcher and a registry pattern:
 
 ```go
 // wx/events.go
 
-// Event types (loaded from wxFFI)
-var (
-    EVT_BUTTON     = int(C.expEVT_COMMAND_BUTTON_CLICKED())
-    EVT_CLOSE      = int(C.expEVT_CLOSE_WINDOW())
-    EVT_MENU       = int(C.expEVT_MENU())
-    // ...
-)
-
-// EventHandler is a Go function that handles events
 type EventHandler func(event *Event)
 
 // Global registry for callbacks (cgo limitation)
 var callbackRegistry = make(map[uintptr]EventHandler)
 var callbackMutex sync.RWMutex
+var nextCallbackID uintptr
 
 // Bind connects an event to a handler
 func (w *BaseWindow) Bind(eventType int, handler EventHandler) {
-    // Create closure wrapper
+    id := registerCallback(handler)
     closure := C.wxClosure_Create(
         C.ClosureFun(C.goEventCallback),
-        unsafe.Pointer(uintptr(registerCallback(handler))),
+        unsafe.Pointer(id),
     )
     C.wxEvtHandler_Connect(
-        (*C.wxEvtHandler)(w.ptr),
-        C.int(-1),  // ID
-        C.int(-1),  // lastID
+        w.ptr,
+        C.int(-1), C.int(-1),
         C.int(eventType),
         closure,
     )
@@ -364,13 +439,13 @@ func goEventCallback(fun, data, evt unsafe.Pointer) {
 ```
 
 **Files to Create:**
-1. `wx/events.go` - Event types and binding
-2. `wx/callback.go` - Callback registry and closure helpers
-3. `wx/event_types.go` - Event wrapper structs
+1. `wx/events.go` — Event types and binding
+2. `wx/callback.go` — Callback registry and closure helpers (with `//export`)
+3. `wx/event_types.go` — Event wrapper structs
 
 ---
 
-### Phase 7: Common Controls (Complexity: Moderate)
+### Phase 8: Common Controls (Complexity: Moderate) ✅
 
 **Objective:** Wrap frequently-used controls.
 
@@ -382,10 +457,8 @@ func goEventCallback(fun, data, evt unsafe.Pointer) {
 5. RadioButton
 6. ComboBox / Choice
 7. ListBox
-8. Panel
-9. Sizer (layout)
 
-**Example - Button:**
+**Example — Button:**
 ```go
 // wx/button.go
 
@@ -396,26 +469,15 @@ type Button struct {
 func NewButton(parent Window, id int, label string, pos Point, size Size, style int) *Button {
     wxLabel := NewWxString(label)
     defer wxLabel.Free()
-
     ptr := C.wxButton_Create(
-        (*C.wxWindow)(parent.Ptr()),
+        parent.Ptr(),
         C.int(id),
-        (*C.wxString)(wxLabel.ptr),
+        wxLabel.Ptr(),
         C.int(pos.X), C.int(pos.Y),
         C.int(size.W), C.int(size.H),
         C.int(style),
     )
     return &Button{BaseWindow{ptr: unsafe.Pointer(ptr)}}
-}
-
-func (b *Button) SetLabel(label string) {
-    wxLabel := NewWxString(label)
-    defer wxLabel.Free()
-    C.wxButton_SetLabel((*C.wxButton)(b.ptr), (*C.wxString)(wxLabel.ptr))
-}
-
-func (b *Button) SetDefault() {
-    C.wxButton_SetDefault((*C.wxButton)(b.ptr))
 }
 ```
 
@@ -424,11 +486,10 @@ func (b *Button) SetDefault() {
 2. `wx/statictext.go`
 3. `wx/textctrl.go`
 4. `wx/checkbox.go`
-5. `wx/sizer.go` (BoxSizer, FlexGridSizer)
 
 ---
 
-### Phase 8: Layout System (Complexity: Moderate)
+### Phase 9: Layout System (Complexity: Moderate) ✅
 
 **Objective:** Implement sizers for automatic layout.
 
@@ -438,38 +499,12 @@ func (b *Button) SetDefault() {
 - GridBagSizer
 - StaticBoxSizer
 
-```go
-// wx/sizer.go
-
-type Sizer interface {
-    Ptr() unsafe.Pointer
-    Add(item interface{}, proportion int, flag int, border int)
-    AddSpacer(size int)
-    Fit(window Window)
-}
-
-type BoxSizer struct {
-    ptr unsafe.Pointer
-}
-
-func NewBoxSizer(orient int) *BoxSizer {
-    return &BoxSizer{ptr: unsafe.Pointer(C.wxBoxSizer_Create(C.int(orient)))}
-}
-
-func (s *BoxSizer) Add(window Window, proportion, flag, border int) {
-    C.wxSizer_Add(
-        (*C.wxSizer)(s.ptr),
-        (*C.wxWindow)(window.Ptr()),
-        C.int(proportion),
-        C.int(flag),
-        C.int(border),
-    )
-}
-```
+**Files to Create:**
+1. `wx/sizer.go` (BoxSizer, FlexGridSizer, StaticBoxSizer)
 
 ---
 
-### Phase 9: Dialogs (Complexity: Simple)
+### Phase 10: Dialogs (Complexity: Simple) — NOT STARTED
 
 **Objective:** Wrap common dialogs.
 
@@ -481,71 +516,36 @@ func (s *BoxSizer) Add(window Window, proportion, flag, border int) {
 - FontDialog
 - TextEntryDialog
 
-```go
-// wx/dialogs.go
-
-func MessageBox(message, caption string, style int, parent Window) int {
-    wxMsg := NewWxString(message)
-    defer wxMsg.Free()
-    wxCap := NewWxString(caption)
-    defer wxCap.Free()
-
-    var parentPtr *C.wxWindow
-    if parent != nil {
-        parentPtr = (*C.wxWindow)(parent.Ptr())
-    }
-
-    return int(C.wxMessageBox(
-        (*C.wxString)(wxMsg.ptr),
-        (*C.wxString)(wxCap.ptr),
-        C.int(style),
-        parentPtr,
-    ))
-}
-```
+**Files to Create:**
+1. `wx/dialogs.go`
 
 ---
 
-### Phase 10: Minimal Example (Complexity: Simple)
+### Phase 11: Working Minimal Example (Complexity: Simple) — NOT STARTED
 
 **Objective:** Create a working "Hello World" application.
 
 ```go
 // examples/minimal/main.go
-
 package main
 
-import (
-    "github.com/KeyWorksRW/kwxGO/wx"
-)
-
-type MyFrame struct {
-    *wx.Frame
-}
-
-func NewMyFrame() *MyFrame {
-    frame := wx.NewFrame(nil, wx.ID_ANY, "Hello wxGO",
-        wx.DefaultPosition, wx.Size{W: 400, H: 300}, wx.DEFAULT_FRAME_STYLE)
-
-    panel := wx.NewPanel(frame, wx.ID_ANY)
-    button := wx.NewButton(panel, wx.ID_ANY, "Click Me!",
-        wx.Point{X: 50, Y: 50}, wx.DefaultSize, 0)
-
-    button.Bind(wx.EVT_BUTTON, func(evt *wx.Event) {
-        wx.MessageBox("Hello from Go!", "wxGO", wx.OK|wx.ICON_INFORMATION, frame)
-    })
-
-    frame.Bind(wx.EVT_CLOSE, func(evt *wx.Event) {
-        frame.Destroy()
-    })
-
-    return &MyFrame{Frame: frame}
-}
+import "github.com/KeyWorksRW/kwxGO/wx"
 
 func main() {
     wx.Run(func() bool {
-        frame := NewMyFrame()
+        frame := wx.NewFrame(nil, wx.ID_ANY, "Hello wxGO",
+            wx.DefaultPosition, wx.Size{W: 400, H: 300}, wx.DEFAULT_FRAME_STYLE)
+
+        panel := wx.NewPanel(frame, wx.ID_ANY)
+        button := wx.NewButton(panel, wx.ID_ANY, "Click Me!",
+            wx.Point{X: 50, Y: 50}, wx.DefaultSize, 0)
+
+        button.Bind(wx.EVT_BUTTON, func(evt *wx.Event) {
+            wx.MessageBox("Hello from Go!", "wxGO", wx.OK|wx.ICON_INFORMATION, frame)
+        })
+
         frame.Show(true)
+        wx.SetTopWindow(frame)
         return true
     })
 }
@@ -555,57 +555,47 @@ func main() {
 
 ## Build System
 
-### CMakeLists.txt Updates
+### CMakeLists.txt (Phase 1)
 
-```cmake
-# Add to existing CMakeLists.txt
+Model on kwxFortran's CMakeLists.txt. Key differences:
+- Language is CXX only (no Fortran)
+- No Go-specific targets — CMake just builds C/C++ libraries
+- Go build is separate (`go build`)
 
-# Build wxFFI as shared library for Go
-add_subdirectory(external/wxFFI)
-
-# Set output directory for DLL/SO
-set_target_properties(kwxFFI PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-)
-```
-
-### Go Build Script (build.ps1)
+### Go Build Process
 
 ```powershell
-# build.ps1 - Build script for Windows
+# Step 1: Build C/C++ libraries (one-time, or after kwxFFI updates)
+cmake -B build -G Ninja
+ninja -C build -f build-Debug.ninja
 
-param(
-    [switch]$Release,
-    [switch]$Clean
-)
-
-$ErrorActionPreference = "Stop"
-$ProjectRoot = $PSScriptRoot
-
-# Build wxFFI first
-Write-Host "Building wxFFI..." -ForegroundColor Cyan
-Push-Location "$ProjectRoot/build"
-if ($Release) {
-    ninja -f build-Release.ninja
-} else {
-    ninja -f build-Debug.ninja
-}
-Pop-Location
-
-# Set cgo environment
-$env:CGO_ENABLED = "1"
-$env:CGO_CFLAGS = "-I$ProjectRoot/external/wxFFI/include"
-$env:CGO_LDFLAGS = "-L$ProjectRoot/build/lib -lwxffi"
-
-# Build Go package
-Write-Host "Building Go package..." -ForegroundColor Cyan
+# Step 2: Build Go package
 go build ./wx/...
 
-# Build examples
-Write-Host "Building examples..." -ForegroundColor Cyan
-go build -o build/minimal.exe ./examples/minimal/
+# Step 3: Build examples
+go build -o bin/minimal.exe ./examples/minimal/
 ```
+
+### cgo Directives (in wx.go)
+
+```go
+/*
+#cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
+#cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/examples/CApp
+#cgo windows LDFLAGS: -L${SRCDIR}/../build -lkwxFFI -lkwxGO
+#cgo windows LDFLAGS: -L${SRCDIR}/../build/_deps/wxwidgets-build/lib/vc_x64_dll
+#cgo windows LDFLAGS: -lwxbase33ud -lwxmsw33ud_core
+#cgo linux LDFLAGS: -L${SRCDIR}/../build -lkwxFFI -lkwxGO -lwxbase -lwxcore
+#cgo darwin LDFLAGS: -L${SRCDIR}/../build -lkwxFFI -lkwxGO -lwxbase -lwxcore
+
+#include "kwxApp.h"
+#include "wxffi_def.h"
+#include "wxffi_types.h"
+*/
+import "C"
+```
+
+> **Note:** The exact LDFLAGS for wxWidgets will need tweaking depending on whether wxWidgets is built as shared or static libraries, and the exact library naming. This will be determined during Phase 1 when the CMake build is working.
 
 ---
 
@@ -613,120 +603,79 @@ go build -o build/minimal.exe ./examples/minimal/
 
 | Risk | Severity | Mitigation |
 |------|----------|------------|
-| cgo callback limitations | High | Use callback registry pattern; test thoroughly |
-| Thread safety (Go scheduler vs main thread) | High | `runtime.LockOSThread()` in main; document requirements |
-| Memory leaks (wxString, objects) | Medium | Implement finalizers; provide explicit Free() methods |
-| Build complexity (cgo + cmake) | Medium | Provide build scripts; document setup clearly |
-| Platform differences (Windows/Linux/macOS) | Medium | CI testing on all platforms; conditional compilation |
-| wxFFI API changes | Low | Pin to specific wxFFI version; test against updates |
+| MSVC/MinGW ABI compatibility | High | kwxFFI uses `extern "C"` — C ABI is compatible across compilers. Test early in Phase 1. |
+| cgo callback limitations | High | Use callback registry pattern with `//export`; test thoroughly in Phase 7 |
+| Thread safety (Go scheduler vs main thread) | High | `runtime.LockOSThread()` in `Run()`; document requirements clearly |
+| Memory leaks (wxString, objects) | Medium | `WxStringToGoAndFree()` pattern; explicit `Free()` methods; consider finalizers |
+| Build complexity (cgo + CMake) | Medium | Provide build scripts; document setup clearly |
+| wxWidgets library naming varies by config | Medium | Use CMake generator expressions; detect paths at build time |
+| kwxApp.h/cpp not part of kwxFFI lib | Medium | Must compile kwxApp.cpp ourselves (like kwxFortran does) |
 
 ---
 
 ## Verification Strategy
 
 ### Per-Phase Verification
-1. **Compile test:** `go build ./wx/...`
-2. **Unit tests:** `go test ./wx/...`
-3. **Race detection:** `go test -race ./wx/...`
-4. **Example runs:** Manual testing of example apps
+1. **Phase 1**: `ninja -C build -f build-Debug.ninja` succeeds; libraries exist
+2. **Phase 2**: `go build ./wx/...` compiles without errors
+3. **Phase 3**: Unit tests for string round-trip (when linkage works)
+4. **Phase 4**: Compile check — all constants resolve
+5. **Phase 5-10**: `go build ./wx/...` compiles; no cgo errors
+6. **Phase 11**: Example builds and launches a window
 
 ### Integration Testing
 - Build and run minimal example on Windows
 - Verify event handling works correctly
-- Check for memory leaks with profiling
-
-### CI Pipeline (Future)
-- GitHub Actions workflow for Windows/Linux/macOS
-- Automated build of wxFFI + Go bindings
-- Run tests on each platform
+- Check for memory leaks with Go profiling tools
 
 ---
 
-## Estimated Timeline
+## Subagent Delegation Suitability
 
-| Phase | Description | Estimated Effort |
-|-------|-------------|------------------|
-| 1 | Project Foundation | 2 hours |
-| 2 | Core Type System | 4 hours |
-| 3 | Constants | 2 hours (may need codegen) |
-| 4 | App Lifecycle | 4 hours |
-| 5 | Window Hierarchy | 6 hours |
-| 6 | Event System | 8 hours (complex) |
-| 7 | Common Controls | 6 hours |
-| 8 | Layout System | 4 hours |
-| 9 | Dialogs | 2 hours |
-| 10 | Minimal Example | 2 hours |
+### ✅ Suitable for Subagents
 
-**Total: ~40 hours** (for initial working binding)
+| Phase | Agent | Rationale |
+|-------|-------|-----------|
+| **Phase 4: Constants** | raptor/gpt | Mechanical extraction from defs.cpp. Clear pattern. |
+| **Phase 10: Dialogs** | raptor/gpt | Simple wrappers following established patterns. |
+| **Phase 8: Controls** | raptor/gpt | Repetitive wrapper code once patterns established. |
+
+### ❌ Requires Local Execution (architect/code agent)
+
+| Phase | Rationale |
+|-------|-----------|
+| **Phase 1: CMakeLists.txt** | Iterative CMake debugging, build verification |
+| **Phase 2: Fix Linkage** | cgo path debugging, compile verification |
+| **Phase 5: App Lifecycle** | Runtime verification of thread safety, kwxApp integration |
+| **Phase 7: Event System** | Complex cgo callback debugging, memory safety |
+| **Phase 11: Minimal Example** | Integration test — requires running GUI |
+
+---
+
+## Estimated Timeline (Agent-Hours)
+
+| Phase | Description | Estimate |
+|-------|-------------|----------|
+| 1 | CMakeLists.txt + Build System | 30 min |
+| 2 | Fix cgo Linkage + kwxApp | 30 min |
+| 3 | Core Type System Refinement | 15 min |
+| 4 | Constants (delegatable) | 20 min |
+| 5 | Application Lifecycle | 20 min |
+| 6 | Window Hierarchy | 30 min |
+| 7 | Event System | 45 min |
+| 8 | Common Controls | 30 min |
+| 9 | Layout System | 20 min |
+| 10 | Dialogs (delegatable) | 15 min |
+| 11 | Minimal Example | 15 min |
+
+**Total: ~4.5 agent-hours** for initial working binding
 
 ---
 
 ## References
 
-- [wxFFI Architecture](.github/wxffi-architecture.md)
+- kwxFFI Architecture: `../.github/kwxffi-architecture.md`
+- kwxFFI CApp Interface: `kwxFFI/examples/CApp/kwxApp.h` (fetched at build time)
+- kwxFortran CMake template: `../kwxFortran-dev/CMakeLists.txt`
 - [Go cgo documentation](https://pkg.go.dev/cmd/cgo)
 - [wxWidgets documentation](https://docs.wxwidgets.org/)
-- [Similar project: andlabs/ui](https://github.com/andlabs/ui) (Go GUI, different approach)
-
----
-
-## GitHub.com Coding Agent Suitability
-
-The following evaluates which phases could be assigned to the GitHub.com coding agent (Opus 4.5) via an issue. The agent lacks Serena symbolic tools and cannot build/test locally, so phases requiring iterative debugging or runtime verification are poor candidates.
-
-### ✅ Suitable for GitHub.com Agent
-
-| Phase | Rationale |
-|-------|-----------|
-| **Phase 3: Constants** | Mechanical extraction of constants from wxFFI. Clear pattern: wrap `expwxXXX()` calls. No runtime testing needed—just generate the Go file. Agent can read `external/wxFFI/src/defs.cpp` and produce `wx/constants.go`. |
-| **Phase 9: Dialogs** | Simple wrappers following established patterns from Phase 7. Once Button/TextCtrl patterns exist, dialogs are straightforward. Agent can generate `wx/dialogs.go` with MessageBox, FileDialog, etc. |
-
-### ⚠️ Possibly Suitable (with constraints)
-
-| Phase | Rationale |
-|-------|-----------|
-| **Phase 5: Window Hierarchy** | Repetitive wrapper code following a template. However, depends on Phases 2/4 being complete and tested. Could work if given explicit templates and the completed `wx/types.go`. |
-| **Phase 7: Common Controls** | Similar pattern repetition (Button, TextCtrl, CheckBox, etc.). Depends on event system being functional. Could be split: agent generates initial code, human verifies against runtime. |
-| **Phase 8: Layout System** | Sizer wrappers are mostly mechanical. Depends on Phase 5 window types. Lower risk than controls since sizers have simpler interactions. |
-
-### ❌ Not Suitable for GitHub.com Agent
-
-| Phase | Rationale |
-|-------|-----------|
-| **Phase 1: Project Foundation** | Requires iterative cgo debugging, environment setup verification, and confirming build actually works. Agent cannot run `go build` or verify cgo linkage. |
-| **Phase 2: Core Type System** | String conversion is critical and subtle. Memory management bugs only manifest at runtime. Needs interactive testing with actual wxFFI library. |
-| **Phase 4: App Lifecycle** | Thread safety and `runtime.LockOSThread()` behavior requires runtime verification. Main loop integration is highly platform-specific. |
-| **Phase 6: Event System** | Most complex phase. cgo callback restrictions, closure registry, and event dispatch all require iterative debugging. Memory safety issues only visible at runtime. |
-| **Phase 10: Minimal Example** | Integration test—requires all prior phases working together. Must be run and visually verified. |
-
-### Recommended Approach
-
-1. **Complete locally:** Phases 1, 2, 4, 6, 10 (foundation + complex runtime-dependent work)
-2. **Assign to agent:** Phase 3 (constants) can be done early in parallel
-3. **Assign to agent after templates exist:** Phases 5, 7, 8, 9 once patterns are established
-
-### Example Issue for Phase 3
-
-```markdown
-## Generate wx/constants.go from wxFFI
-
-**Context:** This project binds wxWidgets to Go via wxFFI. Constants in wxFFI
-are exported as C functions (e.g., `expwxID_OK()` returns the value of `wxID_OK`).
-
-**Task:** Generate `wx/constants.go` that:
-1. Declares cgo imports for constant functions from wxFFI
-2. Exports Go variables for each constant (e.g., `var ID_OK = int(C.expwxID_OK())`)
-
-**Source:** Read `external/wxFFI/src/defs.cpp` for the list of `EXPORT int expwxXXX()` functions.
-
-**Pattern:**
-```go
-// #include "wxffi_def.h"
-// int expwxID_OK();
-import "C"
-
-var ID_OK = int(C.expwxID_OK())
-```
-
-**Scope:** Generate constants for IDs, styles, and flags. Skip string constants (wxART_*) for now.
-```
