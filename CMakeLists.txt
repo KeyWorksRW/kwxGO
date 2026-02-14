@@ -67,9 +67,8 @@ include( FetchContent )
 # Suppress verbose FetchContent git output (CMake 3.30+)
 set(FETCHCONTENT_QUIET ON)
 
-# Force kwxFFI to build as shared library (DLL) for cross-compiler compatibility
-# MSVC builds the DLL, MinGW GCC (cgo) can link against it
-set( KWXFFI_BUILD_SHARED ON CACHE BOOL "Build kwxFFI as shared library" FORCE )
+# kwxFFI builds as a STATIC library — we'll absorb it into kwxGO.dll via /WHOLEARCHIVE
+# so there's exactly one DLL with one copy of wxWidgets globals.
 
 message( STATUS "Fetching kwxFFI and wxWidgets (this may take awhile) ..." )
 
@@ -85,12 +84,10 @@ message( NOTICE "Configuring kwxFFI..." )
 
 FetchContent_MakeAvailable( kwxFFI )
 
-# Override kwxFFI output directories to place libs in bin/ directory
-set_target_properties( kwxFFI PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/$<CONFIG>"
-    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/$<CONFIG>"
-    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/$<CONFIG>"
-)
+# kwxFFI is static, but compile with SHARED_LIBRARY so dllexport decorations are
+# baked into the .obj files. When /WHOLEARCHIVE pulls them into kwxGO.dll, the
+# linker will export them automatically.
+target_compile_definitions( kwxFFI PRIVATE SHARED_LIBRARY )
 
 message( NOTICE "kwxFFI has been fetched and configured." )
 message( STATUS "kwxFFI sources: " ${kwxFFI_SOURCE_DIR} )
@@ -104,16 +101,22 @@ message( STATUS "wxWidgets build: " ${WX_BUILD_DIR} )
 
 # ###################### kwxGO Library Target #######################
 
-# kwxGO shared library containing kwxApp
+# kwxGO.dll = kwxApp.cpp + ALL of kwxFFI (via /WHOLEARCHIVE) + wxWidgets.
+# This produces a single DLL with one copy of wxWidgets globals so the
+# event loop and window creation share the same wxTheApp instance.
 add_library( kwxGO SHARED
     ${kwxFFI_SOURCE_DIR}/examples/CApp/kwxApp.cpp
 )
 
-# Define export macro for kwxApp.cpp on Windows
-target_compile_definitions( kwxGO PRIVATE KWXAPP_EXPORTS )
+# Export macros for kwxApp.cpp; SHARED_LIBRARY enables dllexport in wxffi_def.h
+target_compile_definitions( kwxGO PRIVATE KWXAPP_EXPORTS SHARED_LIBRARY )
 
-# Link against kwxFFI for FFI symbols AND wxWidgets for kwxApp.cpp
+# Link wxWidgets and kwxFFI. /WHOLEARCHIVE forces every kwxFFI symbol into the
+# DLL even though kwxApp.cpp doesn't reference them directly.
 target_link_libraries( kwxGO PRIVATE kwxFFI wxbase wxcore )
+if( MSVC )
+    target_link_options( kwxGO PRIVATE /WHOLEARCHIVE:kwxFFI )
+endif()
 
 # kwxApp.h is in the same directory as kwxApp.cpp (uses #include "kwxApp.h")
 # wrapper.h is in the kwxFFI include directory (needed by go_events.cpp)
@@ -141,7 +144,7 @@ elseif( UNIX )
     )
 endif()
 
-# Output kwxGO.dll to bin/$<CONFIG> alongside kwxFFI.dll
+# Output kwxGO.dll to bin/$<CONFIG>
 set_target_properties( kwxGO PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>
@@ -153,7 +156,7 @@ set_target_properties( kwxGO PROPERTIES
 message( STATUS "" )
 message( STATUS "kwxGO CMake Configuration:" )
 message( STATUS "  Library output:        ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>" )
-message( STATUS "    - kwxFFI.dll, kwxGO.dll, *.lib files" )
+message( STATUS "    - kwxGO.dll (contains kwxFFI + kwxApp)" )
 message( STATUS "  kwxFFI sources:        ${kwxFFI_SOURCE_DIR}" )
 message( STATUS "  wxWidgets sources:     ${WX_SRC_DIR}" )
 message( STATUS "  wxWidgets build:       ${WX_BUILD_DIR}" )

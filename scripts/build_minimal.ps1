@@ -19,7 +19,7 @@ try {
     # Step 1: Configure CMake if build directory doesn't exist
     if (!(Test-Path "build")) {
         Write-Host "[1/3] Configuring CMake..." -ForegroundColor Yellow
-        cmake -B build -G Ninja
+        cmake -B build -G "Ninja Multi-Config"
         if ($LASTEXITCODE -ne 0) {
             throw "CMake configuration failed"
         }
@@ -35,7 +35,7 @@ try {
         throw "C++ build failed"
     }
     Write-Host "      C++ libraries built successfully" -ForegroundColor Green
-    Write-Host "      Output: bin/Release/kwxFFI.dll, kwxGO.dll" -ForegroundColor Gray
+    Write-Host "      Output: bin/Release/kwxGO.dll (includes kwxFFI)" -ForegroundColor Gray
 
     # Step 3: Compile Windows resources (manifest for Common Controls v6)
     Write-Host "[3/4] Compiling Windows resources..." -ForegroundColor Yellow
