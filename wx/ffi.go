@@ -2,9 +2,9 @@ package wx
 
 /*
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include -I${SRCDIR}/../build/_deps/kwxffi-src/examples/CApp
-#cgo windows LDFLAGS: ${SRCDIR}/../bin/Release/kwxGO.dll ${SRCDIR}/../bin/Release/kwxFFI.dll
-#cgo linux LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -lkwxFFI -Wl,-rpath,${SRCDIR}/../bin/Release
-#cgo darwin LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -lkwxFFI -Wl,-rpath,${SRCDIR}/../bin/Release
+#cgo windows LDFLAGS: ${SRCDIR}/../bin/Release/kwxGO.dll
+#cgo linux LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -Wl,-rpath,${SRCDIR}/../bin/Release
+#cgo darwin LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -Wl,-rpath,${SRCDIR}/../bin/Release
 
 #include <stdlib.h>
 #include "wxffi_def.h"
