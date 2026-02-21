@@ -9,8 +9,8 @@ package wx
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
 #include <stdlib.h>
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 
 // Frame functions
 extern void* wxFrame_Create(void* parent, int id, void* title,

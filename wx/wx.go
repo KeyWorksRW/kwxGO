@@ -36,8 +36,8 @@ package wx
 /*
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include -I${SRCDIR}/../build/_deps/kwxffi-src/examples/CApp
 
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 #include "kwxApp.h"
 
 // String functions

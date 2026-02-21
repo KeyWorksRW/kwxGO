@@ -20,9 +20,6 @@ package wx
 
 /*
 #include <stddef.h>
-
-// Forward declaration of the Go callback (exported below via //export).
-extern void goEventCallback(void* fun, void* data, void* evt);
 */
 import "C"
 import (

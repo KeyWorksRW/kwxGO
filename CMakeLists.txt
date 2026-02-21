@@ -13,10 +13,20 @@ set( PROJECT_VERSION_BUILD ${BUILD_NUM} )
 set( PROJECT_VERSION_YEAR ${PROJECT_YEAR} )
 
 project( kwxGO
-    LANGUAGES CXX
+    LANGUAGES C CXX
     VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_BUILD}
     DESCRIPTION "kwxGO - Go bindings for wxWidgets via kwxFFI"
     HOMEPAGE_URL "https://github.com/KeyWorksRW/kwxGO" )
+
+# ###################### Compiler Guard #######################
+# CGo requires GCC or Clang with MinGW-w64 ABI on Windows.
+# MSVC (cl.exe) produces incompatible object format and C++ ABI.
+if( MSVC )
+    message( FATAL_ERROR
+        "MSVC (cl.exe) is not supported. kwxGO requires GCC or Clang targeting the "
+        "MinGW-w64 ABI for CGo compatibility. "
+        "Use the 'ninja-gcc' or 'ninja-clang' CMake preset." )
+endif()
 
 # ###################### General Settings #######################
 set( CMAKE_CXX_STANDARD 23 )
@@ -67,8 +77,7 @@ include( FetchContent )
 # Suppress verbose FetchContent git output (CMake 3.30+)
 set(FETCHCONTENT_QUIET ON)
 
-# kwxFFI builds as a STATIC library — we'll absorb it into kwxGO.dll via /WHOLEARCHIVE
-# so there's exactly one DLL with one copy of wxWidgets globals.
+# kwxFFI is built as a STATIC library and linked into kwxGO.a.
 
 message( STATUS "Fetching kwxFFI and wxWidgets (this may take awhile) ..." )
 
@@ -84,10 +93,7 @@ message( NOTICE "Configuring kwxFFI..." )
 
 FetchContent_MakeAvailable( kwxFFI )
 
-# kwxFFI is static, but compile with SHARED_LIBRARY so dllexport decorations are
-# baked into the .obj files. When /WHOLEARCHIVE pulls them into kwxGO.dll, the
-# linker will export them automatically.
-target_compile_definitions( kwxFFI PRIVATE SHARED_LIBRARY )
+# Build kwxFFI without DLL-export decorations (static library, no dllexport needed).
 
 message( NOTICE "kwxFFI has been fetched and configured." )
 message( STATUS "kwxFFI sources: " ${kwxFFI_SOURCE_DIR} )
@@ -101,22 +107,17 @@ message( STATUS "wxWidgets build: " ${WX_BUILD_DIR} )
 
 # ###################### kwxGO Library Target #######################
 
-# kwxGO.dll = kwxApp.cpp + ALL of kwxFFI (via /WHOLEARCHIVE) + wxWidgets.
-# This produces a single DLL with one copy of wxWidgets globals so the
-# event loop and window creation share the same wxTheApp instance.
-add_library( kwxGO SHARED
+# kwxGO.a = kwxApp.cpp compiled against kwxFFI and wxWidgets headers.
+# CGo links against kwxGO.a, kwxFFI.a, and wxWidgets .a libs at Go build time.
+add_library( kwxGO STATIC
     ${kwxFFI_SOURCE_DIR}/examples/CApp/kwxApp.cpp
 )
 
-# Export macros for kwxApp.cpp; SHARED_LIBRARY enables dllexport in wxffi_def.h
-target_compile_definitions( kwxGO PRIVATE KWXAPP_EXPORTS SHARED_LIBRARY )
+# No dllexport decorations needed for a static library.
+target_compile_definitions( kwxGO PRIVATE KWXAPP_EXPORTS )
 
-# Link wxWidgets and kwxFFI. /WHOLEARCHIVE forces every kwxFFI symbol into the
-# DLL even though kwxApp.cpp doesn't reference them directly.
+# Declare link dependencies so CMake propagates them to dependents.
 target_link_libraries( kwxGO PRIVATE kwxFFI wxbase wxcore )
-if( MSVC )
-    target_link_options( kwxGO PRIVATE /WHOLEARCHIVE:kwxFFI )
-endif()
 
 # kwxApp.h is in the same directory as kwxApp.cpp (uses #include "kwxApp.h")
 # wrapper.h is in the kwxFFI include directory (needed by go_events.cpp)
@@ -131,8 +132,9 @@ target_include_directories( kwxGO PRIVATE
 )
 
 if( WIN32 )
+    # MinGW GCC/Clang uses gcc_x64_lib (not vc_x64_lib which is MSVC-only)
     target_include_directories( kwxGO PRIVATE
-        ${WX_BUILD_DIR}/lib/vc_x64_lib/mswu
+        ${WX_BUILD_DIR}/lib/gcc_x64_lib/mswu
     )
 elseif( APPLE )
     target_include_directories( kwxGO PRIVATE
@@ -144,19 +146,23 @@ elseif( UNIX )
     )
 endif()
 
-# Output kwxGO.dll to bin/$<CONFIG>
+# Output kwxGO.a to bin/$<CONFIG>
 set_target_properties( kwxGO PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>
-    LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>
-    RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>
 )
+
+# ###################### Examples ######################
+
+include( cmake/functions.cmake )
+
+go_example(minimal)
 
 # ###################### Build Summary #######################
 
 message( STATUS "" )
 message( STATUS "kwxGO CMake Configuration:" )
 message( STATUS "  Library output:        ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>" )
-message( STATUS "    - kwxGO.dll (contains kwxFFI + kwxApp)" )
+message( STATUS "    - kwxGO.a (static: kwxApp + transitive kwxFFI/wxWidgets)" )
 message( STATUS "  kwxFFI sources:        ${kwxFFI_SOURCE_DIR}" )
 message( STATUS "  wxWidgets sources:     ${WX_SRC_DIR}" )
 message( STATUS "  wxWidgets build:       ${WX_BUILD_DIR}" )

@@ -39,8 +39,8 @@ package wx
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
 #include <stdint.h>
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 
 // Event base functions
 extern void* wxEvent_GetEventObject(void* self);
@@ -53,7 +53,7 @@ extern void wxEvent_SetEventObject(void* self, void* obj);
 extern void wxEvent_SetEventType(void* self, int typ);
 extern void wxEvent_SetId(void* self, int id);
 extern void wxEvent_SetTimestamp(void* self, int ts);
-extern void wxEvent_Skip(void* self);
+extern void wxEvent_Skip(void* self, int skip);
 
 // Forward declaration of Go callback (defined in callback.go via //export)
 void goEventCallback(void *fun, void *data, void *evt);
@@ -62,7 +62,7 @@ void goEventCallback(void *fun, void *data, void *evt);
 typedef void (*ClosureFun)(void*, void*, void*);
 extern void* wxClosure_Create(ClosureFun fun, void* data);
 extern int wxEvtHandler_Connect(void* obj, int first, int last, int type, void* closure);
-extern int wxEvtHandler_Disconnect(void* obj, int first, int last, int type, void* data);
+extern int wxEvtHandler_Disconnect(void* obj, int first, int last, int type, int id);
 
 // Wrapper to accept uintptr_t IDs and create closure
 static inline int goConnectEvent(void* obj, int first, int last, int type, uintptr_t id) {
@@ -130,7 +130,7 @@ func (e *Event) GetSkipped() bool {
 //	    evt.Skip() // Let wxWidgets handle the actual close
 //	})
 func (e *Event) Skip() {
-	C.wxEvent_Skip(e.ptr)
+	C.wxEvent_Skip(e.ptr, C.int(1))
 }
 
 // Bind connects an event handler to this window for the given event type.
@@ -182,10 +182,10 @@ func (w *BaseWindow) BindIdRange(eventType int, firstId, lastId int, handler Eve
 
 // Unbind disconnects all handlers for the given event type from this window.
 func (w *BaseWindow) Unbind(eventType int) {
-	C.wxEvtHandler_Disconnect(w.ptr, C.int(-1), C.int(-1), C.int(eventType), nil)
+	C.wxEvtHandler_Disconnect(w.ptr, C.int(-1), C.int(-1), C.int(eventType), C.int(0))
 }
 
 // UnbindId disconnects handlers for the given event type and control ID.
 func (w *BaseWindow) UnbindId(eventType int, id int) {
-	C.wxEvtHandler_Disconnect(w.ptr, C.int(id), C.int(id), C.int(eventType), nil)
+	C.wxEvtHandler_Disconnect(w.ptr, C.int(id), C.int(id), C.int(eventType), C.int(0))
 }

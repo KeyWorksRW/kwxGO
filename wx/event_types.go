@@ -22,8 +22,8 @@ package wx
 /*
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 
 // CommandEvent functions
 extern int wxCommandEvent_GetSelection(void* self);

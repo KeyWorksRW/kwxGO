@@ -2,13 +2,24 @@ package wx
 
 /*
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include -I${SRCDIR}/../build/_deps/kwxffi-src/examples/CApp
-#cgo windows LDFLAGS: ${SRCDIR}/../bin/Release/kwxGO.dll
-#cgo linux LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -Wl,-rpath,${SRCDIR}/../bin/Release
-#cgo darwin LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -Wl,-rpath,${SRCDIR}/../bin/Release
+#cgo windows CFLAGS: -DKWXAPP_EXPORTS
+
+// Static linking: kwxGO.a + kwxFFI.a + wxWidgets .a libs + system libs
+// Library paths: both gcc_x64_lib and clang_x64_lib so either preset works.
+#cgo windows LDFLAGS: -L${SRCDIR}/../bin/Release -L${SRCDIR}/../lib/Release -L${SRCDIR}/../build/_deps/wxwidgets-build/lib/gcc_x64_lib -L${SRCDIR}/../build/_deps/wxwidgets-build/lib/clang_x64_lib -L${SRCDIR}/../build/_deps/wxwidgets-build/libs/webp-build/Release
+#cgo windows LDFLAGS: -l:libkwxGO.a -l:libkwxFFI.a
+#cgo windows LDFLAGS: -l:wxmsw33u_core.a -l:wxbase33u.a -l:wxmsw33u_adv.a -l:wxmsw33u_stc.a -l:wxmsw33u_html.a -l:wxmsw33u_aui.a -l:wxmsw33u_propgrid.a -l:wxmsw33u_ribbon.a -l:wxmsw33u_richtext.a -l:wxmsw33u_xrc.a -l:wxmsw33u_qa.a
+#cgo windows LDFLAGS: -l:wxscintilla.a -l:wxlexilla.a -l:wxbase33u_xml.a -l:wxbase33u_net.a
+#cgo windows LDFLAGS: -l:wxpng.a -l:wxjpeg.a -l:wxtiff.a -l:wxzlib.a -l:wxexpat.a -l:wxregexu.a -l:wxlunasvg.a -l:wxwebp.a -l:wxwebpdemux.a -l:wxsharpyuv.a
+#cgo windows LDFLAGS: -lgdi32 -lcomdlg32 -lwinspool -lole32 -loleaut32 -luuid -lshell32 -lcomctl32 -lshlwapi -lversion -lws2_32 -lwinmm -luxtheme -lrpcrt4 -ladvapi32 -luser32 -lkernel32 -limm32 -lgdiplus -lmsimg32 -loleacc
+#cgo windows LDFLAGS: -lstdc++ -static
+
+#cgo linux LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -L${SRCDIR}/../build/_deps/kwxffi-build -lkwxFFI -Wl,-rpath,${SRCDIR}/../bin/Release
+#cgo darwin LDFLAGS: -L${SRCDIR}/../bin/Release -lkwxGO -L${SRCDIR}/../build/_deps/kwxffi-build -lkwxFFI -Wl,-rpath,${SRCDIR}/../bin/Release
 
 #include <stdlib.h>
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 #include "kwxApp.h"
 
 // =============================================================================
@@ -79,9 +90,9 @@ extern void wxWindow_SetSize(void* self, int x, int y, int width, int height, in
 extern void* wxWindow_GetSize(void* self);
 
 // Set window position
-extern void wxWindow_Move(void* self, int x, int y);
+extern void wxWindow_Move(void* self, int x, int y, int flags);
 
-// Get window position - returns wxPoint* that must be deleted
+// Get window position - returns wxPoint* that must be destroyed
 extern void* wxWindow_GetPosition(void* self);
 
 // Set window label/title
@@ -221,10 +232,10 @@ extern void* wxBoxSizer_Create(int orient);
 extern void* wxFlexGridSizer_Create(int rows, int cols, int vgap, int hgap);
 
 // Add flexible growable row
-extern void wxFlexGridSizer_AddGrowableRow(void* self, size_t idx);
+extern void wxFlexGridSizer_AddGrowableRow(void* self, size_t idx, int proportion);
 
 // Add flexible growable column
-extern void wxFlexGridSizer_AddGrowableCol(void* self, size_t idx);
+extern void wxFlexGridSizer_AddGrowableCol(void* self, size_t idx, int proportion);
 
 // Create a grid bag sizer
 extern void* wxGridBagSizer_Create(int vgap, int hgap);
@@ -235,11 +246,11 @@ extern void wxGridBagSizer_AddWindow(void* self, void* window, int row, int col,
 
 // Add sizer to grid bag sizer at position
 extern void wxGridBagSizer_AddSizer(void* self, void* sizer, int row, int col,
-                                    int rowspan, int colspan, int flag, int border);
+                                    int rowspan, int colspan, int flag, int border, void* userData);
 
 // Add spacer to grid bag sizer at position
 extern void wxGridBagSizer_AddSpacer(void* self, int width, int height, int row, int col,
-                                     int rowspan, int colspan, int flag, int border);
+                                     int rowspan, int colspan, int flag, int border, void* userData);
 
 // Create a static box
 extern void* wxStaticBox_Create(void* parent, int id, void* text,
@@ -276,14 +287,14 @@ extern void wxSizer_Fit(void* self, void* window);
 extern void wxWindow_SetSizerAndFit(void* self, void* sizer, int deleteOld);
 
 // Set sizer without resizing
-extern void wxWindow_SetSizer(void* self, void* sizer);
+extern void wxWindow_SetSizer(void* self, void* sizer, int deleteOld);
 
 // =============================================================================
 // Message Box
 // =============================================================================
 
 // Show a message box
-extern int wxcMessageBox(void* message, void* caption, int style, void* parent,
+extern int kwxMessageBox(void* message, void* caption, int style, void* parent,
                         int x, int y);
 
 // =============================================================================
@@ -295,7 +306,8 @@ extern int wxDialog_ShowModal(void* self);
 
 // File dialog
 extern void* wxFileDialog_Create(void* parent, void* message, void* defaultDir,
-                                 void* defaultFile, void* wildcard, int x, int y, int style);
+                                 void* defaultFile, void* wildcard, int x, int y,
+                                 int style, int sz_w, int sz_h);
 extern void* wxFileDialog_GetPath(void* self);
 
 // Directory dialog
@@ -304,16 +316,17 @@ extern void* wxDirDialog_GetPath(void* self);
 
 // Text entry dialog
 extern void* wxTextEntryDialog_Create(void* parent, void* message, void* caption,
-                                      void* defaultValue, long style, int x, int y);
+                                      void* defaultValue, long style, int x, int y,
+                                      int sz_w, int sz_h);
 extern void* wxTextEntryDialog_GetValue(void* self);
 
 // Color dialog
 extern void* wxColourDialog_Create(void* parent, void* data);
-extern void* wxColourDialog_GetColourData(void* self);
+extern void wxColourDialog_GetColourData(void* self, void* ref);
 
 // Font dialog
 extern void* wxFontDialog_Create(void* parent, void* data);
-extern void* wxFontDialog_GetFontData(void* self);
+extern void wxFontDialog_GetFontData(void* self, void* ref);
 
 // =============================================================================
 // Application Functions (kwxApp)
