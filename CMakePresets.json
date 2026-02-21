@@ -1,0 +1,34 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 30,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "ninja-gcc",
+            "displayName": "Ninja Multi-Config (GCC/MinGW)",
+            "description": "Build using GCC (MinGW-w64) toolchain — required for CGo compatibility",
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "ninja-clang",
+            "displayName": "Ninja Multi-Config (Clang/MinGW)",
+            "description": "Build using Clang targeting MinGW-w64 ABI \u2014 required for CGo compatibility",
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER_TARGET": "x86_64-w64-mingw32",
+                "CMAKE_CXX_COMPILER_TARGET": "x86_64-w64-mingw32"
+            }
+        }
+    ]
+}

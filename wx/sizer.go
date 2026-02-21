@@ -8,14 +8,14 @@ package wx
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
 #include <stdlib.h>
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 
 // Sizer functions
 extern void* wxBoxSizer_Create(int orient);
 extern void* wxFlexGridSizer_Create(int rows, int cols, int vgap, int hgap);
-extern void wxFlexGridSizer_AddGrowableRow(void* self, size_t idx);
-extern void wxFlexGridSizer_AddGrowableCol(void* self, size_t idx);
+extern void wxFlexGridSizer_AddGrowableRow(void* self, size_t idx, int proportion);
+extern void wxFlexGridSizer_AddGrowableCol(void* self, size_t idx, int proportion);
 extern void* wxGridBagSizer_Create(int vgap, int hgap);
 extern void wxGridBagSizer_AddWindow(void* self, void* window, int row, int col, int rowspan, int colspan, int flag, int border, void* userData);
 extern void* wxStaticBox_Create(void* parent, int id, void* text, int x, int y, int w, int h, int style);
@@ -208,7 +208,7 @@ func NewFlexGridSizer(rows, cols, vgap, hgap int) *FlexGridSizer {
 // Parameters:
 //   - idx: Row index (0-based)
 func (s *FlexGridSizer) AddGrowableRow(idx int) {
-	C.wxFlexGridSizer_AddGrowableRow(s.ptr, C.size_t(idx))
+	C.wxFlexGridSizer_AddGrowableRow(s.ptr, C.size_t(idx), C.int(0))
 }
 
 // AddGrowableCol makes a column growable (stretchable).
@@ -220,7 +220,7 @@ func (s *FlexGridSizer) AddGrowableRow(idx int) {
 //
 //	sizer.AddGrowableCol(1)  // Make second column take remaining space
 func (s *FlexGridSizer) AddGrowableCol(idx int) {
-	C.wxFlexGridSizer_AddGrowableCol(s.ptr, C.size_t(idx))
+	C.wxFlexGridSizer_AddGrowableCol(s.ptr, C.size_t(idx), C.int(0))
 }
 
 // =============================================================================

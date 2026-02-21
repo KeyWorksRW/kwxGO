@@ -16,7 +16,7 @@ package wx
 /*
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
-#include "wxffi_def.h"
+#include "kwx_def.h"
 
 // Constants are exported as functions from kwxFFI
 // These declarations allow us to call them from Go

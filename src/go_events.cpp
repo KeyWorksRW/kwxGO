@@ -19,7 +19,7 @@
  *   7. goEventCallback (Go) dispatches to the registered Go handler
  */
 
-#include "wrapper.h"
+#include "kwx_wrapper.h"
 
 #include <wx/wx.h>
 

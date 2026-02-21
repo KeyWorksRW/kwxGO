@@ -1,6 +1,7 @@
 ---
 description: 'kwxGO — Go bindings for wxWidgets via kwxFFI'
-tools: ['vscode/askQuestions', 'execute/getTerminalOutput', 'execute/killTerminal', 'execute/runTask', 'execute/createAndRunTask', 'execute/runInTerminal', 'read/problems', 'read/readFile', 'read/terminalSelection', 'read/terminalLastCommand', 'read/getTaskOutput', 'agent', 'edit/createDirectory', 'edit/createFile', 'edit/editFiles', 'web', 'oraios/serena/activate_project', 'oraios/serena/check_onboarding_performed', 'oraios/serena/find_file', 'oraios/serena/find_referencing_symbols', 'oraios/serena/find_symbol', 'oraios/serena/get_current_config', 'oraios/serena/get_symbols_overview', 'oraios/serena/initial_instructions', 'oraios/serena/insert_after_symbol', 'oraios/serena/insert_before_symbol', 'oraios/serena/list_dir', 'oraios/serena/onboarding', 'oraios/serena/rename_symbol', 'oraios/serena/replace_symbol_body', 'oraios/serena/search_for_pattern', 'oraios/serena/think_about_collected_information', 'oraios/serena/think_about_task_adherence', 'oraios/serena/think_about_whether_you_are_done', 'keyworks.key/key_open', 'keyworks.key/key_close', 'keyworks.key/key_term', 'keyworks.key/key_memory', 'keyworks.key/key_symbols', 'keyworks.key/key_read_lines', 'keyworks.key/key_subagent']
+model: Claude Sonnet 4.6
+tools: [vscode/askQuestions, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, read/problems, read/readFile, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent, edit/createDirectory, edit/createFile, edit/editFiles, web, 'oraios/serena/*', keyworks.key/key_open, keyworks.key/key_close, keyworks.key/key_term, keyworks.key/key_memory, keyworks.key/key_symbols, keyworks.key/key_file_info, keyworks.key/key_read_lines, keyworks.key/key_subagent, keyworks.key/key_build]
 ---
 
 # kwxGO Agent
@@ -19,39 +20,49 @@ For the kwxFFI C API, read .shared/kwxffi-architecture.md
 - **Clarify ambiguity**: When requirements are unclear, ask for clarification before proceeding
 - **Direct communication**: No apologies or hedging language
 
-## ⚠️ CRITICAL: File Reading
+## ⛔ MANDATORY: Use `key_*` Tools — Non-Negotiable
 
-Minimize token consumption:
-1. **`key_file_info`** → Check file size and line count first
-2. **`key_symbols`** → Get symbol locations (line numbers)
-3. **`key_read_lines`** → Read only the specific lines you need
-4. **`read_file`** → Only for initial understanding or broad context
+**The `key_*` tools were built by agents, for agents.** They are purpose-designed to:
 
-## ⚠️ CRITICAL: Symbol Navigation
+- **Run without user permission** — no security prompt, no "Allow" dialog, no blocking
+- **Return structured, minimal output** — dramatically lower token cost than raw terminal
+- **Execute in the background** — the user is never interrupted
+- **Include a built-in bug-reporting mechanism** — if a `key_*` tool doesn't do what you need, report it so it gets fixed; do NOT work around it by falling back to standard tools
 
-Use `key_symbols` for symbol lookup, references, and definitions—it uses the language server and is most accurate for C++.
+Standard tools like `run_in_terminal`, `runInTerminal`, and `read_file` require the user to click "Allow" in a security dialog or produce bloated output that wastes tokens and money. **Every time you use a standard tool instead of its `key_*` equivalent, you are forcing the user to babysit you and paying more for worse results.**
 
+### ⛔ Tool Routing — No Exceptions
+
+| Task | ALWAYS Use | NEVER Use |
+|------|-----------|-----------|
+| **Any terminal command** (git, gh, pwsh, scripts) | `key_term` | `run_in_terminal` / `runInTerminal` / `execute` tools |
+| **Build the project** | `key_build` | `run_in_terminal` / `runInTerminal` / `key_term` |
+| **Read specific lines** | `key_read_lines` | `read_file` (unless you need broad initial context) |
+| **Check file size/line count** | `key_file_info` | `read_file` just to see how big a file is |
+| **Symbol lookup/navigation** | `key_symbols` | Serena (unless LSP is unavailable for the file type) |
+| **Open file in editor** | `key_open` | — |
+| **Persist data across sessions** | `key_memory` | — |
+
+**If you catch yourself about to call `run_in_terminal`, STOP.** Use `key_term` or `key_build` instead.
+
+### `key_build` Details
+- Returns: success/fail, error/warning/note counts, duration
+- Messages only populated on errors (or with `captureAll: true`)
+- Example: `key_build("ninja -C build -f build-Debug.ninja")`
+
+### `key_symbols` Details
 For large files, use progressive refinement:
 1. **Count first**: `key_symbols(file, action: "overview", countOnly: true)`
 2. If count < 50: full mode; 50-200: `compact: true` (60-80% smaller); >200: use `kinds` filter
 3. Set `maxOutputChars: 10000` to prevent oversized responses
+4. Fall back to Serena only if `key_symbols` returns empty or no language server exists
 
-Fall back to Serena if `key_symbols` returns empty or file type has no language server.
-
-## ⚠️ CRITICAL: Terminal Commands
-
-| Command Type | Tool |
-|-------------|------|
-| Build commands | `key_build` |
-| `git`, `gh`, `pwsh` | `key_term` |
-
-## ⚠️ CRITICAL: Build Commands
-
-Use `key_build` for all build commands—returns only errors/warnings/notes (massive token savings).
-- Example: `key_build("ninja -C build -f build-Debug.ninja")`
-- Returns: success/fail, error/warning/note counts, duration
-- Messages only populated on errors (or with `captureAll: true`)
-- Do NOT use `key_term` or `run_in_terminal` for builds
+### `key_read_lines` Details
+Minimize token consumption with targeted reads:
+1. `key_file_info` → Check file size and line count first
+2. `key_symbols` → Get symbol locations (line numbers)
+3. `key_read_lines` → Read only the specific lines you need
+4. `read_file` → Last resort, only for initial broad understanding
 
 ## ⚠️ CRITICAL: kwxFFI Issues
 

@@ -8,8 +8,8 @@ package wx
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
 #include <stdlib.h>
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 
 // Window functions
 extern int wxWindow_Show(void* self);
@@ -18,7 +18,7 @@ extern int wxWindow_Close(void* self, int force);
 extern int wxWindow_Destroy(void* self);
 extern void wxWindow_SetSize(void* self, int x, int y, int width, int height, int sizeFlags);
 extern void* wxWindow_GetSize(void* self);
-extern void wxWindow_Move(void* self, int x, int y);
+extern void wxWindow_Move(void* self, int x, int y, int flags);
 extern void* wxWindow_GetPosition(void* self);
 extern void wxWindow_SetLabel(void* self, void* label);
 extern int wxWindow_Enable(void* self);
@@ -31,7 +31,7 @@ extern void wxWindow_Update(void* self);
 extern int wxWindow_GetId(void* self);
 extern void wxWindow_SetId(void* self, int id);
 extern void* wxWindow_GetParent(void* self);
-extern void wxWindow_SetSizer(void* self, void* sizer);
+extern void wxWindow_SetSizer(void* self, void* sizer, int deleteOld);
 extern void wxWindow_SetSizerAndFit(void* self, void* sizer, int deleteOld);
 
 // wxSize/wxPoint accessor functions
@@ -40,7 +40,7 @@ extern int wxSize_GetHeight(void* s);
 extern void wxSize_Delete(void* s);
 extern int wxPoint_GetX(void* p);
 extern int wxPoint_GetY(void* p);
-extern void wxPoint_Delete(void* p);
+extern void wxPoint_Delete(void* p);  // TODO: rename to wxPoint_Destroy after kwxFFI #27 is fixed
 */
 import "C"
 import (
@@ -225,7 +225,7 @@ func (w *BaseWindow) GetSize() (width, height int) {
 
 // Move moves the window to the specified position.
 func (w *BaseWindow) Move(x, y int) {
-	C.wxWindow_Move(w.ptr, C.int(x), C.int(y))
+	C.wxWindow_Move(w.ptr, C.int(x), C.int(y), C.int(0))
 }
 
 // GetPosition returns the window position.
@@ -233,7 +233,7 @@ func (w *BaseWindow) GetPosition() (x, y int) {
 	ptPtr := C.wxWindow_GetPosition(w.ptr)
 	x = int(C.wxPoint_GetX(ptPtr))
 	y = int(C.wxPoint_GetY(ptPtr))
-	C.wxPoint_Delete(ptPtr)
+	C.wxPoint_Delete(ptPtr) // TODO: rename to wxPoint_Destroy after kwxFFI #27 is fixed
 	return
 }
 
@@ -245,8 +245,9 @@ func (w *BaseWindow) SetLabel(label string) {
 }
 
 // SetSizer sets the window's sizer.
+// The old sizer (if any) is not deleted by default.
 func (w *BaseWindow) SetSizer(sizer unsafe.Pointer) {
-	C.wxWindow_SetSizer(w.ptr, sizer)
+	C.wxWindow_SetSizer(w.ptr, sizer, C.int(0))
 }
 
 // SetSizerAndFit sets the window's sizer and resizes the window to fit the sizer.

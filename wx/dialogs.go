@@ -8,26 +8,34 @@ package wx
 #cgo CFLAGS: -I${SRCDIR}/../build/_deps/kwxffi-src/include
 
 #include <stdlib.h>
-#include "wxffi_def.h"
-#include "wxffi_types.h"
+#include "kwx_def.h"
+#include "kwx_types.h"
 
 // Dialog functions - use base class functions via inheritance
 extern int wxDialog_ShowModal(void* self);
 extern int wxWindow_Destroy(void* self);
 
-extern int wxcMessageBox(void* message, void* caption, int style, void* parent, int x, int y);
+extern int kwxMessageBox(void* message, void* caption, int style, void* parent, int x, int y);
 extern void* wxFileDialog_Create(void* parent, void* message, void* defaultDir,
-                                 void* defaultFile, void* wildcard, int x, int y, int style);
+                                 void* defaultFile, void* wildcard, int x, int y,
+                                 int style, int sz_w, int sz_h);
 extern void* wxFileDialog_GetPath(void* self);
 extern void* wxDirDialog_Create(void* parent, void* message, void* defaultPath, int x, int y, int style);
 extern void* wxDirDialog_GetPath(void* self);
 extern void* wxTextEntryDialog_Create(void* parent, void* message, void* caption,
-                                      void* defaultValue, long style, int x, int y);
+                                      void* defaultValue, long style, int x, int y,
+                                      int sz_w, int sz_h);
 extern void* wxTextEntryDialog_GetValue(void* self);
 extern void* wxColourDialog_Create(void* parent, void* data);
-extern void* wxColourDialog_GetColourData(void* self);
+extern void wxColourDialog_GetColourData(void* self, void* ref);
 extern void* wxFontDialog_Create(void* parent, void* data);
-extern void* wxFontDialog_GetFontData(void* self);
+extern void wxFontDialog_GetFontData(void* self, void* ref);
+
+// ColourData/FontData helpers
+extern void* wxColourData_Create(void);
+extern void wxColourData_Delete(void* self);
+extern void* wxFontData_Create(void);
+extern void wxFontData_Delete(void* self);
 */
 import "C"
 import (
@@ -67,7 +75,7 @@ func MessageBox(message, caption string, style int, parent Window) int {
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
 
-	return int(C.wxcMessageBox(wxMessage.Ptr(), wxCaption.Ptr(),
+	return int(C.kwxMessageBox(wxMessage.Ptr(), wxCaption.Ptr(),
 		C.int(style), parentPtr, -1, -1))
 }
 
@@ -119,7 +127,7 @@ func NewFileDialog(parent Window, message, defaultDir, defaultFile, wildcard str
 	defer wxWildcard.Free()
 
 	ptr := C.wxFileDialog_Create(parentPtr, wxMessage.Ptr(), wxDefaultDir.Ptr(),
-		wxDefaultFile.Ptr(), wxWildcard.Ptr(), -1, -1, C.int(style))
+		wxDefaultFile.Ptr(), wxWildcard.Ptr(), -1, -1, C.int(style), C.int(-1), C.int(-1))
 
 	return &FileDialog{ptr: ptr}
 }
@@ -249,7 +257,7 @@ func NewTextEntryDialog(parent Window, message, caption, defaultValue string, st
 	defer wxDefaultValue.Free()
 
 	ptr := C.wxTextEntryDialog_Create(parentPtr, wxMessage.Ptr(), wxCaption.Ptr(),
-		wxDefaultValue.Ptr(), C.long(style), -1, -1)
+		wxDefaultValue.Ptr(), C.long(style), -1, -1, C.int(-1), C.int(-1))
 
 	return &TextEntryDialog{ptr: ptr}
 }
@@ -313,8 +321,11 @@ func (d *ColourDialog) ShowModal() int {
 }
 
 // GetColourData returns the color data containing the selected color.
+// The caller is responsible for freeing the returned data with wxColourData_Delete.
 func (d *ColourDialog) GetColourData() unsafe.Pointer {
-	return C.wxColourDialog_GetColourData(d.ptr)
+	data := C.wxColourData_Create()
+	C.wxColourDialog_GetColourData(d.ptr, data)
+	return data
 }
 
 // Destroy destroys the dialog and frees resources.
@@ -370,8 +381,11 @@ func (d *FontDialog) ShowModal() int {
 }
 
 // GetFontData returns the font data containing the selected font.
+// The caller is responsible for freeing the returned data with wxFontData_Delete.
 func (d *FontDialog) GetFontData() unsafe.Pointer {
-	return C.wxFontDialog_GetFontData(d.ptr)
+	data := C.wxFontData_Create()
+	C.wxFontDialog_GetFontData(d.ptr, data)
+	return data
 }
 
 // Destroy destroys the dialog and frees resources.
