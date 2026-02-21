@@ -18,6 +18,9 @@ extern void* wxTextCtrl_GetValue(void* self);
 extern void wxTextCtrl_SetValue(void* self, void* value);
 extern void wxTextCtrl_AppendText(void* self, void* text);
 extern void wxTextCtrl_Clear(void* self);
+
+// wxTextEntry (base class of wxTextCtrl)
+extern int wxTextEntry_SetHint(void* self, void* hint);
 */
 import "C"
 import (
@@ -116,4 +119,19 @@ func (t *TextCtrl) AppendText(text string) {
 //	textCtrl.Clear()
 func (t *TextCtrl) Clear() {
 	C.wxTextCtrl_Clear(t.ptr)
+}
+
+// SetHint sets the placeholder/hint text shown when the control is empty.
+// The hint is displayed in a greyed-out style and disappears when the user
+// starts typing.
+//
+// Returns true if the hint was set successfully.
+//
+// Example:
+//
+//	textCtrl.SetHint("Enter your name")
+func (t *TextCtrl) SetHint(hint string) bool {
+	wxHint := NewWxString(hint)
+	defer wxHint.Free()
+	return C.wxTextEntry_SetHint(t.ptr, wxHint.Ptr()) != 0
 }
