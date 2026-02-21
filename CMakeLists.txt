@@ -156,6 +156,7 @@ set_target_properties( kwxGO PROPERTIES
 include( cmake/functions.cmake )
 
 go_example(minimal)
+go_example(demo)
 
 # ###################### Build Summary #######################
 
