@@ -29,16 +29,15 @@ if( MSVC )
 endif()
 
 # ###################### General Settings #######################
-set( CMAKE_CXX_STANDARD 23 )
+set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED True )
 set( CMAKE_CXX_EXTENSIONS OFF )
 
 # ###################### Options #######################
 
-# Set default build type to Release (kwxFFI.dll is always Release)
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-endif()
+# kwxFFI and wxWidgets are always Release — no debug CRT needed.
+# Go debugging (Delve + -gcflags) is independent of C/C++ debug info.
+set(CMAKE_BUILD_TYPE Release CACHE STRING "Always Release for C/C++ code." FORCE)
 
 # Only generate compile_commands.json for local development
 if ( NOT DEFINED ENV{CI} )
@@ -98,6 +97,37 @@ FetchContent_MakeAvailable( kwxFFI )
 message( NOTICE "kwxFFI has been fetched and configured." )
 message( STATUS "kwxFFI sources: " ${kwxFFI_SOURCE_DIR} )
 
+# ###################### kwxgen — Go binding generator #######################
+
+add_subdirectory( ${kwxFFI_SOURCE_DIR}/tools/kwxgen kwxgen-build )
+
+set( KWXFFI_HEADERS
+    ${kwxFFI_SOURCE_DIR}/include/kwx_classes.h
+    ${kwxFFI_SOURCE_DIR}/include/kwx_events.h
+    ${kwxFFI_SOURCE_DIR}/include/kwx_keys.h
+    ${kwxFFI_SOURCE_DIR}/include/kwx_constants.h
+)
+
+add_custom_command(
+    OUTPUT  ${CMAKE_SOURCE_DIR}/wx/events_gen.go
+            ${CMAKE_SOURCE_DIR}/wx/keys_gen.go
+            ${CMAKE_SOURCE_DIR}/wx/constants_gen.go
+    COMMAND kwxgen generate
+                --headers ${kwxFFI_SOURCE_DIR}/include
+                --defs    ${kwxFFI_SOURCE_DIR}/src/kwx_defs.cpp
+                --lang    go
+                --out     ${CMAKE_SOURCE_DIR}/wx/
+    DEPENDS kwxgen ${KWXFFI_HEADERS}
+    COMMENT "Generating Go bindings via kwxgen"
+)
+
+add_custom_target( generate_go_bindings ALL
+    DEPENDS
+        ${CMAKE_SOURCE_DIR}/wx/events_gen.go
+        ${CMAKE_SOURCE_DIR}/wx/keys_gen.go
+        ${CMAKE_SOURCE_DIR}/wx/constants_gen.go
+)
+
 # Define wxWidgets paths (kwxFFI fetches wxWidgets as a subdependency)
 # These match the FetchContent directory structure
 set( WX_SRC_DIR ${CMAKE_BINARY_DIR}/_deps/wxwidgets-src )
@@ -107,22 +137,25 @@ message( STATUS "wxWidgets build: " ${WX_BUILD_DIR} )
 
 # ###################### kwxGO Library Target #######################
 
-# kwxGO.a = kwxApp.cpp compiled against kwxFFI and wxWidgets headers.
+# kwxGO.a = kwxApp.cpp + go_events.cpp compiled against kwxFFI and wxWidgets headers.
 # CGo links against kwxGO.a, kwxFFI.a, and wxWidgets .a libs at Go build time.
+# kwxApp.cpp is kwxGO's own copy (originally from kwxFFI/examples/CApp), so we
+# can modify it freely for Go-specific needs.
 add_library( kwxGO STATIC
-    ${kwxFFI_SOURCE_DIR}/examples/CApp/kwxApp.cpp
+    src/kwxApp.cpp
+    src/go_events.cpp
 )
 
 # No dllexport decorations needed for a static library.
 target_compile_definitions( kwxGO PRIVATE KWXAPP_EXPORTS )
 
 # Declare link dependencies so CMake propagates them to dependents.
-target_link_libraries( kwxGO PRIVATE kwxFFI wxbase wxcore )
+target_link_libraries( kwxGO PRIVATE kwxFFI )
 
-# kwxApp.h is in the same directory as kwxApp.cpp (uses #include "kwxApp.h")
-# wrapper.h is in the kwxFFI include directory (needed by go_events.cpp)
+# kwxApp.h is in src/ alongside kwxApp.cpp (uses #include "kwxApp.h")
+# kwx_wrapper.h is in the kwxFFI include directory (needed by go_events.cpp)
 target_include_directories( kwxGO PRIVATE
-    ${kwxFFI_SOURCE_DIR}/examples/CApp
+    ${PROJECT_SOURCE_DIR}/src
     ${kwxFFI_SOURCE_DIR}/include
 )
 
@@ -130,11 +163,9 @@ target_include_directories( kwxGO PRIVATE
 target_include_directories( kwxGO PRIVATE
     ${WX_SRC_DIR}/include
 )
-
 if( WIN32 )
-    # MinGW GCC/Clang uses gcc_x64_lib (not vc_x64_lib which is MSVC-only)
     target_include_directories( kwxGO PRIVATE
-        ${WX_BUILD_DIR}/lib/gcc_x64_lib/mswu
+        ${WX_BUILD_DIR}/lib/vc_x64_lib/mswu
     )
 elseif( APPLE )
     target_include_directories( kwxGO PRIVATE
@@ -144,11 +175,12 @@ elseif( UNIX )
     target_include_directories( kwxGO PRIVATE
         ${WX_BUILD_DIR}/lib/gtk3_unixu-3.3/include
     )
+else()
+    message( FATAL_ERROR "Unsupported platform: Only WIN32, APPLE, or UNIX are supported." )
 endif()
-
-# Output kwxGO.a to bin/$<CONFIG>
+# Output kwxGO.a to lib/$<CONFIG>
 set_target_properties( kwxGO PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>
+    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/$<CONFIG>
 )
 
 # ###################### Examples ######################
@@ -162,7 +194,7 @@ go_example(demo)
 
 message( STATUS "" )
 message( STATUS "kwxGO CMake Configuration:" )
-message( STATUS "  Library output:        ${PROJECT_SOURCE_DIR}/bin/$<CONFIG>" )
+message( STATUS "  Library output:        ${PROJECT_SOURCE_DIR}/lib/$<CONFIG>" )
 message( STATUS "    - kwxGO.a (static: kwxApp + transitive kwxFFI/wxWidgets)" )
 message( STATUS "  kwxFFI sources:        ${kwxFFI_SOURCE_DIR}" )
 message( STATUS "  wxWidgets sources:     ${WX_SRC_DIR}" )

@@ -12,11 +12,13 @@
  * Flow:
  *   1. Go calls kwxGO_SetEventCallback(goEventCallback) at init
  *   2. Go calls kwxGO_Connect(obj, first, last, type, data)
- *   3. C++ creates wxClosure(g_goEventCallback, data) and wxCallback
+ *   3. C++ creates GoClosure + wxClosure(go_trampoline, gc) and wxCallback
  *   4. wxEvtHandler::Connect stores the callback
  *   5. Event fires → GoEventRouter::HandleEvent → wxCallback::Invoke
- *   6. wxClosure::Invoke calls g_goEventCallback(fun, data, evt)
- *   7. goEventCallback (Go) dispatches to the registered Go handler
+ *   6. wxClosure::Invoke calls go_trampoline(fun, gc, evt)
+ *   7. go_trampoline forwards to gc->callback (goEventDispatch) with the handle
+ *   8. goEventDispatch dispatches to the registered Go handler
+ *      If evt==nullptr (wxClosure cleanup signal), go_trampoline absorbs it.
  */
 
 #include "kwx_wrapper.h"
@@ -30,6 +32,42 @@ typedef void (*GoEventCallbackFunc)(void *, void *, void *);
 static GoEventCallbackFunc g_goEventCallback = nullptr;
 
 /*-----------------------------------------------------------------------------
+    GoClosure trampoline
+
+    wxFFI's ~wxClosure() calls the stored function one final time with
+    evt=nullptr as a cleanup signal.  Go code must not be called during
+    wxWidgets shutdown (the event loop is gone and wx internals are partially
+    torn down), so we interpose a C trampoline that:
+      - Absorbs the evt=nullptr cleanup call without touching Go
+      - Forwards normal (evt!=nullptr) calls through to goEventDispatch
+
+    This mirrors the identical pattern used in kwxFortran's kwxApp.cpp.
+-----------------------------------------------------------------------------*/
+struct GoClosure
+{
+    GoEventCallbackFunc callback; // = goEventDispatch at connection time
+    void *handle;                 // cgo.Handle value (uintptr cast to void*)
+};
+
+static void go_trampoline(void * /*fun*/, void *data, void *evt)
+{
+    auto *gc = static_cast<GoClosure *>(data);
+    if (!evt)
+    {
+        // Cleanup call from ~wxClosure — free the wrapper, do NOT call Go.
+        // The cgo.Handle is intentionally not Delete()d here: we cannot safely
+        // call into the Go runtime during wx shutdown.  The process is exiting
+        // so the leak is harmless.
+        delete gc;
+        return;
+    }
+    if (gc->callback)
+    {
+        gc->callback(nullptr, gc->handle, evt);
+    }
+}
+
+/*-----------------------------------------------------------------------------
     GoEventRouter - Event handler class for routing events to Go callbacks
 -----------------------------------------------------------------------------*/
 
@@ -41,8 +79,17 @@ class GoEventRouter : public wxEvtHandler
 public:
     void HandleEvent(wxEvent &evt)
     {
+        if (!g_goEventCallback)
+            return;
+
+        // Don't dispatch events to windows being destroyed — the Go
+        // handler may reference sibling/child controls that are already gone.
+        wxWindow *win = wxDynamicCast(evt.GetEventObject(), wxWindow);
+        if (win && win->IsBeingDeleted())
+            return;
+
         wxCallback *callback = static_cast<wxCallback *>(evt.m_callbackUserData);
-        if (callback && g_goEventCallback)
+        if (callback)
         {
             callback->Invoke(&evt);
         }
@@ -78,7 +125,8 @@ extern "C"
             return -1; // Callback not registered yet
         }
 
-        auto *closure = new wxClosure(g_goEventCallback, data);
+        auto *gc = new GoClosure{g_goEventCallback, data};
+        auto *closure = new wxClosure(go_trampoline, gc);
         auto *callback = new wxCallback(closure);
         static_cast<wxEvtHandler *>(obj)->Connect(
             first, last, type,
