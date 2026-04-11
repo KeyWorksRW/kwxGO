@@ -71,6 +71,8 @@ if( CCACHE_PROGRAM )
     message( NOTICE "  Run 'ccache -s' to monitor cache usage" )
 endif()
 
+# ###################### kwxFFI/wxWidgets via FetchContent #######################
+
 include( FetchContent )
 
 # Suppress verbose FetchContent git output (CMake 3.30+)
@@ -113,10 +115,6 @@ add_custom_command(
             ${CMAKE_SOURCE_DIR}/wx/keys_gen.go
             ${CMAKE_SOURCE_DIR}/wx/constants_gen.go
     COMMAND kwxgen generate
-                --headers ${kwxFFI_SOURCE_DIR}/include
-                --defs    ${kwxFFI_SOURCE_DIR}/src/kwx_defs.cpp
-                --lang    go
-                --out     ${CMAKE_SOURCE_DIR}/wx/
     DEPENDS kwxgen ${KWXFFI_HEADERS}
     COMMENT "Generating Go bindings via kwxgen"
 )
