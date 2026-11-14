@@ -6,10 +6,104 @@ import "unsafe"
 
 type TreeCtrl struct{ Control }
 
+// TreeCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TreeCtrlFromPtr(ptr unsafe.Pointer) *TreeCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *TreeCtrl) AssignImageList(imageList unsafe.Pointer) {
+	cgo_wxTreeCtrl_AssignImageList(o.Ptr(), imageList)
+}
+
+func (o *TreeCtrl) AssignStateImageList(imageList unsafe.Pointer) {
+	cgo_wxTreeCtrl_AssignStateImageList(o.Ptr(), imageList)
+}
+
+func NewTreeCtrl2(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *TreeCtrl {
+	ptr := cgo_wxTreeCtrl_Create2(parent, id, x, y, width, height, style)
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeCtrl{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *TreeCtrl) GetItemClientClosure(item unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxTreeCtrl_GetItemClientClosure(o.Ptr(), item)
+}
+
+func (o *TreeCtrl) InsertItem2(parent unsafe.Pointer, idPrevious unsafe.Pointer, text string, image int, selectedImage int, closure unsafe.Pointer, item unsafe.Pointer) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxTreeCtrl_InsertItem2(o.Ptr(), parent, idPrevious, wxText.Ptr(), image, selectedImage, closure, item)
+}
+
+func (o *TreeCtrl) InsertItemByIndex2(parent unsafe.Pointer, index int, text string, image int, selectedImage int, data unsafe.Pointer, item unsafe.Pointer) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxTreeCtrl_InsertItemByIndex2(o.Ptr(), parent, index, wxText.Ptr(), image, selectedImage, data, item)
+}
+
+func (o *TreeCtrl) SetItemClientClosure(item unsafe.Pointer, closure unsafe.Pointer) {
+	cgo_wxTreeCtrl_SetItemClientClosure(o.Ptr(), item, closure)
+}
+
+func (o *TreeCtrl) HasImages() bool {
+	return cgo_wxTreeCtrl_HasImages(o.Ptr())
+}
+
+func (o *TreeCtrl) GetImageCount() int {
+	return cgo_wxTreeCtrl_GetImageCount(o.Ptr())
+}
+
+func (o *TreeCtrl) HasStateImages() bool {
+	return cgo_wxTreeCtrl_HasStateImages(o.Ptr())
+}
+
+func (o *TreeCtrl) GetStateImageCount() int {
+	return cgo_wxTreeCtrl_GetStateImageCount(o.Ptr())
+}
+
+func (o *TreeCtrl) HasChildren(item unsafe.Pointer) bool {
+	return cgo_wxTreeCtrl_HasChildren(o.Ptr(), item)
+}
+
+func (o *TreeCtrl) IsEmpty() bool {
+	return cgo_wxTreeCtrl_IsEmpty(o.Ptr())
+}
+
+func (o *TreeCtrl) UnselectItem(item unsafe.Pointer) {
+	cgo_wxTreeCtrl_UnselectItem(o.Ptr(), item)
+}
+
+func (o *TreeCtrl) ToggleItemSelection(item unsafe.Pointer) {
+	cgo_wxTreeCtrl_ToggleItemSelection(o.Ptr(), item)
+}
+
+func (o *TreeCtrl) EnableBellOnNoMatch(on bool) {
+	cgo_wxTreeCtrl_EnableBellOnNoMatch(o.Ptr(), on)
+}
+
 func (o *TreeCtrl) AddRoot(text string, image int, selectedImage int, data unsafe.Pointer, item unsafe.Pointer) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
 	cgo_wxTreeCtrl_AddRoot(o.Ptr(), wxText.Ptr(), image, selectedImage, data, item)
+}
+
+func (o *TreeCtrl) AssignButtonsImageList(imageList unsafe.Pointer) {
+	cgo_wxTreeCtrl_AssignButtonsImageList(o.Ptr(), imageList)
+}
+
+func (o *TreeCtrl) SetButtonsImageList(imageList unsafe.Pointer) {
+	cgo_wxTreeCtrl_SetButtonsImageList(o.Ptr(), imageList)
 }
 
 func (o *TreeCtrl) AppendItem(parent unsafe.Pointer, text string, image int, selectedImage int, data unsafe.Pointer, item unsafe.Pointer) {
@@ -64,8 +158,9 @@ func (o *TreeCtrl) Expand(item unsafe.Pointer) {
 	cgo_wxTreeCtrl_Expand(o.Ptr(), item)
 }
 
-func (o *TreeCtrl) GetBoundingRect(item unsafe.Pointer, textOnly bool) unsafe.Pointer {
-	return cgo_wxTreeCtrl_GetBoundingRect(o.Ptr(), item, textOnly)
+func (o *TreeCtrl) GetBoundingRect(item unsafe.Pointer, textOnly bool) Rect {
+	retPtr := cgo_wxTreeCtrl_GetBoundingRect(o.Ptr(), item, textOnly)
+	return rectFromPtr(retPtr)
 }
 
 func (o *TreeCtrl) GetChildrenCount(item unsafe.Pointer, recursively bool) int {
@@ -211,8 +306,20 @@ func (o *TreeCtrl) SelectItem(item unsafe.Pointer) {
 	cgo_wxTreeCtrl_SelectItem(o.Ptr(), item)
 }
 
+func (o *TreeCtrl) SelectItem2(item unsafe.Pointer, sel bool) {
+	cgo_wxTreeCtrl_SelectItem2(o.Ptr(), item, sel)
+}
+
 func (o *TreeCtrl) SetImageList(imageList unsafe.Pointer) {
 	cgo_wxTreeCtrl_SetImageList(o.Ptr(), imageList)
+}
+
+func (o *TreeCtrl) SetImages(images unsafe.Pointer) {
+	cgo_wxTreeCtrl_SetImages(o.Ptr(), images)
+}
+
+func (o *TreeCtrl) SetStateImages(images unsafe.Pointer) {
+	cgo_wxTreeCtrl_SetStateImages(o.Ptr(), images)
 }
 
 func (o *TreeCtrl) SetIndent(indent int) {

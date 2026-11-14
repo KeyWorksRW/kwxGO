@@ -6,6 +6,39 @@ import "unsafe"
 
 type GridBagSizer struct{ GridSizer }
 
+// GridBagSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridBagSizerFromPtr(ptr unsafe.Pointer) *GridBagSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridBagSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *GridBagSizer) GetCellSize(row int, col int) Size {
+	retPtr := cgo_wxGridBagSizer_GetCellSize(o.Ptr(), row, col)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *GridBagSizer) FindItem(window unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGridBagSizer_FindItem(o.Ptr(), window)
+}
+
+func (o *GridBagSizer) FindItemSizer(sizer unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGridBagSizer_FindItemSizer(o.Ptr(), sizer)
+}
+
+func (o *GridBagSizer) FindItemAtPoint(x int, y int) unsafe.Pointer {
+	return cgo_wxGridBagSizer_FindItemAtPoint(o.Ptr(), x, y)
+}
+
+func (o *GridBagSizer) FindItemWithData(userData unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGridBagSizer_FindItemWithData(o.Ptr(), userData)
+}
+
 func NewGridBagSizer(vgap int, hgap int) *GridBagSizer {
 	ptr := cgo_wxGridBagSizer_Create(vgap, hgap)
 	if ptr == nil {

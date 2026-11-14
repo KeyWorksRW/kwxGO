@@ -14,7 +14,7 @@ Go language bindings for [wxWidgets](https://www.wxwidgets.org/) via [kwxFFI](ht
 
 kwxGO provides a two-layer binding architecture:
 
-1. **FFI Layer** (`wx/cgo_*.go`) — Raw CGo declarations with `// #include` directives mapping directly to the kwxFFI C function exports. All pointers are `unsafe.Pointer`.
+1. **FFI Layer** (`wx/cgo_glue_gen.go`) — Raw CGo declarations with `// #include` directives mapping directly to the kwxFFI C function exports. All pointers are `unsafe.Pointer`.
 2. **Wrapper Layer** (`wx/*_gen.go`) — Idiomatic Go wrappers with proper types, automatic string conversion, and sensible defaults.
 
 Users should work with the wrapper layer. The FFI layer is available for direct access when needed.
@@ -139,6 +139,18 @@ Prerequisites:
 - CMake 3.30+
 - A supported C/C++ compiler (see above)
 - Internet access for FetchContent (kwxFFI and wxWidgets are fetched automatically)
+
+### Consuming a prebuilt release bundle
+
+A released, self-contained bundle needs no `CGO_CFLAGS` / `CGO_LDFLAGS` setup —
+just build with the `kwxrelease` tag:
+
+```sh
+go build -tags kwxrelease ./your/app
+```
+
+See [docs/release-layout.md](docs/release-layout.md) for the bundle tree, ABI/toolchain
+locking rules, and the Windows Common Controls v6 manifest caveat.
 
 ## License
 

@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type ListItem struct{ BaseObject }
+type ListItem struct{ Object }
+
+// ListItemFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ListItemFromPtr(ptr unsafe.Pointer) *ListItem {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ListItem{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *ListItem) Clear() {
 	cgo_wxListItem_Clear(o.Ptr())
@@ -25,6 +37,9 @@ func NewListItem() *ListItem {
 }
 
 func (o *ListItem) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxListItem_Delete(o.Ptr())
 }
 

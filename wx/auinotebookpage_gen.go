@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiNotebookPage struct{ BaseObject }
 
+// AuiNotebookPageFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiNotebookPageFromPtr(ptr unsafe.Pointer) *AuiNotebookPage {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebookPage{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *AuiNotebookPage) Window() unsafe.Pointer {
 	return cgo_wxAuiNotebookPage_Window(o.Ptr())
 }
@@ -20,12 +32,19 @@ func (o *AuiNotebookPage) Tooltip() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *AuiNotebookPage) Bitmap() unsafe.Pointer {
-	return cgo_wxAuiNotebookPage_Bitmap(o.Ptr())
+func (o *AuiNotebookPage) Bitmap() *BitmapBundle {
+	ptr := cgo_wxAuiNotebookPage_Bitmap(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapBundle{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
-func (o *AuiNotebookPage) Rect() unsafe.Pointer {
-	return cgo_wxAuiNotebookPage_Rect(o.Ptr())
+func (o *AuiNotebookPage) Rect() Rect {
+	retPtr := cgo_wxAuiNotebookPage_Rect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
 func (o *AuiNotebookPage) Active() bool {

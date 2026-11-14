@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxServer struct{ BaseObject }
 
+// KwxServerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxServerFromPtr(ptr unsafe.Pointer) *KwxServer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxServer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxServer(kwxObject unsafe.Pointer, connectFunc unsafe.Pointer) *KwxServer {
 	ptr := cgo_kwxServer_Create(kwxObject, connectFunc)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewKwxServer(kwxObject unsafe.Pointer, connectFunc unsafe.Pointer) *KwxServ
 }
 
 func (o *KwxServer) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxServer_Delete(o.Ptr())
 }
 

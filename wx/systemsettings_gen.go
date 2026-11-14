@@ -4,21 +4,41 @@ package wx
 
 import "unsafe"
 
-type SystemSettings struct{ BaseObject }
+type SystemSettings struct{ Object }
 
-func (o *SystemSettings) GetColour(index int, ref unsafe.Pointer) {
+// SystemSettingsFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SystemSettingsFromPtr(ptr unsafe.Pointer) *SystemSettings {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SystemSettings{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func SystemSettings_GetColour(index int, ref unsafe.Pointer) {
 	cgo_wxSystemSettings_GetColour(index, ref)
 }
 
-func (o *SystemSettings) GetFont(index int, ref unsafe.Pointer) {
+func SystemSettings_GetAppearance() unsafe.Pointer {
+	return cgo_wxSystemSettings_GetAppearance()
+}
+
+func SystemSettings_GetFont(index int, ref unsafe.Pointer) {
 	cgo_wxSystemSettings_GetFont(index, ref)
 }
 
-func (o *SystemSettings) GetMetric(index int) int {
+func SystemSettings_GetMetric(index int) int {
 	return cgo_wxSystemSettings_GetMetric(index)
 }
 
-func (o *SystemSettings) GetScreenType() int {
+func SystemSettings_GetScreenType() int {
 	return cgo_wxSystemSettings_GetScreenType()
+}
+
+func SystemSettings_SelectLightDark(colForLight unsafe.Pointer, colForDark unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxSystemSettings_SelectLightDark(colForLight, colForDark)
 }
 

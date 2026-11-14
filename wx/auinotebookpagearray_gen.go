@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiNotebookPageArray struct{ BaseObject }
 
+// AuiNotebookPageArrayFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiNotebookPageArrayFromPtr(ptr unsafe.Pointer) *AuiNotebookPageArray {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebookPageArray{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiNotebookPageArray() *AuiNotebookPageArray {
 	ptr := cgo_wxAuiNotebookPageArray_Create()
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewAuiNotebookPageArray() *AuiNotebookPageArray {
 }
 
 func (o *AuiNotebookPageArray) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAuiNotebookPageArray_Delete(o.Ptr())
 }
 

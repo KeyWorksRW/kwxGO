@@ -6,6 +6,374 @@ import "unsafe"
 
 type PropertyGrid struct{ Control }
 
+// PropertyGridFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PropertyGridFromPtr(ptr unsafe.Pointer) *PropertyGrid {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertyGrid{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *PropertyGrid) GetColumnCount() int {
+	return cgo_wxPropertyGrid_GetColumnCount(o.Ptr())
+}
+
+func (o *PropertyGrid) GetGoodEditorDialogPosition(p unsafe.Pointer, sz unsafe.Pointer) Point {
+	retPtr := cgo_wxPropertyGrid_GetGoodEditorDialogPosition(o.Ptr(), p, sz)
+	return pointFromPtr(retPtr)
+}
+
+func PropertyGrid_RegisterEditorClass(editor unsafe.Pointer, noDefCheck bool) unsafe.Pointer {
+	return cgo_wxPropertyGrid_RegisterEditorClass(editor, noDefCheck)
+}
+
+func (o *PropertyGrid) GetRowHeight() int {
+	return cgo_wxPropertyGrid_GetRowHeight(o.Ptr())
+}
+
+func (o *PropertyGrid) GetFontHeight() int {
+	return cgo_wxPropertyGrid_GetFontHeight(o.Ptr())
+}
+
+func (o *PropertyGrid) GetMarginWidth() int {
+	return cgo_wxPropertyGrid_GetMarginWidth(o.Ptr())
+}
+
+func (o *PropertyGrid) GetVerticalSpacing() int {
+	return cgo_wxPropertyGrid_GetVerticalSpacing(o.Ptr())
+}
+
+func (o *PropertyGrid) GetSpacingY() int {
+	return cgo_wxPropertyGrid_GetSpacingY(o.Ptr())
+}
+
+func (o *PropertyGrid) GetPanel() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetPanel(o.Ptr())
+}
+
+func (o *PropertyGrid) GetGrid() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetGrid(o.Ptr())
+}
+
+func (o *PropertyGrid) GetRoot() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetRoot(o.Ptr())
+}
+
+func (o *PropertyGrid) GetLastItem(flags int) unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetLastItem(o.Ptr(), flags)
+}
+
+func (o *PropertyGrid) GetSelectedProperty() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetSelectedProperty(o.Ptr())
+}
+
+func (o *PropertyGrid) GetSelection() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetSelection(o.Ptr())
+}
+
+func (o *PropertyGrid) GetEditorTextCtrl() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetEditorTextCtrl(o.Ptr())
+}
+
+func (o *PropertyGrid) GetEditorControl() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetEditorControl(o.Ptr())
+}
+
+func (o *PropertyGrid) GetEditorControlSecondary() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetEditorControlSecondary(o.Ptr())
+}
+
+func (o *PropertyGrid) GetLabelEditor() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetLabelEditor(o.Ptr())
+}
+
+func (o *PropertyGrid) GetValidationInfo() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetValidationInfo(o.Ptr())
+}
+
+func (o *PropertyGrid) GetImageSize(property unsafe.Pointer, item int) Size {
+	retPtr := cgo_wxPropertyGrid_GetImageSize(o.Ptr(), property, item)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *PropertyGrid) GetImageRect(property unsafe.Pointer, item int) Rect {
+	retPtr := cgo_wxPropertyGrid_GetImageRect(o.Ptr(), property, item)
+	return rectFromPtr(retPtr)
+}
+
+func (o *PropertyGrid) GetPropertyRect(first unsafe.Pointer, last unsafe.Pointer) Rect {
+	retPtr := cgo_wxPropertyGrid_GetPropertyRect(o.Ptr(), first, last)
+	return rectFromPtr(retPtr)
+}
+
+func (o *PropertyGrid) FitColumns() Size {
+	retPtr := cgo_wxPropertyGrid_FitColumns(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *PropertyGrid) GetCaptionFont() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCaptionFont(o.Ptr())
+}
+
+func (o *PropertyGrid) GetCaptionBackgroundColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCaptionBackgroundColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetCaptionForegroundColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCaptionForegroundColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetCellBackgroundColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCellBackgroundColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetCellDisabledTextColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCellDisabledTextColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetCellTextColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCellTextColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetEmptySpaceColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetEmptySpaceColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetLineColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetLineColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetMarginColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetMarginColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetSelectionBackgroundColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetSelectionBackgroundColour(o.Ptr())
+}
+
+func (o *PropertyGrid) GetSelectionForegroundColour() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetSelectionForegroundColour(o.Ptr())
+}
+
+func (o *PropertyGrid) SetCaptionBackgroundColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetCaptionBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetCaptionTextColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetCaptionTextColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetCellBackgroundColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetCellBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetCellDisabledTextColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetCellDisabledTextColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetCellTextColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetCellTextColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetEmptySpaceColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetEmptySpaceColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetLineColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetLineColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetMarginColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetMarginColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetSelectionBackgroundColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetSelectionBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) SetSelectionTextColour(colour unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetSelectionTextColour(o.Ptr(), colour)
+}
+
+func (o *PropertyGrid) GetPropertyDefaultCell() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetPropertyDefaultCell(o.Ptr())
+}
+
+func (o *PropertyGrid) GetCategoryDefaultCell() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetCategoryDefaultCell(o.Ptr())
+}
+
+func (o *PropertyGrid) GetUnspecifiedValueAppearance() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetUnspecifiedValueAppearance(o.Ptr())
+}
+
+func (o *PropertyGrid) SetUnspecifiedValueAppearance(cell unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetUnspecifiedValueAppearance(o.Ptr(), cell)
+}
+
+func (o *PropertyGrid) SetColumnCount(column_count int) {
+	cgo_wxPropertyGrid_SetColumnCount(o.Ptr(), column_count)
+}
+
+func (o *PropertyGrid) SetSplitterPosition(position int, column int) {
+	cgo_wxPropertyGrid_SetSplitterPosition(o.Ptr(), position, column)
+}
+
+func (o *PropertyGrid) GetSplitterPosition(splitter_index uint) int {
+	return cgo_wxPropertyGrid_GetSplitterPosition(o.Ptr(), splitter_index)
+}
+
+func (o *PropertyGrid) SetSplitterLeft(private_children_too bool) {
+	cgo_wxPropertyGrid_SetSplitterLeft(o.Ptr(), private_children_too)
+}
+
+func (o *PropertyGrid) SetVirtualWidth(width int) {
+	cgo_wxPropertyGrid_SetVirtualWidth(o.Ptr(), width)
+}
+
+func (o *PropertyGrid) HasVirtualWidth() bool {
+	return cgo_wxPropertyGrid_HasVirtualWidth(o.Ptr())
+}
+
+func (o *PropertyGrid) CenterSplitter(enable_auto_resizing bool) {
+	cgo_wxPropertyGrid_CenterSplitter(o.Ptr(), enable_auto_resizing)
+}
+
+func (o *PropertyGrid) ResetColumnSizes(enable_auto_resizing bool) {
+	cgo_wxPropertyGrid_ResetColumnSizes(o.Ptr(), enable_auto_resizing)
+}
+
+func (o *PropertyGrid) ResetColours() {
+	cgo_wxPropertyGrid_ResetColours(o.Ptr())
+}
+
+func (o *PropertyGrid) MakeColumnEditable(column uint, editable bool) {
+	cgo_wxPropertyGrid_MakeColumnEditable(o.Ptr(), column, editable)
+}
+
+func (o *PropertyGrid) SetVerticalSpacing(spacing int) {
+	cgo_wxPropertyGrid_SetVerticalSpacing(o.Ptr(), spacing)
+}
+
+func (o *PropertyGrid) SelectProperty(id unsafe.Pointer, focus bool) bool {
+	return cgo_wxPropertyGrid_SelectProperty(o.Ptr(), id, focus)
+}
+
+func (o *PropertyGrid) AddToSelection(id unsafe.Pointer) bool {
+	return cgo_wxPropertyGrid_AddToSelection(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) RemoveFromSelection(id unsafe.Pointer) bool {
+	return cgo_wxPropertyGrid_RemoveFromSelection(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) EnsureVisible(id unsafe.Pointer) bool {
+	return cgo_wxPropertyGrid_EnsureVisible(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) EnableCategories(enable bool) bool {
+	return cgo_wxPropertyGrid_EnableCategories(o.Ptr(), enable)
+}
+
+func (o *PropertyGrid) CommitChangesFromEditor(flags int) bool {
+	return cgo_wxPropertyGrid_CommitChangesFromEditor(o.Ptr(), flags)
+}
+
+func (o *PropertyGrid) BeginLabelEdit(column uint) {
+	cgo_wxPropertyGrid_BeginLabelEdit(o.Ptr(), column)
+}
+
+func (o *PropertyGrid) EndLabelEdit(commit bool) {
+	cgo_wxPropertyGrid_EndLabelEdit(o.Ptr(), commit)
+}
+
+func (o *PropertyGrid) IsAnyModified() bool {
+	return cgo_wxPropertyGrid_IsAnyModified(o.Ptr())
+}
+
+func (o *PropertyGrid) IsEditorFocused() bool {
+	return cgo_wxPropertyGrid_IsEditorFocused(o.Ptr())
+}
+
+func (o *PropertyGrid) IsEditorsValueModified() bool {
+	return cgo_wxPropertyGrid_IsEditorsValueModified(o.Ptr())
+}
+
+func (o *PropertyGrid) EditorsValueWasModified() {
+	cgo_wxPropertyGrid_EditorsValueWasModified(o.Ptr())
+}
+
+func (o *PropertyGrid) EditorsValueWasNotModified() {
+	cgo_wxPropertyGrid_EditorsValueWasNotModified(o.Ptr())
+}
+
+func (o *PropertyGrid) RefreshEditor() {
+	cgo_wxPropertyGrid_RefreshEditor(o.Ptr())
+}
+
+func (o *PropertyGrid) UnfocusEditor() bool {
+	return cgo_wxPropertyGrid_UnfocusEditor(o.Ptr())
+}
+
+func (o *PropertyGrid) RefreshProperty(property unsafe.Pointer) {
+	cgo_wxPropertyGrid_RefreshProperty(o.Ptr(), property)
+}
+
+func (o *PropertyGrid) SetCurrentCategory(id unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetCurrentCategory(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) DedicateKey(keycode int) {
+	cgo_wxPropertyGrid_DedicateKey(o.Ptr(), keycode)
+}
+
+func (o *PropertyGrid) AddActionTrigger(action int, keycode int, modifiers int) {
+	cgo_wxPropertyGrid_AddActionTrigger(o.Ptr(), action, keycode, modifiers)
+}
+
+func (o *PropertyGrid) ClearActionTriggers(action int) {
+	cgo_wxPropertyGrid_ClearActionTriggers(o.Ptr(), action)
+}
+
+func (o *PropertyGrid) SetFont(font unsafe.Pointer) bool {
+	return cgo_wxPropertyGrid_SetFont(o.Ptr(), font)
+}
+
+func (o *PropertyGrid) GetPropertyValue(id unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetPropertyValue(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) SetPropertyValue(id unsafe.Pointer, value unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetPropertyValue(o.Ptr(), id, value)
+}
+
+func (o *PropertyGrid) SetPropertyValueUnspecified(id unsafe.Pointer) {
+	cgo_wxPropertyGrid_SetPropertyValueUnspecified(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) GetPropertyHelpString(id unsafe.Pointer) string {
+	retPtr := cgo_wxPropertyGrid_GetPropertyHelpString(o.Ptr(), id)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *PropertyGrid) SetPropertyHelpString(id unsafe.Pointer, help string) {
+	wxHelp := NewWxString(help)
+	defer wxHelp.Free()
+	cgo_wxPropertyGrid_SetPropertyHelpString(o.Ptr(), id, wxHelp.Ptr())
+}
+
+func (o *PropertyGrid) IsPropertyModified(id unsafe.Pointer) bool {
+	return cgo_wxPropertyGrid_IsPropertyModified(o.Ptr(), id)
+}
+
+func (o *PropertyGrid) GetUncommittedPropertyValue() unsafe.Pointer {
+	return cgo_wxPropertyGrid_GetUncommittedPropertyValue(o.Ptr())
+}
+
 func (o *PropertyGrid) Append(prop unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxPropertyGrid_Append(o.Ptr(), prop)
 }

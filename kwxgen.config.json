@@ -1,7 +1,7 @@
 {
     "command": "generate",
-    "headers_dir": "build/_deps/kwxffi-src/include",
-    "defs_file": "build/_deps/kwxffi-src/src/kwx_defs.cpp",
+    "headers_dir": "../kwxffi/include",
+    "defs_file":   "../kwxffi/src/kwx_defs.cpp",
     "lang": "go",
     "out_path": "./wx"
 }

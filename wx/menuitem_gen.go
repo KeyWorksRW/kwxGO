@@ -4,10 +4,68 @@ package wx
 
 import "unsafe"
 
-type MenuItem struct{ BaseObject }
+type MenuItem struct{ Object }
+
+// MenuItemFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MenuItemFromPtr(ptr unsafe.Pointer) *MenuItem {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MenuItem{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewMenuItemEx(id int, text string, helpstr string, itemkind int, submenu unsafe.Pointer) *MenuItem {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	wxHelpstr := NewWxString(helpstr)
+	defer wxHelpstr.Free()
+	ptr := cgo_wxMenuItem_CreateEx(id, wxText.Ptr(), wxHelpstr.Ptr(), itemkind, submenu)
+	if ptr == nil {
+		return nil
+	}
+	obj := &MenuItem{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewMenuItemExWithParent(parentMenu unsafe.Pointer, id int, text string, helpstr string, itemkind int, subMenu unsafe.Pointer) *MenuItem {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	wxHelpstr := NewWxString(helpstr)
+	defer wxHelpstr.Free()
+	ptr := cgo_wxMenuItem_CreateExWithParent(parentMenu, id, wxText.Ptr(), wxHelpstr.Ptr(), itemkind, subMenu)
+	if ptr == nil {
+		return nil
+	}
+	obj := &MenuItem{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewMenuItemSeparator() *MenuItem {
+	ptr := cgo_wxMenuItem_CreateSeparator()
+	if ptr == nil {
+		return nil
+	}
+	obj := &MenuItem{}
+	obj.SetPtr(ptr)
+	return obj
+}
 
 func (o *MenuItem) Check(check bool) {
 	cgo_wxMenuItem_Check(o.Ptr(), check)
+}
+
+func (o *MenuItem) SetBitmaps(bmpChecked unsafe.Pointer, bmpUnchecked unsafe.Pointer) {
+	cgo_wxMenuItem_SetBitmaps(o.Ptr(), bmpChecked, bmpUnchecked)
+}
+
+func (o *MenuItem) SetDisabledBitmap(bmpDisabled unsafe.Pointer) {
+	cgo_wxMenuItem_SetDisabledBitmap(o.Ptr(), bmpDisabled)
 }
 
 func NewMenuItem() *MenuItem {
@@ -21,6 +79,9 @@ func NewMenuItem() *MenuItem {
 }
 
 func (o *MenuItem) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMenuItem_Delete(o.Ptr())
 }
 
@@ -42,7 +103,7 @@ func (o *MenuItem) GetItemLabelText() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *MenuItem) GetLabelText(text unsafe.Pointer) string {
+func MenuItem_GetLabelText(text unsafe.Pointer) string {
 	retPtr := cgo_wxMenuItem_GetLabelText(text)
 	return WxStringToGoAndFree(retPtr)
 }
@@ -126,5 +187,9 @@ func (o *MenuItem) SetBitmap(bmp unsafe.Pointer) {
 
 func (o *MenuItem) GetBitmap() unsafe.Pointer {
 	return cgo_wxMenuItem_GetBitmap(o.Ptr())
+}
+
+func (o *MenuItem) GetAccel() unsafe.Pointer {
+	return cgo_wxMenuItem_GetAccel(o.Ptr())
 }
 

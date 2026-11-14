@@ -6,6 +6,18 @@ import "unsafe"
 
 type CalendarEvent struct{ CommandEvent }
 
+// CalendarEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CalendarEventFromPtr(ptr unsafe.Pointer) *CalendarEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CalendarEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *CalendarEvent) GetDate(date unsafe.Pointer) {
 	cgo_wxCalendarEvent_GetDate(o.Ptr(), date)
 }

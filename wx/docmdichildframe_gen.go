@@ -6,6 +6,18 @@ import "unsafe"
 
 type DocMDIChildFrame struct{ MDIChildFrame }
 
+// DocMDIChildFrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DocMDIChildFrameFromPtr(ptr unsafe.Pointer) *DocMDIChildFrame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DocMDIChildFrame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDocMDIChildFrame(doc unsafe.Pointer, view unsafe.Pointer, parent unsafe.Pointer, id int, title string, x int, y int, width int, height int, style int) *DocMDIChildFrame {
 	wxTitle := NewWxString(title)
 	defer wxTitle.Free()

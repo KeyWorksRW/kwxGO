@@ -6,8 +6,28 @@ import "unsafe"
 
 type GridEvent struct{ NotifyEvent }
 
+// GridEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridEventFromPtr(ptr unsafe.Pointer) *GridEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *GridEvent) AltDown() bool {
 	return cgo_wxGridEvent_AltDown(o.Ptr())
+}
+
+func (o *GridEvent) GetNewCol() int {
+	return cgo_wxGridEvent_GetNewCol(o.Ptr())
+}
+
+func (o *GridEvent) GetNewRow() int {
+	return cgo_wxGridEvent_GetNewRow(o.Ptr())
 }
 
 func (o *GridEvent) ControlDown() bool {
@@ -18,8 +38,9 @@ func (o *GridEvent) GetCol() int {
 	return cgo_wxGridEvent_GetCol(o.Ptr())
 }
 
-func (o *GridEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxGridEvent_GetPosition(o.Ptr())
+func (o *GridEvent) GetPosition() Point {
+	retPtr := cgo_wxGridEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *GridEvent) GetRow() int {

@@ -2,7 +2,31 @@
 
 package wx
 
+import "unsafe"
+
 type ProcessEvent struct{ Event }
+
+// ProcessEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ProcessEventFromPtr(ptr unsafe.Pointer) *ProcessEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ProcessEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewProcessEvent(id int, pid int, exitcode int) *ProcessEvent {
+	ptr := cgo_wxProcessEvent_Create(id, pid, exitcode)
+	if ptr == nil {
+		return nil
+	}
+	obj := &ProcessEvent{}
+	obj.SetPtr(ptr)
+	return obj
+}
 
 func (o *ProcessEvent) GetExitCode() int {
 	return cgo_wxProcessEvent_GetExitCode(o.Ptr())

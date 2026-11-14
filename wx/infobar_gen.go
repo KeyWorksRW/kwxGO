@@ -4,10 +4,32 @@ package wx
 
 import "unsafe"
 
-type InfoBar struct{ BaseObject }
+type InfoBar struct{ Control }
+
+// InfoBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func InfoBarFromPtr(ptr unsafe.Pointer) *InfoBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &InfoBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewInfoBar(parent unsafe.Pointer, id int) *InfoBar {
 	ptr := cgo_wxInfoBar_Create(parent, id)
+	if ptr == nil {
+		return nil
+	}
+	obj := &InfoBar{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewInfoBarEx(parent unsafe.Pointer, id int, style int) *InfoBar {
+	ptr := cgo_wxInfoBar_CreateEx(parent, id, style)
 	if ptr == nil {
 		return nil
 	}
@@ -66,5 +88,29 @@ func (o *InfoBar) ShowMessage(msg string, flags int) {
 	wxMsg := NewWxString(msg)
 	defer wxMsg.Free()
 	cgo_wxInfoBar_ShowMessage(o.Ptr(), wxMsg.Ptr(), flags)
+}
+
+func (o *InfoBar) ShowCheckBox(checkBoxText string, checked bool) {
+	wxCheckBoxText := NewWxString(checkBoxText)
+	defer wxCheckBoxText.Free()
+	cgo_wxInfoBar_ShowCheckBox(o.Ptr(), wxCheckBoxText.Ptr(), checked)
+}
+
+func (o *InfoBar) IsCheckBoxChecked() bool {
+	return cgo_wxInfoBar_IsCheckBoxChecked(o.Ptr())
+}
+
+func (o *InfoBar) ShowMessageFor(msg string, timeoutInSeconds int, flags int) {
+	wxMsg := NewWxString(msg)
+	defer wxMsg.Free()
+	cgo_wxInfoBar_ShowMessageFor(o.Ptr(), wxMsg.Ptr(), timeoutInSeconds, flags)
+}
+
+func (o *InfoBar) RemoveAllButtons() {
+	cgo_wxInfoBar_RemoveAllButtons(o.Ptr())
+}
+
+func (o *InfoBar) ShowCloseButton(show int) {
+	cgo_wxInfoBar_ShowCloseButton(o.Ptr(), show)
 }
 

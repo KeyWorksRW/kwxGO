@@ -2,9 +2,31 @@
 
 package wx
 
+import "unsafe"
+
 type MenuEvent struct{ Event }
+
+// MenuEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MenuEventFromPtr(ptr unsafe.Pointer) *MenuEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MenuEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *MenuEvent) GetMenuId() int {
 	return cgo_wxMenuEvent_GetMenuId(o.Ptr())
+}
+
+func (o *MenuEvent) GetMenu() unsafe.Pointer {
+	return cgo_wxMenuEvent_GetMenu(o.Ptr())
+}
+
+func (o *MenuEvent) IsPopup() bool {
+	return cgo_wxMenuEvent_IsPopup(o.Ptr())
 }
 

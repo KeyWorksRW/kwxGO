@@ -6,6 +6,18 @@ import "unsafe"
 
 type DropSource struct{ BaseObject }
 
+// DropSourceFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DropSourceFromPtr(ptr unsafe.Pointer) *DropSource {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DropSource{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDropSource(data unsafe.Pointer, win unsafe.Pointer, copy unsafe.Pointer, move unsafe.Pointer, none unsafe.Pointer) *DropSource {
 	ptr := cgo_DropSource_Create(data, win, copy, move, none)
 	if ptr == nil {
@@ -16,11 +28,14 @@ func NewDropSource(data unsafe.Pointer, win unsafe.Pointer, copy unsafe.Pointer,
 	return obj
 }
 
-func (o *DropSource) Delete() {
-	cgo_DropSource_Delete(o.Ptr())
+func (o *DropSource) DoDragDrop(flags int) int {
+	return cgo_wxDropSource_DoDragDrop(o.Ptr(), flags)
 }
 
-func (o *DropSource) DoDragDrop(move int) int {
-	return cgo_DropSource_DoDragDrop(o.Ptr(), move)
+func (o *DropSource) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_DropSource_Delete(o.Ptr())
 }
 

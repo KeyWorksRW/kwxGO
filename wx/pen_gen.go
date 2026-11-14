@@ -6,6 +6,18 @@ import "unsafe"
 
 type Pen struct{ BaseObject }
 
+// PenFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PenFromPtr(ptr unsafe.Pointer) *Pen {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Pen{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Pen) Assign(pen unsafe.Pointer) {
 	cgo_wxPen_Assign(o.Ptr(), pen)
 }
@@ -51,6 +63,9 @@ func NewPenFromStock(id int) *Pen {
 }
 
 func (o *Pen) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPen_Delete(o.Ptr())
 }
 
@@ -62,8 +77,8 @@ func (o *Pen) GetColour(ref unsafe.Pointer) {
 	cgo_wxPen_GetColour(o.Ptr(), ref)
 }
 
-func (o *Pen) GetDashes(ptr unsafe.Pointer) int {
-	return cgo_wxPen_GetDashes(o.Ptr(), ptr)
+func (o *Pen) GetDashes(ptrValue unsafe.Pointer) int {
+	return cgo_wxPen_GetDashes(o.Ptr(), ptrValue)
 }
 
 func (o *Pen) GetJoin() int {

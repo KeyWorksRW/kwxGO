@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiPaneInfoArray struct{ BaseObject }
 
+// AuiPaneInfoArrayFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiPaneInfoArrayFromPtr(ptr unsafe.Pointer) *AuiPaneInfoArray {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiPaneInfoArray{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiPaneInfoArray() *AuiPaneInfoArray {
 	ptr := cgo_wxAuiPaneInfoArray_Create()
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewAuiPaneInfoArray() *AuiPaneInfoArray {
 }
 
 func (o *AuiPaneInfoArray) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAuiPaneInfoArray_Delete(o.Ptr())
 }
 

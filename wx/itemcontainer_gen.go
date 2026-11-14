@@ -6,99 +6,141 @@ import "unsafe"
 
 type ItemContainer struct{ BaseObject }
 
-func (o *ItemContainer) GetCount(self unsafe.Pointer) uint {
-	return cgo_wxItemContainer_GetCount(self)
+// ItemContainerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ItemContainerFromPtr(ptr unsafe.Pointer) *ItemContainer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ItemContainer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
 }
 
-func (o *ItemContainer) IsEmpty(self unsafe.Pointer) bool {
-	return cgo_wxItemContainer_IsEmpty(self)
+func (o *ItemContainer) AppendString(item string) {
+	wxItem := NewWxString(item)
+	defer wxItem.Free()
+	cgo_wxItemContainer_AppendString(o.Ptr(), wxItem.Ptr())
 }
 
-func (o *ItemContainer) GetString(self unsafe.Pointer, n uint) string {
-	retPtr := cgo_wxItemContainer_GetString(self, n)
+func (o *ItemContainer) SetClientObject(n uint, clientData unsafe.Pointer) {
+	cgo_wxItemContainer_SetClientObject(o.Ptr(), n, clientData)
+}
+
+func (o *ItemContainer) GetClientObject(n uint) unsafe.Pointer {
+	return cgo_wxItemContainer_GetClientObject(o.Ptr(), n)
+}
+
+func (o *ItemContainer) DetachClientObject(n uint) unsafe.Pointer {
+	return cgo_wxItemContainer_DetachClientObject(o.Ptr(), n)
+}
+
+func (o *ItemContainer) GetClientDataType() int {
+	return cgo_wxItemContainer_GetClientDataType(o.Ptr())
+}
+
+func (o *ItemContainer) HasClientObjectData() bool {
+	return cgo_wxItemContainer_HasClientObjectData(o.Ptr())
+}
+
+func (o *ItemContainer) HasClientUntypedData() bool {
+	return cgo_wxItemContainer_HasClientUntypedData(o.Ptr())
+}
+
+func (o *ItemContainer) GetCount() uint {
+	return cgo_wxItemContainer_GetCount(o.Ptr())
+}
+
+func (o *ItemContainer) IsEmpty() bool {
+	return cgo_wxItemContainer_IsEmpty(o.Ptr())
+}
+
+func (o *ItemContainer) GetString(n uint) string {
+	retPtr := cgo_wxItemContainer_GetString(o.Ptr(), n)
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *ItemContainer) SetString(self unsafe.Pointer, n uint, s string) {
+func (o *ItemContainer) SetString(n uint, s string) {
 	wxS := NewWxString(s)
 	defer wxS.Free()
-	cgo_wxItemContainer_SetString(self, n, wxS.Ptr())
+	cgo_wxItemContainer_SetString(o.Ptr(), n, wxS.Ptr())
 }
 
-func (o *ItemContainer) FindString(self unsafe.Pointer, s string, caseSensitive bool) int {
+func (o *ItemContainer) FindString(s string, caseSensitive bool) int {
 	wxS := NewWxString(s)
 	defer wxS.Free()
-	return cgo_wxItemContainer_FindString(self, wxS.Ptr(), caseSensitive)
+	return cgo_wxItemContainer_FindString(o.Ptr(), wxS.Ptr(), caseSensitive)
 }
 
-func (o *ItemContainer) SetSelection(self unsafe.Pointer, n int) {
-	cgo_wxItemContainer_SetSelection(self, n)
+func (o *ItemContainer) SetSelection(n int) {
+	cgo_wxItemContainer_SetSelection(o.Ptr(), n)
 }
 
-func (o *ItemContainer) GetSelection(self unsafe.Pointer) int {
-	return cgo_wxItemContainer_GetSelection(self)
+func (o *ItemContainer) GetSelection() int {
+	return cgo_wxItemContainer_GetSelection(o.Ptr())
 }
 
-func (o *ItemContainer) SetStringSelection(self unsafe.Pointer, s string) bool {
+func (o *ItemContainer) SetStringSelection(s string) bool {
 	wxS := NewWxString(s)
 	defer wxS.Free()
-	return cgo_wxItemContainer_SetStringSelection(self, wxS.Ptr())
+	return cgo_wxItemContainer_SetStringSelection(o.Ptr(), wxS.Ptr())
 }
 
-func (o *ItemContainer) GetStringSelection(self unsafe.Pointer) string {
-	retPtr := cgo_wxItemContainer_GetStringSelection(self)
+func (o *ItemContainer) GetStringSelection() string {
+	retPtr := cgo_wxItemContainer_GetStringSelection(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *ItemContainer) Select(self unsafe.Pointer, n int) {
-	cgo_wxItemContainer_Select(self, n)
+func (o *ItemContainer) Select(n int) {
+	cgo_wxItemContainer_Select(o.Ptr(), n)
 }
 
-func (o *ItemContainer) Append(self unsafe.Pointer, item string) int {
+func (o *ItemContainer) Append(item string) int {
 	wxItem := NewWxString(item)
 	defer wxItem.Free()
-	return cgo_wxItemContainer_Append(self, wxItem.Ptr())
+	return cgo_wxItemContainer_Append(o.Ptr(), wxItem.Ptr())
 }
 
-func (o *ItemContainer) AppendItems(self unsafe.Pointer, count int, items unsafe.Pointer) int {
-	return cgo_wxItemContainer_AppendItems(self, count, items)
+func (o *ItemContainer) AppendItems(count int, items unsafe.Pointer) int {
+	return cgo_wxItemContainer_AppendItems(o.Ptr(), count, items)
 }
 
-func (o *ItemContainer) Insert(self unsafe.Pointer, item string, pos uint) int {
+func (o *ItemContainer) Insert(item string, pos uint) int {
 	wxItem := NewWxString(item)
 	defer wxItem.Free()
-	return cgo_wxItemContainer_Insert(self, wxItem.Ptr(), pos)
+	return cgo_wxItemContainer_Insert(o.Ptr(), wxItem.Ptr(), pos)
 }
 
-func (o *ItemContainer) InsertItems(self unsafe.Pointer, count int, items unsafe.Pointer, pos uint) int {
-	return cgo_wxItemContainer_InsertItems(self, count, items, pos)
+func (o *ItemContainer) InsertItems(count int, items unsafe.Pointer, pos uint) int {
+	return cgo_wxItemContainer_InsertItems(o.Ptr(), count, items, pos)
 }
 
-func (o *ItemContainer) Set(self unsafe.Pointer, count int, items unsafe.Pointer) {
-	cgo_wxItemContainer_Set(self, count, items)
+func (o *ItemContainer) Set(count int, items unsafe.Pointer) {
+	cgo_wxItemContainer_Set(o.Ptr(), count, items)
 }
 
-func (o *ItemContainer) Clear(self unsafe.Pointer) {
-	cgo_wxItemContainer_Clear(self)
+func (o *ItemContainer) Clear() {
+	cgo_wxItemContainer_Clear(o.Ptr())
 }
 
-func (o *ItemContainer) Delete(self unsafe.Pointer, pos uint) {
-	cgo_wxItemContainer_Delete(self, pos)
+func (o *ItemContainer) Delete(pos uint) {
+	cgo_wxItemContainer_Delete(o.Ptr(), pos)
 }
 
-func (o *ItemContainer) IsSorted(self unsafe.Pointer) bool {
-	return cgo_wxItemContainer_IsSorted(self)
+func (o *ItemContainer) IsSorted() bool {
+	return cgo_wxItemContainer_IsSorted(o.Ptr())
 }
 
-func (o *ItemContainer) SetClientData(self unsafe.Pointer, n uint, clientData unsafe.Pointer) {
-	cgo_wxItemContainer_SetClientData(self, n, clientData)
+func (o *ItemContainer) SetClientData(n uint, clientData unsafe.Pointer) {
+	cgo_wxItemContainer_SetClientData(o.Ptr(), n, clientData)
 }
 
-func (o *ItemContainer) GetClientData(self unsafe.Pointer, n uint) unsafe.Pointer {
-	return cgo_wxItemContainer_GetClientData(self, n)
+func (o *ItemContainer) GetClientData(n uint) unsafe.Pointer {
+	return cgo_wxItemContainer_GetClientData(o.Ptr(), n)
 }
 
-func (o *ItemContainer) HasClientData(self unsafe.Pointer) bool {
-	return cgo_wxItemContainer_HasClientData(self)
+func (o *ItemContainer) HasClientData() bool {
+	return cgo_wxItemContainer_HasClientData(o.Ptr())
 }
 

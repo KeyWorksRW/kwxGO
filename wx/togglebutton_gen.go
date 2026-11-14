@@ -6,6 +6,18 @@ import "unsafe"
 
 type ToggleButton struct{ Control }
 
+// ToggleButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ToggleButtonFromPtr(ptr unsafe.Pointer) *ToggleButton {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ToggleButton{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewToggleButton(parent unsafe.Pointer, id int, label string, x int, y int, width int, height int, style int) *ToggleButton {
 	wxLabel := NewWxString(label)
 	defer wxLabel.Free()

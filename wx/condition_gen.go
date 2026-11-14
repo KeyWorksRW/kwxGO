@@ -6,6 +6,26 @@ import "unsafe"
 
 type Condition struct{ BaseObject }
 
+// ConditionFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ConditionFromPtr(ptr unsafe.Pointer) *Condition {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Condition{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Condition) IsOk() bool {
+	return cgo_wxCondition_IsOk(o.Ptr())
+}
+
+func (o *Condition) WaitTimeout(milliseconds int) int {
+	return cgo_wxCondition_WaitTimeout(o.Ptr(), milliseconds)
+}
+
 func (o *Condition) Broadcast() {
 	cgo_wxCondition_Broadcast(o.Ptr())
 }
@@ -21,6 +41,9 @@ func NewCondition(mutex unsafe.Pointer) *Condition {
 }
 
 func (o *Condition) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCondition_Delete(o.Ptr())
 }
 

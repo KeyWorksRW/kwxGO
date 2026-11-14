@@ -4,10 +4,59 @@ package wx
 
 import "unsafe"
 
-type Colour struct{ BaseObject }
+type Colour struct{ Object }
+
+// ColourFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ColourFromPtr(ptr unsafe.Pointer) *Colour {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Colour{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewColourFromInt(rgb int) *Colour {
+	ptr := cgo_wxColour_CreateFromInt(rgb)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Colour{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewColourFromUnsignedInt(rgba uint) *Colour {
+	ptr := cgo_wxColour_CreateFromUnsignedInt(rgba)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Colour{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Colour) GetInt() int {
+	return cgo_wxColour_GetInt(o.Ptr())
+}
+
+func (o *Colour) GetUnsignedInt() uint {
+	return cgo_wxColour_GetUnsignedInt(o.Ptr())
+}
 
 func (o *Colour) Alpha() uint8 {
 	return cgo_wxColour_Alpha(o.Ptr())
+}
+
+func (o *Colour) GetAsString(flags int) string {
+	retPtr := cgo_wxColour_GetAsString(o.Ptr(), flags)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Colour_MakeDisabled(r unsafe.Pointer, g unsafe.Pointer, b unsafe.Pointer, brightness byte) {
+	cgo_wxColour_MakeDisabled(r, g, b, brightness)
 }
 
 func (o *Colour) Assign(other unsafe.Pointer) {
@@ -65,6 +114,9 @@ func NewColourRGB(red uint8, green uint8, blue uint8, alpha uint8) *Colour {
 }
 
 func (o *Colour) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxColour_Delete(o.Ptr())
 }
 
@@ -90,7 +142,7 @@ func (o *Colour) SetByName(name string) {
 	cgo_wxColour_SetByName(o.Ptr(), wxName.Ptr())
 }
 
-func (o *Colour) ValidName(name unsafe.Pointer) bool {
+func Colour_ValidName(name unsafe.Pointer) bool {
 	return cgo_wxColour_ValidName(name)
 }
 

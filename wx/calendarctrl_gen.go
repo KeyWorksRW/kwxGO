@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type CalendarCtrl struct{ Control }
+type CalendarCtrl struct{ CalendarCtrlBase }
+
+// CalendarCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CalendarCtrlFromPtr(ptr unsafe.Pointer) *CalendarCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CalendarCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewCalendarCtrl(parent unsafe.Pointer, id int, date unsafe.Pointer, left int, top int, width int, height int, style int) *CalendarCtrl {
 	ptr := cgo_wxCalendarCtrl_Create(parent, id, date, left, top, width, height, style)
@@ -30,6 +42,10 @@ func (o *CalendarCtrl) GetAttr(day int) unsafe.Pointer {
 
 func (o *CalendarCtrl) GetDate(date unsafe.Pointer) {
 	cgo_wxCalendarCtrl_GetDate(o.Ptr(), date)
+}
+
+func (o *CalendarCtrl) GetDateRange(lowerdate unsafe.Pointer, upperdate unsafe.Pointer) bool {
+	return cgo_wxCalendarCtrl_GetDateRange(o.Ptr(), lowerdate, upperdate)
 }
 
 func (o *CalendarCtrl) GetHeaderColourBg(ref unsafe.Pointer) {
@@ -60,6 +76,10 @@ func (o *CalendarCtrl) HitTest(x int, y int, date unsafe.Pointer, weekday unsafe
 	return cgo_wxCalendarCtrl_HitTest(o.Ptr(), x, y, date, weekday)
 }
 
+func (o *CalendarCtrl) Mark(day int, mark bool) {
+	cgo_wxCalendarCtrl_Mark(o.Ptr(), day, mark)
+}
+
 func (o *CalendarCtrl) ResetAttr(day int) {
 	cgo_wxCalendarCtrl_ResetAttr(o.Ptr(), day)
 }
@@ -70,6 +90,10 @@ func (o *CalendarCtrl) SetAttr(day int, attr unsafe.Pointer) {
 
 func (o *CalendarCtrl) SetDate(date unsafe.Pointer) {
 	cgo_wxCalendarCtrl_SetDate(o.Ptr(), date)
+}
+
+func (o *CalendarCtrl) SetDateRange(lowerdate unsafe.Pointer, upperdate unsafe.Pointer) bool {
+	return cgo_wxCalendarCtrl_SetDateRange(o.Ptr(), lowerdate, upperdate)
 }
 
 func (o *CalendarCtrl) SetHeaderColours(colFg unsafe.Pointer, colBg unsafe.Pointer) {

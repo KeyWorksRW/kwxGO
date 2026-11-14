@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiTabContainer struct{ BaseObject }
 
+// AuiTabContainerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiTabContainerFromPtr(ptr unsafe.Pointer) *AuiTabContainer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiTabContainer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiTabContainer() *AuiTabContainer {
 	ptr := cgo_wxAuiTabContainer_Create()
 	if ptr == nil {

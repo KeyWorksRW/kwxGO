@@ -6,8 +6,36 @@ import "unsafe"
 
 type ListEvent struct{ NotifyEvent }
 
+// ListEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ListEventFromPtr(ptr unsafe.Pointer) *ListEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ListEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *ListEvent) GetCacheFrom() int {
+	return cgo_wxListEvent_GetCacheFrom(o.Ptr())
+}
+
+func (o *ListEvent) GetCacheTo() int {
+	return cgo_wxListEvent_GetCacheTo(o.Ptr())
+}
+
 func (o *ListEvent) Cancelled() bool {
 	return cgo_wxListEvent_Cancelled(o.Ptr())
+}
+
+func (o *ListEvent) GetKeyCode() int {
+	return cgo_wxListEvent_GetKeyCode(o.Ptr())
+}
+
+func (o *ListEvent) IsEditCancelled() bool {
+	return cgo_wxListEvent_IsEditCancelled(o.Ptr())
 }
 
 func (o *ListEvent) GetCode() int {
@@ -43,8 +71,9 @@ func (o *ListEvent) GetMask() int {
 	return cgo_wxListEvent_GetMask(o.Ptr())
 }
 
-func (o *ListEvent) GetPoint() unsafe.Pointer {
-	return cgo_wxListEvent_GetPoint(o.Ptr())
+func (o *ListEvent) GetPoint() Point {
+	retPtr := cgo_wxListEvent_GetPoint(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *ListEvent) GetText() string {

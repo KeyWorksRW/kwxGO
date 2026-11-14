@@ -6,6 +6,18 @@ import "unsafe"
 
 type Animation struct{ BaseObject }
 
+// AnimationFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AnimationFromPtr(ptr unsafe.Pointer) *Animation {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Animation{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAnimation() *Animation {
 	ptr := cgo_wxAnimation_Create()
 	if ptr == nil {
@@ -29,6 +41,9 @@ func NewAnimationFromFile(filename string, typ int) *Animation {
 }
 
 func (o *Animation) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAnimation_Delete(o.Ptr())
 }
 

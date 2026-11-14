@@ -6,6 +6,18 @@ import "unsafe"
 
 type CommandEvent struct{ Event }
 
+// CommandEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CommandEventFromPtr(ptr unsafe.Pointer) *CommandEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CommandEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCommandEvent(typ int, id int) *CommandEvent {
 	ptr := cgo_wxCommandEvent_Create(typ, id)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewCommandEvent(typ int, id int) *CommandEvent {
 }
 
 func (o *CommandEvent) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCommandEvent_Delete(o.Ptr())
 }
 

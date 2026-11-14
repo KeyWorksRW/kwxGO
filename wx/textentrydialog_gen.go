@@ -6,6 +6,18 @@ import "unsafe"
 
 type TextEntryDialog struct{ Dialog }
 
+// TextEntryDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TextEntryDialogFromPtr(ptr unsafe.Pointer) *TextEntryDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TextEntryDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewTextEntryDialog(parent unsafe.Pointer, message string, caption string, value string, style int, x int, y int, sz_w int, sz_h int) *TextEntryDialog {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
@@ -20,6 +32,12 @@ func NewTextEntryDialog(parent unsafe.Pointer, message string, caption string, v
 	obj := &TextEntryDialog{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *TextEntryDialog) SetHint(hint string) {
+	wxHint := NewWxString(hint)
+	defer wxHint.Free()
+	cgo_wxTextEntryDialog_SetHint(o.Ptr(), wxHint.Ptr())
 }
 
 func (o *TextEntryDialog) GetValue() string {

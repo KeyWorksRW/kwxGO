@@ -2,7 +2,174 @@
 
 package wx
 
+import "unsafe"
+
 type Font struct{ BaseObject }
+
+// FontFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FontFromPtr(ptr unsafe.Pointer) *Font {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Font{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Font) GetFractionalPointSize() float64 {
+	return cgo_wxFont_GetFractionalPointSize(o.Ptr())
+}
+
+func (o *Font) GetPixelSize() Size {
+	retPtr := cgo_wxFont_GetPixelSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Font) IsUsingSizeInPixels() bool {
+	return cgo_wxFont_IsUsingSizeInPixels(o.Ptr())
+}
+
+func (o *Font) GetNumericWeight() int {
+	return cgo_wxFont_GetNumericWeight(o.Ptr())
+}
+
+func (o *Font) GetStrikethrough() bool {
+	return cgo_wxFont_GetStrikethrough(o.Ptr())
+}
+
+func (o *Font) GetNativeFontInfoDesc() string {
+	retPtr := cgo_wxFont_GetNativeFontInfoDesc(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Font) GetNativeFontInfoUserDesc() string {
+	retPtr := cgo_wxFont_GetNativeFontInfoUserDesc(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Font) IsFixedWidth() bool {
+	return cgo_wxFont_IsFixedWidth(o.Ptr())
+}
+
+func (o *Font) SetFractionalPointSize(pointSize float64) {
+	cgo_wxFont_SetFractionalPointSize(o.Ptr(), pointSize)
+}
+
+func (o *Font) SetPixelSize(width int, height int) {
+	cgo_wxFont_SetPixelSize(o.Ptr(), width, height)
+}
+
+func (o *Font) SetNumericWeight(weight int) {
+	cgo_wxFont_SetNumericWeight(o.Ptr(), weight)
+}
+
+func (o *Font) SetStrikethrough(strikethrough bool) {
+	cgo_wxFont_SetStrikethrough(o.Ptr(), strikethrough)
+}
+
+func (o *Font) SetNativeFontInfo(info string) bool {
+	wxInfo := NewWxString(info)
+	defer wxInfo.Free()
+	return cgo_wxFont_SetNativeFontInfo(o.Ptr(), wxInfo.Ptr())
+}
+
+func (o *Font) SetNativeFontInfoUserDesc(info string) bool {
+	wxInfo := NewWxString(info)
+	defer wxInfo.Free()
+	return cgo_wxFont_SetNativeFontInfoUserDesc(o.Ptr(), wxInfo.Ptr())
+}
+
+func (o *Font) SetSymbolicSize(size int) {
+	cgo_wxFont_SetSymbolicSize(o.Ptr(), size)
+}
+
+func (o *Font) SetSymbolicSizeRelativeTo(size int, base int) {
+	cgo_wxFont_SetSymbolicSizeRelativeTo(o.Ptr(), size, base)
+}
+
+func Font_AdjustToSymbolicSize(size int, base int) int {
+	return cgo_wxFont_AdjustToSymbolicSize(size, base)
+}
+
+func Font_ConvertFromLegacyWeightIfNecessary(weight int) int {
+	return cgo_wxFont_ConvertFromLegacyWeightIfNecessary(weight)
+}
+
+func Font_GetNumericWeightOf(weight int) int {
+	return cgo_wxFont_GetNumericWeightOf(weight)
+}
+
+func (o *Font) MakeBold() {
+	cgo_wxFont_MakeBold(o.Ptr())
+}
+
+func (o *Font) MakeItalic() {
+	cgo_wxFont_MakeItalic(o.Ptr())
+}
+
+func (o *Font) MakeUnderlined() {
+	cgo_wxFont_MakeUnderlined(o.Ptr())
+}
+
+func (o *Font) MakeStrikethrough() {
+	cgo_wxFont_MakeStrikethrough(o.Ptr())
+}
+
+func (o *Font) MakeLarger() {
+	cgo_wxFont_MakeLarger(o.Ptr())
+}
+
+func (o *Font) MakeSmaller() {
+	cgo_wxFont_MakeSmaller(o.Ptr())
+}
+
+func (o *Font) Scale(factor float32) {
+	cgo_wxFont_Scale(o.Ptr(), factor)
+}
+
+func (o *Font) Bold() unsafe.Pointer {
+	return cgo_wxFont_Bold(o.Ptr())
+}
+
+func (o *Font) Italic() unsafe.Pointer {
+	return cgo_wxFont_Italic(o.Ptr())
+}
+
+func (o *Font) Underlined() unsafe.Pointer {
+	return cgo_wxFont_Underlined(o.Ptr())
+}
+
+func (o *Font) Strikethrough() unsafe.Pointer {
+	return cgo_wxFont_Strikethrough(o.Ptr())
+}
+
+func (o *Font) Larger() unsafe.Pointer {
+	return cgo_wxFont_Larger(o.Ptr())
+}
+
+func (o *Font) Smaller() unsafe.Pointer {
+	return cgo_wxFont_Smaller(o.Ptr())
+}
+
+func (o *Font) Scaled(factor float32) unsafe.Pointer {
+	return cgo_wxFont_Scaled(o.Ptr(), factor)
+}
+
+func (o *Font) GetBaseFont() unsafe.Pointer {
+	return cgo_wxFont_GetBaseFont(o.Ptr())
+}
+
+func Font_AddPrivateFont(filename string) bool {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_wxFont_AddPrivateFont(wxFilename.Ptr())
+}
+
+func (o *Font) IsEqual(font unsafe.Pointer) bool {
+	return cgo_wxFont_IsEqual(o.Ptr(), font)
+}
 
 func NewFont(pointSize int, family int, style int, weight int, underlined bool, face string, enc int) *Font {
 	wxFace := NewWxString(face)
@@ -36,7 +203,34 @@ func NewFontDefault() *Font {
 	return obj
 }
 
+func NewFontFromInfo(info unsafe.Pointer) *Font {
+	ptr := cgo_wxFont_CreateFromInfo(info)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Font{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewFontFromFont(other unsafe.Pointer) *Font {
+	ptr := cgo_wxFont_CreateFromFont(other)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Font{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Font) Assign(other unsafe.Pointer) {
+	cgo_wxFont_Assign(o.Ptr(), other)
+}
+
 func (o *Font) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxFont_Delete(o.Ptr())
 }
 
@@ -75,7 +269,7 @@ func (o *Font) GetStyleString() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *Font) GetUnderlined() int {
+func (o *Font) GetUnderlined() bool {
 	return cgo_wxFont_GetUnderlined(o.Ptr())
 }
 

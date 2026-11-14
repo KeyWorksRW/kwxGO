@@ -6,6 +6,18 @@ import "unsafe"
 
 type HelpProvider struct{ BaseObject }
 
+// HelpProviderFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func HelpProviderFromPtr(ptr unsafe.Pointer) *HelpProvider {
+	if ptr == nil {
+		return nil
+	}
+	obj := &HelpProvider{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *HelpProvider) AddHelp(window unsafe.Pointer, text string) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
@@ -19,10 +31,13 @@ func (o *HelpProvider) AddHelpById(id int, text string) {
 }
 
 func (o *HelpProvider) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxHelpProvider_Delete(o.Ptr())
 }
 
-func (o *HelpProvider) Get() unsafe.Pointer {
+func HelpProvider_Get() unsafe.Pointer {
 	return cgo_wxHelpProvider_Get()
 }
 

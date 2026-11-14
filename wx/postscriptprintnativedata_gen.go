@@ -2,7 +2,21 @@
 
 package wx
 
-type PostScriptPrintNativeData struct{ BaseObject }
+import "unsafe"
+
+type PostScriptPrintNativeData struct{ Object }
+
+// PostScriptPrintNativeDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PostScriptPrintNativeDataFromPtr(ptr unsafe.Pointer) *PostScriptPrintNativeData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PostScriptPrintNativeData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewPostScriptPrintNativeData() *PostScriptPrintNativeData {
 	ptr := cgo_wxPostScriptPrintNativeData_Create()
@@ -15,6 +29,9 @@ func NewPostScriptPrintNativeData() *PostScriptPrintNativeData {
 }
 
 func (o *PostScriptPrintNativeData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPostScriptPrintNativeData_Delete(o.Ptr())
 }
 

@@ -6,7 +6,22 @@ import "unsafe"
 
 type FileType struct{ BaseObject }
 
+// FileTypeFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FileTypeFromPtr(ptr unsafe.Pointer) *FileType {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileType{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *FileType) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxFileType_Delete(o.Ptr())
 }
 

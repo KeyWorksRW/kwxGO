@@ -6,6 +6,18 @@ import "unsafe"
 
 type MessageDialog struct{ Dialog }
 
+// MessageDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MessageDialogFromPtr(ptr unsafe.Pointer) *MessageDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MessageDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewMessageDialog(parent unsafe.Pointer, message string, caption string, style int) *MessageDialog {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
@@ -21,6 +33,9 @@ func NewMessageDialog(parent unsafe.Pointer, message string, caption string, sty
 }
 
 func (o *MessageDialog) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMessageDialog_Delete(o.Ptr())
 }
 

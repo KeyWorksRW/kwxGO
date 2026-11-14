@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiManager struct{ EvtHandler }
 
+// AuiManagerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiManagerFromPtr(ptr unsafe.Pointer) *AuiManager {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiManager{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiManager(managedWnd unsafe.Pointer, flags int) *AuiManager {
 	ptr := cgo_wxAuiManager_Create(managedWnd, flags)
 	if ptr == nil {
@@ -16,7 +28,26 @@ func NewAuiManager(managedWnd unsafe.Pointer, flags int) *AuiManager {
 	return obj
 }
 
+func (o *AuiManager) AllowDocksForMinPanes(directions int) {
+	cgo_wxAuiManager_AllowDocksForMinPanes(o.Ptr(), directions)
+}
+
+func AuiManager_AlwaysUsesLiveResize(window unsafe.Pointer) bool {
+	return cgo_wxAuiManager_AlwaysUsesLiveResize(window)
+}
+
+func (o *AuiManager) GetPane(window unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxAuiManager_GetPane(o.Ptr(), window)
+}
+
+func (o *AuiManager) SetDocksForMinPanesStyle(style uint) {
+	cgo_wxAuiManager_SetDocksForMinPanesStyle(o.Ptr(), style)
+}
+
 func (o *AuiManager) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAuiManager_Delete(o.Ptr())
 }
 
@@ -74,6 +105,14 @@ func (o *AuiManager) SavePerspective() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
+func (o *AuiManager) SaveLayout(serializer unsafe.Pointer) {
+	cgo_wxAuiManager_SaveLayout(o.Ptr(), serializer)
+}
+
+func (o *AuiManager) LoadLayout(deserializer unsafe.Pointer) {
+	cgo_wxAuiManager_LoadLayout(o.Ptr(), deserializer)
+}
+
 func (o *AuiManager) SetArtProvider(artProvider unsafe.Pointer) {
 	cgo_wxAuiManager_SetArtProvider(o.Ptr(), artProvider)
 }
@@ -126,7 +165,7 @@ func (o *AuiManager) GetPaneByName(name string) unsafe.Pointer {
 	return cgo_wxAuiManager_GetPaneByName(o.Ptr(), wxName.Ptr())
 }
 
-func (o *AuiManager) GetManager(window unsafe.Pointer) unsafe.Pointer {
+func AuiManager_GetManager(window unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxAuiManager_GetManager(window)
 }
 

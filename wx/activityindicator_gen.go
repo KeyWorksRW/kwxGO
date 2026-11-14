@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type ActivityIndicator struct{ BaseObject }
+type ActivityIndicator struct{ Control }
+
+// ActivityIndicatorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ActivityIndicatorFromPtr(ptr unsafe.Pointer) *ActivityIndicator {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ActivityIndicator{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewActivityIndicator(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *ActivityIndicator {
 	ptr := cgo_wxActivityIndicator_Create(parent, id, x, y, width, height, style)

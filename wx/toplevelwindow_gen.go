@@ -6,8 +6,45 @@ import "unsafe"
 
 type TopLevelWindow struct{ Window }
 
+// TopLevelWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TopLevelWindowFromPtr(ptr unsafe.Pointer) *TopLevelWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TopLevelWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *TopLevelWindow) IsAlwaysMaximized() bool {
+	return cgo_wxTopLevelWindow_IsAlwaysMaximized(o.Ptr())
+}
+
+func (o *TopLevelWindow) GetIcons() unsafe.Pointer {
+	return cgo_wxTopLevelWindow_GetIcons(o.Ptr())
+}
+
+func (o *TopLevelWindow) EnableFullScreenView(enable bool, style int) bool {
+	return cgo_wxTopLevelWindow_EnableFullScreenView(o.Ptr(), enable, style)
+}
+
+func (o *TopLevelWindow) GetContentProtection() int {
+	return cgo_wxTopLevelWindow_GetContentProtection(o.Ptr())
+}
+
+func TopLevelWindow_GetDefaultSize() Size {
+	retPtr := cgo_wxTopLevelWindow_GetDefaultSize()
+	return sizeFromPtr(retPtr)
+}
+
 func (o *TopLevelWindow) EnableCloseButton(enable bool) bool {
 	return cgo_wxTopLevelWindow_EnableCloseButton(o.Ptr(), enable)
+}
+
+func (o *TopLevelWindow) CentreOnScreen(dir int) {
+	cgo_wxTopLevelWindow_CentreOnScreen(o.Ptr(), dir)
 }
 
 func (o *TopLevelWindow) GetDefaultButton() unsafe.Pointer {

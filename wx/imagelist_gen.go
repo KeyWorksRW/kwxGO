@@ -4,10 +4,26 @@ package wx
 
 import "unsafe"
 
-type ImageList struct{ BaseObject }
+type ImageList struct{ Object }
+
+// ImageListFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ImageListFromPtr(ptr unsafe.Pointer) *ImageList {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ImageList{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *ImageList) AddBitmap(bitmap unsafe.Pointer, mask unsafe.Pointer) int {
 	return cgo_wxImageList_AddBitmap(o.Ptr(), bitmap, mask)
+}
+
+func (o *ImageList) Add(bitmap unsafe.Pointer, mask unsafe.Pointer) int {
+	return cgo_wxImageList_Add(o.Ptr(), bitmap, mask)
 }
 
 func (o *ImageList) AddIcon(icon unsafe.Pointer) int {
@@ -29,6 +45,9 @@ func NewImageList(width int, height int, mask int, initialCount int) *ImageList 
 }
 
 func (o *ImageList) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxImageList_Delete(o.Ptr())
 }
 

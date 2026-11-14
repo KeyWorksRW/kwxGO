@@ -6,18 +6,44 @@ import "unsafe"
 
 type Choice struct{ Control }
 
+// ChoiceFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ChoiceFromPtr(ptr unsafe.Pointer) *Choice {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Choice{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Choice) Append(item string) {
 	wxItem := NewWxString(item)
 	defer wxItem.Free()
 	cgo_wxChoice_Append(o.Ptr(), wxItem.Ptr())
 }
 
+func (o *Choice) AppendWithClientData(item string, clientData unsafe.Pointer) int {
+	wxItem := NewWxString(item)
+	defer wxItem.Free()
+	return cgo_wxChoice_AppendWithClientData(o.Ptr(), wxItem.Ptr(), clientData)
+}
+
+func (o *Choice) AppendWithClientObject(item string, clientData unsafe.Pointer) int {
+	wxItem := NewWxString(item)
+	defer wxItem.Free()
+	return cgo_wxChoice_AppendWithClientObject(o.Ptr(), wxItem.Ptr(), clientData)
+}
+
 func (o *Choice) Clear() {
 	cgo_wxChoice_Clear(o.Ptr())
 }
 
-func NewChoice(parent unsafe.Pointer, id int, left int, top int, width int, height int, n int, str unsafe.Pointer, style int) *Choice {
-	ptr := cgo_wxChoice_Create(parent, id, left, top, width, height, n, str, style)
+func NewChoice(parent unsafe.Pointer, id int, left int, top int, width int, height int, str []string, style int) *Choice {
+	strPtr, releaseStr := wxStringTable(str)
+	defer releaseStr()
+	ptr := cgo_wxChoice_Create(parent, id, left, top, width, height, len(str), strPtr, style)
 	if ptr == nil {
 		return nil
 	}
@@ -57,6 +83,12 @@ func (o *Choice) SetString(index int, str string) {
 	wxStr := NewWxString(str)
 	defer wxStr.Free()
 	cgo_wxChoice_SetString(o.Ptr(), index, wxStr.Ptr())
+}
+
+func (o *Choice) SetStringSelection(str string) bool {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	return cgo_wxChoice_SetStringSelection(o.Ptr(), wxStr.Ptr())
 }
 
 func (o *Choice) SetColumns(n int) {

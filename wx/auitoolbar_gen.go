@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiToolBar struct{ Control }
 
+// AuiToolBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiToolBarFromPtr(ptr unsafe.Pointer) *AuiToolBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiToolBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiToolBarDefault() *AuiToolBar {
 	ptr := cgo_wxAuiToolBar_CreateDefault()
 	if ptr == nil {
@@ -31,6 +43,9 @@ func (o *AuiToolBar) CreateFromDefault(parent unsafe.Pointer, id int, x int, y i
 }
 
 func (o *AuiToolBar) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAuiToolBar_Delete(o.Ptr())
 }
 
@@ -156,8 +171,9 @@ func (o *AuiToolBar) GetToolFits(tool_id int) bool {
 	return cgo_wxAuiToolBar_GetToolFits(o.Ptr(), tool_id)
 }
 
-func (o *AuiToolBar) GetToolRect(tool_id int) unsafe.Pointer {
-	return cgo_wxAuiToolBar_GetToolRect(o.Ptr(), tool_id)
+func (o *AuiToolBar) GetToolRect(tool_id int) Rect {
+	retPtr := cgo_wxAuiToolBar_GetToolRect(o.Ptr(), tool_id)
+	return rectFromPtr(retPtr)
 }
 
 func (o *AuiToolBar) GetToolFitsByIndex(tool_id int) bool {
@@ -184,8 +200,9 @@ func (o *AuiToolBar) SetToolBitmapSize(width int, height int) {
 	cgo_wxAuiToolBar_SetToolBitmapSize(o.Ptr(), width, height)
 }
 
-func (o *AuiToolBar) GetToolBitmapSize() unsafe.Pointer {
-	return cgo_wxAuiToolBar_GetToolBitmapSize(o.Ptr())
+func (o *AuiToolBar) GetToolBitmapSize() Size {
+	retPtr := cgo_wxAuiToolBar_GetToolBitmapSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *AuiToolBar) GetOverflowVisible() bool {
@@ -321,8 +338,9 @@ func (o *AuiToolBar) SetCustomOverflowItems(prepend unsafe.Pointer, append unsaf
 	cgo_wxAuiToolBar_SetCustomOverflowItems(o.Ptr(), prepend, append)
 }
 
-func (o *AuiToolBar) GetHintSize(dock_direction int) unsafe.Pointer {
-	return cgo_wxAuiToolBar_GetHintSize(o.Ptr(), dock_direction)
+func (o *AuiToolBar) GetHintSize(dock_direction int) Size {
+	retPtr := cgo_wxAuiToolBar_GetHintSize(o.Ptr(), dock_direction)
+	return sizeFromPtr(retPtr)
 }
 
 func (o *AuiToolBar) IsPaneValid(pane unsafe.Pointer) bool {

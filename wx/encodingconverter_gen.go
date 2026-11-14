@@ -4,10 +4,29 @@ package wx
 
 import "unsafe"
 
-type EncodingConverter struct{ BaseObject }
+type EncodingConverter struct{ Object }
+
+// EncodingConverterFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func EncodingConverterFromPtr(ptr unsafe.Pointer) *EncodingConverter {
+	if ptr == nil {
+		return nil
+	}
+	obj := &EncodingConverter{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *EncodingConverter) Convert(input unsafe.Pointer, output unsafe.Pointer) {
 	cgo_wxEncodingConverter_Convert(o.Ptr(), input, output)
+}
+
+func (o *EncodingConverter) ConvertString(input string) string {
+	wxInput := NewWxString(input)
+	defer wxInput.Free()
+	retPtr := cgo_wxEncodingConverter_ConvertString(o.Ptr(), wxInput.Ptr())
+	return WxStringToGoAndFree(retPtr)
 }
 
 func NewEncodingConverter() *EncodingConverter {
@@ -21,6 +40,9 @@ func NewEncodingConverter() *EncodingConverter {
 }
 
 func (o *EncodingConverter) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxEncodingConverter_Delete(o.Ptr())
 }
 

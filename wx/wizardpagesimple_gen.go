@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type WizardPageSimple struct{ BaseWindow }
+type WizardPageSimple struct{ WizardPage }
+
+// WizardPageSimpleFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WizardPageSimpleFromPtr(ptr unsafe.Pointer) *WizardPageSimple {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WizardPageSimple{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewWizardPageSimple(parent unsafe.Pointer, prev unsafe.Pointer, next unsafe.Pointer, bitmap unsafe.Pointer) *WizardPageSimple {
 	ptr := cgo_wxWizardPageSimple_Create(parent, prev, next, bitmap)
@@ -16,8 +28,8 @@ func NewWizardPageSimple(parent unsafe.Pointer, prev unsafe.Pointer, next unsafe
 	return obj
 }
 
-func (o *WizardPageSimple) GetBitmap(ref unsafe.Pointer) {
-	cgo_wxWizardPageSimple_GetBitmap(o.Ptr(), ref)
+func (o *WizardPageSimple) GetBitmap() unsafe.Pointer {
+	return cgo_wxWizardPageSimple_GetBitmap(o.Ptr())
 }
 
 func (o *WizardPageSimple) GetNext() unsafe.Pointer {
@@ -34,5 +46,15 @@ func (o *WizardPageSimple) SetNext(next unsafe.Pointer) {
 
 func (o *WizardPageSimple) SetPrev(prev unsafe.Pointer) {
 	cgo_wxWizardPageSimple_SetPrev(o.Ptr(), prev)
+}
+
+func NewWizardPageSimpleWithBundle(parent unsafe.Pointer, prev unsafe.Pointer, next unsafe.Pointer, bitmap unsafe.Pointer) *WizardPageSimple {
+	ptr := cgo_wxWizardPageSimple_CreateWithBundle(parent, prev, next, bitmap)
+	if ptr == nil {
+		return nil
+	}
+	obj := &WizardPageSimple{}
+	obj.SetPtr(ptr)
+	return obj
 }
 

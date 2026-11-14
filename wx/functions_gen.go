@@ -76,7 +76,7 @@ func ExpSetDefaultAssertHandler() {
 	cgo_expSetDefaultAssertHandler()
 }
 
-func Quantize(src unsafe.Pointer, dest unsafe.Pointer, desiredNoColours int, eightBitData unsafe.Pointer, flags int) bool {
+func QuantizeFunc(src unsafe.Pointer, dest unsafe.Pointer, desiredNoColours int, eightBitData unsafe.Pointer, flags int) bool {
 	return cgo_Quantize(src, dest, desiredNoColours, eightBitData, flags)
 }
 
@@ -119,6 +119,1034 @@ func Utf8Buffer_Delete(buf unsafe.Pointer) {
 	cgo_kwxUtf8Buffer_Delete(buf)
 }
 
+func GetOsDescription() string {
+	retPtr := cgo_wxGetOsDescription()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetOsVersion(major unsafe.Pointer, minor unsafe.Pointer, micro unsafe.Pointer) int {
+	return cgo_wxGetOsVersion(major, minor, micro)
+}
+
+func CheckOsVersion(major int, minor int, micro int) bool {
+	return cgo_wxCheckOsVersion(major, minor, micro)
+}
+
+func IsPlatformLittleEndian() bool {
+	return cgo_wxIsPlatformLittleEndian()
+}
+
+func IsPlatform64Bit() bool {
+	return cgo_wxIsPlatform64Bit()
+}
+
+func GetCpuArchitectureName() string {
+	retPtr := cgo_wxGetCpuArchitectureName()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetNativeCpuArchitectureName() string {
+	retPtr := cgo_wxGetNativeCpuArchitectureName()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Now() string {
+	retPtr := cgo_wxNow()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetInstallPrefix() string {
+	retPtr := cgo_wxGetInstallPrefix()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetDataDir() string {
+	retPtr := cgo_wxGetDataDir()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetFreeMemory() int64 {
+	return cgo_wxGetFreeMemory()
+}
+
+func HandleFatalExceptions(doit bool) bool {
+	return cgo_wxHandleFatalExceptions(doit)
+}
+
+func GetKeyState(key int) bool {
+	return cgo_wxGetKeyState(key)
+}
+
+func SetDetectableAutoRepeat(flag bool) bool {
+	return cgo_wxSetDetectableAutoRepeat(flag)
+}
+
+func GetMousePosition(x unsafe.Pointer, y unsafe.Pointer) {
+	cgo_wxGetMousePosition(x, y)
+}
+
+func InfoMessageBox(parent unsafe.Pointer) {
+	cgo_wxInfoMessageBox(parent)
+}
+
+func RegisterId(id int) {
+	cgo_wxRegisterId(id)
+}
+
+func GetCurrentId() int {
+	return cgo_wxGetCurrentId()
+}
+
+func NewId() int {
+	return cgo_wxNewId()
+}
+
+func HexToDec(buf string) int {
+	wxBuf := NewWxString(buf)
+	defer wxBuf.Free()
+	return cgo_wxHexToDec(wxBuf.Ptr())
+}
+
+func DecToHex(dec int) string {
+	retPtr := cgo_wxDecToHex(dec)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func SecureZeroMemory(data unsafe.Pointer, count uint) {
+	cgo_wxSecureZeroMemory(data, count)
+}
+
+func GetEnv(v string, value string) bool {
+	wxV := NewWxString(v)
+	defer wxV.Free()
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	return cgo_wxGetEnv(wxV.Ptr(), wxValue.Ptr())
+}
+
+func SetEnv(v string, value string) bool {
+	wxV := NewWxString(v)
+	defer wxV.Free()
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	return cgo_wxSetEnv(wxV.Ptr(), wxValue.Ptr())
+}
+
+func UnsetEnv(v string) bool {
+	wxV := NewWxString(v)
+	defer wxV.Free()
+	return cgo_wxUnsetEnv(wxV.Ptr())
+}
+
+func GetEnvMap(env_map unsafe.Pointer) bool {
+	return cgo_wxGetEnvMap(env_map)
+}
+
+func GetEmailAddress() string {
+	retPtr := cgo_wxGetEmailAddress()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetHostName() string {
+	retPtr := cgo_wxGetHostName()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetFullHostName() string {
+	retPtr := cgo_wxGetFullHostName()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetUserId() string {
+	retPtr := cgo_wxGetUserId()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetUserName() string {
+	retPtr := cgo_wxGetUserName()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetHomeDir() string {
+	retPtr := cgo_wxGetHomeDir()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetUserHome(user string) string {
+	wxUser := NewWxString(user)
+	defer wxUser.Free()
+	retPtr := cgo_wxGetUserHome(wxUser.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetDiskSpace(path string, total_bytes unsafe.Pointer, free_bytes unsafe.Pointer) bool {
+	wxPath := NewWxString(path)
+	defer wxPath.Free()
+	return cgo_wxGetDiskSpace(wxPath.Ptr(), total_bytes, free_bytes)
+}
+
+func Execute(command string, flags int, process unsafe.Pointer, execute_env unsafe.Pointer) int {
+	wxCommand := NewWxString(command)
+	defer wxCommand.Free()
+	return cgo_wxExecute(wxCommand.Ptr(), flags, process, execute_env)
+}
+
+func ExecuteWithOutput(command string, output unsafe.Pointer, flags int, execute_env unsafe.Pointer) int {
+	wxCommand := NewWxString(command)
+	defer wxCommand.Free()
+	return cgo_wxExecuteWithOutput(wxCommand.Ptr(), output, flags, execute_env)
+}
+
+func ExecuteWithOutputAndError(command string, output unsafe.Pointer, errors unsafe.Pointer, flags int, execute_env unsafe.Pointer) int {
+	wxCommand := NewWxString(command)
+	defer wxCommand.Free()
+	return cgo_wxExecuteWithOutputAndError(wxCommand.Ptr(), output, errors, flags, execute_env)
+}
+
+func ExecuteArgv(argv []string, flags int, process unsafe.Pointer, execute_env unsafe.Pointer) int {
+	argvPtr, releaseArgv := wxStringTable(argv)
+	defer releaseArgv()
+	return cgo_wxExecuteArgv(len(argv), argvPtr, flags, process, execute_env)
+}
+
+func ExecuteDDE(server string, topic string, command string) bool {
+	wxServer := NewWxString(server)
+	defer wxServer.Free()
+	wxTopic := NewWxString(topic)
+	defer wxTopic.Free()
+	wxCommand := NewWxString(command)
+	defer wxCommand.Free()
+	return cgo_wxExecuteDDE(wxServer.Ptr(), wxTopic.Ptr(), wxCommand.Ptr())
+}
+
+func Shutdown(flags int) bool {
+	return cgo_wxShutdown(flags)
+}
+
+func Kill(pid int, sig int, rc unsafe.Pointer, flags int) int {
+	return cgo_wxKill(pid, sig, rc, flags)
+}
+
+func Shell(command string) bool {
+	wxCommand := NewWxString(command)
+	defer wxCommand.Free()
+	return cgo_wxShell(wxCommand.Ptr())
+}
+
+func ShellWithOutput(command string, output unsafe.Pointer) bool {
+	wxCommand := NewWxString(command)
+	defer wxCommand.Free()
+	return cgo_wxShellWithOutput(wxCommand.Ptr(), output)
+}
+
+func Sleep(seconds int) {
+	cgo_wxSleep(seconds)
+}
+
+func MilliSleep(milliseconds uint) {
+	cgo_wxMilliSleep(milliseconds)
+}
+
+func MicroSleep(microseconds uint) {
+	cgo_wxMicroSleep(microseconds)
+}
+
+func GetProcessId() uint {
+	return cgo_wxGetProcessId()
+}
+
+func LaunchDefaultBrowser(url string, flags int) bool {
+	wxUrl := NewWxString(url)
+	defer wxUrl.Free()
+	return cgo_wxLaunchDefaultBrowser(wxUrl.Ptr(), flags)
+}
+
+func LaunchDefaultApplication(path string, flags int) bool {
+	wxPath := NewWxString(path)
+	defer wxPath.Free()
+	return cgo_wxLaunchDefaultApplication(wxPath.Ptr(), flags)
+}
+
+func StripMenuCodes(text string, flags int) string {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	retPtr := cgo_wxStripMenuCodes(wxText.Ptr(), flags)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func FindMenuItemId(frame unsafe.Pointer, menu_string string, item_string string) int {
+	wxMenu_string := NewWxString(menu_string)
+	defer wxMenu_string.Free()
+	wxItem_string := NewWxString(item_string)
+	defer wxItem_string.Free()
+	return cgo_wxFindMenuItemId(frame, wxMenu_string.Ptr(), wxItem_string.Ptr())
+}
+
+func GenericFindWindowAtPoint(x int, y int) unsafe.Pointer {
+	return cgo_wxGenericFindWindowAtPoint(x, y)
+}
+
+func FindWindowAtPoint(x int, y int) unsafe.Pointer {
+	return cgo_wxFindWindowAtPoint(x, y)
+}
+
+func FindWindowByLabel(title string, parent unsafe.Pointer) unsafe.Pointer {
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	return cgo_wxFindWindowByLabel(wxTitle.Ptr(), parent)
+}
+
+func FindWindowByName(name string, parent unsafe.Pointer) unsafe.Pointer {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxFindWindowByName(wxName.Ptr(), parent)
+}
+
+func EnableTopLevelWindows(enable bool) {
+	cgo_wxEnableTopLevelWindows(enable)
+}
+
+func CheckForInterrupt(window unsafe.Pointer) bool {
+	return cgo_wxCheckForInterrupt(window)
+}
+
+func FlushEvents() {
+	cgo_wxFlushEvents()
+}
+
+func YieldIfNeeded() bool {
+	return cgo_wxYieldIfNeeded()
+}
+
+func MSWIsOnSecureScreen() bool {
+	return cgo_wxMSWIsOnSecureScreen()
+}
+
+func FileSelector(message string, default_path string, default_filename string, default_extension string, wildcard string, flags int, parent unsafe.Pointer, x int, y int) string {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxDefault_path := NewWxString(default_path)
+	defer wxDefault_path.Free()
+	wxDefault_filename := NewWxString(default_filename)
+	defer wxDefault_filename.Free()
+	wxDefault_extension := NewWxString(default_extension)
+	defer wxDefault_extension.Free()
+	wxWildcard := NewWxString(wildcard)
+	defer wxWildcard.Free()
+	retPtr := cgo_wxFileSelector(wxMessage.Ptr(), wxDefault_path.Ptr(), wxDefault_filename.Ptr(), wxDefault_extension.Ptr(), wxWildcard.Ptr(), flags, parent, x, y)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func FileSelectorEx(message string, default_path string, default_filename string, index_default_extension unsafe.Pointer, wildcard string, flags int, parent unsafe.Pointer, x int, y int) string {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxDefault_path := NewWxString(default_path)
+	defer wxDefault_path.Free()
+	wxDefault_filename := NewWxString(default_filename)
+	defer wxDefault_filename.Free()
+	wxWildcard := NewWxString(wildcard)
+	defer wxWildcard.Free()
+	retPtr := cgo_wxFileSelectorEx(wxMessage.Ptr(), wxDefault_path.Ptr(), wxDefault_filename.Ptr(), index_default_extension, wxWildcard.Ptr(), flags, parent, x, y)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func LoadFileSelector(what string, extension string, default_name string, parent unsafe.Pointer) string {
+	wxWhat := NewWxString(what)
+	defer wxWhat.Free()
+	wxExtension := NewWxString(extension)
+	defer wxExtension.Free()
+	wxDefault_name := NewWxString(default_name)
+	defer wxDefault_name.Free()
+	retPtr := cgo_wxLoadFileSelector(wxWhat.Ptr(), wxExtension.Ptr(), wxDefault_name.Ptr(), parent)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func SaveFileSelector(what string, extension string, default_name string, parent unsafe.Pointer) string {
+	wxWhat := NewWxString(what)
+	defer wxWhat.Free()
+	wxExtension := NewWxString(extension)
+	defer wxExtension.Free()
+	wxDefault_name := NewWxString(default_name)
+	defer wxDefault_name.Free()
+	retPtr := cgo_wxSaveFileSelector(wxWhat.Ptr(), wxExtension.Ptr(), wxDefault_name.Ptr(), parent)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func IsStockID(id int) bool {
+	return cgo_wxIsStockID(id)
+}
+
+func IsStockLabel(id int, label string) bool {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	return cgo_wxIsStockLabel(id, wxLabel.Ptr())
+}
+
+func GetStockLabel(id int, flags int) string {
+	retPtr := cgo_wxGetStockLabel(id, flags)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetStockAccelerator(id int) unsafe.Pointer {
+	return cgo_wxGetStockAccelerator(id)
+}
+
+func GetStockHelpString(id int, client int) string {
+	retPtr := cgo_wxGetStockHelpString(id, client)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func PersistentRegisterAndRestore(frame unsafe.Pointer, name string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxPersistentRegisterAndRestore(frame, wxName.Ptr())
+}
+
+func PersistentRegisterAndRestoreNoName(frame unsafe.Pointer) bool {
+	return cgo_wxPersistentRegisterAndRestoreNoName(frame)
+}
+
+func PersistentRegisterAndRestoreTreebook(book unsafe.Pointer, name string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxPersistentRegisterAndRestoreTreebook(book, wxName.Ptr())
+}
+
+func PersistentRegisterAndRestoreTreebookNoName(book unsafe.Pointer) bool {
+	return cgo_wxPersistentRegisterAndRestoreTreebookNoName(book)
+}
+
+func LogError(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogError(wxMessage.Ptr())
+}
+
+func LogFatalError(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogFatalError(wxMessage.Ptr())
+}
+
+func LogWarning(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogWarning(wxMessage.Ptr())
+}
+
+func LogMessage(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogMessage(wxMessage.Ptr())
+}
+
+func LogInfo(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogInfo(wxMessage.Ptr())
+}
+
+func LogVerbose(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogVerbose(wxMessage.Ptr())
+}
+
+func LogStatus(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogStatus(wxMessage.Ptr())
+}
+
+func LogStatusWindow(frame unsafe.Pointer, message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogStatusWindow(frame, wxMessage.Ptr())
+}
+
+func LogSysError(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogSysError(wxMessage.Ptr())
+}
+
+func LogDebug(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogDebug(wxMessage.Ptr())
+}
+
+func LogTrace(mask string, message string) {
+	wxMask := NewWxString(mask)
+	defer wxMask.Free()
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_LogTrace(wxMask.Ptr(), wxMessage.Ptr())
+}
+
+func CheckDynamicCast(objValue unsafe.Pointer, class_info unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxCheckDynamicCast(objValue, class_info)
+}
+
+func CheckCast(objValue unsafe.Pointer, class_info unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxCheckCast(objValue, class_info)
+}
+
+func GetApp() unsafe.Pointer {
+	return cgo_wxGetApp()
+}
+
+func UnusedVar(value unsafe.Pointer) {
+	cgo_wxUnusedVar(value)
+}
+
+func GetSingleChoiceIndex(message string, caption string, choices string, count int, parent unsafe.Pointer) int {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	wxChoices := NewWxString(choices)
+	defer wxChoices.Free()
+	return cgo_wxGetSingleChoiceIndex(wxMessage.Ptr(), wxCaption.Ptr(), wxChoices.Ptr(), count, parent)
+}
+
+func GetSingleChoiceIndexEx(message string, caption string, n int, choices unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int, initialSelection int) int {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxGetSingleChoiceIndexEx(wxMessage.Ptr(), wxCaption.Ptr(), n, choices, parent, x, y, centre, width, height, initialSelection)
+}
+
+func BeginBusyCursor() {
+	cgo_wxBeginBusyCursor()
+}
+
+func EndBusyCursor() {
+	cgo_wxEndBusyCursor()
+}
+
+func Join(array unsafe.Pointer, separator int) string {
+	retPtr := cgo_wxJoin(array, separator)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Atoi(str string) int {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	return cgo_wxAtoi(wxStr.Ptr())
+}
+
+func GetDisplaySize() Size {
+	retPtr := cgo_wxGetDisplaySize()
+	return sizeFromPtr(retPtr)
+}
+
+func GetTopLevelParent(window unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGetTopLevelParent(window)
+}
+
+func Isprint(character int) bool {
+	return cgo_wxIsprint(character)
+}
+
+func Round(value float64) int {
+	return cgo_wxRound(value)
+}
+
+func WakeUpIdle() {
+	cgo_wxWakeUpIdle()
+}
+
+func DegToRad(degrees float64) float64 {
+	return cgo_wxDegToRad(degrees)
+}
+
+func Fgets(buffer string, size int, stream unsafe.Pointer) string {
+	retPtr := cgo_wxFgets(buffer, size, stream)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetCwd() string {
+	retPtr := cgo_wxGetCwd()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func IsMainThread() bool {
+	return cgo_wxIsMainThread()
+}
+
+func NewEventType() int {
+	return cgo_wxNewEventType()
+}
+
+func QueueEvent(dest unsafe.Pointer, event unsafe.Pointer) {
+	cgo_wxQueueEvent(dest, event)
+}
+
+func SetCursor(cursors unsafe.Pointer) {
+	cgo_wxSetCursor(cursors)
+}
+
+func Split(str string, separator int) unsafe.Pointer {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	return cgo_wxSplit(wxStr.Ptr(), separator)
+}
+
+func Strcmp(first string, second string) int {
+	wxFirst := NewWxString(first)
+	defer wxFirst.Free()
+	wxSecond := NewWxString(second)
+	defer wxSecond.Free()
+	return cgo_wxStrcmp(wxFirst.Ptr(), wxSecond.Ptr())
+}
+
+func Swap(first unsafe.Pointer, second unsafe.Pointer, size int) {
+	cgo_wxSwap(first, second, size)
+}
+
+func UIntToPtr(value int) unsafe.Pointer {
+	return cgo_wxUIntToPtr(value)
+}
+
+func CreateFileTipProvider(filename string, current_tip int) unsafe.Pointer {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_wxCreateFileTipProvider(wxFilename.Ptr(), current_tip)
+}
+
+func DirSelector(message string, default_path string, style int, x int, y int, parent unsafe.Pointer) string {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxDefault_path := NewWxString(default_path)
+	defer wxDefault_path.Free()
+	retPtr := cgo_wxDirSelector(wxMessage.Ptr(), wxDefault_path.Ptr(), style, x, y, parent)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func FileExists(filename string) bool {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_wxFileExists(wxFilename.Ptr())
+}
+
+func FindFocusDescendant(ancestor unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxFindFocusDescendant(ancestor)
+}
+
+func GetBatteryState() int {
+	return cgo_wxGetBatteryState()
+}
+
+func GetClientDisplayRect() Rect {
+	retPtr := cgo_wxGetClientDisplayRect()
+	return rectFromPtr(retPtr)
+}
+
+func GetLocalTime() int {
+	return cgo_wxGetLocalTime()
+}
+
+func GetPowerType() int {
+	return cgo_wxGetPowerType()
+}
+
+func GetSelectedChoices(selections unsafe.Pointer, choices string, count int, message string, caption string, parent unsafe.Pointer) int {
+	wxChoices := NewWxString(choices)
+	defer wxChoices.Free()
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxGetSelectedChoices(selections, wxChoices.Ptr(), count, wxMessage.Ptr(), wxCaption.Ptr(), parent)
+}
+
+func GetSelectedChoicesEx(selections unsafe.Pointer, message string, caption string, n int, choices unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int) int {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxGetSelectedChoicesEx(selections, wxMessage.Ptr(), wxCaption.Ptr(), n, choices, parent, x, y, centre, width, height)
+}
+
+func GetSingleChoice(message string, caption string, choices string, count int, parent unsafe.Pointer) string {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	wxChoices := NewWxString(choices)
+	defer wxChoices.Free()
+	retPtr := cgo_wxGetSingleChoice(wxMessage.Ptr(), wxCaption.Ptr(), wxChoices.Ptr(), count, parent)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetSingleChoiceData(message string, caption string, choices string, count int, client_data unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	wxChoices := NewWxString(choices)
+	defer wxChoices.Free()
+	return cgo_wxGetSingleChoiceData(wxMessage.Ptr(), wxCaption.Ptr(), wxChoices.Ptr(), count, client_data, parent)
+}
+
+func GetSingleChoiceDataEx(message string, caption string, n int, choices unsafe.Pointer, client_data unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int, initialSelection int) unsafe.Pointer {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxGetSingleChoiceDataEx(wxMessage.Ptr(), wxCaption.Ptr(), n, choices, client_data, parent, x, y, centre, width, height, initialSelection)
+}
+
+func GetTranslation(str string) string {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	retPtr := cgo_wxGetTranslation(wxStr.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetZlibVersionInfo() string {
+	retPtr := cgo_wxGetZlibVersionInfo()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Get_wxConvLibc() unsafe.Pointer {
+	return cgo_wxGet_wxConvLibc()
+}
+
+func Get_wxConvLocal() unsafe.Pointer {
+	return cgo_wxGet_wxConvLocal()
+}
+
+func Get_wxConvUTF8() unsafe.Pointer {
+	return cgo_wxGet_wxConvUTF8()
+}
+
+func Isalnum(character int) bool {
+	return cgo_wxIsalnum(character)
+}
+
+func Isdigit(character int) bool {
+	return cgo_wxIsdigit(character)
+}
+
+func Islower(character int) bool {
+	return cgo_wxIslower(character)
+}
+
+func MakeFloatingPointValidator(value unsafe.Pointer, style int) unsafe.Pointer {
+	return cgo_wxMakeFloatingPointValidator(value, style)
+}
+
+func MutexGuiEnter() {
+	cgo_wxMutexGuiEnter()
+}
+
+func MutexGuiLeave() {
+	cgo_wxMutexGuiLeave()
+}
+
+func PlatformIs(platform int) bool {
+	return cgo_wxPlatformIs(platform)
+}
+
+func PointRefFromVariant(variant unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxPointRefFromVariant(variant)
+}
+
+func PostEvent(dest unsafe.Pointer, event unsafe.Pointer) {
+	cgo_wxPostEvent(dest, event)
+}
+
+func PtrToUInt(pointer unsafe.Pointer) int {
+	return cgo_wxPtrToUInt(pointer)
+}
+
+func Puts(str string) int {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	return cgo_wxPuts(wxStr.Ptr())
+}
+
+func RemoveFile(file string) bool {
+	wxFile := NewWxString(file)
+	defer wxFile.Free()
+	return cgo_wxRemoveFile(wxFile.Ptr())
+}
+
+func RenameFile(old_path string, new_path string, overwrite bool) bool {
+	wxOld_path := NewWxString(old_path)
+	defer wxOld_path.Free()
+	wxNew_path := NewWxString(new_path)
+	defer wxNew_path.Free()
+	return cgo_wxRenameFile(wxOld_path.Ptr(), wxNew_path.Ptr(), overwrite)
+}
+
+func ShowTip(parent unsafe.Pointer, tip_provider unsafe.Pointer) bool {
+	return cgo_wxShowTip(parent, tip_provider)
+}
+
+func SizeRefFromVariant(variant unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxSizeRefFromVariant(variant)
+}
+
+func Strdup(str string) string {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	retPtr := cgo_wxStrdup(wxStr.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Strtod(nptr string) float64 {
+	wxNptr := NewWxString(nptr)
+	defer wxNptr.Free()
+	return cgo_wxStrtod(wxNptr.Ptr())
+}
+
+func Strtol(nptr string, base int) int {
+	wxNptr := NewWxString(nptr)
+	defer wxNptr.Free()
+	return cgo_wxStrtol(wxNptr.Ptr(), base)
+}
+
+func BitmapFromBase64(base64 unsafe.Pointer, len int) *Bitmap {
+	ptr := cgo_kwxBitmapFromBase64(base64, len)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func Free(pObject unsafe.Pointer) {
+	cgo_kwxFree(pObject)
+}
+
+func GetPixelRGB(buffer unsafe.Pointer, width int, x int, y int) int {
+	return cgo_kwxGetPixelRGB(buffer, width, x, y)
+}
+
+func GetPixelRGBA(buffer unsafe.Pointer, width int, x int, y int) int {
+	return cgo_kwxGetPixelRGBA(buffer, width, x, y)
+}
+
+func InitPixelsRGB(buffer unsafe.Pointer, width int, height int, rgb int) {
+	cgo_kwxInitPixelsRGB(buffer, width, height, rgb)
+}
+
+func InitPixelsRGBA(buffer unsafe.Pointer, width int, height int, rgba int) {
+	cgo_kwxInitPixelsRGBA(buffer, width, height, rgba)
+}
+
+func IsBusy() int {
+	return cgo_kwxIsBusy()
+}
+
+func Malloc(size int) unsafe.Pointer {
+	return cgo_kwxMalloc(size)
+}
+
+func SetPixelRGB(buffer unsafe.Pointer, width int, x int, y int, rgb int) {
+	cgo_kwxSetPixelRGB(buffer, width, x, y, rgb)
+}
+
+func SetPixelRGBA(buffer unsafe.Pointer, width int, x int, y int, rgba uint) {
+	cgo_kwxSetPixelRGBA(buffer, width, x, y, rgba)
+}
+
+func SetPixelRowRGB(buffer unsafe.Pointer, width int, x int, y int, rgb0 int, rgb1 int, count int) {
+	cgo_kwxSetPixelRowRGB(buffer, width, x, y, rgb0, rgb1, count)
+}
+
+func SetPixelRowRGBA(buffer unsafe.Pointer, width int, x int, y int, rgba0 uint, rgba1 uint, count uint) {
+	cgo_kwxSetPixelRowRGBA(buffer, width, x, y, rgba0, rgba1, count)
+}
+
+func SvgStringFromBase64(base64 unsafe.Pointer, len int) string {
+	retPtr := cgo_kwxSvgStringFromBase64(base64, len)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func SystemSettingsGetColour(systemColour int) unsafe.Pointer {
+	return cgo_kwxSystemSettingsGetColour(systemColour)
+}
+
+func AboutBox(info unsafe.Pointer, parent unsafe.Pointer) {
+	cgo_wxAboutBox(info, parent)
+}
+
+func DragIcon(icon unsafe.Pointer, x int, y int) unsafe.Pointer {
+	return cgo_wxDragIcon(icon, x, y)
+}
+
+func DragListItem(listCtrl unsafe.Pointer, id int) unsafe.Pointer {
+	return cgo_wxDragListItem(listCtrl, id)
+}
+
+func DragString(text string, x int, y int) unsafe.Pointer {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxDragString(wxText.Ptr(), x, y)
+}
+
+func DragTreeItem(treeCtrl unsafe.Pointer, id unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxDragTreeItem(treeCtrl, id)
+}
+
+func GenericDragIcon(icon unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGenericDragIcon(icon)
+}
+
+func GenericDragListItem(listCtrl unsafe.Pointer, id int) unsafe.Pointer {
+	return cgo_wxGenericDragListItem(listCtrl, id)
+}
+
+func GenericDragString(text string) unsafe.Pointer {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxGenericDragString(wxText.Ptr())
+}
+
+func GenericDragTreeItem(treeCtrl unsafe.Pointer, id unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGenericDragTreeItem(treeCtrl, id)
+}
+
+func GetApplicationDir() string {
+	retPtr := cgo_wxGetApplicationDir()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetApplicationPath() string {
+	retPtr := cgo_wxGetApplicationPath()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetColourFromUser(parent unsafe.Pointer, colInit unsafe.Pointer, colour unsafe.Pointer) {
+	cgo_wxGetColourFromUser(parent, colInit, colour)
+}
+
+func GetColourFromUserEx(parent unsafe.Pointer, colInit unsafe.Pointer, caption string, colour unsafe.Pointer) {
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	cgo_wxGetColourFromUserEx(parent, colInit, wxCaption.Ptr(), colour)
+}
+
+func GetFontFromUser(parent unsafe.Pointer, fontInit unsafe.Pointer, font unsafe.Pointer) {
+	cgo_wxGetFontFromUser(parent, fontInit, font)
+}
+
+func GetNumberFromUser(message string, prompt string, caption string, value int, min int, max int, parent unsafe.Pointer, x int, y int) int {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxPrompt := NewWxString(prompt)
+	defer wxPrompt.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxGetNumberFromUser(wxMessage.Ptr(), wxPrompt.Ptr(), wxCaption.Ptr(), value, min, max, parent, x, y)
+}
+
+func GetPasswordFromUser(message string, caption string, defaultText string, parent unsafe.Pointer, buffer string) int {
+	return cgo_wxGetPasswordFromUser(message, caption, defaultText, parent, buffer)
+}
+
+func GetTextFromUser(message string, caption string, defaultText string, parent unsafe.Pointer, x int, y int, center int, buffer string) int {
+	return cgo_wxGetTextFromUser(message, caption, defaultText, parent, x, y, center, buffer)
+}
+
+func GetPasswordFromUserEx(message string, caption string, defaultText string, parent unsafe.Pointer) string {
+	retPtr := cgo_wxGetPasswordFromUserEx(message, caption, defaultText, parent)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func GetTextFromUserEx(message string, caption string, defaultText string, parent unsafe.Pointer, x int, y int, center int) string {
+	retPtr := cgo_wxGetTextFromUserEx(message, caption, defaultText, parent, x, y, center)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func IsDefined(name string) int {
+	return cgo_wxIsDefined(name)
+}
+
+func VersionNumber() int {
+	return cgo_wxVersionNumber()
+}
+
+func VersionString() string {
+	retPtr := cgo_wxVersionString()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func ConsoleInitialize(argc int, argv unsafe.Pointer) int {
+	return cgo_kwxConsoleInitialize(argc, argv)
+}
+
+func ConsoleRun() int {
+	return cgo_kwxConsoleRun()
+}
+
+func ConsoleExitMainLoop() {
+	cgo_kwxConsoleExitMainLoop()
+}
+
+func ConsoleShutdown() {
+	cgo_kwxConsoleShutdown()
+}
+
+func ConsoleIsInitialized() int {
+	return cgo_kwxConsoleIsInitialized()
+}
+
+func ConsoleGetApp() unsafe.Pointer {
+	return cgo_kwxConsoleGetApp()
+}
+
+func ConsoleProcessPendingEvents() {
+	cgo_kwxConsoleProcessPendingEvents()
+}
+
+func ConsoleYield() int {
+	return cgo_kwxConsoleYield()
+}
+
+func Printf(text string) int {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxPrintf(wxText.Ptr())
+}
+
+func MessageOutputUseStderr() {
+	cgo_kwxMessageOutputUseStderr()
+}
+
+func MessageOutputUseStdout() {
+	cgo_kwxMessageOutputUseStdout()
+}
+
+func MessageOutputReset() {
+	cgo_kwxMessageOutputReset()
+}
+
+func Base64EncodeBuffer(source unsafe.Pointer, src_length int) string {
+	retPtr := cgo_wxBase64EncodeBuffer(source, src_length)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Base64DecodeBuffer(text string, mode int, decoded_length unsafe.Pointer) unsafe.Pointer {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxBase64DecodeBuffer(wxText.Ptr(), mode, decoded_length)
+}
+
+func Base64EncodedSizeOf(src_length int) int {
+	return cgo_wxBase64EncodedSizeOf(src_length)
+}
+
+func Base64DecodedSizeOf(encoded_length int) int {
+	return cgo_wxBase64DecodedSizeOf(encoded_length)
+}
+
 func PushProvider(provider unsafe.Pointer) {
 	cgo_PushProvider(provider)
 }
@@ -127,20 +1155,20 @@ func RemoveProvider(provider unsafe.Pointer) bool {
 	return cgo_RemoveProvider(provider)
 }
 
-func ExpCP_DEFAULT_STYLE() int {
-	return cgo_expCP_DEFAULT_STYLE()
-}
-
-func ExpCP_NO_TLW_RESIZE() int {
-	return cgo_expCP_NO_TLW_RESIZE()
-}
-
 func MessageBox(message string, caption string, style int, parent unsafe.Pointer, x int, y int) int {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
 	return cgo_kwxMessageBox(wxMessage.Ptr(), wxCaption.Ptr(), style, parent, x, y)
+}
+
+func ExpNB_DEFAULT() int {
+	return cgo_expNB_DEFAULT()
+}
+
+func ExpNB_NOPAGETHEME() int {
+	return cgo_expNB_NOPAGETHEME()
 }
 
 func ExpNB_TOP() int {
@@ -157,6 +1185,10 @@ func ExpNB_LEFT() int {
 
 func ExpNB_RIGHT() int {
 	return cgo_expNB_RIGHT()
+}
+
+func ExpBK_DEFAULT() int {
+	return cgo_expBK_DEFAULT()
 }
 
 func ExpBK_HITTEST_NOWHERE() int {
@@ -177,6 +1209,10 @@ func ExpBK_HITTEST_ONITEM() int {
 
 func ExpBK_HITTEST_ONPAGE() int {
 	return cgo_expBK_HITTEST_ONPAGE()
+}
+
+func GTKAllowDiagnosticsControl() {
+	cgo_GTKAllowDiagnosticsControl()
 }
 
 func ExpCHB_DEFAULT() int {
@@ -227,10 +1263,6 @@ func ExpTBK_HORZ_LAYOUT() int {
 	return cgo_expTBK_HORZ_LAYOUT()
 }
 
-func ExpPGMAN_DEFAULT_STYLE() int {
-	return cgo_expPGMAN_DEFAULT_STYLE()
-}
-
 func ExpPROPSHEET_DEFAULT() int {
 	return cgo_expPROPSHEET_DEFAULT()
 }
@@ -263,8 +1295,13 @@ func ExpPROPSHEET_SHRINKTOFIT() int {
 	return cgo_expPROPSHEET_SHRINKTOFIT()
 }
 
-func ExpTL_SINGLE() int {
-	return cgo_expTL_SINGLE()
+func GetMousePositionPoint() Point {
+	retPtr := cgo_kwxGetMousePositionPoint()
+	return pointFromPtr(retPtr)
+}
+
+func SetActiveLogTarget(pLogger unsafe.Pointer) unsafe.Pointer {
+	return cgo_kwxSetActiveLogTarget(pLogger)
 }
 
 func ExpTL_MULTIPLE() int {
@@ -281,10 +1318,6 @@ func ExpTL_3STATE() int {
 
 func ExpTL_USER_3STATE() int {
 	return cgo_expTL_USER_3STATE()
-}
-
-func ExpTL_NO_HEADER() int {
-	return cgo_expTL_NO_HEADER()
 }
 
 func ExpTL_DEFAULT_STYLE() int {
@@ -317,14 +1350,6 @@ func ExpWEBVIEW_ZOOM_TYPE_LAYOUT() int {
 
 func ExpWEBVIEW_ZOOM_TYPE_TEXT() int {
 	return cgo_expWEBVIEW_ZOOM_TYPE_TEXT()
-}
-
-func ExpWEBVIEW_RELOAD_DEFAULT() int {
-	return cgo_expWEBVIEW_RELOAD_DEFAULT()
-}
-
-func ExpWEBVIEW_RELOAD_NO_CACHE() int {
-	return cgo_expWEBVIEW_RELOAD_NO_CACHE()
 }
 
 func ExpWEBVIEW_FIND_WRAP() int {
@@ -383,15 +1408,7 @@ func ExpWEBVIEW_NAV_ERR_OTHER() int {
 	return cgo_expWEBVIEW_NAV_ERR_OTHER()
 }
 
-func ExpWEBVIEW_NAV_ACTION_NONE() int {
-	return cgo_expWEBVIEW_NAV_ACTION_NONE()
-}
-
 func ExpWEBVIEW_NAV_ACTION_USER() int {
 	return cgo_expWEBVIEW_NAV_ACTION_USER()
-}
-
-func ExpWEBVIEW_NAV_ACTION_OTHER() int {
-	return cgo_expWEBVIEW_NAV_ACTION_OTHER()
 }
 

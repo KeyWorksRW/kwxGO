@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type Closure struct{ BaseObject }
+type Closure struct{ Object }
+
+// ClosureFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ClosureFromPtr(ptr unsafe.Pointer) *Closure {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Closure{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewClosure(fun unsafe.Pointer, data unsafe.Pointer) *Closure {
 	ptr := cgo_wxClosure_Create(fun, data)

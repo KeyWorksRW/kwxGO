@@ -6,6 +6,18 @@ import "unsafe"
 
 type StaticBitmap struct{ Control }
 
+// StaticBitmapFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StaticBitmapFromPtr(ptr unsafe.Pointer) *StaticBitmap {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StaticBitmap{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewStaticBitmap(parent unsafe.Pointer, id int, bitmap unsafe.Pointer, left int, top int, width int, height int, style int) *StaticBitmap {
 	ptr := cgo_wxStaticBitmap_Create(parent, id, bitmap, left, top, width, height, style)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewStaticBitmap(parent unsafe.Pointer, id int, bitmap unsafe.Pointer, left 
 }
 
 func (o *StaticBitmap) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxStaticBitmap_Delete(o.Ptr())
 }
 
@@ -34,5 +49,13 @@ func (o *StaticBitmap) SetBitmap(bitmap unsafe.Pointer) {
 
 func (o *StaticBitmap) SetIcon(icon unsafe.Pointer) {
 	cgo_wxStaticBitmap_SetIcon(o.Ptr(), icon)
+}
+
+func (o *StaticBitmap) SetScaleMode(scale_mode int) {
+	cgo_wxStaticBitmap_SetScaleMode(o.Ptr(), scale_mode)
+}
+
+func (o *StaticBitmap) GetScaleMode() int {
+	return cgo_wxStaticBitmap_GetScaleMode(o.Ptr())
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type TreeListEvent struct{ NotifyEvent }
 
+// TreeListEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TreeListEventFromPtr(ptr unsafe.Pointer) *TreeListEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeListEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *TreeListEvent) GetItem(result unsafe.Pointer) {
 	cgo_wxTreeListEvent_GetItem(o.Ptr(), result)
 }

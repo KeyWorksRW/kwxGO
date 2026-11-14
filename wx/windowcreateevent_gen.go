@@ -6,6 +6,18 @@ import "unsafe"
 
 type WindowCreateEvent struct{ CommandEvent }
 
+// WindowCreateEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WindowCreateEventFromPtr(ptr unsafe.Pointer) *WindowCreateEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WindowCreateEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *WindowCreateEvent) GetWindow() unsafe.Pointer {
 	return cgo_wxWindowCreateEvent_GetWindow(o.Ptr())
 }

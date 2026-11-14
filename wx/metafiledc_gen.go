@@ -6,6 +6,18 @@ import "unsafe"
 
 type MetafileDC struct{ DC }
 
+// MetafileDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MetafileDCFromPtr(ptr unsafe.Pointer) *MetafileDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MetafileDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *MetafileDC) Close() unsafe.Pointer {
 	return cgo_wxMetafileDC_Close(o.Ptr())
 }
@@ -23,6 +35,9 @@ func NewMetafileDC(filePath string) *MetafileDC {
 }
 
 func (o *MetafileDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMetafileDC_Delete(o.Ptr())
 }
 

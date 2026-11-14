@@ -6,6 +6,18 @@ import "unsafe"
 
 type DocParentFrame struct{ Frame }
 
+// DocParentFrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DocParentFrameFromPtr(ptr unsafe.Pointer) *DocParentFrame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DocParentFrame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDocParentFrame(manager unsafe.Pointer, parent unsafe.Pointer, id int, title string, x int, y int, width int, height int, style int) *DocParentFrame {
 	wxTitle := NewWxString(title)
 	defer wxTitle.Free()

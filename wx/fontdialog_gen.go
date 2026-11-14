@@ -6,6 +6,25 @@ import "unsafe"
 
 type FontDialog struct{ Dialog }
 
+// FontDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FontDialogFromPtr(ptr unsafe.Pointer) *FontDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FontDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *FontDialog) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxFontDialog_Delete(o.Ptr())
+}
+
 func NewFontDialog(parent unsafe.Pointer, fnt unsafe.Pointer) *FontDialog {
 	ptr := cgo_wxFontDialog_Create(parent, fnt)
 	if ptr == nil {

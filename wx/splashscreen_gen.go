@@ -6,6 +6,18 @@ import "unsafe"
 
 type SplashScreen struct{ Frame }
 
+// SplashScreenFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SplashScreenFromPtr(ptr unsafe.Pointer) *SplashScreen {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SplashScreen{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSplashScreen(bitmap unsafe.Pointer, splashStyle int, milliseconds int, parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *SplashScreen {
 	ptr := cgo_wxSplashScreen_Create(bitmap, splashStyle, milliseconds, parent, id, left, top, width, height, style)
 	if ptr == nil {
@@ -14,6 +26,10 @@ func NewSplashScreen(bitmap unsafe.Pointer, splashStyle int, milliseconds int, p
 	obj := &SplashScreen{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *SplashScreen) GetSplashWindow() unsafe.Pointer {
+	return cgo_wxSplashScreen_GetSplashWindow(o.Ptr())
 }
 
 func (o *SplashScreen) GetSplashStyle() int {

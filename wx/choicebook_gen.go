@@ -6,6 +6,18 @@ import "unsafe"
 
 type Choicebook struct{ BookCtrlBase }
 
+// ChoicebookFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ChoicebookFromPtr(ptr unsafe.Pointer) *Choicebook {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Choicebook{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Choicebook) AddPage(pPage unsafe.Pointer, strText string, bSelect bool, imageId int) bool {
 	wxStrText := NewWxString(strText)
 	defer wxStrText.Free()

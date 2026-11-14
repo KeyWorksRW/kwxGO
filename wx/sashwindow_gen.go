@@ -6,6 +6,18 @@ import "unsafe"
 
 type SashWindow struct{ Window }
 
+// SashWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SashWindowFromPtr(ptr unsafe.Pointer) *SashWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SashWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSashWindow(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *SashWindow {
 	ptr := cgo_wxSashWindow_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

@@ -6,6 +6,18 @@ import "unsafe"
 
 type CommandLinkButton struct{ Button }
 
+// CommandLinkButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CommandLinkButtonFromPtr(ptr unsafe.Pointer) *CommandLinkButton {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CommandLinkButton{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCommandLinkButton(parent unsafe.Pointer, id int, mainLabel string, note string, x int, y int, width int, height int, style int) *CommandLinkButton {
 	wxMainLabel := NewWxString(mainLabel)
 	defer wxMainLabel.Free()

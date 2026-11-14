@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RibbonBar struct{ BaseObject }
+type RibbonBar struct{ RibbonControl }
+
+// RibbonBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RibbonBarFromPtr(ptr unsafe.Pointer) *RibbonBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RibbonBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRibbonBar(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *RibbonBar {
 	ptr := cgo_wxRibbonBar_Create(parent, id, x, y, width, height, style)
@@ -14,6 +26,48 @@ func NewRibbonBar(parent unsafe.Pointer, id int, x int, y int, width int, height
 	obj := &RibbonBar{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RibbonBar) AddPageHighlight(page int, highlight bool) {
+	cgo_wxRibbonBar_AddPageHighlight(o.Ptr(), page, highlight)
+}
+
+func (o *RibbonBar) ArePanelsShown() bool {
+	return cgo_wxRibbonBar_ArePanelsShown(o.Ptr())
+}
+
+func (o *RibbonBar) HidePage(page int) {
+	cgo_wxRibbonBar_HidePage(o.Ptr(), page)
+}
+
+func (o *RibbonBar) SetHelpButtonKeyTip(keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonBar_SetHelpButtonKeyTip(o.Ptr(), wxKeytip.Ptr())
+}
+
+func (o *RibbonBar) SetPageKeyTip(page int, keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonBar_SetPageKeyTip(o.Ptr(), page, wxKeytip.Ptr())
+}
+
+func (o *RibbonBar) SetTabCtrlMargins(left int, right int) {
+	cgo_wxRibbonBar_SetTabCtrlMargins(o.Ptr(), left, right)
+}
+
+func (o *RibbonBar) SetToggleButtonKeyTip(keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonBar_SetToggleButtonKeyTip(o.Ptr(), wxKeytip.Ptr())
+}
+
+func (o *RibbonBar) ShowPage(page int, show bool) {
+	cgo_wxRibbonBar_ShowPage(o.Ptr(), page, show)
+}
+
+func (o *RibbonBar) ShowPanels(mode int) {
+	cgo_wxRibbonBar_ShowPanels(o.Ptr(), mode)
 }
 
 func (o *RibbonBar) DismissExpandedPanel() {
@@ -48,8 +102,8 @@ func (o *RibbonBar) SetActivePage_ByPtr(page unsafe.Pointer) {
 	cgo_wxRibbonBar_SetActivePage_ByPtr(o.Ptr(), page)
 }
 
-func (o *RibbonBar) Realize() {
-	cgo_wxRibbonBar_Realize(o.Ptr())
+func (o *RibbonBar) Realize() bool {
+	return cgo_wxRibbonBar_Realize(o.Ptr())
 }
 
 func (o *RibbonBar) SetArtProvider(art unsafe.Pointer) {

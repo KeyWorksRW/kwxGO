@@ -2,7 +2,39 @@
 
 package wx
 
+import "unsafe"
+
 type TreeItemId struct{ BaseObject }
+
+// TreeItemIdFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TreeItemIdFromPtr(ptr unsafe.Pointer) *TreeItemId {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeItemId{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *TreeItemId) Clone() unsafe.Pointer {
+	return cgo_wxTreeItemId_Clone(o.Ptr())
+}
+
+func NewTreeItemIdFromValue(value int64) *TreeItemId {
+	ptr := cgo_wxTreeItemId_CreateFromValue(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeItemId{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *TreeItemId) GetValue() int {
+	return cgo_wxTreeItemId_GetValue(o.Ptr())
+}
 
 func NewTreeItemId() *TreeItemId {
 	ptr := cgo_wxTreeItemId_Create()
@@ -14,7 +46,14 @@ func NewTreeItemId() *TreeItemId {
 	return obj
 }
 
+func (o *TreeItemId) Unset() {
+	cgo_wxTreeItemId_Unset(o.Ptr())
+}
+
 func (o *TreeItemId) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxTreeItemId_Delete(o.Ptr())
 }
 

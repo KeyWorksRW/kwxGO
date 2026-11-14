@@ -6,6 +6,18 @@ import "unsafe"
 
 type StdDialogButtonSizer struct{ BoxSizer }
 
+// StdDialogButtonSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StdDialogButtonSizerFromPtr(ptr unsafe.Pointer) *StdDialogButtonSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StdDialogButtonSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewStdDialogButtonSizer() *StdDialogButtonSizer {
 	ptr := cgo_wxStdDialogButtonSizer_Create()
 	if ptr == nil {

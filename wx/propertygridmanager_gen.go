@@ -6,6 +6,30 @@ import "unsafe"
 
 type PropertyGridManager struct{ Panel }
 
+// PropertyGridManagerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PropertyGridManagerFromPtr(ptr unsafe.Pointer) *PropertyGridManager {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertyGridManager{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *PropertyGridManager) AddPageObject(label string, bitmap unsafe.Pointer, page unsafe.Pointer) unsafe.Pointer {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	return cgo_wxPropertyGridManager_AddPageObject(o.Ptr(), wxLabel.Ptr(), bitmap, page)
+}
+
+func (o *PropertyGridManager) InsertPageObject(index int, label string, bitmap unsafe.Pointer, page unsafe.Pointer) unsafe.Pointer {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	return cgo_wxPropertyGridManager_InsertPageObject(o.Ptr(), index, wxLabel.Ptr(), bitmap, page)
+}
+
 func NewPropertyGridManager(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *PropertyGridManager {
 	ptr := cgo_wxPropertyGridManager_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {
@@ -14,6 +38,20 @@ func NewPropertyGridManager(parent unsafe.Pointer, id int, x int, y int, width i
 	obj := &PropertyGridManager{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *PropertyGridManager) GetColumnCount(page int) int {
+	return cgo_wxPropertyGridManager_GetColumnCount(o.Ptr(), page)
+}
+
+func (o *PropertyGridManager) SetColumnCount(colCount int, page int) {
+	cgo_wxPropertyGridManager_SetColumnCount(o.Ptr(), colCount, page)
+}
+
+func (o *PropertyGridManager) SetColumnTitle(idx int, title string) {
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	cgo_wxPropertyGridManager_SetColumnTitle(o.Ptr(), idx, wxTitle.Ptr())
 }
 
 func (o *PropertyGridManager) AddPage(label string, bmp unsafe.Pointer) unsafe.Pointer {

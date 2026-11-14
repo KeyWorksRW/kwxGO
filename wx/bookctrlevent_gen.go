@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type BookCtrlEvent struct{ NotifyEvent }
+
+// BookCtrlEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BookCtrlEventFromPtr(ptr unsafe.Pointer) *BookCtrlEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BookCtrlEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewBookCtrlEvent(commandType int, winid int, nSel int, nOldSel int) *BookCtrlEvent {
 	ptr := cgo_wxBookCtrlEvent_Create(commandType, winid, nSel, nOldSel)

@@ -6,8 +6,32 @@ import "unsafe"
 
 type AuiDockArt struct{ BaseObject }
 
+// AuiDockArtFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiDockArtFromPtr(ptr unsafe.Pointer) *AuiDockArt {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiDockArt{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *AuiDockArt) DrawBackground(dc unsafe.Pointer, window unsafe.Pointer, orientation int, rect unsafe.Pointer) {
 	cgo_wxAuiDockArt_DrawBackground(o.Ptr(), dc, window, orientation, rect)
+}
+
+func (o *AuiDockArt) GetColor(id int) unsafe.Pointer {
+	return cgo_wxAuiDockArt_GetColor(o.Ptr(), id)
+}
+
+func (o *AuiDockArt) GetMetricForWindow(id int, window unsafe.Pointer) int {
+	return cgo_wxAuiDockArt_GetMetricForWindow(o.Ptr(), id, window)
+}
+
+func (o *AuiDockArt) SetColor(id int, color unsafe.Pointer) {
+	cgo_wxAuiDockArt_SetColor(o.Ptr(), id, color)
 }
 
 func (o *AuiDockArt) DrawBorder(dc unsafe.Pointer, window unsafe.Pointer, rect unsafe.Pointer, pane unsafe.Pointer) {

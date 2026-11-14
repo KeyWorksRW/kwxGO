@@ -6,8 +6,76 @@ import "unsafe"
 
 type MouseEvent struct{ Event }
 
+// MouseEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MouseEventFromPtr(ptr unsafe.Pointer) *MouseEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MouseEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *MouseEvent) GetButton() int {
+	return cgo_wxMouseEvent_GetButton(o.Ptr())
+}
+
+func (o *MouseEvent) GetWheelDelta() int {
+	return cgo_wxMouseEvent_GetWheelDelta(o.Ptr())
+}
+
+func (o *MouseEvent) GetWheelRotation() int {
+	return cgo_wxMouseEvent_GetWheelRotation(o.Ptr())
+}
+
 func (o *MouseEvent) AltDown() bool {
 	return cgo_wxMouseEvent_AltDown(o.Ptr())
+}
+
+func (o *MouseEvent) Aux1DClick() bool {
+	return cgo_wxMouseEvent_Aux1DClick(o.Ptr())
+}
+
+func (o *MouseEvent) Aux1Down() bool {
+	return cgo_wxMouseEvent_Aux1Down(o.Ptr())
+}
+
+func (o *MouseEvent) Aux1IsDown() bool {
+	return cgo_wxMouseEvent_Aux1IsDown(o.Ptr())
+}
+
+func (o *MouseEvent) Aux1Up() bool {
+	return cgo_wxMouseEvent_Aux1Up(o.Ptr())
+}
+
+func (o *MouseEvent) Aux2DClick() bool {
+	return cgo_wxMouseEvent_Aux2DClick(o.Ptr())
+}
+
+func (o *MouseEvent) Aux2Down() bool {
+	return cgo_wxMouseEvent_Aux2Down(o.Ptr())
+}
+
+func (o *MouseEvent) Aux2IsDown() bool {
+	return cgo_wxMouseEvent_Aux2IsDown(o.Ptr())
+}
+
+func (o *MouseEvent) Aux2Up() bool {
+	return cgo_wxMouseEvent_Aux2Up(o.Ptr())
+}
+
+func (o *MouseEvent) GetModifiers() int {
+	return cgo_wxMouseEvent_GetModifiers(o.Ptr())
+}
+
+func (o *MouseEvent) GetWheelAxis() int {
+	return cgo_wxMouseEvent_GetWheelAxis(o.Ptr())
+}
+
+func (o *MouseEvent) IsWheelInverted() bool {
+	return cgo_wxMouseEvent_IsWheelInverted(o.Ptr())
 }
 
 func (o *MouseEvent) Button(but int) bool {
@@ -42,12 +110,14 @@ func (o *MouseEvent) Entering() bool {
 	return cgo_wxMouseEvent_Entering(o.Ptr())
 }
 
-func (o *MouseEvent) GetLogicalPosition(dc unsafe.Pointer) unsafe.Pointer {
-	return cgo_wxMouseEvent_GetLogicalPosition(o.Ptr(), dc)
+func (o *MouseEvent) GetLogicalPosition(dc unsafe.Pointer) Point {
+	retPtr := cgo_wxMouseEvent_GetLogicalPosition(o.Ptr(), dc)
+	return pointFromPtr(retPtr)
 }
 
-func (o *MouseEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxMouseEvent_GetPosition(o.Ptr())
+func (o *MouseEvent) GetPosition() Point {
+	retPtr := cgo_wxMouseEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *MouseEvent) GetX() int {

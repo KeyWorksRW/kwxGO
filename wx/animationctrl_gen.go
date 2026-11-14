@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type AnimationCtrl struct{ BaseObject }
+type AnimationCtrl struct{ Control }
+
+// AnimationCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AnimationCtrlFromPtr(ptr unsafe.Pointer) *AnimationCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AnimationCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewAnimationCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *AnimationCtrl {
 	ptr := cgo_wxAnimationCtrl_Create(parent, id, x, y, width, height, style)
@@ -62,5 +74,17 @@ func (o *AnimationCtrl) SetInactiveBitmap(bmp unsafe.Pointer) {
 
 func (o *AnimationCtrl) Stop() {
 	cgo_wxAnimationCtrl_Stop(o.Ptr())
+}
+
+func (o *AnimationCtrl) CreateAnimation(anim unsafe.Pointer) {
+	cgo_wxAnimationCtrl_CreateAnimation(o.Ptr(), anim)
+}
+
+func AnimationCtrl_GetCompatibleAnimation(anim unsafe.Pointer) {
+	cgo_wxAnimationCtrl_GetCompatibleAnimation(anim)
+}
+
+func (o *AnimationCtrl) SetAnimationBundle(bundle unsafe.Pointer) {
+	cgo_wxAnimationCtrl_SetAnimationBundle(o.Ptr(), bundle)
 }
 

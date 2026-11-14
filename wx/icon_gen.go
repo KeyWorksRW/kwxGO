@@ -6,6 +6,18 @@ import "unsafe"
 
 type Icon struct{ Bitmap }
 
+// IconFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func IconFromPtr(ptr unsafe.Pointer) *Icon {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Icon{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Icon) Assign(other unsafe.Pointer) {
 	cgo_wxIcon_Assign(o.Ptr(), other)
 }
@@ -37,6 +49,9 @@ func NewIconLoad(name string, typ int, width int, height int) *Icon {
 }
 
 func (o *Icon) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxIcon_Delete(o.Ptr())
 }
 
@@ -46,6 +61,16 @@ func (o *Icon) FromRaw(width int, height int) unsafe.Pointer {
 
 func (o *Icon) FromXPM() unsafe.Pointer {
 	return cgo_wxIcon_FromXPM(o.Ptr())
+}
+
+func NewIconFromXPMData(xpm unsafe.Pointer) *Icon {
+	ptr := cgo_wxIcon_CreateFromXPMData(xpm)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Icon{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *Icon) GetDepth() int {

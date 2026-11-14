@@ -6,6 +6,18 @@ import "unsafe"
 
 type SpinCtrl struct{ Control }
 
+// SpinCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SpinCtrlFromPtr(ptr unsafe.Pointer) *SpinCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SpinCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSpinCtrl(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int, minVal int, maxVal int, init int) *SpinCtrl {
 	wxText := NewWxString(text)
 	defer wxText.Free()
@@ -44,5 +56,15 @@ func (o *SpinCtrl) SetRange(min_val int, max_val int) {
 
 func (o *SpinCtrl) SetValue(val int) {
 	cgo_wxSpinCtrl_SetValue(o.Ptr(), val)
+}
+
+func (o *SpinCtrl) SetIncrement(inc int) {
+	cgo_wxSpinCtrl_SetIncrement(o.Ptr(), inc)
+}
+
+func (o *SpinCtrl) SetValueString(value string) {
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	cgo_wxSpinCtrl_SetValueString(o.Ptr(), wxValue.Ptr())
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type Palette struct{ BaseObject }
 
+// PaletteFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PaletteFromPtr(ptr unsafe.Pointer) *Palette {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Palette{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Palette) Assign(palette unsafe.Pointer) {
 	cgo_wxPalette_Assign(o.Ptr(), palette)
 }
@@ -31,6 +43,9 @@ func NewPaletteRGB(count int, red unsafe.Pointer, green unsafe.Pointer, blue uns
 }
 
 func (o *Palette) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPalette_Delete(o.Ptr())
 }
 

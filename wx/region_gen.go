@@ -6,6 +6,18 @@ import "unsafe"
 
 type Region struct{ BaseObject }
 
+// RegionFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RegionFromPtr(ptr unsafe.Pointer) *Region {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Region{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Region) Assign(region unsafe.Pointer) {
 	cgo_wxRegion_Assign(o.Ptr(), region)
 }
@@ -43,6 +55,9 @@ func NewRegionFromRect(x int, y int, width int, height int) *Region {
 }
 
 func (o *Region) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxRegion_Delete(o.Ptr())
 }
 

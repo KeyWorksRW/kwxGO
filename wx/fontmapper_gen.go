@@ -6,6 +6,18 @@ import "unsafe"
 
 type FontMapper struct{ BaseObject }
 
+// FontMapperFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FontMapperFromPtr(ptr unsafe.Pointer) *FontMapper {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FontMapper{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewFontMapper() *FontMapper {
 	ptr := cgo_wxFontMapper_Create()
 	if ptr == nil {
@@ -14,6 +26,34 @@ func NewFontMapper() *FontMapper {
 	obj := &FontMapper{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *FontMapper) CharsetToEncoding(charset string, interactive bool) int {
+	wxCharset := NewWxString(charset)
+	defer wxCharset.Free()
+	return cgo_wxFontMapper_CharsetToEncoding(o.Ptr(), wxCharset.Ptr(), interactive)
+}
+
+func FontMapper_Get() unsafe.Pointer {
+	return cgo_wxFontMapper_Get()
+}
+
+func FontMapper_GetEncoding(n int) int {
+	return cgo_wxFontMapper_GetEncoding(n)
+}
+
+func FontMapper_GetEncodingDescription(encoding int) string {
+	retPtr := cgo_wxFontMapper_GetEncodingDescription(encoding)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func FontMapper_GetEncodingName(encoding int) string {
+	retPtr := cgo_wxFontMapper_GetEncodingName(encoding)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func FontMapper_GetSupportedEncodingsCount() int {
+	return cgo_wxFontMapper_GetSupportedEncodingsCount()
 }
 
 func (o *FontMapper) GetAltForEncoding(encoding int, alt_encoding unsafe.Pointer, buffer string) bool {

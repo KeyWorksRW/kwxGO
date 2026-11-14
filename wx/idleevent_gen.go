@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type IdleEvent struct{ Event }
+
+// IdleEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func IdleEventFromPtr(ptr unsafe.Pointer) *IdleEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &IdleEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *IdleEvent) MoreRequested() bool {
 	return cgo_wxIdleEvent_MoreRequested(o.Ptr())

@@ -6,10 +6,24 @@ import "unsafe"
 
 type BitmapComboBox struct{ ComboBox }
 
-func NewBitmapComboBox(parent unsafe.Pointer, id int, value string, x int, y int, width int, height int, n int, str unsafe.Pointer, style int) *BitmapComboBox {
+// BitmapComboBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BitmapComboBoxFromPtr(ptr unsafe.Pointer) *BitmapComboBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapComboBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewBitmapComboBox(parent unsafe.Pointer, id int, value string, x int, y int, width int, height int, str []string, style int) *BitmapComboBox {
 	wxValue := NewWxString(value)
 	defer wxValue.Free()
-	ptr := cgo_wxBitmapComboBox_Create(parent, id, wxValue.Ptr(), x, y, width, height, n, str, style)
+	strPtr, releaseStr := wxStringTable(str)
+	defer releaseStr()
+	ptr := cgo_wxBitmapComboBox_Create(parent, id, wxValue.Ptr(), x, y, width, height, len(str), strPtr, style)
 	if ptr == nil {
 		return nil
 	}
@@ -50,7 +64,8 @@ func (o *BitmapComboBox) SetItemBitmap(index int, bitmap unsafe.Pointer) {
 	cgo_wxBitmapComboBox_SetItemBitmap(o.Ptr(), index, bitmap)
 }
 
-func (o *BitmapComboBox) GetBitmapSize() unsafe.Pointer {
-	return cgo_wxBitmapComboBox_GetBitmapSize(o.Ptr())
+func (o *BitmapComboBox) GetBitmapSize() Size {
+	retPtr := cgo_wxBitmapComboBox_GetBitmapSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 

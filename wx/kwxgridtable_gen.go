@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type KwxGridTable struct{ BaseObject }
+type KwxGridTable struct{ GridTableBase }
+
+// KwxGridTableFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxGridTableFromPtr(ptr unsafe.Pointer) *KwxGridTable {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxGridTable{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewKwxGridTable(pObject unsafe.Pointer, fnGetNumberRows unsafe.Pointer, fnGetNumberCols unsafe.Pointer, fnGetValue unsafe.Pointer, fnSetValue unsafe.Pointer, fnIsEmptyCell unsafe.Pointer, fnClear unsafe.Pointer, fnInsertRows unsafe.Pointer, fnAppendRows unsafe.Pointer, fnDeleteRows unsafe.Pointer, fnInsertCols unsafe.Pointer, fnAppendCols unsafe.Pointer, fnDeleteCols unsafe.Pointer, fnSetRowLabelValue unsafe.Pointer, fnSetColLabelValue unsafe.Pointer, fnGetRowLabelValue unsafe.Pointer, fnGetColLabelValue unsafe.Pointer) *KwxGridTable {
 	ptr := cgo_kwxGridTable_Create(pObject, fnGetNumberRows, fnGetNumberCols, fnGetValue, fnSetValue, fnIsEmptyCell, fnClear, fnInsertRows, fnAppendRows, fnDeleteRows, fnInsertCols, fnAppendCols, fnDeleteCols, fnSetRowLabelValue, fnSetColLabelValue, fnGetRowLabelValue, fnGetColLabelValue)
@@ -17,6 +29,9 @@ func NewKwxGridTable(pObject unsafe.Pointer, fnGetNumberRows unsafe.Pointer, fnG
 }
 
 func (o *KwxGridTable) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxGridTable_Delete(o.Ptr())
 }
 
@@ -26,5 +41,61 @@ func (o *KwxGridTable) GetView() unsafe.Pointer {
 
 func (o *KwxGridTable) SendTableMessage(id int, val1 int, val2 int) unsafe.Pointer {
 	return cgo_kwxGridTable_SendTableMessage(o.Ptr(), id, val1, val2)
+}
+
+func (o *KwxGridTable) SetOnGetTypeName(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetTypeName(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnCanGetValueAs(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnCanGetValueAs(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnCanSetValueAs(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnCanSetValueAs(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnGetValueAsLong(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetValueAsLong(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnGetValueAsBool(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetValueAsBool(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnSetValueAsLong(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnSetValueAsLong(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnSetValueAsBool(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnSetValueAsBool(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnGetNumberRows(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetNumberRows(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnGetNumberCols(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetNumberCols(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnGetValue(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetValue(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnSetValue(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnSetValue(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnIsEmptyCell(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnIsEmptyCell(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnGetColLabelValue(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnGetColLabelValue(o.Ptr(), pFunction)
+}
+
+func (o *KwxGridTable) SetOnSetColLabelValue(pFunction unsafe.Pointer) {
+	cgo_kwxGridTable_SetOnSetColLabelValue(o.Ptr(), pFunction)
 }
 

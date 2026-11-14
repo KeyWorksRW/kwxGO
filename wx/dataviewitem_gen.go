@@ -6,6 +6,18 @@ import "unsafe"
 
 type DataViewItem struct{ BaseObject }
 
+// DataViewItemFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DataViewItemFromPtr(ptr unsafe.Pointer) *DataViewItem {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataViewItem{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDataViewItem(id unsafe.Pointer) *DataViewItem {
 	ptr := cgo_wxDataViewItem_Create(id)
 	if ptr == nil {
@@ -16,15 +28,18 @@ func NewDataViewItem(id unsafe.Pointer) *DataViewItem {
 	return obj
 }
 
-func (o *DataViewItem) Delete(item unsafe.Pointer) {
-	cgo_wxDataViewItem_Delete(item)
+func (o *DataViewItem) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxDataViewItem_Delete(o.Ptr())
 }
 
-func (o *DataViewItem) GetID(item unsafe.Pointer) unsafe.Pointer {
-	return cgo_wxDataViewItem_GetID(item)
+func (o *DataViewItem) GetID() unsafe.Pointer {
+	return cgo_wxDataViewItem_GetID(o.Ptr())
 }
 
-func (o *DataViewItem) IsOk(item unsafe.Pointer) bool {
-	return cgo_wxDataViewItem_IsOk(item)
+func (o *DataViewItem) IsOk() bool {
+	return cgo_wxDataViewItem_IsOk(o.Ptr())
 }
 

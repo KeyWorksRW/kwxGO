@@ -4,9 +4,21 @@ package wx
 
 import "unsafe"
 
-type GridCellNumberRenderer struct{ BaseObject }
+type GridCellNumberRenderer struct{ GridCellStringRenderer }
 
-func (o *GridCellNumberRenderer) Ctor() unsafe.Pointer {
+// GridCellNumberRendererFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridCellNumberRendererFromPtr(ptr unsafe.Pointer) *GridCellNumberRenderer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridCellNumberRenderer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func GridCellNumberRenderer_Ctor() unsafe.Pointer {
 	return cgo_wxGridCellNumberRenderer_Ctor()
 }
 

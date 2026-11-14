@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type SVGFileDC struct{ DC }
+
+// SVGFileDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SVGFileDCFromPtr(ptr unsafe.Pointer) *SVGFileDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewSVGFileDC(fileName string) *SVGFileDC {
 	wxFileName := NewWxString(fileName)
@@ -14,6 +28,14 @@ func NewSVGFileDC(fileName string) *SVGFileDC {
 	obj := &SVGFileDC{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *SVGFileDC) EndAccessibleGroup() {
+	cgo_wxSVGFileDC_EndAccessibleGroup(o.Ptr())
+}
+
+func (o *SVGFileDC) SetBitmapHandler(handler unsafe.Pointer) {
+	cgo_wxSVGFileDC_SetBitmapHandler(o.Ptr(), handler)
 }
 
 func NewSVGFileDCWithSize(fileName string, width int, height int) *SVGFileDC {
@@ -41,6 +63,9 @@ func NewSVGFileDCWithSizeAndResolution(fileName string, width int, height int, a
 }
 
 func (o *SVGFileDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxSVGFileDC_Delete(o.Ptr())
 }
 

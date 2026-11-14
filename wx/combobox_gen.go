@@ -6,10 +6,34 @@ import "unsafe"
 
 type ComboBox struct{ Choice }
 
+// ComboBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ComboBoxFromPtr(ptr unsafe.Pointer) *ComboBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ComboBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *ComboBox) Append(item string) {
 	wxItem := NewWxString(item)
 	defer wxItem.Free()
 	cgo_wxComboBox_Append(o.Ptr(), wxItem.Ptr())
+}
+
+func (o *ComboBox) Dismiss() {
+	cgo_wxComboBox_Dismiss(o.Ptr())
+}
+
+func (o *ComboBox) IsListEmpty() bool {
+	return cgo_wxComboBox_IsListEmpty(o.Ptr())
+}
+
+func (o *ComboBox) Popup() {
+	cgo_wxComboBox_Popup(o.Ptr())
 }
 
 func (o *ComboBox) AppendData(item string, clientData unsafe.Pointer) {
@@ -26,10 +50,12 @@ func (o *ComboBox) Copy() {
 	cgo_wxComboBox_Copy(o.Ptr())
 }
 
-func NewComboBox(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, n int, str unsafe.Pointer, style int) *ComboBox {
+func NewComboBox(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, str []string, style int) *ComboBox {
 	wxText := NewWxString(text)
 	defer wxText.Free()
-	ptr := cgo_wxComboBox_Create(parent, id, wxText.Ptr(), left, top, width, height, n, str, style)
+	strPtr, releaseStr := wxStringTable(str)
+	defer releaseStr()
+	ptr := cgo_wxComboBox_Create(parent, id, wxText.Ptr(), left, top, width, height, len(str), strPtr, style)
 	if ptr == nil {
 		return nil
 	}

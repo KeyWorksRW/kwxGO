@@ -6,6 +6,18 @@ import "unsafe"
 
 type PrinterDC struct{ DC }
 
+// PrinterDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PrinterDCFromPtr(ptr unsafe.Pointer) *PrinterDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PrinterDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewPrinterDC(data unsafe.Pointer) *PrinterDC {
 	ptr := cgo_wxPrinterDC_Create(data)
 	if ptr == nil {
@@ -17,10 +29,14 @@ func NewPrinterDC(data unsafe.Pointer) *PrinterDC {
 }
 
 func (o *PrinterDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPrinterDC_Delete(o.Ptr())
 }
 
-func (o *PrinterDC) GetPaperRect() unsafe.Pointer {
-	return cgo_wxPrinterDC_GetPaperRect(o.Ptr())
+func (o *PrinterDC) GetPaperRect() Rect {
+	retPtr := cgo_wxPrinterDC_GetPaperRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 

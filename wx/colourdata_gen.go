@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type ColourData struct{ BaseObject }
+type ColourData struct{ Object }
+
+// ColourDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ColourDataFromPtr(ptr unsafe.Pointer) *ColourData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ColourData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewColourData() *ColourData {
 	ptr := cgo_wxColourData_Create()
@@ -16,7 +28,14 @@ func NewColourData() *ColourData {
 	return obj
 }
 
+func (o *ColourData) SetChooseAlpha(flag bool) {
+	cgo_wxColourData_SetChooseAlpha(o.Ptr(), flag)
+}
+
 func (o *ColourData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxColourData_Delete(o.Ptr())
 }
 

@@ -20,7 +20,7 @@ func main() {
 		buildMenuBar(frame)
 
 		// ---- Status Bar ----
-		frame.CreateStatusBar(1, 0)
+		frame.CreateStatusBar(1, wx.STB_DEFAULT_STYLE, wx.ID_ANY)
 		frame.SetStatusText("Ready", 0)
 
 		// ---- Client Area ----
@@ -69,9 +69,10 @@ func main() {
 			frame.Close(true)
 		})
 
-		// Window close (X button)
+		// Window close (X button) — exit the main loop; the close event is
+		// already in progress, so do not call Close/Destroy from here.
 		frame.Bind(wx.EVT_CLOSE_WINDOW, func(evt *wx.Event) {
-			frame.Destroy()
+			wx.ExitMainLoop()
 		})
 
 		// Help > About

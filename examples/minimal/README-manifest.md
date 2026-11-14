@@ -15,19 +15,21 @@ This directory contains Windows-specific resource files that embed an applicatio
   - Includes version information
   - Can be extended with icons
 
-- **minimal.syso**: Compiled resource object (generated, not checked in)
-  - Created by `windres -i minimal.rc -o minimal.syso -O coff`
+- **minimal_windows.syso**: Compiled resource object (generated, not checked in)
+  - Created by `windres -i minimal.rc -o minimal_windows.syso -O coff`
+  - The `_windows` suffix is a GOOS build constraint: go build links it only on
+    Windows and ignores it everywhere else
   - Automatically linked by Go during build
   - Ignored by .gitignore
 
 ## Build Process
 
-The `scripts/build_minimal.ps1` script automatically compiles the .rc file to .syso before building the Go application. The .syso file is then automatically linked by the Go toolchain.
+`cmake/functions.cmake` (`go_program` / `go_example`) compiles the .rc file to `minimal_windows.syso` when configuring a Windows build, before `go build` runs. The .syso file is then automatically linked by the Go toolchain. On macOS and Linux that step does not run at all, and a leftover .syso is skipped because of its `_windows` suffix.
 
 For manual builds:
 ```powershell
 cd examples/minimal
-windres -i minimal.rc -o minimal.syso -O coff
+windres -i minimal.rc -o minimal_windows.syso -O coff
 go build -o ../../bin/Release/minimal.exe .
 ```
 
@@ -40,4 +42,4 @@ mt.exe -inputresource:bin/Release/minimal.exe -out:extracted.manifest
 
 ## Linux/macOS
 
-Manifest files are Windows-specific and are ignored on other platforms. The .syso file will not be linked on non-Windows systems.
+Manifest files are Windows-specific and are ignored on other platforms. The .syso file is never compiled there, and even if one is left over from a Windows build it is not linked, because its name ends in `_windows.syso`.

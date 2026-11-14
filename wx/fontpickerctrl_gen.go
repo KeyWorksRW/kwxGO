@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type FontPickerCtrl struct{ BaseObject }
+type FontPickerCtrl struct{ PickerBase }
+
+// FontPickerCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FontPickerCtrlFromPtr(ptr unsafe.Pointer) *FontPickerCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FontPickerCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewFontPickerCtrl(parent unsafe.Pointer, id int, initial unsafe.Pointer, x int, y int, width int, height int, style int) *FontPickerCtrl {
 	ptr := cgo_wxFontPickerCtrl_Create(parent, id, initial, x, y, width, height, style)

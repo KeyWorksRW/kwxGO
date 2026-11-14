@@ -6,6 +6,18 @@ import "unsafe"
 
 type DrawWindow struct{ Window }
 
+// DrawWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DrawWindowFromPtr(ptr unsafe.Pointer) *DrawWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DrawWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDrawWindow(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *DrawWindow {
 	ptr := cgo_wxDrawWindow_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {

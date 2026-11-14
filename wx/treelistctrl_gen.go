@@ -6,6 +6,32 @@ import "unsafe"
 
 type TreeListCtrl struct{ Window }
 
+// TreeListCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TreeListCtrlFromPtr(ptr unsafe.Pointer) *TreeListCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeListCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *TreeListCtrl) SetItemTextSimple(item unsafe.Pointer, text string) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxTreeListCtrl_SetItemTextSimple(o.Ptr(), item, wxText.Ptr())
+}
+
+func (o *TreeListCtrl) GetItemData(item unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxTreeListCtrl_GetItemData(o.Ptr(), item)
+}
+
+func (o *TreeListCtrl) SetItemData(item unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxTreeListCtrl_SetItemData(o.Ptr(), item, data)
+}
+
 func NewTreeListCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *TreeListCtrl {
 	ptr := cgo_wxTreeListCtrl_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

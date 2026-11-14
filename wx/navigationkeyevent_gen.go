@@ -6,6 +6,18 @@ import "unsafe"
 
 type NavigationKeyEvent struct{ Event }
 
+// NavigationKeyEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func NavigationKeyEventFromPtr(ptr unsafe.Pointer) *NavigationKeyEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &NavigationKeyEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *NavigationKeyEvent) GetCurrentFocus() unsafe.Pointer {
 	return cgo_wxNavigationKeyEvent_GetCurrentFocus(o.Ptr())
 }

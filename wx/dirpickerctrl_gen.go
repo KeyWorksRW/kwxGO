@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type DirPickerCtrl struct{ BaseObject }
+type DirPickerCtrl struct{ PickerBase }
+
+// DirPickerCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DirPickerCtrlFromPtr(ptr unsafe.Pointer) *DirPickerCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DirPickerCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewDirPickerCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, path string, message string, style int) *DirPickerCtrl {
 	wxPath := NewWxString(path)

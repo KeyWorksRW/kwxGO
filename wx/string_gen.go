@@ -6,6 +6,18 @@ import "unsafe"
 
 type String struct{ BaseObject }
 
+// StringFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StringFromPtr(ptr unsafe.Pointer) *String {
+	if ptr == nil {
+		return nil
+	}
+	obj := &String{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewString(buffer string) *String {
 	ptr := cgo_wxString_Create(buffer)
 	if ptr == nil {
@@ -37,6 +49,9 @@ func NewStringLen(buffer string, len int) *String {
 }
 
 func (o *String) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxString_Delete(o.Ptr())
 }
 

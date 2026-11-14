@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type NotifyEvent struct{ CommandEvent }
+
+// NotifyEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func NotifyEventFromPtr(ptr unsafe.Pointer) *NotifyEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &NotifyEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *NotifyEvent) Allow() {
 	cgo_wxNotifyEvent_Allow(o.Ptr())

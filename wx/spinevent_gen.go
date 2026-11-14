@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type SpinEvent struct{ NotifyEvent }
+
+// SpinEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SpinEventFromPtr(ptr unsafe.Pointer) *SpinEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SpinEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *SpinEvent) GetPosition() int {
 	return cgo_wxSpinEvent_GetPosition(o.Ptr())

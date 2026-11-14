@@ -6,12 +6,65 @@ import "unsafe"
 
 type Menu struct{ EvtHandler }
 
+// MenuFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MenuFromPtr(ptr unsafe.Pointer) *Menu {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Menu{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Menu) GetMenuBar() unsafe.Pointer {
+	return cgo_wxMenu_GetMenuBar(o.Ptr())
+}
+
+func (o *Menu) AppendSubMenu(submenu unsafe.Pointer, text string, help string) unsafe.Pointer {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	wxHelp := NewWxString(help)
+	defer wxHelp.Free()
+	return cgo_wxMenu_AppendSubMenu(o.Ptr(), submenu, wxText.Ptr(), wxHelp.Ptr())
+}
+
+func (o *Menu) RemoveItem(id int) unsafe.Pointer {
+	return cgo_wxMenu_RemoveItem(o.Ptr(), id)
+}
+
+func (o *Menu) GetLabel(id int) string {
+	retPtr := cgo_wxMenu_GetLabel(o.Ptr(), id)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Menu) GetWindow() unsafe.Pointer {
+	return cgo_wxMenu_GetWindow(o.Ptr())
+}
+
+func (o *Menu) Detach() {
+	cgo_wxMenu_Detach(o.Ptr())
+}
+
+func Menu_LockAccels(locked bool) {
+	cgo_wxMenu_LockAccels(locked)
+}
+
 func (o *Menu) Append(id int, text string, help string, isCheckable bool) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
 	wxHelp := NewWxString(help)
 	defer wxHelp.Free()
 	cgo_wxMenu_Append(o.Ptr(), id, wxText.Ptr(), wxHelp.Ptr(), isCheckable)
+}
+
+func (o *Menu) AppendById(id int) {
+	cgo_wxMenu_AppendById(o.Ptr(), id)
+}
+
+func (o *Menu) Destroy(itemid int) bool {
+	return cgo_wxMenu_Destroy(o.Ptr(), itemid)
 }
 
 func (o *Menu) AppendItem(item unsafe.Pointer) {

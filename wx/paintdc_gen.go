@@ -6,6 +6,18 @@ import "unsafe"
 
 type PaintDC struct{ WindowDC }
 
+// PaintDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PaintDCFromPtr(ptr unsafe.Pointer) *PaintDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PaintDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewPaintDC(win unsafe.Pointer) *PaintDC {
 	ptr := cgo_wxPaintDC_Create(win)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewPaintDC(win unsafe.Pointer) *PaintDC {
 }
 
 func (o *PaintDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPaintDC_Delete(o.Ptr())
 }
 

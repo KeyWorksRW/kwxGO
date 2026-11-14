@@ -6,11 +6,112 @@ import "unsafe"
 
 type Bitmap struct{ BaseObject }
 
-func (o *Bitmap) AddHandler(handler unsafe.Pointer) {
+// BitmapFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BitmapFromPtr(ptr unsafe.Pointer) *Bitmap {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewBitmapFromImage(image unsafe.Pointer, depth int) *Bitmap {
+	ptr := cgo_wxBitmap_CreateFromImage(image, depth)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Bitmap) Init(width int, height int, depth int) bool {
+	return cgo_wxBitmap_Init(o.Ptr(), width, height, depth)
+}
+
+func (o *Bitmap) GetSize() Size {
+	retPtr := cgo_wxBitmap_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Bitmap) SetScaleFactor(scale float64) {
+	cgo_wxBitmap_SetScaleFactor(o.Ptr(), scale)
+}
+
+func (o *Bitmap) GetScaleFactor() float64 {
+	return cgo_wxBitmap_GetScaleFactor(o.Ptr())
+}
+
+func (o *Bitmap) GetDIPSize() Size {
+	retPtr := cgo_wxBitmap_GetDIPSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Bitmap) GetLogicalSize() Size {
+	retPtr := cgo_wxBitmap_GetLogicalSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Bitmap) GetLogicalWidth() float64 {
+	return cgo_wxBitmap_GetLogicalWidth(o.Ptr())
+}
+
+func (o *Bitmap) GetLogicalHeight() float64 {
+	return cgo_wxBitmap_GetLogicalHeight(o.Ptr())
+}
+
+func (o *Bitmap) CreateScaled(width int, height int, depth int, scale float64) bool {
+	return cgo_wxBitmap_CreateScaled(o.Ptr(), width, height, depth, scale)
+}
+
+func (o *Bitmap) ConvertToImage() unsafe.Pointer {
+	return cgo_wxBitmap_ConvertToImage(o.Ptr())
+}
+
+func (o *Bitmap) ConvertToDisabled(brightness byte) unsafe.Pointer {
+	return cgo_wxBitmap_ConvertToDisabled(o.Ptr(), brightness)
+}
+
+func (o *Bitmap) GetPalette() unsafe.Pointer {
+	return cgo_wxBitmap_GetPalette(o.Ptr())
+}
+
+func (o *Bitmap) SetPalette(palette unsafe.Pointer) {
+	cgo_wxBitmap_SetPalette(o.Ptr(), palette)
+}
+
+func (o *Bitmap) HasAlpha() bool {
+	return cgo_wxBitmap_HasAlpha(o.Ptr())
+}
+
+func (o *Bitmap) UseAlpha(use bool) bool {
+	return cgo_wxBitmap_UseAlpha(o.Ptr(), use)
+}
+
+func (o *Bitmap) ResetAlpha() {
+	cgo_wxBitmap_ResetAlpha(o.Ptr())
+}
+
+func (o *Bitmap) CopyFromIcon(icon unsafe.Pointer) bool {
+	return cgo_wxBitmap_CopyFromIcon(o.Ptr(), icon)
+}
+
+func Bitmap_NewFromPNGData(data unsafe.Pointer, size int) unsafe.Pointer {
+	return cgo_wxBitmap_NewFromPNGData(data, size)
+}
+
+func Bitmap_AddHandler(handler unsafe.Pointer) {
 	cgo_wxBitmap_AddHandler(handler)
 }
 
-func (o *Bitmap) CleanUpHandlers() {
+func (o *Bitmap) CreateWithDIPSize(sz unsafe.Pointer, scale float64, depth int) bool {
+	return cgo_wxBitmap_CreateWithDIPSize(o.Ptr(), sz, scale, depth)
+}
+
+func Bitmap_CleanUpHandlers() {
 	cgo_wxBitmap_CleanUpHandlers()
 }
 
@@ -44,8 +145,14 @@ func NewBitmapEmpty(width int, height int, depth int) *Bitmap {
 	return obj
 }
 
-func (o *Bitmap) CreateFromXPM() unsafe.Pointer {
-	return cgo_wxBitmap_CreateFromXPM(o.Ptr())
+func NewBitmapFromXPM(data unsafe.Pointer) *Bitmap {
+	ptr := cgo_wxBitmap_CreateFromXPM(data)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func NewBitmapLoad(name string, typ int) *Bitmap {
@@ -60,7 +167,30 @@ func NewBitmapLoad(name string, typ int) *Bitmap {
 	return obj
 }
 
+func NewBitmapFromData(data unsafe.Pointer, size int, bitmap_type int) *Bitmap {
+	ptr := cgo_wxBitmap_CreateFromData(data, size, bitmap_type)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewBitmapFromBase64(base64 unsafe.Pointer, len int, bitmap_type int) *Bitmap {
+	ptr := cgo_wxBitmap_CreateFromBase64(base64, len, bitmap_type)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *Bitmap) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxBitmap_Delete(o.Ptr())
 }
 
@@ -68,13 +198,13 @@ func (o *Bitmap) FindHandlerByExtension(typ int) unsafe.Pointer {
 	return cgo_wxBitmap_FindHandlerByExtension(o.Ptr(), typ)
 }
 
-func (o *Bitmap) FindHandlerByName(name string) unsafe.Pointer {
+func Bitmap_FindHandlerByName(name string) unsafe.Pointer {
 	wxName := NewWxString(name)
 	defer wxName.Free()
 	return cgo_wxBitmap_FindHandlerByName(wxName.Ptr())
 }
 
-func (o *Bitmap) FindHandlerByType(typ int) unsafe.Pointer {
+func Bitmap_FindHandlerByType(typ int) unsafe.Pointer {
 	return cgo_wxBitmap_FindHandlerByType(typ)
 }
 
@@ -98,11 +228,11 @@ func (o *Bitmap) GetWidth() int {
 	return cgo_wxBitmap_GetWidth(o.Ptr())
 }
 
-func (o *Bitmap) InitStandardHandlers() {
+func Bitmap_InitStandardHandlers() {
 	cgo_wxBitmap_InitStandardHandlers()
 }
 
-func (o *Bitmap) InsertHandler(handler unsafe.Pointer) {
+func Bitmap_InsertHandler(handler unsafe.Pointer) {
 	cgo_wxBitmap_InsertHandler(handler)
 }
 
@@ -116,7 +246,7 @@ func (o *Bitmap) IsOk() bool {
 	return cgo_wxBitmap_IsOk(o.Ptr())
 }
 
-func (o *Bitmap) RemoveHandler(name string) bool {
+func Bitmap_RemoveHandler(name string) bool {
 	wxName := NewWxString(name)
 	defer wxName.Free()
 	return cgo_wxBitmap_RemoveHandler(wxName.Ptr())

@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type TimerEvent struct{ Event }
+
+// TimerEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TimerEventFromPtr(ptr unsafe.Pointer) *TimerEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TimerEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *TimerEvent) GetInterval() int {
 	return cgo_wxTimerEvent_GetInterval(o.Ptr())

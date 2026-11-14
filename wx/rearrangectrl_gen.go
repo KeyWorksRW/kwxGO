@@ -6,6 +6,18 @@ import "unsafe"
 
 type RearrangeCtrl struct{ Panel }
 
+// RearrangeCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RearrangeCtrlFromPtr(ptr unsafe.Pointer) *RearrangeCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RearrangeCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewRearrangeCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, order unsafe.Pointer, items unsafe.Pointer, style int) *RearrangeCtrl {
 	ptr := cgo_wxRearrangeCtrl_Create(parent, id, x, y, width, height, order, items, style)
 	if ptr == nil {

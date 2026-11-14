@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="full" width="32" height="32" viewBox="0 0 32 32" shape-rendering="crispEdges">
+<!-- source: header.xpm -->
+<rect x="0" y="0" width="32" height="1" fill="#000000"/>
+<rect x="0" y="1" width="1" height="30" fill="#000000"/>
+<rect x="31" y="1" width="1" height="30" fill="#000000"/>
+<rect x="2" y="2" width="28" height="3" fill="#00FF00"/>
+<rect x="0" y="31" width="32" height="1" fill="#000000"/>
+</svg>

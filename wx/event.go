@@ -65,7 +65,11 @@ func clearEventCallback() {
 func goEventDispatch(_ unsafe.Pointer, data unsafe.Pointer, evt unsafe.Pointer) {
 	h := cgo.Handle(uintptr(data))
 	if fn, ok := h.Value().(EventHandler); ok {
-		fn(&Event{BaseObject: BaseObject{ptr: evt}})
+		// Event embeds the wrapped wxEvent chain, not BaseObject directly, so set
+		// the pointer through the promoted SetPtr method.
+		goEvt := &Event{}
+		goEvt.SetPtr(evt)
+		fn(goEvt)
 	}
 }
 
@@ -84,6 +88,14 @@ func (o *EvtHandler) BindId(evtType int, id int, fn EventHandler) {
 	C.kwxGO_Connect(o.Ptr(), C.int(id), C.int(id), C.int(evtType), unsafe.Pointer(uintptr(h)))
 }
 
+// BindIdRange connects a Go handler to evtType for every command id in
+// [first, last] inclusive. This is the Go equivalent of EVT_MENU_RANGE and
+// EVT_UPDATE_UI_RANGE.
+func (o *EvtHandler) BindIdRange(evtType int, first int, last int, fn EventHandler) {
+	h := cgo.NewHandle(fn)
+	C.kwxGO_Connect(o.Ptr(), C.int(first), C.int(last), C.int(evtType), unsafe.Pointer(uintptr(h)))
+}
+
 // Unbind disconnects all handlers for the given event type on this object.
 func (o *EvtHandler) Unbind(evtType int) {
 	C.kwxGO_Disconnect(o.Ptr(), -1, -1, C.int(evtType))
@@ -92,4 +104,9 @@ func (o *EvtHandler) Unbind(evtType int) {
 // UnbindId disconnects all handlers for the given event type and ID.
 func (o *EvtHandler) UnbindId(evtType int, id int) {
 	C.kwxGO_Disconnect(o.Ptr(), C.int(id), C.int(id), C.int(evtType))
+}
+
+// UnbindIdRange disconnects all handlers for the given event type and id range.
+func (o *EvtHandler) UnbindIdRange(evtType int, first int, last int) {
+	C.kwxGO_Disconnect(o.Ptr(), C.int(first), C.int(last), C.int(evtType))
 }

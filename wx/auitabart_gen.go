@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiTabArt struct{ BaseObject }
 
+// AuiTabArtFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiTabArtFromPtr(ptr unsafe.Pointer) *AuiTabArt {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiTabArt{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *AuiTabArt) Clone() unsafe.Pointer {
 	return cgo_wxAuiTabArt_Clone(o.Ptr())
 }
@@ -30,10 +42,11 @@ func (o *AuiTabArt) GetIndentSize() int {
 	return cgo_wxAuiTabArt_GetIndentSize(o.Ptr())
 }
 
-func (o *AuiTabArt) GetTabSize(dc unsafe.Pointer, window unsafe.Pointer, caption string, bitmap unsafe.Pointer, active bool, close_button_state int, x_extent unsafe.Pointer) unsafe.Pointer {
+func (o *AuiTabArt) GetTabSize(dc unsafe.Pointer, window unsafe.Pointer, caption string, bitmap unsafe.Pointer, active bool, close_button_state int, x_extent unsafe.Pointer) Size {
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
-	return cgo_wxAuiTabArt_GetTabSize(o.Ptr(), dc, window, wxCaption.Ptr(), bitmap, active, close_button_state, x_extent)
+	retPtr := cgo_wxAuiTabArt_GetTabSize(o.Ptr(), dc, window, wxCaption.Ptr(), bitmap, active, close_button_state, x_extent)
+	return sizeFromPtr(retPtr)
 }
 
 func (o *AuiTabArt) SetFlags(flags int) {

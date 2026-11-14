@@ -6,6 +6,18 @@ import "unsafe"
 
 type DataFormat struct{ BaseObject }
 
+// DataFormatFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DataFormatFromPtr(ptr unsafe.Pointer) *DataFormat {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataFormat{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDataFormatFromId(name string) *DataFormat {
 	wxName := NewWxString(name)
 	defer wxName.Free()
@@ -29,6 +41,9 @@ func NewDataFormatFromType(typ int) *DataFormat {
 }
 
 func (o *DataFormat) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxDataFormat_Delete(o.Ptr())
 }
 

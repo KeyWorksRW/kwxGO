@@ -6,6 +6,18 @@ import "unsafe"
 
 type Slider struct{ Control }
 
+// SliderFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SliderFromPtr(ptr unsafe.Pointer) *Slider {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Slider{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Slider) ClearSel() {
 	cgo_wxSlider_ClearSel(o.Ptr())
 }
@@ -82,6 +94,10 @@ func (o *Slider) SetThumbLength(len int) {
 
 func (o *Slider) SetTick(tickPos int) {
 	cgo_wxSlider_SetTick(o.Ptr(), tickPos)
+}
+
+func (o *Slider) SetTickFreq(freq int) {
+	cgo_wxSlider_SetTickFreq(o.Ptr(), freq)
 }
 
 func (o *Slider) SetValue(value int) {

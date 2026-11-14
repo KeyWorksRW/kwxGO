@@ -2,7 +2,29 @@
 
 package wx
 
+import "unsafe"
+
 type Mutex struct{ BaseObject }
+
+// MutexFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MutexFromPtr(ptr unsafe.Pointer) *Mutex {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Mutex{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Mutex) IsOk() bool {
+	return cgo_wxMutex_IsOk(o.Ptr())
+}
+
+func (o *Mutex) LockTimeout(milliseconds int) int {
+	return cgo_wxMutex_LockTimeout(o.Ptr(), milliseconds)
+}
 
 func NewMutex() *Mutex {
 	ptr := cgo_wxMutex_Create()
@@ -15,6 +37,9 @@ func NewMutex() *Mutex {
 }
 
 func (o *Mutex) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMutex_Delete(o.Ptr())
 }
 

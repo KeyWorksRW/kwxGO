@@ -4,9 +4,21 @@ package wx
 
 import "unsafe"
 
-type KwxLog struct{ BaseObject }
+type KwxLog struct{ Log }
 
-func (o *KwxLog) AddTraceMask(str unsafe.Pointer) {
+// KwxLogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxLogFromPtr(ptr unsafe.Pointer) *KwxLog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxLog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *KwxLog) AddTraceMask(str string) {
 	cgo_kwxLog_AddTraceMask(o.Ptr(), str)
 }
 
@@ -21,14 +33,25 @@ func NewKwxLog(pObject unsafe.Pointer, pFunction unsafe.Pointer) *KwxLog {
 }
 
 func (o *KwxLog) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxLog_Delete(o.Ptr())
+}
+
+func (o *KwxLog) SetOnDoLogRecord(pFunction unsafe.Pointer) {
+	cgo_kwxLog_SetOnDoLogRecord(o.Ptr(), pFunction)
+}
+
+func (o *KwxLog) SetOnDoLogTextAtLevel(pFunction unsafe.Pointer) {
+	cgo_kwxLog_SetOnDoLogTextAtLevel(o.Ptr(), pFunction)
 }
 
 func (o *KwxLog) DontCreateOnDemand() {
 	cgo_kwxLog_DontCreateOnDemand(o.Ptr())
 }
 
-func (o *KwxLog) EnableLogging(doIt bool) int {
+func (o *KwxLog) EnableLogging(doIt bool) bool {
 	return cgo_kwxLog_EnableLogging(o.Ptr(), doIt)
 }
 
@@ -40,7 +63,7 @@ func (o *KwxLog) FlushActive() {
 	cgo_kwxLog_FlushActive(o.Ptr())
 }
 
-func (o *KwxLog) GetActiveTarget() unsafe.Pointer {
+func KwxLog_GetActiveTarget() unsafe.Pointer {
 	return cgo_kwxLog_GetActiveTarget()
 }
 
@@ -48,7 +71,7 @@ func (o *KwxLog) GetTimestamp() unsafe.Pointer {
 	return cgo_kwxLog_GetTimestamp(o.Ptr())
 }
 
-func (o *KwxLog) GetVerbose() int {
+func (o *KwxLog) GetVerbose() bool {
 	return cgo_kwxLog_GetVerbose(o.Ptr())
 }
 
@@ -56,7 +79,7 @@ func (o *KwxLog) HasPendingMessages() bool {
 	return cgo_kwxLog_HasPendingMessages(o.Ptr())
 }
 
-func (o *KwxLog) IsAllowedTraceMask(mask unsafe.Pointer) bool {
+func (o *KwxLog) IsAllowedTraceMask(mask string) bool {
 	return cgo_kwxLog_IsAllowedTraceMask(o.Ptr(), mask)
 }
 
@@ -68,7 +91,7 @@ func (o *KwxLog) OnLog(level int, szString unsafe.Pointer, timestamp int) {
 	cgo_kwxLog_OnLog(o.Ptr(), level, szString, timestamp)
 }
 
-func (o *KwxLog) RemoveTraceMask(str unsafe.Pointer) {
+func (o *KwxLog) RemoveTraceMask(str string) {
 	cgo_kwxLog_RemoveTraceMask(o.Ptr(), str)
 }
 
@@ -80,11 +103,11 @@ func (o *KwxLog) SetActiveTarget() unsafe.Pointer {
 	return cgo_kwxLog_SetActiveTarget(o.Ptr())
 }
 
-func (o *KwxLog) SetTimestamp(timestamp unsafe.Pointer) {
+func (o *KwxLog) SetTimestamp(timestamp string) {
 	cgo_kwxLog_SetTimestamp(o.Ptr(), timestamp)
 }
 
-func (o *KwxLog) SetVerbose(bVerbose int) {
+func (o *KwxLog) SetVerbose(bVerbose bool) {
 	cgo_kwxLog_SetVerbose(o.Ptr(), bVerbose)
 }
 

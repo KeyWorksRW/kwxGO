@@ -6,6 +6,90 @@ import "unsafe"
 
 type Frame struct{ TopLevelWindow }
 
+// FrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FrameFromPtr(ptr unsafe.Pointer) *Frame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Frame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Frame) Centre(orientation int) {
+	cgo_wxFrame_Centre(o.Ptr(), orientation)
+}
+
+func (o *Frame) GetIcon() unsafe.Pointer {
+	return cgo_wxFrame_GetIcon(o.Ptr())
+}
+
+func (o *Frame) GetTitle() string {
+	retPtr := cgo_wxFrame_GetTitle(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Frame) Iconize() bool {
+	return cgo_wxFrame_Iconize(o.Ptr())
+}
+
+func (o *Frame) IsFullScreen() bool {
+	return cgo_wxFrame_IsFullScreen(o.Ptr())
+}
+
+func (o *Frame) IsIconized() bool {
+	return cgo_wxFrame_IsIconized(o.Ptr())
+}
+
+func (o *Frame) IsMaximized() bool {
+	return cgo_wxFrame_IsMaximized(o.Ptr())
+}
+
+func (o *Frame) Maximize() {
+	cgo_wxFrame_Maximize(o.Ptr())
+}
+
+func (o *Frame) SetIcon(icon unsafe.Pointer) {
+	cgo_wxFrame_SetIcon(o.Ptr(), icon)
+}
+
+func (o *Frame) SetShape(region unsafe.Pointer) bool {
+	return cgo_wxFrame_SetShape(o.Ptr(), region)
+}
+
+func (o *Frame) SetTitle(text string) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxFrame_SetTitle(o.Ptr(), wxText.Ptr())
+}
+
+func (o *Frame) ShowFullScreen(show bool, style int) bool {
+	return cgo_wxFrame_ShowFullScreen(o.Ptr(), show, style)
+}
+
+func (o *Frame) GetClientAreaOriginPoint() Point {
+	retPtr := cgo_wxFrame_GetClientAreaOriginPoint(o.Ptr())
+	return pointFromPtr(retPtr)
+}
+
+func (o *Frame) SetWindowModality(modality int) {
+	cgo_wxFrame_SetWindowModality(o.Ptr(), modality)
+}
+
+func (o *Frame) ProcessCommandItem(item unsafe.Pointer) bool {
+	return cgo_wxFrame_ProcessCommandItem(o.Ptr(), item)
+}
+
+func (o *Frame) DoMenuUpdates(menu unsafe.Pointer) {
+	cgo_wxFrame_DoMenuUpdates(o.Ptr(), menu)
+}
+
+func (o *Frame) IsClientAreaChild(child unsafe.Pointer) bool {
+	return cgo_wxFrame_IsClientAreaChild(o.Ptr(), child)
+}
+
 func NewFrame(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *Frame {
 	wxText := NewWxString(text)
 	defer wxText.Free()
@@ -18,12 +102,20 @@ func NewFrame(parent unsafe.Pointer, id int, text string, left int, top int, wid
 	return obj
 }
 
-func (o *Frame) CreateStatusBar(number int, style int) unsafe.Pointer {
-	return cgo_wxFrame_CreateStatusBar(o.Ptr(), number, style)
+func (o *Frame) MSWGetTaskBarButton() unsafe.Pointer {
+	return cgo_wxFrame_MSWGetTaskBarButton(o.Ptr())
 }
 
-func (o *Frame) CreateToolBar(style int) unsafe.Pointer {
-	return cgo_wxFrame_CreateToolBar(o.Ptr(), style)
+func (o *Frame) MSWGetSystemMenu() unsafe.Pointer {
+	return cgo_wxFrame_MSWGetSystemMenu(o.Ptr())
+}
+
+func (o *Frame) CreateStatusBar(number int, style int, id int) unsafe.Pointer {
+	return cgo_wxFrame_CreateStatusBar(o.Ptr(), number, style, id)
+}
+
+func (o *Frame) CreateToolBar(style int, id int) unsafe.Pointer {
+	return cgo_wxFrame_CreateToolBar(o.Ptr(), style, id)
 }
 
 func (o *Frame) GetClientAreaOrigin_left() int {

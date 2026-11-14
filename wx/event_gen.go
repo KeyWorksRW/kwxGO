@@ -4,7 +4,27 @@ package wx
 
 import "unsafe"
 
-type Event struct{ BaseObject }
+type Event struct{ Object }
+
+// EventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func EventFromPtr(ptr unsafe.Pointer) *Event {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Event{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Event) GetCallbackUserData() unsafe.Pointer {
+	return cgo_wxEvent_GetCallbackUserData(o.Ptr())
+}
+
+func (o *Event) SetCallbackUserData(objValue unsafe.Pointer) {
+	cgo_wxEvent_SetCallbackUserData(o.Ptr(), objValue)
+}
 
 func (o *Event) GetEventObject() unsafe.Pointer {
 	return cgo_wxEvent_GetEventObject(o.Ptr())
@@ -30,12 +50,16 @@ func (o *Event) IsCommandEvent() bool {
 	return cgo_wxEvent_IsCommandEvent(o.Ptr())
 }
 
-func (o *Event) NewEventType() int {
+func (o *Event) IsOfClass(className string) bool {
+	return cgo_wxEvent_IsOfClass(o.Ptr(), className)
+}
+
+func Event_NewEventType() int {
 	return cgo_wxEvent_NewEventType()
 }
 
-func (o *Event) SetEventObject(obj unsafe.Pointer) {
-	cgo_wxEvent_SetEventObject(o.Ptr(), obj)
+func (o *Event) SetEventObject(objValue unsafe.Pointer) {
+	cgo_wxEvent_SetEventObject(o.Ptr(), objValue)
 }
 
 func (o *Event) SetEventType(typ int) {
@@ -52,5 +76,9 @@ func (o *Event) SetTimestamp(timestamp int) {
 
 func (o *Event) Skip(skip bool) {
 	cgo_wxEvent_Skip(o.Ptr(), skip)
+}
+
+func (o *Event) SetOnClone(pFunction unsafe.Pointer) {
+	cgo_wxEvent_SetOnClone(o.Ptr(), pFunction)
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type PrintDialog struct{ Dialog }
 
+// PrintDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PrintDialogFromPtr(ptr unsafe.Pointer) *PrintDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PrintDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewPrintDialog(parent unsafe.Pointer, data unsafe.Pointer) *PrintDialog {
 	ptr := cgo_wxPrintDialog_Create(parent, data)
 	if ptr == nil {

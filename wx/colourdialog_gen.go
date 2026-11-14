@@ -6,6 +6,25 @@ import "unsafe"
 
 type ColourDialog struct{ Dialog }
 
+// ColourDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ColourDialogFromPtr(ptr unsafe.Pointer) *ColourDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ColourDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *ColourDialog) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxColourDialog_Delete(o.Ptr())
+}
+
 func NewColourDialog(parent unsafe.Pointer, col unsafe.Pointer) *ColourDialog {
 	ptr := cgo_wxColourDialog_Create(parent, col)
 	if ptr == nil {

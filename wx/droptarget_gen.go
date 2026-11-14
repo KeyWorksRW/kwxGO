@@ -6,6 +6,18 @@ import "unsafe"
 
 type DropTarget struct{ BaseObject }
 
+// DropTargetFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DropTargetFromPtr(ptr unsafe.Pointer) *DropTarget {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DropTarget{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *DropTarget) GetData() {
 	cgo_wxDropTarget_GetData(o.Ptr())
 }

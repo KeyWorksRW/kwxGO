@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type PrintPreview struct{ BaseObject }
+type PrintPreview struct{ Object }
+
+// PrintPreviewFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PrintPreviewFromPtr(ptr unsafe.Pointer) *PrintPreview {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PrintPreview{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewPrintPreviewFromData(printout unsafe.Pointer, printoutForPrinting unsafe.Pointer, data unsafe.Pointer) *PrintPreview {
 	ptr := cgo_wxPrintPreview_CreateFromData(printout, printoutForPrinting, data)
@@ -27,6 +39,9 @@ func NewPrintPreviewFromDialogData(printout unsafe.Pointer, printoutForPrinting 
 }
 
 func (o *PrintPreview) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPrintPreview_Delete(o.Ptr())
 }
 

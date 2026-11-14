@@ -6,6 +6,18 @@ import "unsafe"
 
 type SplitterWindow struct{ Window }
 
+// SplitterWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SplitterWindowFromPtr(ptr unsafe.Pointer) *SplitterWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SplitterWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSplitterWindow(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *SplitterWindow {
 	ptr := cgo_wxSplitterWindow_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {
@@ -14,6 +26,14 @@ func NewSplitterWindow(parent unsafe.Pointer, id int, left int, top int, width i
 	obj := &SplitterWindow{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *SplitterWindow) SashHitTest(x int, y int) bool {
+	return cgo_wxSplitterWindow_SashHitTest(o.Ptr(), x, y)
+}
+
+func (o *SplitterWindow) SizeWindows() {
+	cgo_wxSplitterWindow_SizeWindows(o.Ptr())
 }
 
 func (o *SplitterWindow) GetBorderSize() int {

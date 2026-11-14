@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxClient struct{ BaseObject }
 
+// KwxClientFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxClientFromPtr(ptr unsafe.Pointer) *KwxClient {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxClient{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxClient(kwxObject unsafe.Pointer, connectFunc unsafe.Pointer) *KwxClient {
 	ptr := cgo_kwxClient_Create(kwxObject, connectFunc)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewKwxClient(kwxObject unsafe.Pointer, connectFunc unsafe.Pointer) *KwxClie
 }
 
 func (o *KwxClient) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxClient_Delete(o.Ptr())
 }
 

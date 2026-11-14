@@ -4,9 +4,310 @@ package wx
 
 import "unsafe"
 
-type Image struct{ BaseObject }
+type Image struct{ Object }
 
-func (o *Image) CanRead(name string) bool {
+// ImageFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ImageFromPtr(ptr unsafe.Pointer) *Image {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Image{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewImageFromDataEx(width int, height int, data unsafe.Pointer, isStaticData bool) *Image {
+	ptr := cgo_wxImage_CreateFromDataEx(width, height, data, isStaticData)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Image{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Image) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxImage_Delete(o.Ptr())
+}
+
+func (o *Image) CreateFromXPMData(data unsafe.Pointer) bool {
+	return cgo_wxImage_CreateFromXPMData(o.Ptr(), data)
+}
+
+func (o *Image) GetAlpha(x int, y int) int {
+	return cgo_wxImage_GetAlpha(o.Ptr(), x, y)
+}
+
+func (o *Image) Clear(value int) {
+	cgo_wxImage_Clear(o.Ptr(), value)
+}
+
+func (o *Image) Size(width int, height int, x int, y int, r int, g int, b int) unsafe.Pointer {
+	return cgo_wxImage_Size(o.Ptr(), width, height, x, y, r, g, b)
+}
+
+func (o *Image) ResampleNearest(width int, height int) unsafe.Pointer {
+	return cgo_wxImage_ResampleNearest(o.Ptr(), width, height)
+}
+
+func (o *Image) ResampleBox(width int, height int) unsafe.Pointer {
+	return cgo_wxImage_ResampleBox(o.Ptr(), width, height)
+}
+
+func (o *Image) ResampleBilinear(width int, height int) unsafe.Pointer {
+	return cgo_wxImage_ResampleBilinear(o.Ptr(), width, height)
+}
+
+func (o *Image) ResampleBicubic(width int, height int) unsafe.Pointer {
+	return cgo_wxImage_ResampleBicubic(o.Ptr(), width, height)
+}
+
+func (o *Image) Blur(radius int) unsafe.Pointer {
+	return cgo_wxImage_Blur(o.Ptr(), radius)
+}
+
+func (o *Image) BlurHorizontal(radius int) unsafe.Pointer {
+	return cgo_wxImage_BlurHorizontal(o.Ptr(), radius)
+}
+
+func (o *Image) BlurVertical(radius int) unsafe.Pointer {
+	return cgo_wxImage_BlurVertical(o.Ptr(), radius)
+}
+
+func (o *Image) ShrinkBy(xFactor int, yFactor int) unsafe.Pointer {
+	return cgo_wxImage_ShrinkBy(o.Ptr(), xFactor, yFactor)
+}
+
+func (o *Image) Resize(width int, height int, x int, y int, r int, g int, b int) {
+	cgo_wxImage_Resize(o.Ptr(), width, height, x, y, r, g, b)
+}
+
+func (o *Image) Rotate180() unsafe.Pointer {
+	return cgo_wxImage_Rotate180(o.Ptr())
+}
+
+func (o *Image) ConvertToGreyscale() unsafe.Pointer {
+	return cgo_wxImage_ConvertToGreyscale(o.Ptr())
+}
+
+func (o *Image) ConvertToGreyscaleEx(weightR float64, weightG float64, weightB float64) unsafe.Pointer {
+	return cgo_wxImage_ConvertToGreyscaleEx(o.Ptr(), weightR, weightG, weightB)
+}
+
+func (o *Image) ConvertToMono(r int, g int, b int) unsafe.Pointer {
+	return cgo_wxImage_ConvertToMono(o.Ptr(), r, g, b)
+}
+
+func (o *Image) ConvertToDisabled(brightness byte) unsafe.Pointer {
+	return cgo_wxImage_ConvertToDisabled(o.Ptr(), brightness)
+}
+
+func (o *Image) ChangeLightness(alpha int) unsafe.Pointer {
+	return cgo_wxImage_ChangeLightness(o.Ptr(), alpha)
+}
+
+func (o *Image) SetRGBRect(x int, y int, width int, height int, r int, g int, b int) {
+	cgo_wxImage_SetRGBRect(o.Ptr(), x, y, width, height, r, g, b)
+}
+
+func (o *Image) SetAlpha(x int, y int, alpha byte) {
+	cgo_wxImage_SetAlpha(o.Ptr(), x, y, alpha)
+}
+
+func (o *Image) GetAlphaPixel(x int, y int) byte {
+	return cgo_wxImage_GetAlphaPixel(o.Ptr(), x, y)
+}
+
+func (o *Image) FindFirstUnusedColour(r unsafe.Pointer, g unsafe.Pointer, b unsafe.Pointer, startR byte, startG byte, startB byte) bool {
+	return cgo_wxImage_FindFirstUnusedColour(o.Ptr(), r, g, b, startR, startG, startB)
+}
+
+func (o *Image) SetMaskFromImage(mask unsafe.Pointer, mr int, mg int, mb int) bool {
+	return cgo_wxImage_SetMaskFromImage(o.Ptr(), mask, mr, mg, mb)
+}
+
+func (o *Image) ConvertAlphaToMask(threshold byte) bool {
+	return cgo_wxImage_ConvertAlphaToMask(o.Ptr(), threshold)
+}
+
+func (o *Image) ConvertAlphaToMaskColour(mr int, mg int, mb int, threshold byte) bool {
+	return cgo_wxImage_ConvertAlphaToMaskColour(o.Ptr(), mr, mg, mb, threshold)
+}
+
+func (o *Image) ConvertColourToAlpha(r int, g int, b int) bool {
+	return cgo_wxImage_ConvertColourToAlpha(o.Ptr(), r, g, b)
+}
+
+func Image_SetDefaultLoadFlags(flags int) {
+	cgo_wxImage_SetDefaultLoadFlags(flags)
+}
+
+func Image_GetDefaultLoadFlags() int {
+	return cgo_wxImage_GetDefaultLoadFlags()
+}
+
+func (o *Image) SetLoadFlags(flags int) {
+	cgo_wxImage_SetLoadFlags(o.Ptr(), flags)
+}
+
+func (o *Image) GetLoadFlags() int {
+	return cgo_wxImage_GetLoadFlags(o.Ptr())
+}
+
+func Image_GetImageCount(name string, typ int) int {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxImage_GetImageCount(wxName.Ptr(), typ)
+}
+
+func (o *Image) SaveFileMime(name string, mimetype string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	wxMimetype := NewWxString(mimetype)
+	defer wxMimetype.Free()
+	return cgo_wxImage_SaveFileMime(o.Ptr(), wxName.Ptr(), wxMimetype.Ptr())
+}
+
+func (o *Image) LoadFileMime(name string, mimetype string, index int) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	wxMimetype := NewWxString(mimetype)
+	defer wxMimetype.Free()
+	return cgo_wxImage_LoadFileMime(o.Ptr(), wxName.Ptr(), wxMimetype.Ptr(), index)
+}
+
+func (o *Image) LoadStreamMime(stream unsafe.Pointer, mimetype string, index int) bool {
+	wxMimetype := NewWxString(mimetype)
+	defer wxMimetype.Free()
+	return cgo_wxImage_LoadStreamMime(o.Ptr(), stream, wxMimetype.Ptr(), index)
+}
+
+func (o *Image) SaveStreamMime(stream unsafe.Pointer, mimetype string) bool {
+	wxMimetype := NewWxString(mimetype)
+	defer wxMimetype.Free()
+	return cgo_wxImage_SaveStreamMime(o.Ptr(), stream, wxMimetype.Ptr())
+}
+
+func (o *Image) GetSize() Size {
+	retPtr := cgo_wxImage_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Image) SetDataRGBA(data unsafe.Pointer) {
+	cgo_wxImage_SetDataRGBA(o.Ptr(), data)
+}
+
+func (o *Image) GetAlphaData() unsafe.Pointer {
+	return cgo_wxImage_GetAlphaData(o.Ptr())
+}
+
+func (o *Image) HasAlpha() bool {
+	return cgo_wxImage_HasAlpha(o.Ptr())
+}
+
+func (o *Image) SetAlphaData(alpha unsafe.Pointer, staticData bool) {
+	cgo_wxImage_SetAlphaData(o.Ptr(), alpha, staticData)
+}
+
+func (o *Image) InitAlpha() {
+	cgo_wxImage_InitAlpha(o.Ptr())
+}
+
+func (o *Image) ClearAlpha() {
+	cgo_wxImage_ClearAlpha(o.Ptr())
+}
+
+func (o *Image) IsTransparent(x int, y int, threshold byte) bool {
+	return cgo_wxImage_IsTransparent(o.Ptr(), x, y, threshold)
+}
+
+func (o *Image) GetOrFindMaskColour(r unsafe.Pointer, g unsafe.Pointer, b unsafe.Pointer) bool {
+	return cgo_wxImage_GetOrFindMaskColour(o.Ptr(), r, g, b)
+}
+
+func (o *Image) HasPalette() bool {
+	return cgo_wxImage_HasPalette(o.Ptr())
+}
+
+func (o *Image) GetPalette() unsafe.Pointer {
+	return cgo_wxImage_GetPalette(o.Ptr())
+}
+
+func (o *Image) SetPalette(palette unsafe.Pointer) {
+	cgo_wxImage_SetPalette(o.Ptr(), palette)
+}
+
+func (o *Image) RotateHue(angle float64) {
+	cgo_wxImage_RotateHue(o.Ptr(), angle)
+}
+
+func (o *Image) ChangeSaturation(factor float64) {
+	cgo_wxImage_ChangeSaturation(o.Ptr(), factor)
+}
+
+func (o *Image) ChangeBrightness(factor float64) {
+	cgo_wxImage_ChangeBrightness(o.Ptr(), factor)
+}
+
+func (o *Image) ChangeHSV(angleH float64, factorS float64, factorV float64) {
+	cgo_wxImage_ChangeHSV(o.Ptr(), angleH, factorS, factorV)
+}
+
+func Image_AddHandler(handler unsafe.Pointer) {
+	cgo_wxImage_AddHandler(handler)
+}
+
+func Image_InsertHandler(handler unsafe.Pointer) {
+	cgo_wxImage_InsertHandler(handler)
+}
+
+func Image_RemoveHandler(name string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxImage_RemoveHandler(wxName.Ptr())
+}
+
+func Image_FindHandlerByName(name string) unsafe.Pointer {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxImage_FindHandlerByName(wxName.Ptr())
+}
+
+func Image_FindHandlerByExtension(extension string, imageType int) unsafe.Pointer {
+	wxExtension := NewWxString(extension)
+	defer wxExtension.Free()
+	return cgo_wxImage_FindHandlerByExtension(wxExtension.Ptr(), imageType)
+}
+
+func Image_FindHandlerByType(imageType int) unsafe.Pointer {
+	return cgo_wxImage_FindHandlerByType(imageType)
+}
+
+func Image_FindHandlerMime(mimetype string) unsafe.Pointer {
+	wxMimetype := NewWxString(mimetype)
+	defer wxMimetype.Free()
+	return cgo_wxImage_FindHandlerMime(wxMimetype.Ptr())
+}
+
+func Image_GetImageExtWildcard() string {
+	retPtr := cgo_wxImage_GetImageExtWildcard()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Image_CleanUpHandlers() {
+	cgo_wxImage_CleanUpHandlers()
+}
+
+func Image_InitStandardHandlers() {
+	cgo_wxImage_InitStandardHandlers()
+}
+
+func Image_CanRead(name string) bool {
 	wxName := NewWxString(name)
 	defer wxName.Free()
 	return cgo_wxImage_CanRead(wxName.Ptr())
@@ -52,8 +353,8 @@ func NewImageFromBitmap(bitmap unsafe.Pointer) *Image {
 	return obj
 }
 
-func NewImageFromByteString(width int, height int, data unsafe.Pointer, length int) *Image {
-	ptr := cgo_wxImage_CreateFromByteString(width, height, data, length)
+func NewImageFromByteString(width int, height int, data unsafe.Pointer) *Image {
+	ptr := cgo_wxImage_CreateFromByteString(width, height, data)
 	if ptr == nil {
 		return nil
 	}
@@ -62,8 +363,8 @@ func NewImageFromByteString(width int, height int, data unsafe.Pointer, length i
 	return obj
 }
 
-func NewImageFromLazyByteString(width int, height int, data unsafe.Pointer, length int) *Image {
-	ptr := cgo_wxImage_CreateFromLazyByteString(width, height, data, length)
+func NewImageFromLazyByteString(width int, height int, data unsafe.Pointer) *Image {
+	ptr := cgo_wxImage_CreateFromLazyByteString(width, height, data)
 	if ptr == nil {
 		return nil
 	}
@@ -86,6 +387,26 @@ func NewImageFromFile(name string) *Image {
 	wxName := NewWxString(name)
 	defer wxName.Free()
 	ptr := cgo_wxImage_CreateFromFile(wxName.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Image{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewImageFromDataEncoded(data unsafe.Pointer, size int, bitmap_type int) *Image {
+	ptr := cgo_wxImage_CreateFromDataEncoded(data, size, bitmap_type)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Image{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewImageFromBase64(base64 unsafe.Pointer, len int, bitmap_type int) *Image {
+	ptr := cgo_wxImage_CreateFromBase64(base64, len, bitmap_type)
 	if ptr == nil {
 		return nil
 	}

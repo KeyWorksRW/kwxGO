@@ -6,6 +6,18 @@ import "unsafe"
 
 type GridCellCoordsArray struct{ BaseObject }
 
+// GridCellCoordsArrayFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridCellCoordsArrayFromPtr(ptr unsafe.Pointer) *GridCellCoordsArray {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridCellCoordsArray{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewGridCellCoordsArray() *GridCellCoordsArray {
 	ptr := cgo_wxGridCellCoordsArray_Create()
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewGridCellCoordsArray() *GridCellCoordsArray {
 }
 
 func (o *GridCellCoordsArray) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxGridCellCoordsArray_Delete(o.Ptr())
 }
 

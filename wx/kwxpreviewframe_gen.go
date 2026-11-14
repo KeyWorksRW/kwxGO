@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type KwxPreviewFrame struct{ BaseWindow }
+type KwxPreviewFrame struct{ PreviewFrame }
+
+// KwxPreviewFrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxPreviewFrameFromPtr(ptr unsafe.Pointer) *KwxPreviewFrame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxPreviewFrame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewKwxPreviewFrame(pObject unsafe.Pointer, init unsafe.Pointer, createCanvas unsafe.Pointer, createToolbar unsafe.Pointer, preview unsafe.Pointer, parent unsafe.Pointer, title unsafe.Pointer, x int, y int, width int, height int, style int) *KwxPreviewFrame {
 	ptr := cgo_kwxPreviewFrame_Create(pObject, init, createCanvas, createToolbar, preview, parent, title, x, y, width, height, style)
@@ -32,15 +44,15 @@ func (o *KwxPreviewFrame) Initialize() {
 	cgo_kwxPreviewFrame_Initialize(o.Ptr())
 }
 
-func (o *KwxPreviewFrame) SetControlBar(obj unsafe.Pointer) {
-	cgo_kwxPreviewFrame_SetControlBar(o.Ptr(), obj)
+func (o *KwxPreviewFrame) SetControlBar(objValue unsafe.Pointer) {
+	cgo_kwxPreviewFrame_SetControlBar(o.Ptr(), objValue)
 }
 
-func (o *KwxPreviewFrame) SetPreviewCanvas(obj unsafe.Pointer) {
-	cgo_kwxPreviewFrame_SetPreviewCanvas(o.Ptr(), obj)
+func (o *KwxPreviewFrame) SetPreviewCanvas(objValue unsafe.Pointer) {
+	cgo_kwxPreviewFrame_SetPreviewCanvas(o.Ptr(), objValue)
 }
 
-func (o *KwxPreviewFrame) SetPrintPreview(obj unsafe.Pointer) {
-	cgo_kwxPreviewFrame_SetPrintPreview(o.Ptr(), obj)
+func (o *KwxPreviewFrame) SetPrintPreview(objValue unsafe.Pointer) {
+	cgo_kwxPreviewFrame_SetPrintPreview(o.Ptr(), objValue)
 }
 

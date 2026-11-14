@@ -6,6 +6,50 @@ import "unsafe"
 
 type FlexGridSizer struct{ GridSizer }
 
+// FlexGridSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FlexGridSizerFromPtr(ptr unsafe.Pointer) *FlexGridSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FlexGridSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *FlexGridSizer) IsRowGrowable(idx int) bool {
+	return cgo_wxFlexGridSizer_IsRowGrowable(o.Ptr(), idx)
+}
+
+func (o *FlexGridSizer) IsColGrowable(idx int) bool {
+	return cgo_wxFlexGridSizer_IsColGrowable(o.Ptr(), idx)
+}
+
+func (o *FlexGridSizer) SetFlexibleDirection(direction int) {
+	cgo_wxFlexGridSizer_SetFlexibleDirection(o.Ptr(), direction)
+}
+
+func (o *FlexGridSizer) GetFlexibleDirection() int {
+	return cgo_wxFlexGridSizer_GetFlexibleDirection(o.Ptr())
+}
+
+func (o *FlexGridSizer) SetNonFlexibleGrowMode(mode int) {
+	cgo_wxFlexGridSizer_SetNonFlexibleGrowMode(o.Ptr(), mode)
+}
+
+func (o *FlexGridSizer) GetNonFlexibleGrowMode() int {
+	return cgo_wxFlexGridSizer_GetNonFlexibleGrowMode(o.Ptr())
+}
+
+func (o *FlexGridSizer) GetRowHeights(heights unsafe.Pointer) int {
+	return cgo_wxFlexGridSizer_GetRowHeights(o.Ptr(), heights)
+}
+
+func (o *FlexGridSizer) GetColWidths(widths unsafe.Pointer) int {
+	return cgo_wxFlexGridSizer_GetColWidths(o.Ptr(), widths)
+}
+
 func (o *FlexGridSizer) AddGrowableCol(idx int, proportion int) {
 	cgo_wxFlexGridSizer_AddGrowableCol(o.Ptr(), idx, proportion)
 }
@@ -14,8 +58,9 @@ func (o *FlexGridSizer) AddGrowableRow(idx int, proportion int) {
 	cgo_wxFlexGridSizer_AddGrowableRow(o.Ptr(), idx, proportion)
 }
 
-func (o *FlexGridSizer) CalcMin() unsafe.Pointer {
-	return cgo_wxFlexGridSizer_CalcMin(o.Ptr())
+func (o *FlexGridSizer) CalcMin() Size {
+	retPtr := cgo_wxFlexGridSizer_CalcMin(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func NewFlexGridSizer(rows int, cols int, vgap int, hgap int) *FlexGridSizer {

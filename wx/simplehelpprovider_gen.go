@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type SimpleHelpProvider struct{ HelpProvider }
+
+// SimpleHelpProviderFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SimpleHelpProviderFromPtr(ptr unsafe.Pointer) *SimpleHelpProvider {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SimpleHelpProvider{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewSimpleHelpProvider() *SimpleHelpProvider {
 	ptr := cgo_wxSimpleHelpProvider_Create()

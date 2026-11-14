@@ -6,6 +6,18 @@ import "unsafe"
 
 type DirDialog struct{ Dialog }
 
+// DirDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DirDialogFromPtr(ptr unsafe.Pointer) *DirDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DirDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDirDialog(parent unsafe.Pointer, message string, directory string, left int, top int, style int) *DirDialog {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
@@ -34,8 +46,8 @@ func (o *DirDialog) GetStyle() int {
 	return cgo_wxDirDialog_GetStyle(o.Ptr())
 }
 
-func (o *DirDialog) GetPaths(paths unsafe.Pointer) int {
-	return cgo_wxDirDialog_GetPaths(o.Ptr(), paths)
+func (o *DirDialog) GetPaths(paths unsafe.Pointer, capacity int) int {
+	return cgo_wxDirDialog_GetPaths(o.Ptr(), paths, capacity)
 }
 
 func (o *DirDialog) SetMessage(msg string) {

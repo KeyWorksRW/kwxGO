@@ -6,6 +6,18 @@ import "unsafe"
 
 type CalendarDateAttr struct{ BaseObject }
 
+// CalendarDateAttrFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CalendarDateAttrFromPtr(ptr unsafe.Pointer) *CalendarDateAttr {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CalendarDateAttr{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCalendarDateAttr(textColour unsafe.Pointer, backColour unsafe.Pointer, borderColour unsafe.Pointer, font unsafe.Pointer, border int) *CalendarDateAttr {
 	ptr := cgo_wxCalendarDateAttr_Create(textColour, backColour, borderColour, font, border)
 	if ptr == nil {
@@ -26,7 +38,20 @@ func NewCalendarDateAttrDefault() *CalendarDateAttr {
 	return obj
 }
 
+func NewCalendarDateAttrBorder(border int, colBorder unsafe.Pointer) *CalendarDateAttr {
+	ptr := cgo_wxCalendarDateAttr_CreateBorder(border, colBorder)
+	if ptr == nil {
+		return nil
+	}
+	obj := &CalendarDateAttr{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *CalendarDateAttr) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCalendarDateAttr_Delete(o.Ptr())
 }
 

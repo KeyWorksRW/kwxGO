@@ -6,6 +6,42 @@ import "unsafe"
 
 type DataViewCtrl struct{ BaseObject }
 
+// DataViewCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DataViewCtrlFromPtr(ptr unsafe.Pointer) *DataViewCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataViewCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *DataViewCtrl) SetHeaderAttr(attr unsafe.Pointer) bool {
+	return cgo_wxDataViewCtrl_SetHeaderAttr(o.Ptr(), attr)
+}
+
+func (o *DataViewCtrl) Enable(enable bool) bool {
+	return cgo_wxDataViewCtrl_Enable(o.Ptr(), enable)
+}
+
+func (o *DataViewCtrl) EnableDragSource(format unsafe.Pointer) bool {
+	return cgo_wxDataViewCtrl_EnableDragSource(o.Ptr(), format)
+}
+
+func (o *DataViewCtrl) SetBackgroundColour(colour unsafe.Pointer) bool {
+	return cgo_wxDataViewCtrl_SetBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *DataViewCtrl) SetFocus() {
+	cgo_wxDataViewCtrl_SetFocus(o.Ptr())
+}
+
+func (o *DataViewCtrl) SetForegroundColour(colour unsafe.Pointer) bool {
+	return cgo_wxDataViewCtrl_SetForegroundColour(o.Ptr(), colour)
+}
+
 func NewDataViewCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *DataViewCtrl {
 	ptr := cgo_wxDataViewCtrl_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

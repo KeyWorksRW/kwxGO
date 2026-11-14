@@ -6,6 +6,18 @@ import "unsafe"
 
 type DataViewItemArray struct{ BaseObject }
 
+// DataViewItemArrayFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DataViewItemArrayFromPtr(ptr unsafe.Pointer) *DataViewItemArray {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataViewItemArray{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDataViewItemArray() *DataViewItemArray {
 	ptr := cgo_wxDataViewItemArray_Create()
 	if ptr == nil {
@@ -16,23 +28,26 @@ func NewDataViewItemArray() *DataViewItemArray {
 	return obj
 }
 
-func (o *DataViewItemArray) Delete(arr unsafe.Pointer) {
-	cgo_wxDataViewItemArray_Delete(arr)
+func (o *DataViewItemArray) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxDataViewItemArray_Delete(o.Ptr())
 }
 
-func (o *DataViewItemArray) GetCount(arr unsafe.Pointer) int {
-	return cgo_wxDataViewItemArray_GetCount(arr)
+func (o *DataViewItemArray) GetCount() int {
+	return cgo_wxDataViewItemArray_GetCount(o.Ptr())
 }
 
-func (o *DataViewItemArray) Item(arr unsafe.Pointer, index int, item unsafe.Pointer) {
-	cgo_wxDataViewItemArray_Item(arr, index, item)
+func (o *DataViewItemArray) Item(index int, item unsafe.Pointer) {
+	cgo_wxDataViewItemArray_Item(o.Ptr(), index, item)
 }
 
-func (o *DataViewItemArray) Add(arr unsafe.Pointer, item unsafe.Pointer) {
-	cgo_wxDataViewItemArray_Add(arr, item)
+func (o *DataViewItemArray) Add(item unsafe.Pointer) {
+	cgo_wxDataViewItemArray_Add(o.Ptr(), item)
 }
 
-func (o *DataViewItemArray) Clear(arr unsafe.Pointer) {
-	cgo_wxDataViewItemArray_Clear(arr)
+func (o *DataViewItemArray) Clear() {
+	cgo_wxDataViewItemArray_Clear(o.Ptr())
 }
 

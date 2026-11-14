@@ -6,12 +6,25 @@ import "unsafe"
 
 type GridSizeEvent struct{ NotifyEvent }
 
+// GridSizeEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridSizeEventFromPtr(ptr unsafe.Pointer) *GridSizeEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridSizeEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *GridSizeEvent) GetRowOrCol() int {
 	return cgo_wxGridSizeEvent_GetRowOrCol(o.Ptr())
 }
 
-func (o *GridSizeEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxGridSizeEvent_GetPosition(o.Ptr())
+func (o *GridSizeEvent) GetPosition() Point {
+	retPtr := cgo_wxGridSizeEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *GridSizeEvent) ControlDown() bool {

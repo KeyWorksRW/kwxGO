@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type CommandProcessor struct{ BaseObject }
+type CommandProcessor struct{ Object }
+
+// CommandProcessorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CommandProcessorFromPtr(ptr unsafe.Pointer) *CommandProcessor {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CommandProcessor{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *CommandProcessor) CanRedo() bool {
 	return cgo_wxCommandProcessor_CanRedo(o.Ptr())
@@ -19,6 +31,9 @@ func (o *CommandProcessor) ClearCommands() {
 }
 
 func (o *CommandProcessor) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCommandProcessor_Delete(o.Ptr())
 }
 
@@ -58,7 +73,7 @@ func (o *CommandProcessor) Undo() int {
 	return cgo_wxCommandProcessor_Undo(o.Ptr())
 }
 
-func (o *CommandProcessor) wxCommandProcessor(maxCommands int) unsafe.Pointer {
+func CommandProcessor_wxCommandProcessor(maxCommands int) unsafe.Pointer {
 	return cgo_wxCommandProcessor_wxCommandProcessor(maxCommands)
 }
 

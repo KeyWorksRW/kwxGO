@@ -6,6 +6,103 @@ import "unsafe"
 
 type Locale struct{ BaseObject }
 
+// LocaleFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func LocaleFromPtr(ptr unsafe.Pointer) *Locale {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Locale{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Locale) Init(language int, flags int) bool {
+	return cgo_wxLocale_Init(o.Ptr(), language, flags)
+}
+
+func (o *Locale) InitFromName(name string, short_name string, locale string, load_default bool) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	wxShort_name := NewWxString(short_name)
+	defer wxShort_name.Free()
+	wxLocale := NewWxString(locale)
+	defer wxLocale.Free()
+	return cgo_wxLocale_InitFromName(o.Ptr(), wxName.Ptr(), wxShort_name.Ptr(), wxLocale.Ptr(), load_default)
+}
+
+func (o *Locale) GetLanguage() int {
+	return cgo_wxLocale_GetLanguage(o.Ptr())
+}
+
+func (o *Locale) GetSysName() string {
+	retPtr := cgo_wxLocale_GetSysName(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Locale) GetCanonicalName() string {
+	retPtr := cgo_wxLocale_GetCanonicalName(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Locale) GetHeaderValue(header string, domain string) string {
+	wxHeader := NewWxString(header)
+	defer wxHeader.Free()
+	wxDomain := NewWxString(domain)
+	defer wxDomain.Free()
+	retPtr := cgo_wxLocale_GetHeaderValue(o.Ptr(), wxHeader.Ptr(), wxDomain.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Locale) GetPluralString(orig_string string, plural_string string, count int, domain string) string {
+	wxOrig_string := NewWxString(orig_string)
+	defer wxOrig_string.Free()
+	wxPlural_string := NewWxString(plural_string)
+	defer wxPlural_string.Free()
+	wxDomain := NewWxString(domain)
+	defer wxDomain.Free()
+	retPtr := cgo_wxLocale_GetPluralString(o.Ptr(), wxOrig_string.Ptr(), wxPlural_string.Ptr(), count, wxDomain.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Locale_GetSystemLanguage() int {
+	return cgo_wxLocale_GetSystemLanguage()
+}
+
+func Locale_GetSystemEncoding() int {
+	return cgo_wxLocale_GetSystemEncoding()
+}
+
+func Locale_GetSystemEncodingName() string {
+	retPtr := cgo_wxLocale_GetSystemEncodingName()
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Locale_GetInfo(index int, category int) string {
+	retPtr := cgo_wxLocale_GetInfo(index, category)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Locale_GetOSInfo(index int, category int) string {
+	retPtr := cgo_wxLocale_GetOSInfo(index, category)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Locale_IsAvailable(language int) bool {
+	return cgo_wxLocale_IsAvailable(language)
+}
+
+func Locale_GetLanguageName(language int) string {
+	retPtr := cgo_wxLocale_GetLanguageName(language)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Locale_GetLanguageCanonicalName(language int) string {
+	retPtr := cgo_wxLocale_GetLanguageCanonicalName(language)
+	return WxStringToGoAndFree(retPtr)
+}
+
 func (o *Locale) AddCatalog(szDomain string, msgIdLanguage int) int {
 	wxSzDomain := NewWxString(szDomain)
 	defer wxSzDomain.Free()
@@ -29,6 +126,9 @@ func NewLocale(name int, flags int) *Locale {
 }
 
 func (o *Locale) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxLocale_Delete(o.Ptr())
 }
 

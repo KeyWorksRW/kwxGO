@@ -6,6 +6,18 @@ import "unsafe"
 
 type EraseEvent struct{ Event }
 
+// EraseEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func EraseEventFromPtr(ptr unsafe.Pointer) *EraseEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &EraseEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *EraseEvent) GetDC() unsafe.Pointer {
 	return cgo_wxEraseEvent_GetDC(o.Ptr())
 }

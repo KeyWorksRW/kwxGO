@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type StreamBase struct{ BaseObject }
+
+// StreamBaseFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StreamBaseFromPtr(ptr unsafe.Pointer) *StreamBase {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StreamBase{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *StreamBase) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxStreamBase_Delete(o.Ptr())
+}
 
 func (o *StreamBase) GetLastError() int {
 	return cgo_wxStreamBase_GetLastError(o.Ptr())

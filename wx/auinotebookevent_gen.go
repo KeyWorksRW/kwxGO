@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiNotebookEvent struct{ BookCtrlEvent }
 
+// AuiNotebookEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiNotebookEventFromPtr(ptr unsafe.Pointer) *AuiNotebookEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebookEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiNotebookEvent(command_type int, win_id int) *AuiNotebookEvent {
 	ptr := cgo_wxAuiNotebookEvent_Create(command_type, win_id)
 	if ptr == nil {

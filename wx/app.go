@@ -22,12 +22,24 @@ extern void kwxApp_InitAllImageHandlers(void);
 extern void kwxApp_Bell(void);
 */
 import "C"
-import "unsafe"
+import (
+	"runtime"
+	"unsafe"
+)
 
 // Run initialises wxWidgets, calls onInit (which should create the top-level
 // frame and return true), then blocks in the wx main event loop.
 // It is the idiomatic entry point for a kwxGO application.
 func Run(onInit func() bool) {
+	// wxWidgets requires every GUI call to happen on the OS thread that
+	// initialised the toolkit (wxThread::IsMain()). Between cgo calls the Go
+	// scheduler is free to move the main goroutine to another thread, which
+	// makes wx assert ("only main thread may call
+	// wxMutexGuiLeaveOrEnter()") or hang before the first window appears.
+	// Pin the goroutine for the whole lifetime of the event loop.
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()
+
 	// Bootstrap wx with no real argc/argv — kwxApp_Initialize accepts 0/nil.
 	if C.kwxApp_Initialize(0, nil) == 0 {
 		panic("kwxGO: kwxApp_Initialize failed")

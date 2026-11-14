@@ -6,8 +6,30 @@ import "unsafe"
 
 type Grid struct{ ScrolledWindow }
 
+// GridFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridFromPtr(ptr unsafe.Pointer) *Grid {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Grid{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Grid) AppendCols(numCols int, updateLabels bool) bool {
 	return cgo_wxGrid_AppendCols(o.Ptr(), numCols, updateLabels)
+}
+
+func (o *Grid) HideRowLabels() {
+	cgo_wxGrid_HideRowLabels(o.Ptr())
+}
+
+func (o *Grid) SetColFormatDate(col int, format string) {
+	wxFormat := NewWxString(format)
+	defer wxFormat.Free()
+	cgo_wxGrid_SetColFormatDate(o.Ptr(), col, wxFormat.Ptr())
 }
 
 func (o *Grid) AppendRows(numRows int, updateLabels bool) bool {
@@ -38,8 +60,9 @@ func (o *Grid) BeginBatch() {
 	cgo_wxGrid_BeginBatch(o.Ptr())
 }
 
-func (o *Grid) BlockToDeviceRect(top int, left int, bottom int, right int) unsafe.Pointer {
-	return cgo_wxGrid_BlockToDeviceRect(o.Ptr(), top, left, bottom, right)
+func (o *Grid) BlockToDeviceRect(top int, left int, bottom int, right int) Rect {
+	retPtr := cgo_wxGrid_BlockToDeviceRect(o.Ptr(), top, left, bottom, right)
+	return rectFromPtr(retPtr)
 }
 
 func (o *Grid) CanDragColSize(col int) bool {
@@ -58,8 +81,9 @@ func (o *Grid) CanEnableCellControl() bool {
 	return cgo_wxGrid_CanEnableCellControl(o.Ptr())
 }
 
-func (o *Grid) CellToRect(row int, col int) unsafe.Pointer {
-	return cgo_wxGrid_CellToRect(o.Ptr(), row, col)
+func (o *Grid) CellToRect(row int, col int) Rect {
+	retPtr := cgo_wxGrid_CellToRect(o.Ptr(), row, col)
+	return rectFromPtr(retPtr)
 }
 
 func (o *Grid) ClearGrid() {
@@ -353,8 +377,10 @@ func (o *Grid) GetTable() unsafe.Pointer {
 	return cgo_wxGrid_GetTable(o.Ptr())
 }
 
-func (o *Grid) GetTextBoxSize(dc unsafe.Pointer, count int, lines unsafe.Pointer, width unsafe.Pointer, height unsafe.Pointer) {
-	cgo_wxGrid_GetTextBoxSize(o.Ptr(), dc, count, lines, width, height)
+func (o *Grid) GetTextBoxSize(dc unsafe.Pointer, lines []string, width unsafe.Pointer, height unsafe.Pointer) {
+	linesPtr, releaseLines := wxStringTable(lines)
+	defer releaseLines()
+	cgo_wxGrid_GetTextBoxSize(o.Ptr(), dc, len(lines), linesPtr, width, height)
 }
 
 func (o *Grid) GridLinesEnabled() int {
@@ -701,6 +727,10 @@ func (o *Grid) GetSelectionBlockBottomRight(array unsafe.Pointer) {
 	cgo_wxGrid_GetSelectionBlockBottomRight(o.Ptr(), array)
 }
 
+func (o *Grid) GetSelectedBlocks(array unsafe.Pointer) {
+	cgo_wxGrid_GetSelectedBlocks(o.Ptr(), array)
+}
+
 func (o *Grid) GetSelectedRows(array unsafe.Pointer) int {
 	return cgo_wxGrid_GetSelectedRows(o.Ptr(), array)
 }
@@ -715,5 +745,209 @@ func (o *Grid) GetCellSize(row int, col int, srow unsafe.Pointer, scol unsafe.Po
 
 func (o *Grid) SetCellSize(row int, col int, srow int, scol int) {
 	cgo_wxGrid_SetCellSize(o.Ptr(), row, col, srow, scol)
+}
+
+func (o *Grid) FreezeTo(row int, col int) bool {
+	return cgo_wxGrid_FreezeTo(o.Ptr(), row, col)
+}
+
+func (o *Grid) IsFrozen() bool {
+	return cgo_wxGrid_IsFrozen(o.Ptr())
+}
+
+func (o *Grid) SetGridFrozenBorderColour(col unsafe.Pointer) {
+	cgo_wxGrid_SetGridFrozenBorderColour(o.Ptr(), col)
+}
+
+func (o *Grid) UseNativeColHeader(native bool) bool {
+	return cgo_wxGrid_UseNativeColHeader(o.Ptr(), native)
+}
+
+func (o *Grid) SetUseNativeColLabels(native bool) {
+	cgo_wxGrid_SetUseNativeColLabels(o.Ptr(), native)
+}
+
+func (o *Grid) EnableHidingColumns(enable bool) bool {
+	return cgo_wxGrid_EnableHidingColumns(o.Ptr(), enable)
+}
+
+func (o *Grid) CanHideColumns() bool {
+	return cgo_wxGrid_CanHideColumns(o.Ptr())
+}
+
+func (o *Grid) EnableDragRowMove(enable bool) bool {
+	return cgo_wxGrid_EnableDragRowMove(o.Ptr(), enable)
+}
+
+func (o *Grid) EnableDragColMove(enable bool) bool {
+	return cgo_wxGrid_EnableDragColMove(o.Ptr(), enable)
+}
+
+func (o *Grid) EnableDragCell(enable bool) {
+	cgo_wxGrid_EnableDragCell(o.Ptr(), enable)
+}
+
+func (o *Grid) EnableDragRowLabelSize(enable bool) {
+	cgo_wxGrid_EnableDragRowLabelSize(o.Ptr(), enable)
+}
+
+func (o *Grid) EnableDragColLabelSize(enable bool) {
+	cgo_wxGrid_EnableDragColLabelSize(o.Ptr(), enable)
+}
+
+func (o *Grid) SetTabBehaviour(behaviour int) {
+	cgo_wxGrid_SetTabBehaviour(o.Ptr(), behaviour)
+}
+
+func (o *Grid) SetCellOverflow(row int, col int, allow bool) {
+	cgo_wxGrid_SetCellOverflow(o.Ptr(), row, col, allow)
+}
+
+func (o *Grid) SetDefaultCellOverflow(allow bool) {
+	cgo_wxGrid_SetDefaultCellOverflow(o.Ptr(), allow)
+}
+
+func (o *Grid) SetCellFitMode(row int, col int, fitMode unsafe.Pointer) {
+	cgo_wxGrid_SetCellFitMode(o.Ptr(), row, col, fitMode)
+}
+
+func (o *Grid) SetDefaultCellFitMode(fitMode unsafe.Pointer) {
+	cgo_wxGrid_SetDefaultCellFitMode(o.Ptr(), fitMode)
+}
+
+func (o *Grid) GetCornerLabelAlignment(horiz unsafe.Pointer, vert unsafe.Pointer) {
+	cgo_wxGrid_GetCornerLabelAlignment(o.Ptr(), horiz, vert)
+}
+
+func (o *Grid) SetCornerLabelAlignment(horiz int, vert int) {
+	cgo_wxGrid_SetCornerLabelAlignment(o.Ptr(), horiz, vert)
+}
+
+func (o *Grid) GetCornerLabelTextOrientation() int {
+	return cgo_wxGrid_GetCornerLabelTextOrientation(o.Ptr())
+}
+
+func (o *Grid) SetCornerLabelTextOrientation(textOrientation int) {
+	cgo_wxGrid_SetCornerLabelTextOrientation(o.Ptr(), textOrientation)
+}
+
+func (o *Grid) GetCellHighlightPenWidth() int {
+	return cgo_wxGrid_GetCellHighlightPenWidth(o.Ptr())
+}
+
+func (o *Grid) SetCellHighlightPenWidth(width int) {
+	cgo_wxGrid_SetCellHighlightPenWidth(o.Ptr(), width)
+}
+
+func (o *Grid) GetCellHighlightROPenWidth() int {
+	return cgo_wxGrid_GetCellHighlightROPenWidth(o.Ptr())
+}
+
+func (o *Grid) SetCellHighlightROPenWidth(width int) {
+	cgo_wxGrid_SetCellHighlightROPenWidth(o.Ptr(), width)
+}
+
+func (o *Grid) DeselectCell(row int, col int) {
+	cgo_wxGrid_DeselectCell(o.Ptr(), row, col)
+}
+
+func (o *Grid) DeselectCol(col int) {
+	cgo_wxGrid_DeselectCol(o.Ptr(), col)
+}
+
+func (o *Grid) DeselectRow(row int) {
+	cgo_wxGrid_DeselectRow(o.Ptr(), row)
+}
+
+func (o *Grid) DisableOverlaySelection() {
+	cgo_wxGrid_DisableOverlaySelection(o.Ptr())
+}
+
+func (o *Grid) ForceRefresh() {
+	cgo_wxGrid_ForceRefresh(o.Ptr())
+}
+
+func (o *Grid) AutoSizeRowLabelSize(row int) {
+	cgo_wxGrid_AutoSizeRowLabelSize(o.Ptr(), row)
+}
+
+func (o *Grid) AutoSizeColLabelSize(col int) {
+	cgo_wxGrid_AutoSizeColLabelSize(o.Ptr(), col)
+}
+
+func (o *Grid) DisableRowResize(row int) {
+	cgo_wxGrid_DisableRowResize(o.Ptr(), row)
+}
+
+func (o *Grid) HideCol(col int) {
+	cgo_wxGrid_HideCol(o.Ptr(), col)
+}
+
+func (o *Grid) ShowCol(col int) {
+	cgo_wxGrid_ShowCol(o.Ptr(), col)
+}
+
+func (o *Grid) HideRow(row int) {
+	cgo_wxGrid_HideRow(o.Ptr(), row)
+}
+
+func (o *Grid) ShowRow(row int) {
+	cgo_wxGrid_ShowRow(o.Ptr(), row)
+}
+
+func (o *Grid) SetAttr(row int, col int, attr unsafe.Pointer) {
+	cgo_wxGrid_SetAttr(o.Ptr(), row, col, attr)
+}
+
+func (o *Grid) AssignTable(table unsafe.Pointer, selmode int) {
+	cgo_wxGrid_AssignTable(o.Ptr(), table, selmode)
+}
+
+func (o *Grid) GetRowPos(idx int) int {
+	return cgo_wxGrid_GetRowPos(o.Ptr(), idx)
+}
+
+func (o *Grid) GetColPos(idx int) int {
+	return cgo_wxGrid_GetColPos(o.Ptr(), idx)
+}
+
+func (o *Grid) GetRowAt(pos int) int {
+	return cgo_wxGrid_GetRowAt(o.Ptr(), pos)
+}
+
+func (o *Grid) GetColAt(pos int) int {
+	return cgo_wxGrid_GetColAt(o.Ptr(), pos)
+}
+
+func (o *Grid) SetColPos(idx int, pos int) {
+	cgo_wxGrid_SetColPos(o.Ptr(), idx, pos)
+}
+
+func (o *Grid) ResetColPos() {
+	cgo_wxGrid_ResetColPos(o.Ptr())
+}
+
+func (o *Grid) GetSelectionMode() int {
+	return cgo_wxGrid_GetSelectionMode(o.Ptr())
+}
+
+func (o *Grid) GetSortingColumn() int {
+	return cgo_wxGrid_GetSortingColumn(o.Ptr())
+}
+
+func (o *Grid) IsSortingBy(col int) bool {
+	return cgo_wxGrid_IsSortingBy(o.Ptr(), col)
+}
+
+func (o *Grid) IsSortOrderAscending() bool {
+	return cgo_wxGrid_IsSortOrderAscending(o.Ptr())
+}
+
+func (o *Grid) SetSortingColumn(col int, ascending bool) {
+	cgo_wxGrid_SetSortingColumn(o.Ptr(), col, ascending)
+}
+
+func (o *Grid) Render(dc unsafe.Pointer, x int, y int, width int, height int, topLeftRow int, topLeftCol int, bottomRightRow int, bottomRightCol int, style int) {
+	cgo_wxGrid_Render(o.Ptr(), dc, x, y, width, height, topLeftRow, topLeftCol, bottomRightRow, bottomRightCol, style)
 }
 

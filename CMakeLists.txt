@@ -18,6 +18,16 @@ project( kwxGO
     DESCRIPTION "kwxGO - Go bindings for wxWidgets via kwxFFI"
     HOMEPAGE_URL "https://github.com/KeyWorksRW/kwxGO" )
 
+# ###################### sccache #######################
+find_program(SCCACHE_PROGRAM sccache)
+if(SCCACHE_PROGRAM)
+    message(STATUS "sccache found: ${SCCACHE_PROGRAM}")
+    set(CMAKE_C_COMPILER_LAUNCHER "${SCCACHE_PROGRAM}")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${SCCACHE_PROGRAM}")
+else()
+    message(STATUS "sccache not found; building without a compiler cache")
+endif()
+
 # ###################### Compiler Guard #######################
 # CGo requires GCC or Clang with MinGW-w64 ABI on Windows.
 # MSVC (cl.exe) produces incompatible object format and C++ ABI.
@@ -29,7 +39,9 @@ if( MSVC )
 endif()
 
 # ###################### General Settings #######################
-set( CMAKE_CXX_STANDARD 17 )
+# kwxFFI's public headers (kwx_wrapper.h) require C++23 (std::bit_cast and
+# friends), so kwxGO's own C++ sources must use the same standard.
+set( CMAKE_CXX_STANDARD 23 )
 set( CMAKE_CXX_STANDARD_REQUIRED True )
 set( CMAKE_CXX_EXTENSIONS OFF )
 
@@ -84,7 +96,10 @@ message( STATUS "Fetching kwxFFI and wxWidgets (this may take awhile) ..." )
 
 FetchContent_Declare(
     kwxFFI
-    GIT_REPOSITORY https://github.com/KeyWorksRW/kwxFFI.git
+    # TEMPORARY: use the local sibling checkout so source changes show up immediately.
+    # Restore the GIT_REPOSITORY line below to fetch from GitHub again.
+    # GIT_REPOSITORY https://github.com/KeyWorksRW/kwxFFI.git
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../kwxFFI
     GIT_TAG origin/main
     GIT_SHALLOW TRUE
     UPDATE_DISCONNECTED FALSE  # Explicitly enable updates
@@ -101,30 +116,35 @@ message( STATUS "kwxFFI sources: " ${kwxFFI_SOURCE_DIR} )
 
 # ###################### kwxgen — Go binding generator #######################
 
-add_subdirectory( ${kwxFFI_SOURCE_DIR}/tools/kwxgen kwxgen-build )
+# kwxFFI's own CMakeLists.txt already does add_subdirectory(kwxgen), so the
+# `kwxgen` target exists here; do NOT add it again. The generator source moved
+# from kwxFFI/tools/kwxgen to kwxFFI/kwxgen.
 
-set( KWXFFI_HEADERS
-    ${kwxFFI_SOURCE_DIR}/include/kwx_classes.h
-    ${kwxFFI_SOURCE_DIR}/include/kwx_events.h
-    ${kwxFFI_SOURCE_DIR}/include/kwx_keys.h
-    ${kwxFFI_SOURCE_DIR}/include/kwx_constants.h
-)
+# Every kwxFFI include participates in the parsed surface (kwx_classes.h pulls
+# in the per-area headers), so glob them to keep the dependency list honest.
+file( GLOB KWXFFI_HEADERS CONFIGURE_DEPENDS ${kwxFFI_SOURCE_DIR}/include/*.h )
+set( KWXFFI_DEFS ${kwxFFI_SOURCE_DIR}/src/kwx_defs.cpp )
+
+# kwxgen loads kwxgen.config.json from the current working directory, so run it
+# from the source root. Explicit arguments below override the config file.
+set( KWXGEN_STAMP ${CMAKE_BINARY_DIR}/kwxgen.stamp )
 
 add_custom_command(
-    OUTPUT  ${CMAKE_SOURCE_DIR}/wx/events_gen.go
-            ${CMAKE_SOURCE_DIR}/wx/keys_gen.go
-            ${CMAKE_SOURCE_DIR}/wx/constants_gen.go
+    OUTPUT  ${KWXGEN_STAMP}
     COMMAND kwxgen generate
-    DEPENDS kwxgen ${KWXFFI_HEADERS}
+                --headers ${kwxFFI_SOURCE_DIR}/include
+                --defs    ${KWXFFI_DEFS}
+                --lang    go
+                --out     ${CMAKE_SOURCE_DIR}/wx
+    COMMAND ${CMAKE_COMMAND} -E touch ${KWXGEN_STAMP}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    DEPENDS kwxgen ${KWXFFI_HEADERS} ${KWXFFI_DEFS}
+            ${CMAKE_SOURCE_DIR}/kwxgen.config.json
     COMMENT "Generating Go bindings via kwxgen"
+    VERBATIM
 )
 
-add_custom_target( generate_go_bindings ALL
-    DEPENDS
-        ${CMAKE_SOURCE_DIR}/wx/events_gen.go
-        ${CMAKE_SOURCE_DIR}/wx/keys_gen.go
-        ${CMAKE_SOURCE_DIR}/wx/constants_gen.go
-)
+add_custom_target( generate_go_bindings ALL DEPENDS ${KWXGEN_STAMP} )
 
 # Define wxWidgets paths (kwxFFI fetches wxWidgets as a subdependency)
 # These match the FetchContent directory structure
@@ -185,8 +205,51 @@ set_target_properties( kwxGO PROPERTIES
 
 include( cmake/functions.cmake )
 
+# ###################### Packaging: Merged Archive #######################
+#
+# `libkwxall.a` is for release packaging only — it merges kwxGO, kwxFFI and every
+# wxWidgets static archive into one file, so a released binding needs a single
+# library to link against and the linker can resolve wx symbols without
+# -Wl,--start-group rescanning.
+# Member-level granularity is preserved, so the size of the final executable is
+# identical to linking the separate archives.
+# The merge is toolchain/ABI-locked, so one bundle must be produced per
+# compiler + platform.
+#
+# Deliberately NOT part of ALL and not a dependency of any other target: ordinary
+# development builds never pay for it. Build it explicitly with `ninja kwxall`.
+if(TARGET kwxGO AND TARGET kwxFFI)
+    kwx_wx_archive_genexes(_kwxall_wx_archives)
+
+    set(_kwxall_inputs
+        $<TARGET_LINKER_FILE:kwxGO>
+        $<TARGET_LINKER_FILE:kwxFFI>
+        ${_kwxall_wx_archives}
+    )
+
+    add_custom_target(kwxall
+        COMMAND ${CMAKE_COMMAND}
+            "-DOUT_ARCHIVE=${PROJECT_SOURCE_DIR}/lib/$<CONFIG>/libkwxall.a"
+            "-DIN_ARCHIVES=${_kwxall_inputs}"
+            "-DAR_TOOL=${CMAKE_AR}"
+            -P ${PROJECT_SOURCE_DIR}/cmake/MergeArchives.cmake
+        DEPENDS kwxGO kwxFFI
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Merging kwxGO + kwxFFI + wxWidgets archives into libkwxall.a"
+        VERBATIM
+    )
+endif()
+
 go_example(minimal)
 go_example(demo)
+
+# Samples live under samples/ rather than examples/, but use the same helper.
+# calendar.rc → calendar_windows.syso is part of the target, so `ninja calendar`
+# produces a runnable bin/Release/calendar.exe whose embedded manifest enables
+# Common Controls v6 (otherwise wxWidgets pops up a warning dialog at startup and
+# every control looks like Windows 2000). On macOS/Linux no resource step runs
+# and go build ignores the _windows-suffixed .syso entirely.
+go_program(samples/calendar calendar bin/Release/calendar)
 
 # ###################### Build Summary #######################
 
@@ -194,6 +257,7 @@ message( STATUS "" )
 message( STATUS "kwxGO CMake Configuration:" )
 message( STATUS "  Library output:        ${PROJECT_SOURCE_DIR}/lib/$<CONFIG>" )
 message( STATUS "    - kwxGO.a (static: kwxApp + transitive kwxFFI/wxWidgets)" )
+message( STATUS "    - kwxall.a (packaging only, target 'kwxall', not part of ALL)" )
 message( STATUS "  kwxFFI sources:        ${kwxFFI_SOURCE_DIR}" )
 message( STATUS "  wxWidgets sources:     ${WX_SRC_DIR}" )
 message( STATUS "  wxWidgets build:       ${WX_BUILD_DIR}" )

@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type FontData struct{ BaseObject }
+type FontData struct{ Object }
+
+// FontDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FontDataFromPtr(ptr unsafe.Pointer) *FontData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FontData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewFontData() *FontData {
 	ptr := cgo_wxFontData_Create()
@@ -17,6 +29,9 @@ func NewFontData() *FontData {
 }
 
 func (o *FontData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxFontData_Delete(o.Ptr())
 }
 

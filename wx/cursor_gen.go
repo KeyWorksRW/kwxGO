@@ -6,6 +6,25 @@ import "unsafe"
 
 type Cursor struct{ Bitmap }
 
+// CursorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CursorFromPtr(ptr unsafe.Pointer) *Cursor {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Cursor{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Cursor) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxCursor_Delete(o.Ptr())
+}
+
 func NewCursorFromStock(id int) *Cursor {
 	ptr := cgo_Cursor_CreateFromStock(id)
 	if ptr == nil {

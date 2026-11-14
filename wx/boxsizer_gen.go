@@ -6,8 +6,33 @@ import "unsafe"
 
 type BoxSizer struct{ Sizer }
 
-func (o *BoxSizer) CalcMin() unsafe.Pointer {
-	return cgo_wxBoxSizer_CalcMin(o.Ptr())
+// BoxSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BoxSizerFromPtr(ptr unsafe.Pointer) *BoxSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BoxSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *BoxSizer) IsVertical() bool {
+	return cgo_wxBoxSizer_IsVertical(o.Ptr())
+}
+
+func (o *BoxSizer) SetOrientation(orient int) {
+	cgo_wxBoxSizer_SetOrientation(o.Ptr(), orient)
+}
+
+func (o *BoxSizer) CalcMin() Size {
+	retPtr := cgo_wxBoxSizer_CalcMin(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *BoxSizer) AddSpacer(size int) unsafe.Pointer {
+	return cgo_wxBoxSizer_AddSpacer(o.Ptr(), size)
 }
 
 func NewBoxSizer(orient int) *BoxSizer {

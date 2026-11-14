@@ -4,10 +4,27 @@ package wx
 
 import "unsafe"
 
-type SizerItem struct{ BaseObject }
+type SizerItem struct{ Object }
 
-func (o *SizerItem) CalcMin() unsafe.Pointer {
-	return cgo_wxSizerItem_CalcMin(o.Ptr())
+// SizerItemFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SizerItemFromPtr(ptr unsafe.Pointer) *SizerItem {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SizerItem{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *SizerItem) CalcMin() Size {
+	retPtr := cgo_wxSizerItem_CalcMin(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *SizerItem) SetMinSize(size unsafe.Pointer) {
+	cgo_wxSizerItem_SetMinSize(o.Ptr(), size)
 }
 
 func NewSizerItem(width int, height int, option int, flag int, border int, userData unsafe.Pointer) *SizerItem {
@@ -48,20 +65,23 @@ func (o *SizerItem) GetFlag() int {
 	return cgo_wxSizerItem_GetFlag(o.Ptr())
 }
 
-func (o *SizerItem) GetMinSize() unsafe.Pointer {
-	return cgo_wxSizerItem_GetMinSize(o.Ptr())
+func (o *SizerItem) GetMinSize() Size {
+	retPtr := cgo_wxSizerItem_GetMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
-func (o *SizerItem) GetPosition() unsafe.Pointer {
-	return cgo_wxSizerItem_GetPosition(o.Ptr())
+func (o *SizerItem) GetPosition() Point {
+	retPtr := cgo_wxSizerItem_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *SizerItem) GetRatio() float32 {
 	return cgo_wxSizerItem_GetRatio(o.Ptr())
 }
 
-func (o *SizerItem) GetSize() unsafe.Pointer {
-	return cgo_wxSizerItem_GetSize(o.Ptr())
+func (o *SizerItem) GetSize() Size {
+	retPtr := cgo_wxSizerItem_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *SizerItem) GetSizer() unsafe.Pointer {
@@ -121,6 +141,9 @@ func (o *SizerItem) AssignWindow(window unsafe.Pointer) {
 }
 
 func (o *SizerItem) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxSizerItem_Delete(o.Ptr())
 }
 
@@ -136,12 +159,14 @@ func (o *SizerItem) GetProportion() int {
 	return cgo_wxSizerItem_GetProportion(o.Ptr())
 }
 
-func (o *SizerItem) GetRect() unsafe.Pointer {
-	return cgo_wxSizerItem_GetRect(o.Ptr())
+func (o *SizerItem) GetRect() Rect {
+	retPtr := cgo_wxSizerItem_GetRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
-func (o *SizerItem) GetSpacer() unsafe.Pointer {
-	return cgo_wxSizerItem_GetSpacer(o.Ptr())
+func (o *SizerItem) GetSpacer() Size {
+	retPtr := cgo_wxSizerItem_GetSpacer(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *SizerItem) IsShown() int {

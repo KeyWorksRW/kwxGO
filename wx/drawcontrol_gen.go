@@ -6,6 +6,18 @@ import "unsafe"
 
 type DrawControl struct{ Control }
 
+// DrawControlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DrawControlFromPtr(ptr unsafe.Pointer) *DrawControl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DrawControl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewDrawControl(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *DrawControl {
 	ptr := cgo_wxDrawControl_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {

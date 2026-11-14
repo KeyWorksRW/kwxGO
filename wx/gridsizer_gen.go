@@ -6,8 +6,29 @@ import "unsafe"
 
 type GridSizer struct{ Sizer }
 
-func (o *GridSizer) CalcMin() unsafe.Pointer {
-	return cgo_wxGridSizer_CalcMin(o.Ptr())
+// GridSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridSizerFromPtr(ptr unsafe.Pointer) *GridSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *GridSizer) GetEffectiveColsCount() int {
+	return cgo_wxGridSizer_GetEffectiveColsCount(o.Ptr())
+}
+
+func (o *GridSizer) GetEffectiveRowsCount() int {
+	return cgo_wxGridSizer_GetEffectiveRowsCount(o.Ptr())
+}
+
+func (o *GridSizer) CalcMin() Size {
+	retPtr := cgo_wxGridSizer_CalcMin(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func NewGridSizer(rows int, cols int, vgap int, hgap int) *GridSizer {

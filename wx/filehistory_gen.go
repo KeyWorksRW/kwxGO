@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type FileHistory struct{ BaseObject }
+type FileHistory struct{ Object }
+
+// FileHistoryFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FileHistoryFromPtr(ptr unsafe.Pointer) *FileHistory {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileHistory{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *FileHistory) AddFileToHistory(file string) {
 	wxFile := NewWxString(file)
@@ -26,8 +38,25 @@ func NewFileHistory(maxFiles int) *FileHistory {
 	return obj
 }
 
+func NewFileHistoryEx(maxFiles int, idBase int) *FileHistory {
+	ptr := cgo_wxFileHistory_CreateEx(maxFiles, idBase)
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileHistory{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *FileHistory) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxFileHistory_Delete(o.Ptr())
+}
+
+func (o *FileHistory) GetBaseId() int {
+	return cgo_wxFileHistory_GetBaseId(o.Ptr())
 }
 
 func (o *FileHistory) GetCount() int {
@@ -41,6 +70,10 @@ func (o *FileHistory) GetHistoryFile(index int) string {
 
 func (o *FileHistory) GetMaxFiles() int {
 	return cgo_wxFileHistory_GetMaxFiles(o.Ptr())
+}
+
+func (o *FileHistory) GetMenuPathStyle() int {
+	return cgo_wxFileHistory_GetMenuPathStyle(o.Ptr())
 }
 
 func (o *FileHistory) GetMenus(ref unsafe.Pointer) int {
@@ -61,6 +94,14 @@ func (o *FileHistory) RemoveMenu(menu unsafe.Pointer) {
 
 func (o *FileHistory) Save(config unsafe.Pointer) {
 	cgo_wxFileHistory_Save(o.Ptr(), config)
+}
+
+func (o *FileHistory) SetBaseId(baseId int) {
+	cgo_wxFileHistory_SetBaseId(o.Ptr(), baseId)
+}
+
+func (o *FileHistory) SetMenuPathStyle(style int) {
+	cgo_wxFileHistory_SetMenuPathStyle(o.Ptr(), style)
 }
 
 func (o *FileHistory) UseMenu(menu unsafe.Pointer) {

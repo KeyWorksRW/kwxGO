@@ -6,6 +6,70 @@ import "unsafe"
 
 type Process struct{ EvtHandler }
 
+// ProcessFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ProcessFromPtr(ptr unsafe.Pointer) *Process {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Process{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewProcessFlags(flags int) *Process {
+	ptr := cgo_wxProcess_CreateFlags(flags)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Process{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Process) Activate() bool {
+	return cgo_wxProcess_Activate(o.Ptr())
+}
+
+func (o *Process) GetPid() int {
+	return cgo_wxProcess_GetPid(o.Ptr())
+}
+
+func (o *Process) SetPriority(priority uint) {
+	cgo_wxProcess_SetPriority(o.Ptr(), priority)
+}
+
+func (o *Process) GetPriority() uint {
+	return cgo_wxProcess_GetPriority(o.Ptr())
+}
+
+func Process_Kill(pid int, sig int, flags int, rc unsafe.Pointer) int {
+	return cgo_wxProcess_Kill(pid, sig, flags, rc)
+}
+
+func Process_Exists(pid int) bool {
+	return cgo_wxProcess_Exists(pid)
+}
+
+func Process_Open(cmd string, flags int) unsafe.Pointer {
+	wxCmd := NewWxString(cmd)
+	defer wxCmd.Free()
+	return cgo_wxProcess_Open(wxCmd.Ptr(), flags)
+}
+
+func (o *Process) IsInputAvailable() bool {
+	return cgo_wxProcess_IsInputAvailable(o.Ptr())
+}
+
+func (o *Process) IsErrorAvailable() bool {
+	return cgo_wxProcess_IsErrorAvailable(o.Ptr())
+}
+
+func (o *Process) IsInputOpened() bool {
+	return cgo_wxProcess_IsInputOpened(o.Ptr())
+}
+
 func (o *Process) CloseOutput() {
 	cgo_wxProcess_CloseOutput(o.Ptr())
 }
@@ -31,6 +95,9 @@ func NewProcessRedirect(parent unsafe.Pointer, redirect bool) *Process {
 }
 
 func (o *Process) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxProcess_Delete(o.Ptr())
 }
 

@@ -2,11 +2,42 @@
 
 package wx
 
+import "unsafe"
+
 type WebViewEvent struct{ NotifyEvent }
+
+// WebViewEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WebViewEventFromPtr(ptr unsafe.Pointer) *WebViewEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WebViewEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *WebViewEvent) GetURL() string {
 	retPtr := cgo_wxWebViewEvent_GetURL(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *WebViewEvent) GetMessageHandler() string {
+	retPtr := cgo_wxWebViewEvent_GetMessageHandler(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *WebViewEvent) GetTargetWindowFeatures() unsafe.Pointer {
+	return cgo_wxWebViewEvent_GetTargetWindowFeatures(o.Ptr())
+}
+
+func (o *WebViewEvent) IsError() bool {
+	return cgo_wxWebViewEvent_IsError(o.Ptr())
+}
+
+func (o *WebViewEvent) IsTargetMainFrame() bool {
+	return cgo_wxWebViewEvent_IsTargetMainFrame(o.Ptr())
 }
 
 func (o *WebViewEvent) GetTarget() string {

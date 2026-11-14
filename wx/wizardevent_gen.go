@@ -2,9 +2,27 @@
 
 package wx
 
+import "unsafe"
+
 type WizardEvent struct{ NotifyEvent }
+
+// WizardEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WizardEventFromPtr(ptr unsafe.Pointer) *WizardEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WizardEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *WizardEvent) GetDirection() int {
 	return cgo_wxWizardEvent_GetDirection(o.Ptr())
+}
+
+func (o *WizardEvent) GetPage() unsafe.Pointer {
+	return cgo_wxWizardEvent_GetPage(o.Ptr())
 }
 

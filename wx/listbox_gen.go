@@ -6,10 +6,30 @@ import "unsafe"
 
 type ListBox struct{ Control }
 
+// ListBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ListBoxFromPtr(ptr unsafe.Pointer) *ListBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ListBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *ListBox) Append(item string) {
 	wxItem := NewWxString(item)
 	defer wxItem.Free()
 	cgo_wxListBox_Append(o.Ptr(), wxItem.Ptr())
+}
+
+func (o *ListBox) GetItem(n int) unsafe.Pointer {
+	return cgo_wxListBox_GetItem(o.Ptr(), n)
+}
+
+func (o *ListBox) SetFont(font unsafe.Pointer) bool {
+	return cgo_wxListBox_SetFont(o.Ptr(), font)
 }
 
 func (o *ListBox) AppendData(item string, data unsafe.Pointer) {
@@ -22,8 +42,10 @@ func (o *ListBox) Clear() {
 	cgo_wxListBox_Clear(o.Ptr())
 }
 
-func NewListBox(parent unsafe.Pointer, id int, left int, top int, width int, height int, n int, str unsafe.Pointer, style int) *ListBox {
-	ptr := cgo_wxListBox_Create(parent, id, left, top, width, height, n, str, style)
+func NewListBox(parent unsafe.Pointer, id int, left int, top int, width int, height int, str []string, style int) *ListBox {
+	strPtr, releaseStr := wxStringTable(str)
+	defer releaseStr()
+	ptr := cgo_wxListBox_Create(parent, id, left, top, width, height, len(str), strPtr, style)
 	if ptr == nil {
 		return nil
 	}

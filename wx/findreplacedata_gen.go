@@ -2,7 +2,21 @@
 
 package wx
 
-type FindReplaceData struct{ BaseObject }
+import "unsafe"
+
+type FindReplaceData struct{ Object }
+
+// FindReplaceDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FindReplaceDataFromPtr(ptr unsafe.Pointer) *FindReplaceData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FindReplaceData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewFindReplaceData(flags int) *FindReplaceData {
 	ptr := cgo_wxFindReplaceData_Create(flags)
@@ -25,6 +39,9 @@ func NewFindReplaceDataDefault() *FindReplaceData {
 }
 
 func (o *FindReplaceData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxFindReplaceData_Delete(o.Ptr())
 }
 

@@ -2,7 +2,111 @@
 
 package wx
 
-type ArtProvider struct{ BaseObject }
+import "unsafe"
+
+type ArtProvider struct{ Object }
+
+// ArtProviderFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ArtProviderFromPtr(ptr unsafe.Pointer) *ArtProvider {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ArtProvider{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func ArtProvider_GetBitmap(id string, client string, width int, height int) *Bitmap {
+	wxId := NewWxString(id)
+	defer wxId.Free()
+	wxClient := NewWxString(client)
+	defer wxClient.Free()
+	ptr := cgo_wxArtProvider_GetBitmap(wxId.Ptr(), wxClient.Ptr(), width, height)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func ArtProvider_Pop() bool {
+	return cgo_wxArtProvider_Pop()
+}
+
+func ArtProvider_Push(provider unsafe.Pointer) {
+	cgo_wxArtProvider_Push(provider)
+}
+
+func ArtProvider_GetBitmapBundle(id string, client string, width int, height int) *BitmapBundle {
+	wxId := NewWxString(id)
+	defer wxId.Free()
+	wxClient := NewWxString(client)
+	defer wxClient.Free()
+	ptr := cgo_wxArtProvider_GetBitmapBundle(wxId.Ptr(), wxClient.Ptr(), width, height)
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapBundle{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func ArtProvider_GetIcon(id string, client string, width int, height int) *Icon {
+	wxId := NewWxString(id)
+	defer wxId.Free()
+	wxClient := NewWxString(client)
+	defer wxClient.Free()
+	ptr := cgo_wxArtProvider_GetIcon(wxId.Ptr(), wxClient.Ptr(), width, height)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Icon{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func ArtProvider_GetIconBundle(id string, client string) *IconBundle {
+	wxId := NewWxString(id)
+	defer wxId.Free()
+	wxClient := NewWxString(client)
+	defer wxClient.Free()
+	ptr := cgo_wxArtProvider_GetIconBundle(wxId.Ptr(), wxClient.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &IconBundle{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func ArtProvider_GetNativeSizeHint(client string, window unsafe.Pointer) Size {
+	wxClient := NewWxString(client)
+	defer wxClient.Free()
+	retPtr := cgo_wxArtProvider_GetNativeSizeHint(wxClient.Ptr(), window)
+	return sizeFromPtr(retPtr)
+}
+
+func ArtProvider_GetSizeHint(client string, window unsafe.Pointer) Size {
+	wxClient := NewWxString(client)
+	defer wxClient.Free()
+	retPtr := cgo_wxArtProvider_GetSizeHint(wxClient.Ptr(), window)
+	return sizeFromPtr(retPtr)
+}
+
+func ArtProvider_HasNativeProvider() bool {
+	return cgo_wxArtProvider_HasNativeProvider()
+}
+
+func (o *ArtProvider) PushBack() {
+	cgo_wxArtProvider_PushBack(o.Ptr())
+}
+
+func (o *ArtProvider) DeleteProvider() bool {
+	return cgo_wxArtProvider_DeleteProvider(o.Ptr())
+}
 
 func PopProvider() bool {
 	return cgo_PopProvider()

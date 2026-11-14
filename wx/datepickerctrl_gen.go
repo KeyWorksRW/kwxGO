@@ -4,10 +4,22 @@ package wx
 
 import "unsafe"
 
-type DatePickerCtrl struct{ BaseObject }
+type DatePickerCtrl struct{ Control }
 
-func NewDatePickerCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *DatePickerCtrl {
-	ptr := cgo_wxDatePickerCtrl_Create(parent, id, x, y, width, height, style)
+// DatePickerCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DatePickerCtrlFromPtr(ptr unsafe.Pointer) *DatePickerCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DatePickerCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewDatePickerCtrl(parent unsafe.Pointer, id int, date unsafe.Pointer, x int, y int, width int, height int, style int) *DatePickerCtrl {
+	ptr := cgo_wxDatePickerCtrl_Create(parent, id, date, x, y, width, height, style)
 	if ptr == nil {
 		return nil
 	}
@@ -30,5 +42,11 @@ func (o *DatePickerCtrl) SetRange(dt1 unsafe.Pointer, dt2 unsafe.Pointer) {
 
 func (o *DatePickerCtrl) GetRange(dt1 unsafe.Pointer, dt2 unsafe.Pointer) bool {
 	return cgo_wxDatePickerCtrl_GetRange(o.Ptr(), dt1, dt2)
+}
+
+func (o *DatePickerCtrl) SetNullText(text string) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxDatePickerCtrl_SetNullText(o.Ptr(), wxText.Ptr())
 }
 

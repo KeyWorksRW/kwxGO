@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type ShowEvent struct{ Event }
+
+// ShowEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ShowEventFromPtr(ptr unsafe.Pointer) *ShowEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ShowEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *ShowEvent) IsShown() bool {
 	return cgo_wxShowEvent_IsShown(o.Ptr())

@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type SimpleHtmlListBox struct{ BaseObject }
+type SimpleHtmlListBox struct{ HtmlListBox }
+
+// SimpleHtmlListBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SimpleHtmlListBoxFromPtr(ptr unsafe.Pointer) *SimpleHtmlListBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SimpleHtmlListBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewSimpleHtmlListBox(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *SimpleHtmlListBox {
 	ptr := cgo_wxSimpleHtmlListBox_Create(parent, id, x, y, width, height, style)

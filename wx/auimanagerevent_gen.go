@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiManagerEvent struct{ EvtHandler }
 
+// AuiManagerEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiManagerEventFromPtr(ptr unsafe.Pointer) *AuiManagerEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiManagerEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiManagerEvent(typ int) *AuiManagerEvent {
 	ptr := cgo_wxAuiManagerEvent_Create(typ)
 	if ptr == nil {

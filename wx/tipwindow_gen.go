@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type TipWindow struct{ BaseWindow }
+type TipWindow struct{ PopupTransientWindow }
+
+// TipWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TipWindowFromPtr(ptr unsafe.Pointer) *TipWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TipWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *TipWindow) Close() {
 	cgo_wxTipWindow_Close(o.Ptr())

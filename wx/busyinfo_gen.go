@@ -6,6 +6,18 @@ import "unsafe"
 
 type BusyInfo struct{ BaseObject }
 
+// BusyInfoFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BusyInfoFromPtr(ptr unsafe.Pointer) *BusyInfo {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BusyInfo{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewBusyInfo(text string, parent unsafe.Pointer) *BusyInfo {
 	wxText := NewWxString(text)
 	defer wxText.Free()
@@ -18,7 +30,20 @@ func NewBusyInfo(text string, parent unsafe.Pointer) *BusyInfo {
 	return obj
 }
 
+func NewBusyInfoWithFlags(flags unsafe.Pointer) *BusyInfo {
+	ptr := cgo_wxBusyInfo_CreateWithFlags(flags)
+	if ptr == nil {
+		return nil
+	}
+	obj := &BusyInfo{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *BusyInfo) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxBusyInfo_Delete(o.Ptr())
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type FindReplaceDialog struct{ Dialog }
 
+// FindReplaceDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FindReplaceDialogFromPtr(ptr unsafe.Pointer) *FindReplaceDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FindReplaceDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewFindReplaceDialog(parent unsafe.Pointer, data unsafe.Pointer, title string, style int) *FindReplaceDialog {
 	wxTitle := NewWxString(title)
 	defer wxTitle.Free()
@@ -16,6 +28,10 @@ func NewFindReplaceDialog(parent unsafe.Pointer, data unsafe.Pointer, title stri
 	obj := &FindReplaceDialog{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *FindReplaceDialog) Show(show bool) bool {
+	return cgo_wxFindReplaceDialog_Show(o.Ptr(), show)
 }
 
 func (o *FindReplaceDialog) GetData() unsafe.Pointer {

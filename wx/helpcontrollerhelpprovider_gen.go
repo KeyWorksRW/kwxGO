@@ -6,6 +6,18 @@ import "unsafe"
 
 type HelpControllerHelpProvider struct{ SimpleHelpProvider }
 
+// HelpControllerHelpProviderFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func HelpControllerHelpProviderFromPtr(ptr unsafe.Pointer) *HelpControllerHelpProvider {
+	if ptr == nil {
+		return nil
+	}
+	obj := &HelpControllerHelpProvider{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewHelpControllerHelpProvider(ctr unsafe.Pointer) *HelpControllerHelpProvider {
 	ptr := cgo_wxHelpControllerHelpProvider_Create(ctr)
 	if ptr == nil {

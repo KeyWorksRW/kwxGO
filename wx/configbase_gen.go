@@ -4,7 +4,37 @@ package wx
 
 import "unsafe"
 
-type ConfigBase struct{ BaseObject }
+type ConfigBase struct{ Object }
+
+// ConfigBaseFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ConfigBaseFromPtr(ptr unsafe.Pointer) *ConfigBase {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ConfigBase{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func ConfigBase_Get() unsafe.Pointer {
+	return cgo_wxConfigBase_Get()
+}
+
+func (o *ConfigBase) Set() {
+	cgo_wxConfigBase_Set(o.Ptr())
+}
+
+func ConfigBase_DontCreateOnDemand() {
+	cgo_wxConfigBase_DontCreateOnDemand()
+}
+
+func (o *ConfigBase) ReadLong(key string, def_val int) int {
+	wxKey := NewWxString(key)
+	defer wxKey.Free()
+	return cgo_wxConfigBase_ReadLong(o.Ptr(), wxKey.Ptr(), def_val)
+}
 
 func NewConfigBase() *ConfigBase {
 	ptr := cgo_wxConfigBase_Create()
@@ -16,7 +46,24 @@ func NewConfigBase() *ConfigBase {
 	return obj
 }
 
+func (o *ConfigBase) Read(key string, pStr unsafe.Pointer) bool {
+	wxKey := NewWxString(key)
+	defer wxKey.Free()
+	return cgo_wxConfigBase_Read(o.Ptr(), wxKey.Ptr(), pStr)
+}
+
+func (o *ConfigBase) Write(key string, value string) bool {
+	wxKey := NewWxString(key)
+	defer wxKey.Free()
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	return cgo_wxConfigBase_Write(o.Ptr(), wxKey.Ptr(), wxValue.Ptr())
+}
+
 func (o *ConfigBase) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxConfigBase_Delete(o.Ptr())
 }
 

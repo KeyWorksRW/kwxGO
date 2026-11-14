@@ -6,10 +6,32 @@ import "unsafe"
 
 type StaticBox struct{ Control }
 
+// StaticBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StaticBoxFromPtr(ptr unsafe.Pointer) *StaticBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StaticBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewStaticBox(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *StaticBox {
 	wxText := NewWxString(text)
 	defer wxText.Free()
 	ptr := cgo_wxStaticBox_Create(parent, id, wxText.Ptr(), left, top, width, height, style)
+	if ptr == nil {
+		return nil
+	}
+	obj := &StaticBox{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewStaticBoxWithLabelWindow(parent unsafe.Pointer, id int, label unsafe.Pointer, left int, top int, width int, height int, style int) *StaticBox {
+	ptr := cgo_wxStaticBox_CreateWithLabelWindow(parent, id, label, left, top, width, height, style)
 	if ptr == nil {
 		return nil
 	}

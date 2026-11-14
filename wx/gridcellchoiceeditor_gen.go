@@ -6,7 +6,21 @@ import "unsafe"
 
 type GridCellChoiceEditor struct{ GridCellEditor }
 
-func (o *GridCellChoiceEditor) Ctor(count int, choices unsafe.Pointer, allowOthers int) unsafe.Pointer {
-	return cgo_wxGridCellChoiceEditor_Ctor(count, choices, allowOthers)
+// GridCellChoiceEditorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridCellChoiceEditorFromPtr(ptr unsafe.Pointer) *GridCellChoiceEditor {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridCellChoiceEditor{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func GridCellChoiceEditor_Ctor(choices []string, allowOthers int) unsafe.Pointer {
+	choicesPtr, releaseChoices := wxStringTable(choices)
+	defer releaseChoices()
+	return cgo_wxGridCellChoiceEditor_Ctor(len(choices), choicesPtr, allowOthers)
 }
 

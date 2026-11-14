@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type Timer struct{ BaseObject }
+type Timer struct{ EvtHandler }
+
+// TimerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TimerFromPtr(ptr unsafe.Pointer) *Timer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Timer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewTimer(parent unsafe.Pointer, id int) *Timer {
 	ptr := cgo_wxTimer_Create(parent, id)
@@ -16,7 +28,18 @@ func NewTimer(parent unsafe.Pointer, id int) *Timer {
 	return obj
 }
 
+func (o *Timer) SetOwner(owner unsafe.Pointer, timerid int) {
+	cgo_wxTimer_SetOwner(o.Ptr(), owner, timerid)
+}
+
+func (o *Timer) StartOnce(milliseconds int) bool {
+	return cgo_wxTimer_StartOnce(o.Ptr(), milliseconds)
+}
+
 func (o *Timer) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxTimer_Delete(o.Ptr())
 }
 
@@ -28,8 +51,8 @@ func (o *Timer) IsOneShot() bool {
 	return cgo_wxTimer_IsOneShot(o.Ptr())
 }
 
-func (o *Timer) IsRuning() bool {
-	return cgo_wxTimer_IsRuning(o.Ptr())
+func (o *Timer) IsRunning() bool {
+	return cgo_wxTimer_IsRunning(o.Ptr())
 }
 
 func (o *Timer) Start(interval int, oneShot bool) bool {
@@ -38,5 +61,9 @@ func (o *Timer) Start(interval int, oneShot bool) bool {
 
 func (o *Timer) Stop() {
 	cgo_wxTimer_Stop(o.Ptr())
+}
+
+func (o *Timer) SetOnNotify(pFunction unsafe.Pointer) {
+	cgo_wxTimer_SetOnNotify(o.Ptr(), pFunction)
 }
 

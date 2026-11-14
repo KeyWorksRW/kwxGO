@@ -6,6 +6,30 @@ import "unsafe"
 
 type TreeEvent struct{ NotifyEvent }
 
+// TreeEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TreeEventFromPtr(ptr unsafe.Pointer) *TreeEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *TreeEvent) Allow() {
+	cgo_wxTreeEvent_Allow(o.Ptr())
+}
+
+func (o *TreeEvent) GetKeyEvent() unsafe.Pointer {
+	return cgo_wxTreeEvent_GetKeyEvent(o.Ptr())
+}
+
+func (o *TreeEvent) IsEditCancelled() bool {
+	return cgo_wxTreeEvent_IsEditCancelled(o.Ptr())
+}
+
 func (o *TreeEvent) GetCode() int {
 	return cgo_wxTreeEvent_GetCode(o.Ptr())
 }
@@ -23,7 +47,8 @@ func (o *TreeEvent) GetOldItem(ref unsafe.Pointer) {
 	cgo_wxTreeEvent_GetOldItem(o.Ptr(), ref)
 }
 
-func (o *TreeEvent) GetPoint() unsafe.Pointer {
-	return cgo_wxTreeEvent_GetPoint(o.Ptr())
+func (o *TreeEvent) GetPoint() Point {
+	retPtr := cgo_wxTreeEvent_GetPoint(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 

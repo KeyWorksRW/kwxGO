@@ -6,6 +6,18 @@ import "unsafe"
 
 type Caret struct{ BaseObject }
 
+// CaretFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CaretFromPtr(ptr unsafe.Pointer) *Caret {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Caret{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCaret(window unsafe.Pointer, width int, height int) *Caret {
 	ptr := cgo_wxCaret_Create(window, width, height)
 	if ptr == nil {
@@ -16,16 +28,18 @@ func NewCaret(window unsafe.Pointer, width int, height int) *Caret {
 	return obj
 }
 
-func (o *Caret) GetBlinkTime() int {
+func Caret_GetBlinkTime() int {
 	return cgo_wxCaret_GetBlinkTime()
 }
 
-func (o *Caret) GetPosition() unsafe.Pointer {
-	return cgo_wxCaret_GetPosition(o.Ptr())
+func (o *Caret) GetPosition() Point {
+	retPtr := cgo_wxCaret_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *Caret) GetSize() unsafe.Pointer {
-	return cgo_wxCaret_GetSize(o.Ptr())
+func (o *Caret) GetSize() Size {
+	retPtr := cgo_wxCaret_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Caret) GetWindow() unsafe.Pointer {
@@ -48,7 +62,7 @@ func (o *Caret) Move(x int, y int) {
 	cgo_wxCaret_Move(o.Ptr(), x, y)
 }
 
-func (o *Caret) SetBlinkTime(milliseconds int) {
+func Caret_SetBlinkTime(milliseconds int) {
 	cgo_wxCaret_SetBlinkTime(milliseconds)
 }
 
