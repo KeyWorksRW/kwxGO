@@ -2,7 +2,182 @@
 
 package wx
 
-type PGProperty struct{ BaseObject }
+import "unsafe"
+
+type PGProperty struct{ Object }
+
+// PGPropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PGPropertyFromPtr(ptr unsafe.Pointer) *PGProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PGProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *PGProperty) SetChoices(choices unsafe.Pointer) bool {
+	return cgo_wxPGProperty_SetChoices(o.Ptr(), choices)
+}
+
+func (o *PGProperty) GetChoices() unsafe.Pointer {
+	return cgo_wxPGProperty_GetChoices(o.Ptr())
+}
+
+func (o *PGProperty) GetBaseName() string {
+	retPtr := cgo_wxPGProperty_GetBaseName(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *PGProperty) AddChoice(label string, value int) int {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	return cgo_wxPGProperty_AddChoice(o.Ptr(), wxLabel.Ptr(), value)
+}
+
+func (o *PGProperty) AddPrivateChild(prop unsafe.Pointer) {
+	cgo_wxPGProperty_AddPrivateChild(o.Ptr(), prop)
+}
+
+func (o *PGProperty) AppendChild(prop unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxPGProperty_AppendChild(o.Ptr(), prop)
+}
+
+func (o *PGProperty) DeleteChoice(index int) {
+	cgo_wxPGProperty_DeleteChoice(o.Ptr(), index)
+}
+
+func (o *PGProperty) EnableCommonValue(enable bool) {
+	cgo_wxPGProperty_EnableCommonValue(o.Ptr(), enable)
+}
+
+func (o *PGProperty) GetCell(column uint) unsafe.Pointer {
+	return cgo_wxPGProperty_GetCell(o.Ptr(), column)
+}
+
+func (o *PGProperty) GetDisplayedString() string {
+	retPtr := cgo_wxPGProperty_GetDisplayedString(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *PGProperty) GetIndexInParent() uint {
+	return cgo_wxPGProperty_GetIndexInParent(o.Ptr())
+}
+
+func (o *PGProperty) HasAnyChild() bool {
+	return cgo_wxPGProperty_HasAnyChild(o.Ptr())
+}
+
+func (o *PGProperty) InsertChoice(label string, index int, value int) int {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	return cgo_wxPGProperty_InsertChoice(o.Ptr(), wxLabel.Ptr(), index, value)
+}
+
+func (o *PGProperty) IsCategory() bool {
+	return cgo_wxPGProperty_IsCategory(o.Ptr())
+}
+
+func (o *PGProperty) IsEnabled() bool {
+	return cgo_wxPGProperty_IsEnabled(o.Ptr())
+}
+
+func (o *PGProperty) IsExpanded() bool {
+	return cgo_wxPGProperty_IsExpanded(o.Ptr())
+}
+
+func (o *PGProperty) IsValueUnspecified() bool {
+	return cgo_wxPGProperty_IsValueUnspecified(o.Ptr())
+}
+
+func (o *PGProperty) RefreshEditor() {
+	cgo_wxPGProperty_RefreshEditor(o.Ptr())
+}
+
+func (o *PGProperty) SetAttribute(name string, value unsafe.Pointer) {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	cgo_wxPGProperty_SetAttribute(o.Ptr(), wxName.Ptr(), value)
+}
+
+func (o *PGProperty) SetAutoUnspecified(enable bool) {
+	cgo_wxPGProperty_SetAutoUnspecified(o.Ptr(), enable)
+}
+
+func (o *PGProperty) SetExpanded(expanded bool) {
+	cgo_wxPGProperty_SetExpanded(o.Ptr(), expanded)
+}
+
+func (o *PGProperty) GetY() int {
+	return cgo_wxPGProperty_GetY(o.Ptr())
+}
+
+func (o *PGProperty) GetValue() unsafe.Pointer {
+	return cgo_wxPGProperty_GetValue(o.Ptr())
+}
+
+func (o *PGProperty) GetHintText() string {
+	retPtr := cgo_wxPGProperty_GetHintText(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *PGProperty) GetGrid() unsafe.Pointer {
+	return cgo_wxPGProperty_GetGrid(o.Ptr())
+}
+
+func (o *PGProperty) GetGridIfDisplayed() unsafe.Pointer {
+	return cgo_wxPGProperty_GetGridIfDisplayed(o.Ptr())
+}
+
+func (o *PGProperty) GetMainParent() unsafe.Pointer {
+	return cgo_wxPGProperty_GetMainParent(o.Ptr())
+}
+
+func (o *PGProperty) GetParent() unsafe.Pointer {
+	return cgo_wxPGProperty_GetParent(o.Ptr())
+}
+
+func (o *PGProperty) Item(index uint) unsafe.Pointer {
+	return cgo_wxPGProperty_Item(o.Ptr(), index)
+}
+
+func (o *PGProperty) GetChildCount() int {
+	return cgo_wxPGProperty_GetChildCount(o.Ptr())
+}
+
+func (o *PGProperty) GetChoiceSelection() int {
+	return cgo_wxPGProperty_GetChoiceSelection(o.Ptr())
+}
+
+func (o *PGProperty) SetChoiceSelection(selection int) {
+	cgo_wxPGProperty_SetChoiceSelection(o.Ptr(), selection)
+}
+
+func (o *PGProperty) Enable(enable bool) {
+	cgo_wxPGProperty_Enable(o.Ptr(), enable)
+}
+
+func (o *PGProperty) AreChildrenComponents() bool {
+	return cgo_wxPGProperty_AreChildrenComponents(o.Ptr())
+}
+
+func (o *PGProperty) GetDisplayedCommonValueCount() int {
+	return cgo_wxPGProperty_GetDisplayedCommonValueCount(o.Ptr())
+}
+
+func (o *PGProperty) SetLabel(label string) {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	cgo_wxPGProperty_SetLabel(o.Ptr(), wxLabel.Ptr())
+}
+
+func (o *PGProperty) SetName(name string) {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	cgo_wxPGProperty_SetName(o.Ptr(), wxName.Ptr())
+}
 
 func (o *PGProperty) GetLabel() string {
 	retPtr := cgo_wxPGProperty_GetLabel(o.Ptr())

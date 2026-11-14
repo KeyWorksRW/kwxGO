@@ -6,6 +6,34 @@ import "unsafe"
 
 type MenuBar struct{ EvtHandler }
 
+// MenuBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MenuBarFromPtr(ptr unsafe.Pointer) *MenuBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MenuBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *MenuBar) GetFrame() unsafe.Pointer {
+	return cgo_wxMenuBar_GetFrame(o.Ptr())
+}
+
+func (o *MenuBar) IsAttached() bool {
+	return cgo_wxMenuBar_IsAttached(o.Ptr())
+}
+
+func (o *MenuBar) Attach(frame unsafe.Pointer) {
+	cgo_wxMenuBar_Attach(o.Ptr(), frame)
+}
+
+func (o *MenuBar) Detach() {
+	cgo_wxMenuBar_Detach(o.Ptr())
+}
+
 func (o *MenuBar) Append(menu unsafe.Pointer, title string) int {
 	wxTitle := NewWxString(title)
 	defer wxTitle.Free()

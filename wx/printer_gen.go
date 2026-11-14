@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type Printer struct{ BaseObject }
+type Printer struct{ Object }
+
+// PrinterFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PrinterFromPtr(ptr unsafe.Pointer) *Printer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Printer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewPrinter(data unsafe.Pointer) *Printer {
 	ptr := cgo_wxPrinter_Create(data)
@@ -21,6 +33,9 @@ func (o *Printer) CreateAbortWindow(parent unsafe.Pointer, printout unsafe.Point
 }
 
 func (o *Printer) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPrinter_Delete(o.Ptr())
 }
 

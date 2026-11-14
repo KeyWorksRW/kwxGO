@@ -6,6 +6,18 @@ import "unsafe"
 
 type VariantVector struct{ BaseObject }
 
+// VariantVectorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func VariantVectorFromPtr(ptr unsafe.Pointer) *VariantVector {
+	if ptr == nil {
+		return nil
+	}
+	obj := &VariantVector{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewVariantVector() *VariantVector {
 	ptr := cgo_wxVariantVector_Create()
 	if ptr == nil {
@@ -20,29 +32,29 @@ func (o *VariantVector) Delete(vec unsafe.Pointer) {
 	cgo_wxVariantVector_Delete(vec)
 }
 
-func (o *VariantVector) Add(vec unsafe.Pointer, value unsafe.Pointer) {
+func VariantVector_Add(vec unsafe.Pointer, value unsafe.Pointer) {
 	cgo_wxVariantVector_Add(vec, value)
 }
 
-func (o *VariantVector) AddString(vec unsafe.Pointer, value string) {
+func VariantVector_AddString(vec unsafe.Pointer, value string) {
 	wxValue := NewWxString(value)
 	defer wxValue.Free()
 	cgo_wxVariantVector_AddString(vec, wxValue.Ptr())
 }
 
-func (o *VariantVector) AddLong(vec unsafe.Pointer, value int) {
+func VariantVector_AddLong(vec unsafe.Pointer, value int) {
 	cgo_wxVariantVector_AddLong(vec, value)
 }
 
-func (o *VariantVector) AddBool(vec unsafe.Pointer, value bool) {
+func VariantVector_AddBool(vec unsafe.Pointer, value bool) {
 	cgo_wxVariantVector_AddBool(vec, value)
 }
 
-func (o *VariantVector) GetCount(vec unsafe.Pointer) int {
+func VariantVector_GetCount(vec unsafe.Pointer) int {
 	return cgo_wxVariantVector_GetCount(vec)
 }
 
-func (o *VariantVector) Clear(vec unsafe.Pointer) {
+func VariantVector_Clear(vec unsafe.Pointer) {
 	cgo_wxVariantVector_Clear(vec)
 }
 

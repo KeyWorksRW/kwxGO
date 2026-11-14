@@ -6,6 +6,18 @@ import "unsafe"
 
 type ListView struct{ ListCtrl }
 
+// ListViewFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ListViewFromPtr(ptr unsafe.Pointer) *ListView {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ListView{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewListView(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *ListView {
 	ptr := cgo_wxListView_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

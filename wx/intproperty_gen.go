@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type IntProperty struct{ PGProperty }
+
+// IntPropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func IntPropertyFromPtr(ptr unsafe.Pointer) *IntProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &IntProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *IntProperty) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxIntProperty_Delete(o.Ptr())
+}
 
 func NewIntProperty(label string, name string, value int) *IntProperty {
 	wxLabel := NewWxString(label)

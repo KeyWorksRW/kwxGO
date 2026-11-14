@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RibbonToolBar struct{ BaseObject }
+type RibbonToolBar struct{ RibbonControl }
+
+// RibbonToolBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RibbonToolBarFromPtr(ptr unsafe.Pointer) *RibbonToolBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RibbonToolBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRibbonToolBar(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *RibbonToolBar {
 	ptr := cgo_wxRibbonToolBar_Create(parent, id, x, y, width, height, style)
@@ -14,6 +26,18 @@ func NewRibbonToolBar(parent unsafe.Pointer, id int, x int, y int, width int, he
 	obj := &RibbonToolBar{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RibbonToolBar) SetDropdownKeyTip(tool_id int, keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonToolBar_SetDropdownKeyTip(o.Ptr(), tool_id, wxKeytip.Ptr())
+}
+
+func (o *RibbonToolBar) SetKeyTip(tool_id int, keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonToolBar_SetKeyTip(o.Ptr(), tool_id, wxKeytip.Ptr())
 }
 
 func (o *RibbonToolBar) AddTool(tool_id int, bitmap unsafe.Pointer, help_string string, kind int, bitmap_disabled unsafe.Pointer, client_data unsafe.Pointer) unsafe.Pointer {
@@ -163,8 +187,8 @@ func (o *RibbonToolBar) SetRows(nMin int, nMax int) {
 	cgo_wxRibbonToolBar_SetRows(o.Ptr(), nMin, nMax)
 }
 
-func (o *RibbonToolBar) Realize() {
-	cgo_wxRibbonToolBar_Realize(o.Ptr())
+func (o *RibbonToolBar) Realize() bool {
+	return cgo_wxRibbonToolBar_Realize(o.Ptr())
 }
 
 func (o *RibbonToolBar) SetArtProvider(art unsafe.Pointer) {

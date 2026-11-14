@@ -6,8 +6,28 @@ import "unsafe"
 
 type Wizard struct{ Dialog }
 
-func (o *Wizard) Chain(first unsafe.Pointer, second unsafe.Pointer) {
+// WizardFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WizardFromPtr(ptr unsafe.Pointer) *Wizard {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Wizard{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func Wizard_Chain(first unsafe.Pointer, second unsafe.Pointer) {
 	cgo_wxWizard_Chain(first, second)
+}
+
+func (o *Wizard) SetBitmapPlacement(placement int) {
+	cgo_wxWizard_SetBitmapPlacement(o.Ptr(), placement)
+}
+
+func (o *Wizard) ShowPage(page unsafe.Pointer, goingForward bool) bool {
+	return cgo_wxWizard_ShowPage(o.Ptr(), page, goingForward)
 }
 
 func NewWizard(parent unsafe.Pointer, id int, text string, bitmap unsafe.Pointer, left int, top int, width int, height int, style int) *Wizard {
@@ -26,8 +46,9 @@ func (o *Wizard) GetCurrentPage() unsafe.Pointer {
 	return cgo_wxWizard_GetCurrentPage(o.Ptr())
 }
 
-func (o *Wizard) GetPageSize() unsafe.Pointer {
-	return cgo_wxWizard_GetPageSize(o.Ptr())
+func (o *Wizard) GetPageSize() Size {
+	retPtr := cgo_wxWizard_GetPageSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Wizard) RunWizard(firstPage unsafe.Pointer) int {
@@ -60,5 +81,29 @@ func (o *Wizard) HasPrevPage(page unsafe.Pointer) bool {
 
 func (o *Wizard) GetBitmap(ref unsafe.Pointer) {
 	cgo_wxWizard_GetBitmap(o.Ptr(), ref)
+}
+
+func NewWizardDefault() *Wizard {
+	ptr := cgo_wxWizard_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &Wizard{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Wizard) Create2(parent unsafe.Pointer, id int, text string, bitmap unsafe.Pointer, x int, y int, style int) bool {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxWizard_Create2(o.Ptr(), parent, id, wxText.Ptr(), bitmap, x, y, style)
+}
+
+func (o *Wizard) SetBitmap(bitmap unsafe.Pointer) {
+	cgo_wxWizard_SetBitmap(o.Ptr(), bitmap)
+}
+
+func (o *Wizard) GetBitmapPlacement() int {
+	return cgo_wxWizard_GetBitmapPlacement(o.Ptr())
 }
 

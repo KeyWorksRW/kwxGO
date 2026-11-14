@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxDragDataObject struct{ BaseObject }
 
+// KwxDragDataObjectFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxDragDataObjectFromPtr(ptr unsafe.Pointer) *KwxDragDataObject {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxDragDataObject{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxDragDataObject(pObject unsafe.Pointer, format string, fnGetDataSize unsafe.Pointer, fnGetDataHere unsafe.Pointer, fnSetData unsafe.Pointer) *KwxDragDataObject {
 	wxFormat := NewWxString(format)
 	defer wxFormat.Free()
@@ -19,6 +31,9 @@ func NewKwxDragDataObject(pObject unsafe.Pointer, format string, fnGetDataSize u
 }
 
 func (o *KwxDragDataObject) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxDragDataObject_Delete(o.Ptr())
 }
 

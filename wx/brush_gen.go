@@ -6,6 +6,18 @@ import "unsafe"
 
 type Brush struct{ BaseObject }
 
+// BrushFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BrushFromPtr(ptr unsafe.Pointer) *Brush {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Brush{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Brush) Assign(brush unsafe.Pointer) {
 	cgo_wxBrush_Assign(o.Ptr(), brush)
 }
@@ -51,6 +63,9 @@ func NewBrushFromStock(id int) *Brush {
 }
 
 func (o *Brush) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxBrush_Delete(o.Ptr())
 }
 

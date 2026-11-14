@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type CollapsiblePaneEvent struct{ CommandEvent }
+
+// CollapsiblePaneEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CollapsiblePaneEventFromPtr(ptr unsafe.Pointer) *CollapsiblePaneEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CollapsiblePaneEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *CollapsiblePaneEvent) GetCollapsed() bool {
 	return cgo_wxCollapsiblePaneEvent_GetCollapsed(o.Ptr())

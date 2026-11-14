@@ -6,16 +6,30 @@ import "unsafe"
 
 type AuiToolBarEvent struct{ NotifyEvent }
 
+// AuiToolBarEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiToolBarEventFromPtr(ptr unsafe.Pointer) *AuiToolBarEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiToolBarEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *AuiToolBarEvent) IsDropDownClicked() bool {
 	return cgo_wxAuiToolBarEvent_IsDropDownClicked(o.Ptr())
 }
 
-func (o *AuiToolBarEvent) GetClickPoint() unsafe.Pointer {
-	return cgo_wxAuiToolBarEvent_GetClickPoint(o.Ptr())
+func (o *AuiToolBarEvent) GetClickPoint() Point {
+	retPtr := cgo_wxAuiToolBarEvent_GetClickPoint(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *AuiToolBarEvent) GetItemRect() unsafe.Pointer {
-	return cgo_wxAuiToolBarEvent_GetItemRect(o.Ptr())
+func (o *AuiToolBarEvent) GetItemRect() Rect {
+	retPtr := cgo_wxAuiToolBarEvent_GetItemRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
 func (o *AuiToolBarEvent) GetToolId() int {

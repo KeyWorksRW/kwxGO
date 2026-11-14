@@ -6,6 +6,18 @@ import "unsafe"
 
 type StaticText struct{ Control }
 
+// StaticTextFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StaticTextFromPtr(ptr unsafe.Pointer) *StaticText {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StaticText{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewStaticText(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *StaticText {
 	wxText := NewWxString(text)
 	defer wxText.Free()

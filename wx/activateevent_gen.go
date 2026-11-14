@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type ActivateEvent struct{ Event }
+
+// ActivateEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ActivateEventFromPtr(ptr unsafe.Pointer) *ActivateEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ActivateEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *ActivateEvent) GetActive() bool {
 	return cgo_wxActivateEvent_GetActive(o.Ptr())

@@ -6,8 +6,25 @@ import "unsafe"
 
 type SetCursorEvent struct{ Event }
 
+// SetCursorEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SetCursorEventFromPtr(ptr unsafe.Pointer) *SetCursorEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SetCursorEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *SetCursorEvent) GetCursor() unsafe.Pointer {
 	return cgo_wxSetCursorEvent_GetCursor(o.Ptr())
+}
+
+func (o *SetCursorEvent) GetPosition() Point {
+	retPtr := cgo_wxSetCursorEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *SetCursorEvent) GetX() int {

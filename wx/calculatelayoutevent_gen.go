@@ -6,6 +6,18 @@ import "unsafe"
 
 type CalculateLayoutEvent struct{ Event }
 
+// CalculateLayoutEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CalculateLayoutEventFromPtr(ptr unsafe.Pointer) *CalculateLayoutEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CalculateLayoutEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCalculateLayoutEvent(id int) *CalculateLayoutEvent {
 	ptr := cgo_wxCalculateLayoutEvent_Create(id)
 	if ptr == nil {
@@ -20,8 +32,9 @@ func (o *CalculateLayoutEvent) GetFlags() int {
 	return cgo_wxCalculateLayoutEvent_GetFlags(o.Ptr())
 }
 
-func (o *CalculateLayoutEvent) GetRect() unsafe.Pointer {
-	return cgo_wxCalculateLayoutEvent_GetRect(o.Ptr())
+func (o *CalculateLayoutEvent) GetRect() Rect {
+	retPtr := cgo_wxCalculateLayoutEvent_GetRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
 func (o *CalculateLayoutEvent) SetFlags(flags int) {

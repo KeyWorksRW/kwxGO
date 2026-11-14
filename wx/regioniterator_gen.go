@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RegionIterator struct{ BaseObject }
+type RegionIterator struct{ Object }
+
+// RegionIteratorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RegionIteratorFromPtr(ptr unsafe.Pointer) *RegionIterator {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RegionIterator{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRegionIterator() *RegionIterator {
 	ptr := cgo_wxRegionIterator_Create()
@@ -14,6 +26,11 @@ func NewRegionIterator() *RegionIterator {
 	obj := &RegionIterator{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RegionIterator) GetRect() Rect {
+	retPtr := cgo_wxRegionIterator_GetRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
 func NewRegionIteratorFromRegion(region unsafe.Pointer) *RegionIterator {
@@ -27,6 +44,9 @@ func NewRegionIteratorFromRegion(region unsafe.Pointer) *RegionIterator {
 }
 
 func (o *RegionIterator) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxRegionIterator_Delete(o.Ptr())
 }
 

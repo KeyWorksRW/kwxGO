@@ -6,6 +6,18 @@ import "unsafe"
 
 type BitmapToggleButton struct{ ToggleButton }
 
+// BitmapToggleButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BitmapToggleButtonFromPtr(ptr unsafe.Pointer) *BitmapToggleButton {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapToggleButton{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewBitmapToggleButton(parent unsafe.Pointer, id int, bitmap unsafe.Pointer, x int, y int, width int, height int, style int) *BitmapToggleButton {
 	ptr := cgo_wxBitmapToggleButton_Create(parent, id, bitmap, x, y, width, height, style)
 	if ptr == nil {

@@ -4,7 +4,23 @@ package wx
 
 import "unsafe"
 
-type LogChain struct{ BaseObject }
+type LogChain struct{ Log }
+
+// LogChainFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func LogChainFromPtr(ptr unsafe.Pointer) *LogChain {
+	if ptr == nil {
+		return nil
+	}
+	obj := &LogChain{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *LogChain) DetachOldLog() {
+	cgo_wxLogChain_DetachOldLog(o.Ptr())
+}
 
 func NewLogChain(logger unsafe.Pointer) *LogChain {
 	ptr := cgo_wxLogChain_Create(logger)
@@ -17,6 +33,9 @@ func NewLogChain(logger unsafe.Pointer) *LogChain {
 }
 
 func (o *LogChain) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxLogChain_Delete(o.Ptr())
 }
 

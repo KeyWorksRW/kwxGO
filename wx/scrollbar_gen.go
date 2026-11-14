@@ -6,6 +6,18 @@ import "unsafe"
 
 type ScrollBar struct{ Control }
 
+// ScrollBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ScrollBarFromPtr(ptr unsafe.Pointer) *ScrollBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ScrollBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewScrollBar(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *ScrollBar {
 	ptr := cgo_wxScrollBar_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {

@@ -6,6 +6,18 @@ import "unsafe"
 
 type MimeTypesManager struct{ BaseObject }
 
+// MimeTypesManagerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MimeTypesManagerFromPtr(ptr unsafe.Pointer) *MimeTypesManager {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MimeTypesManager{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *MimeTypesManager) AddFallbacks(types unsafe.Pointer) {
 	cgo_wxMimeTypesManager_AddFallbacks(o.Ptr(), types)
 }

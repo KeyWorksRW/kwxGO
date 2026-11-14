@@ -6,6 +6,18 @@ import "unsafe"
 
 type SashEvent struct{ Event }
 
+// SashEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SashEventFromPtr(ptr unsafe.Pointer) *SashEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SashEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSashEvent(id int, edge int) *SashEvent {
 	ptr := cgo_wxSashEvent_Create(id, edge)
 	if ptr == nil {
@@ -16,8 +28,9 @@ func NewSashEvent(id int, edge int) *SashEvent {
 	return obj
 }
 
-func (o *SashEvent) GetDragRect() unsafe.Pointer {
-	return cgo_wxSashEvent_GetDragRect(o.Ptr())
+func (o *SashEvent) GetDragRect() Rect {
+	retPtr := cgo_wxSashEvent_GetDragRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
 func (o *SashEvent) GetDragStatus() int {

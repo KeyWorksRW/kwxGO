@@ -6,6 +6,64 @@ import "unsafe"
 
 type PropertyGridPage struct{ EvtHandler }
 
+// PropertyGridPageFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PropertyGridPageFromPtr(ptr unsafe.Pointer) *PropertyGridPage {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertyGridPage{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *PropertyGridPage) FitColumns() Size {
+	retPtr := cgo_wxPropertyGridPage_FitColumns(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *PropertyGridPage) GetStatePtr() unsafe.Pointer {
+	return cgo_wxPropertyGridPage_GetStatePtr(o.Ptr())
+}
+
+func (o *PropertyGridPage) GetToolId() int {
+	return cgo_wxPropertyGridPage_GetToolId(o.Ptr())
+}
+
+func NewPropertyGridPage() *PropertyGridPage {
+	ptr := cgo_wxPropertyGridPage_Create()
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertyGridPage{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *PropertyGridPage) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxPropertyGridPage_Delete(o.Ptr())
+}
+
+func (o *PropertyGridPage) Init() {
+	cgo_wxPropertyGridPage_Init(o.Ptr())
+}
+
+func (o *PropertyGridPage) IsHandlingAllEvents() bool {
+	return cgo_wxPropertyGridPage_IsHandlingAllEvents(o.Ptr())
+}
+
+func (o *PropertyGridPage) OnShow() {
+	cgo_wxPropertyGridPage_OnShow(o.Ptr())
+}
+
+func (o *PropertyGridPage) RefreshProperty(property unsafe.Pointer) {
+	cgo_wxPropertyGridPage_RefreshProperty(o.Ptr(), property)
+}
+
 func (o *PropertyGridPage) Clear() {
 	cgo_wxPropertyGridPage_Clear(o.Ptr())
 }

@@ -6,6 +6,64 @@ import "unsafe"
 
 type TextCtrl struct{ Control }
 
+// TextCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TextCtrlFromPtr(ptr unsafe.Pointer) *TextCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TextCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *TextCtrl) EmulateKeyPress(keyevent unsafe.Pointer) int {
+	return cgo_wxTextCtrl_EmulateKeyPress(o.Ptr(), keyevent)
+}
+
+func (o *TextCtrl) GetRange(from int, toPos int) string {
+	retPtr := cgo_wxTextCtrl_GetRange(o.Ptr(), from, toPos)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *TextCtrl) GetStringSelection() string {
+	retPtr := cgo_wxTextCtrl_GetStringSelection(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *TextCtrl) PositionToCoords(pos int) Point {
+	retPtr := cgo_wxTextCtrl_PositionToCoords(o.Ptr(), pos)
+	return pointFromPtr(retPtr)
+}
+
+func (o *TextCtrl) HitTest(x int, y int, pos unsafe.Pointer) int {
+	return cgo_wxTextCtrl_HitTest(o.Ptr(), x, y, pos)
+}
+
+func (o *TextCtrl) HitTestColumnRow(x int, y int, column unsafe.Pointer, row unsafe.Pointer) int {
+	return cgo_wxTextCtrl_HitTestColumnRow(o.Ptr(), x, y, column, row)
+}
+
+func (o *TextCtrl) IsRTFSupported() bool {
+	return cgo_wxTextCtrl_IsRTFSupported(o.Ptr())
+}
+
+func (o *TextCtrl) GetRTFValue() string {
+	retPtr := cgo_wxTextCtrl_GetRTFValue(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *TextCtrl) SetRTFValue(value string) {
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	cgo_wxTextCtrl_SetRTFValue(o.Ptr(), wxValue.Ptr())
+}
+
+func (o *TextCtrl) ShouldInheritColours() bool {
+	return cgo_wxTextCtrl_ShouldInheritColours(o.Ptr())
+}
+
 func (o *TextCtrl) AppendText(text string) {
 	wxText := NewWxString(text)
 	defer wxText.Free()

@@ -6,6 +6,18 @@ import "unsafe"
 
 type BusyCursor struct{ BaseObject }
 
+// BusyCursorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BusyCursorFromPtr(ptr unsafe.Pointer) *BusyCursor {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BusyCursor{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewBusyCursor() *BusyCursor {
 	ptr := cgo_wxBusyCursor_Create()
 	if ptr == nil {
@@ -21,6 +33,9 @@ func (o *BusyCursor) CreateWithCursor() unsafe.Pointer {
 }
 
 func (o *BusyCursor) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxBusyCursor_Delete(o.Ptr())
 }
 

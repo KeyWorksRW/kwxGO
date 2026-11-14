@@ -4,10 +4,50 @@ package wx
 
 import "unsafe"
 
-type EvtHandler struct{ BaseObject }
+type EvtHandler struct{ Object }
+
+// EvtHandlerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func EvtHandlerFromPtr(ptr unsafe.Pointer) *EvtHandler {
+	if ptr == nil {
+		return nil
+	}
+	obj := &EvtHandler{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *EvtHandler) GetClientClosure() unsafe.Pointer {
+	return cgo_wxEvtHandler_GetClientClosure(o.Ptr())
+}
+
+func (o *EvtHandler) SetClientClosure(closure unsafe.Pointer) {
+	cgo_wxEvtHandler_SetClientClosure(o.Ptr(), closure)
+}
+
+func (o *EvtHandler) SetOnProcessEvent(pFunction unsafe.Pointer) {
+	cgo_wxEvtHandler_SetOnProcessEvent(o.Ptr(), pFunction)
+}
+
+func EvtHandler_AddFilter(filter unsafe.Pointer) {
+	cgo_wxEvtHandler_AddFilter(filter)
+}
+
+func EvtHandler_RemoveFilter(filter unsafe.Pointer) {
+	cgo_wxEvtHandler_RemoveFilter(filter)
+}
 
 func (o *EvtHandler) AddPendingEvent(event unsafe.Pointer) {
 	cgo_wxEvtHandler_AddPendingEvent(o.Ptr(), event)
+}
+
+func (o *EvtHandler) CallAfter(closure unsafe.Pointer) {
+	cgo_wxEvtHandler_CallAfter(o.Ptr(), closure)
+}
+
+func (o *EvtHandler) GetClientData() unsafe.Pointer {
+	return cgo_wxEvtHandler_GetClientData(o.Ptr())
 }
 
 func (o *EvtHandler) Connect(first int, last int, typ int, data unsafe.Pointer) int {
@@ -25,11 +65,18 @@ func NewEvtHandler() *EvtHandler {
 }
 
 func (o *EvtHandler) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxEvtHandler_Delete(o.Ptr())
 }
 
 func (o *EvtHandler) Disconnect(first int, last int, typ int, id int) int {
 	return cgo_wxEvtHandler_Disconnect(o.Ptr(), first, last, typ, id)
+}
+
+func (o *EvtHandler) UnbindClosure(first int, last int, typ int, closure unsafe.Pointer) bool {
+	return cgo_wxEvtHandler_UnbindClosure(o.Ptr(), first, last, typ, closure)
 }
 
 func (o *EvtHandler) GetEvtHandlerEnabled() bool {

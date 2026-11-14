@@ -6,6 +6,62 @@ import "unsafe"
 
 type AcceleratorEntry struct{ BaseObject }
 
+// AcceleratorEntryFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AcceleratorEntryFromPtr(ptr unsafe.Pointer) *AcceleratorEntry {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AcceleratorEntry{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewAcceleratorEntryFromString(str string) *AcceleratorEntry {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	ptr := cgo_wxAcceleratorEntry_CreateFromString(wxStr.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &AcceleratorEntry{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *AcceleratorEntry) SetMenuItem(item unsafe.Pointer) {
+	cgo_wxAcceleratorEntry_SetMenuItem(o.Ptr(), item)
+}
+
+func (o *AcceleratorEntry) GetMenuItem() unsafe.Pointer {
+	return cgo_wxAcceleratorEntry_GetMenuItem(o.Ptr())
+}
+
+func (o *AcceleratorEntry) IsOk() bool {
+	return cgo_wxAcceleratorEntry_IsOk(o.Ptr())
+}
+
+func (o *AcceleratorEntry) MatchesEvent(event unsafe.Pointer) bool {
+	return cgo_wxAcceleratorEntry_MatchesEvent(o.Ptr(), event)
+}
+
+func (o *AcceleratorEntry) ToString() string {
+	retPtr := cgo_wxAcceleratorEntry_ToString(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *AcceleratorEntry) ToRawString() string {
+	retPtr := cgo_wxAcceleratorEntry_ToRawString(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *AcceleratorEntry) FromString(str string) bool {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	return cgo_wxAcceleratorEntry_FromString(o.Ptr(), wxStr.Ptr())
+}
+
 func NewAcceleratorEntry(flags int, keyCode int, cmd int) *AcceleratorEntry {
 	ptr := cgo_wxAcceleratorEntry_Create(flags, keyCode, cmd)
 	if ptr == nil {
@@ -17,6 +73,9 @@ func NewAcceleratorEntry(flags int, keyCode int, cmd int) *AcceleratorEntry {
 }
 
 func (o *AcceleratorEntry) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAcceleratorEntry_Delete(o.Ptr())
 }
 

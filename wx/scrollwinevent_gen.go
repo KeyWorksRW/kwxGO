@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type ScrollWinEvent struct{ Event }
+
+// ScrollWinEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ScrollWinEventFromPtr(ptr unsafe.Pointer) *ScrollWinEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ScrollWinEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *ScrollWinEvent) GetOrientation() int {
 	return cgo_wxScrollWinEvent_GetOrientation(o.Ptr())

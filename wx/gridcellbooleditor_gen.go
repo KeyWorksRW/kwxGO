@@ -6,7 +6,19 @@ import "unsafe"
 
 type GridCellBoolEditor struct{ GridCellEditor }
 
-func (o *GridCellBoolEditor) Ctor() unsafe.Pointer {
+// GridCellBoolEditorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridCellBoolEditorFromPtr(ptr unsafe.Pointer) *GridCellBoolEditor {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridCellBoolEditor{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func GridCellBoolEditor_Ctor() unsafe.Pointer {
 	return cgo_wxGridCellBoolEditor_Ctor()
 }
 

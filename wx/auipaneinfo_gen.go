@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiPaneInfo struct{ BaseObject }
 
+// AuiPaneInfoFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiPaneInfoFromPtr(ptr unsafe.Pointer) *AuiPaneInfo {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiPaneInfo{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiPaneInfoDefault() *AuiPaneInfo {
 	ptr := cgo_wxAuiPaneInfo_CreateDefault()
 	if ptr == nil {
@@ -14,6 +26,73 @@ func NewAuiPaneInfoDefault() *AuiPaneInfo {
 	obj := &AuiPaneInfo{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *AuiPaneInfo) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxAuiPaneInfo_Delete(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetName() string {
+	retPtr := cgo_wxAuiPaneInfo_GetName(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *AuiPaneInfo) GetCaption() string {
+	retPtr := cgo_wxAuiPaneInfo_GetCaption(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *AuiPaneInfo) GetWindow() unsafe.Pointer {
+	return cgo_wxAuiPaneInfo_GetWindow(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetDockDirection() int {
+	return cgo_wxAuiPaneInfo_GetDockDirection(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetDockLayer() int {
+	return cgo_wxAuiPaneInfo_GetDockLayer(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetDockRow() int {
+	return cgo_wxAuiPaneInfo_GetDockRow(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetDockPos() int {
+	return cgo_wxAuiPaneInfo_GetDockPos(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetDockProportion() int {
+	return cgo_wxAuiPaneInfo_GetDockProportion(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetDockSize() int {
+	return cgo_wxAuiPaneInfo_GetDockSize(o.Ptr())
+}
+
+func (o *AuiPaneInfo) GetFloatingPos() Point {
+	retPtr := cgo_wxAuiPaneInfo_GetFloatingPos(o.Ptr())
+	return pointFromPtr(retPtr)
+}
+
+func (o *AuiPaneInfo) GetFloatingSize() Size {
+	retPtr := cgo_wxAuiPaneInfo_GetFloatingSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *AuiPaneInfo) IsMaximized() bool {
+	return cgo_wxAuiPaneInfo_IsMaximized(o.Ptr())
+}
+
+func (o *AuiPaneInfo) FloatingClientSize(size unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxAuiPaneInfo_FloatingClientSize(o.Ptr(), size)
+}
+
+func (o *AuiPaneInfo) IconMin(b unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxAuiPaneInfo_IconMin(o.Ptr(), b)
 }
 
 func NewAuiPaneInfo(source unsafe.Pointer) *AuiPaneInfo {

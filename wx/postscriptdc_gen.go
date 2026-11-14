@@ -6,6 +6,18 @@ import "unsafe"
 
 type PostScriptDC struct{ DC }
 
+// PostScriptDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PostScriptDCFromPtr(ptr unsafe.Pointer) *PostScriptDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PostScriptDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewPostScriptDC(data unsafe.Pointer) *PostScriptDC {
 	ptr := cgo_wxPostScriptDC_Create(data)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewPostScriptDC(data unsafe.Pointer) *PostScriptDC {
 }
 
 func (o *PostScriptDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPostScriptDC_Delete(o.Ptr())
 }
 

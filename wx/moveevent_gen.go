@@ -6,7 +6,20 @@ import "unsafe"
 
 type MoveEvent struct{ Event }
 
-func (o *MoveEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxMoveEvent_GetPosition(o.Ptr())
+// MoveEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MoveEventFromPtr(ptr unsafe.Pointer) *MoveEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MoveEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *MoveEvent) GetPosition() Point {
+	retPtr := cgo_wxMoveEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 

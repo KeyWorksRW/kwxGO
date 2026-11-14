@@ -4,24 +4,75 @@ package wx
 
 import "unsafe"
 
-type ToolBar struct{ BaseWindow }
+type ToolBar struct{ ToolBarBase }
 
-func (o *ToolBar) AddControl(ctrl unsafe.Pointer) bool {
-	return cgo_wxToolBar_AddControl(o.Ptr(), ctrl)
+// ToolBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ToolBarFromPtr(ptr unsafe.Pointer) *ToolBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ToolBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
 }
 
-func (o *ToolBar) AddSeparator() {
-	cgo_wxToolBar_AddSeparator(o.Ptr())
-}
-
-func (o *ToolBar) AddTool(toolid int, label string, bitmap unsafe.Pointer, bmpDisabled unsafe.Pointer, kind int, shortHelp string, longHelp string, data unsafe.Pointer) {
+func (o *ToolBar) AddTool2(toolId int, label string, bmp unsafe.Pointer, bmpDisabled unsafe.Pointer, itemKind int, shortHelp string, longHelp string) {
 	wxLabel := NewWxString(label)
 	defer wxLabel.Free()
 	wxShortHelp := NewWxString(shortHelp)
 	defer wxShortHelp.Free()
 	wxLongHelp := NewWxString(longHelp)
 	defer wxLongHelp.Free()
-	cgo_wxToolBar_AddTool(o.Ptr(), toolid, wxLabel.Ptr(), bitmap, bmpDisabled, kind, wxShortHelp.Ptr(), wxLongHelp.Ptr(), data)
+	cgo_wxToolBar_AddTool2(o.Ptr(), toolId, wxLabel.Ptr(), bmp, bmpDisabled, itemKind, wxShortHelp.Ptr(), wxLongHelp.Ptr())
+}
+
+func (o *ToolBar) GetToolMargins() Size {
+	retPtr := cgo_wxToolBar_GetToolMargins(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *ToolBar) SetMaxRowsCols(rows int, cols int) {
+	cgo_wxToolBar_SetMaxRowsCols(o.Ptr(), rows, cols)
+}
+
+func (o *ToolBar) GetMaxRows() int {
+	return cgo_wxToolBar_GetMaxRows(o.Ptr())
+}
+
+func (o *ToolBar) GetMaxCols() int {
+	return cgo_wxToolBar_GetMaxCols(o.Ptr())
+}
+
+func (o *ToolBar) GetDirection() int {
+	return cgo_wxToolBar_GetDirection(o.Ptr())
+}
+
+func (o *ToolBar) GetToolByPos(pos int) unsafe.Pointer {
+	return cgo_wxToolBar_GetToolByPos(o.Ptr(), pos)
+}
+
+func (o *ToolBar) SetRows(nRows int) {
+	cgo_wxToolBar_SetRows(o.Ptr(), nRows)
+}
+
+func (o *ToolBar) AddControl(ctrl unsafe.Pointer) bool {
+	return cgo_wxToolBar_AddControl(o.Ptr(), ctrl)
+}
+
+func (o *ToolBar) AddSeparator() unsafe.Pointer {
+	return cgo_wxToolBar_AddSeparator(o.Ptr())
+}
+
+func (o *ToolBar) AddTool(toolid int, label string, bitmap unsafe.Pointer, bmpDisabled unsafe.Pointer, kind int, shortHelp string, longHelp string, data unsafe.Pointer) unsafe.Pointer {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	wxShortHelp := NewWxString(shortHelp)
+	defer wxShortHelp.Free()
+	wxLongHelp := NewWxString(longHelp)
+	defer wxLongHelp.Free()
+	return cgo_wxToolBar_AddTool(o.Ptr(), toolid, wxLabel.Ptr(), bitmap, bmpDisabled, kind, wxShortHelp.Ptr(), wxLongHelp.Ptr(), data)
 }
 
 func NewToolBar(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *ToolBar {
@@ -35,6 +86,9 @@ func NewToolBar(parent unsafe.Pointer, id int, left int, top int, width int, hei
 }
 
 func (o *ToolBar) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxToolBar_Delete(o.Ptr())
 }
 
@@ -50,12 +104,14 @@ func (o *ToolBar) EnableTool(id int, enable bool) {
 	cgo_wxToolBar_EnableTool(o.Ptr(), id, enable)
 }
 
-func (o *ToolBar) GetMargins() unsafe.Pointer {
-	return cgo_wxToolBar_GetMargins(o.Ptr())
+func (o *ToolBar) GetMargins() Point {
+	retPtr := cgo_wxToolBar_GetMargins(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *ToolBar) GetToolBitmapSize() unsafe.Pointer {
-	return cgo_wxToolBar_GetToolBitmapSize(o.Ptr())
+func (o *ToolBar) GetToolBitmapSize() Size {
+	retPtr := cgo_wxToolBar_GetToolBitmapSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *ToolBar) GetToolClientData(id int) unsafe.Pointer {
@@ -80,8 +136,9 @@ func (o *ToolBar) GetToolShortHelp(id int) string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *ToolBar) GetToolSize() unsafe.Pointer {
-	return cgo_wxToolBar_GetToolSize(o.Ptr())
+func (o *ToolBar) GetToolSize() Size {
+	retPtr := cgo_wxToolBar_GetToolSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *ToolBar) GetToolState(id int) bool {
@@ -100,8 +157,8 @@ func (o *ToolBar) Realize() bool {
 	return cgo_wxToolBar_Realize(o.Ptr())
 }
 
-func (o *ToolBar) RemoveTool(id int) {
-	cgo_wxToolBar_RemoveTool(o.Ptr(), id)
+func (o *ToolBar) RemoveTool(id int) unsafe.Pointer {
+	return cgo_wxToolBar_RemoveTool(o.Ptr(), id)
 }
 
 func (o *ToolBar) SetMargins(x int, y int) {
@@ -218,8 +275,8 @@ func (o *ToolBar) SetToolDisabledBitmap(id int, bitmap unsafe.Pointer) {
 	cgo_wxToolBar_SetToolDisabledBitmap(o.Ptr(), id, bitmap)
 }
 
-func (o *ToolBar) SetDropdownMenu(id int, menu unsafe.Pointer) {
-	cgo_wxToolBar_SetDropdownMenu(o.Ptr(), id, menu)
+func (o *ToolBar) SetDropdownMenu(id int, menu unsafe.Pointer) bool {
+	return cgo_wxToolBar_SetDropdownMenu(o.Ptr(), id, menu)
 }
 
 func (o *ToolBar) SetToggle(id int, toggle bool) {

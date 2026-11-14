@@ -6,6 +6,27 @@ import "unsafe"
 
 type StatusBar struct{ Window }
 
+// StatusBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StatusBarFromPtr(ptr unsafe.Pointer) *StatusBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StatusBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *StatusBar) GetBorders() Size {
+	retPtr := cgo_wxStatusBar_GetBorders(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *StatusBar) AddFieldControl(n int, win unsafe.Pointer) bool {
+	return cgo_wxStatusBar_AddFieldControl(o.Ptr(), n, win)
+}
+
 func NewStatusBar(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *StatusBar {
 	ptr := cgo_wxStatusBar_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {

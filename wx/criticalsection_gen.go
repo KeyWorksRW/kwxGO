@@ -2,7 +2,25 @@
 
 package wx
 
+import "unsafe"
+
 type CriticalSection struct{ BaseObject }
+
+// CriticalSectionFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CriticalSectionFromPtr(ptr unsafe.Pointer) *CriticalSection {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CriticalSection{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *CriticalSection) TryEnter() bool {
+	return cgo_wxCriticalSection_TryEnter(o.Ptr())
+}
 
 func NewCriticalSection() *CriticalSection {
 	ptr := cgo_wxCriticalSection_Create()
@@ -15,6 +33,9 @@ func NewCriticalSection() *CriticalSection {
 }
 
 func (o *CriticalSection) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCriticalSection_Delete(o.Ptr())
 }
 

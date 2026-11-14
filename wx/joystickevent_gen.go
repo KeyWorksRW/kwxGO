@@ -6,6 +6,18 @@ import "unsafe"
 
 type JoystickEvent struct{ Event }
 
+// JoystickEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func JoystickEventFromPtr(ptr unsafe.Pointer) *JoystickEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &JoystickEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *JoystickEvent) ButtonDown(but int) bool {
 	return cgo_wxJoystickEvent_ButtonDown(o.Ptr(), but)
 }
@@ -30,8 +42,9 @@ func (o *JoystickEvent) GetJoystick() int {
 	return cgo_wxJoystickEvent_GetJoystick(o.Ptr())
 }
 
-func (o *JoystickEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxJoystickEvent_GetPosition(o.Ptr())
+func (o *JoystickEvent) GetPosition() Point {
+	retPtr := cgo_wxJoystickEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *JoystickEvent) GetZPosition() int {

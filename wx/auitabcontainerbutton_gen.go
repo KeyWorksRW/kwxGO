@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiTabContainerButton struct{ BaseObject }
 
+// AuiTabContainerButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiTabContainerButtonFromPtr(ptr unsafe.Pointer) *AuiTabContainerButton {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiTabContainerButton{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *AuiTabContainerButton) Id() int {
 	return cgo_wxAuiTabContainerButton_Id(o.Ptr())
 }
@@ -26,7 +38,8 @@ func (o *AuiTabContainerButton) DisBitmap(bitmap unsafe.Pointer) {
 	cgo_wxAuiTabContainerButton_DisBitmap(o.Ptr(), bitmap)
 }
 
-func (o *AuiTabContainerButton) Rect() unsafe.Pointer {
-	return cgo_wxAuiTabContainerButton_Rect(o.Ptr())
+func (o *AuiTabContainerButton) Rect() Rect {
+	retPtr := cgo_wxAuiTabContainerButton_Rect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 

@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type WrapSizer struct{ BoxSizer }
+
+// WrapSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WrapSizerFromPtr(ptr unsafe.Pointer) *WrapSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WrapSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewWrapSizer(orient int, flags int) *WrapSizer {
 	ptr := cgo_wxWrapSizer_Create(orient, flags)

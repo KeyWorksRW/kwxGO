@@ -6,6 +6,25 @@ import "unsafe"
 
 type DateProperty struct{ PGProperty }
 
+// DatePropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DatePropertyFromPtr(ptr unsafe.Pointer) *DateProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DateProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *DateProperty) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxDateProperty_Delete(o.Ptr())
+}
+
 func NewDateProperty(label string, name string, value unsafe.Pointer) *DateProperty {
 	wxLabel := NewWxString(label)
 	defer wxLabel.Free()

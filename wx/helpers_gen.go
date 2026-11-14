@@ -2,12 +2,16 @@
 
 package wx
 
-import "unsafe"
+import (
+	"runtime"
+	"unsafe"
+)
 
 // BaseObject is the root type for all non-window wxWidgets objects.
 // All generated non-window class structs embed this type directly or indirectly.
 type BaseObject struct {
-	ptr unsafe.Pointer
+	ptr      unsafe.Pointer
+	borrowed bool
 }
 
 // Ptr returns the underlying wxWidgets object pointer.
@@ -15,6 +19,12 @@ func (o *BaseObject) Ptr() unsafe.Pointer { return o.ptr }
 
 // SetPtr sets the underlying wxWidgets object pointer.
 func (o *BaseObject) SetPtr(p unsafe.Pointer) { o.ptr = p }
+
+// Borrowed reports whether this wrapper is a non-owning view of a native object.
+func (o *BaseObject) Borrowed() bool { return o.borrowed }
+
+// SetBorrowed marks the wrapper as non-owning, so Delete() does not free it.
+func (o *BaseObject) SetBorrowed(b bool) { o.borrowed = b }
 
 // BaseWindow is the root type for all window-derived wxWidgets objects.
 // All generated window class structs embed this type directly or indirectly.
@@ -45,4 +55,42 @@ func (w *WxString) Free() {
 // string, then frees the wxString. The pointer must not be used after this call.
 func WxStringToGoAndFree(ptr unsafe.Pointer) string {
 	return cgo_WxStringToGoAndFree(ptr)
+}
+
+// wxStringTable packs items into one NUL-terminated UTF-8 block and returns
+// a pointer to a table of char* entries into that block, plus a release
+// function. wxRadioBox and similar constructors take `int count, char**
+// strings` rather than a wxArrayString, so the count must be len(items) and
+// the entries must be real char pointers. wxWidgets copies the strings
+// during the call, so the caller only has to keep the block alive until
+// the call returns: `defer release()`.
+func wxStringTable(items []string) (unsafe.Pointer, func()) {
+	if len(items) == 0 {
+		return nil, func() {}
+	}
+
+	total := 0
+	for _, item := range items {
+		total += len(item) + 1
+	}
+
+	blob := make([]byte, 0, total)
+	offsets := make([]int, len(items))
+	for i, item := range items {
+		offsets[i] = len(blob)
+		blob = append(blob, item...)
+		blob = append(blob, 0)
+	}
+
+	// The table stores char pointers into blob, not Go pointers, so the
+	// memory handed to C passes the cgo pointer checks.
+	table := make([]uintptr, len(items))
+	for i, offset := range offsets {
+		table[i] = uintptr(unsafe.Pointer(&blob[offset]))
+	}
+
+	return unsafe.Pointer(&table[0]), func() {
+		runtime.KeepAlive(blob)
+		runtime.KeepAlive(table)
+	}
 }

@@ -6,6 +6,18 @@ import "unsafe"
 
 type IconBundle struct{ BaseObject }
 
+// IconBundleFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func IconBundleFromPtr(ptr unsafe.Pointer) *IconBundle {
+	if ptr == nil {
+		return nil
+	}
+	obj := &IconBundle{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *IconBundle) AddIcon(icon unsafe.Pointer) {
 	cgo_wxIconBundle_AddIcon(o.Ptr(), icon)
 }
@@ -52,11 +64,42 @@ func NewIconBundleFromIcon(icon unsafe.Pointer) *IconBundle {
 	return obj
 }
 
+func NewIconBundleFromData(data unsafe.Pointer, size int, bitmap_type int) *IconBundle {
+	ptr := cgo_wxIconBundle_CreateFromData(data, size, bitmap_type)
+	if ptr == nil {
+		return nil
+	}
+	obj := &IconBundle{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewIconBundleFromBase64(base64 unsafe.Pointer, len int, bitmap_type int) *IconBundle {
+	ptr := cgo_wxIconBundle_CreateFromBase64(base64, len, bitmap_type)
+	if ptr == nil {
+		return nil
+	}
+	obj := &IconBundle{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *IconBundle) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxIconBundle_Delete(o.Ptr())
 }
 
 func (o *IconBundle) GetIcon(width int, height int, flags int, ref unsafe.Pointer) {
 	cgo_wxIconBundle_GetIcon(o.Ptr(), width, height, flags, ref)
+}
+
+func (o *IconBundle) AddIconFromData(data unsafe.Pointer, size int, bitmap_type int) {
+	cgo_wxIconBundle_AddIconFromData(o.Ptr(), data, size, bitmap_type)
+}
+
+func (o *IconBundle) AddIconFromBase64(base64 unsafe.Pointer, len int, bitmap_type int) {
+	cgo_wxIconBundle_AddIconFromBase64(o.Ptr(), base64, len, bitmap_type)
 }
 

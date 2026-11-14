@@ -4,10 +4,194 @@ package wx
 
 import "unsafe"
 
-type DC struct{ BaseObject }
+type DC struct{ Object }
+
+// DCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DCFromPtr(ptr unsafe.Pointer) *DC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *DC) GetPixel2(x int, y int, col unsafe.Pointer) {
+	cgo_wxDC_GetPixel2(o.Ptr(), x, y, col)
+}
+
+func (o *DC) GetUserScaleX() float64 {
+	return cgo_wxDC_GetUserScaleX(o.Ptr())
+}
+
+func (o *DC) GetUserScaleY() float64 {
+	return cgo_wxDC_GetUserScaleY(o.Ptr())
+}
+
+func (o *DC) GetWindow() unsafe.Pointer {
+	return cgo_wxDC_GetWindow(o.Ptr())
+}
+
+func (o *DC) GetResolution() int {
+	return cgo_wxDC_GetResolution(o.Ptr())
+}
+
+func (o *DC) GetContentScaleFactor() float64 {
+	return cgo_wxDC_GetContentScaleFactor(o.Ptr())
+}
+
+func (o *DC) FromDIP(value int) int {
+	return cgo_wxDC_FromDIP(o.Ptr(), value)
+}
+
+func (o *DC) ToDIP(value int) int {
+	return cgo_wxDC_ToDIP(o.Ptr(), value)
+}
+
+func (o *DC) FromDIPSize(width int, height int) Size {
+	retPtr := cgo_wxDC_FromDIPSize(o.Ptr(), width, height)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *DC) ToDIPSize(width int, height int) Size {
+	retPtr := cgo_wxDC_ToDIPSize(o.Ptr(), width, height)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *DC) SetLayoutDirection(direction int) {
+	cgo_wxDC_SetLayoutDirection(o.Ptr(), direction)
+}
+
+func (o *DC) GetLayoutDirection() int {
+	return cgo_wxDC_GetLayoutDirection(o.Ptr())
+}
+
+func (o *DC) GetTextExtentSize(string string) Size {
+	wxString := NewWxString(string)
+	defer wxString.Free()
+	retPtr := cgo_wxDC_GetTextExtentSize(o.Ptr(), wxString.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *DC) GetMultiLineTextExtentSize(string string) Size {
+	wxString := NewWxString(string)
+	defer wxString.Free()
+	retPtr := cgo_wxDC_GetMultiLineTextExtentSize(o.Ptr(), wxString.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *DC) GetPartialTextExtents(text string, count int, widths unsafe.Pointer) bool {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxDC_GetPartialTextExtents(o.Ptr(), wxText.Ptr(), count, widths)
+}
+
+func (o *DC) DeviceToLogical(x int, y int) Point {
+	retPtr := cgo_wxDC_DeviceToLogical(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
+}
+
+func (o *DC) LogicalToDevice(x int, y int) Point {
+	retPtr := cgo_wxDC_LogicalToDevice(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
+}
+
+func (o *DC) DeviceToLogicalRel(width int, height int) Size {
+	retPtr := cgo_wxDC_DeviceToLogicalRel(o.Ptr(), width, height)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *DC) LogicalToDeviceRel(width int, height int) Size {
+	retPtr := cgo_wxDC_LogicalToDeviceRel(o.Ptr(), width, height)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *DC) GetLogicalOriginPoint() Point {
+	retPtr := cgo_wxDC_GetLogicalOriginPoint(o.Ptr())
+	return pointFromPtr(retPtr)
+}
+
+func (o *DC) GetDeviceOriginPoint() Point {
+	retPtr := cgo_wxDC_GetDeviceOriginPoint(o.Ptr())
+	return pointFromPtr(retPtr)
+}
+
+func (o *DC) CopyAttributes(dc unsafe.Pointer) {
+	cgo_wxDC_CopyAttributes(o.Ptr(), dc)
+}
+
+func (o *DC) GetHandle() unsafe.Pointer {
+	return cgo_wxDC_GetHandle(o.Ptr())
+}
+
+func (o *DC) DisableAutomaticBoundingBoxUpdates() {
+	cgo_wxDC_DisableAutomaticBoundingBoxUpdates(o.Ptr())
+}
+
+func (o *DC) AreAutomaticBoundingBoxUpdatesEnabled() bool {
+	return cgo_wxDC_AreAutomaticBoundingBoxUpdatesEnabled(o.Ptr())
+}
+
+func (o *DC) SetClippingRegionPoint(x int, y int, width int, height int) {
+	cgo_wxDC_SetClippingRegionPoint(o.Ptr(), x, y, width, height)
+}
+
+func (o *DC) GetClippingRect(x unsafe.Pointer, y unsafe.Pointer, width unsafe.Pointer, height unsafe.Pointer) bool {
+	return cgo_wxDC_GetClippingRect(o.Ptr(), x, y, width, height)
+}
+
+func (o *DC) FloodFillEx(x int, y int, col unsafe.Pointer, style int) bool {
+	return cgo_wxDC_FloodFillEx(o.Ptr(), x, y, col, style)
+}
+
+func (o *DC) GradientFillConcentric(x int, y int, width int, height int, initialColour unsafe.Pointer, destColour unsafe.Pointer) {
+	cgo_wxDC_GradientFillConcentric(o.Ptr(), x, y, width, height, initialColour, destColour)
+}
+
+func (o *DC) GradientFillConcentricCenter(x int, y int, width int, height int, initialColour unsafe.Pointer, destColour unsafe.Pointer, cx int, cy int) {
+	cgo_wxDC_GradientFillConcentricCenter(o.Ptr(), x, y, width, height, initialColour, destColour, cx, cy)
+}
+
+func (o *DC) GradientFillLinear(x int, y int, width int, height int, initialColour unsafe.Pointer, destColour unsafe.Pointer, direction int) {
+	cgo_wxDC_GradientFillLinear(o.Ptr(), x, y, width, height, initialColour, destColour, direction)
+}
+
+func (o *DC) StretchBlit(dstX int, dstY int, dstWidth int, dstHeight int, source unsafe.Pointer, srcX int, srcY int, srcWidth int, srcHeight int, rop int, useMask bool, maskX int, maskY int) bool {
+	return cgo_wxDC_StretchBlit(o.Ptr(), dstX, dstY, dstWidth, dstHeight, source, srcX, srcY, srcWidth, srcHeight, rop, useMask, maskX, maskY)
+}
+
+func (o *DC) GetAsBitmap(x int, y int, width int, height int, useRect bool) unsafe.Pointer {
+	return cgo_wxDC_GetAsBitmap(o.Ptr(), x, y, width, height, useRect)
+}
+
+func (o *DC) DrawSpline(x1 int, y1 int, x2 int, y2 int, x3 int, y3 int) {
+	cgo_wxDC_DrawSpline(o.Ptr(), x1, y1, x2, y2, x3, y3)
+}
+
+func (o *DC) DrawSplinePoints(count int, x unsafe.Pointer, y unsafe.Pointer) {
+	cgo_wxDC_DrawSplinePoints(o.Ptr(), count, x, y)
+}
+
+func (o *DC) GetGraphicsContext() unsafe.Pointer {
+	return cgo_wxDC_GetGraphicsContext(o.Ptr())
+}
+
+func (o *DC) SetGraphicsContext(ctx unsafe.Pointer) {
+	cgo_wxDC_SetGraphicsContext(o.Ptr(), ctx)
+}
 
 func (o *DC) Blit(xdest int, ydest int, width int, height int, source unsafe.Pointer, xsrc int, ysrc int, rop int, useMask bool, xsrcMask int, ysrcMask int) bool {
 	return cgo_wxDC_Blit(o.Ptr(), xdest, ydest, width, height, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask)
+}
+
+func (o *DC) CanUseTransformMatrix() bool {
+	return cgo_wxDC_CanUseTransformMatrix(o.Ptr())
+}
+
+func (o *DC) SetTransformMatrix(matrix unsafe.Pointer) bool {
+	return cgo_wxDC_SetTransformMatrix(o.Ptr(), matrix)
 }
 
 func (o *DC) CalcBoundingBox(x int, y int) {
@@ -31,6 +215,9 @@ func (o *DC) CrossHair(x int, y int) {
 }
 
 func (o *DC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxDC_Delete(o.Ptr())
 }
 
@@ -88,10 +275,11 @@ func (o *DC) DrawLabel(str string, x int, y int, width int, height int, align in
 	cgo_wxDC_DrawLabel(o.Ptr(), wxStr.Ptr(), x, y, width, height, align, indexAccel)
 }
 
-func (o *DC) DrawLabelBitmap(str string, bmp unsafe.Pointer, x int, y int, width int, height int, align int, indexAccel int) unsafe.Pointer {
+func (o *DC) DrawLabelBitmap(str string, bmp unsafe.Pointer, x int, y int, width int, height int, align int, indexAccel int) Rect {
 	wxStr := NewWxString(str)
 	defer wxStr.Free()
-	return cgo_wxDC_DrawLabelBitmap(o.Ptr(), wxStr.Ptr(), bmp, x, y, width, height, align, indexAccel)
+	retPtr := cgo_wxDC_DrawLabelBitmap(o.Ptr(), wxStr.Ptr(), bmp, x, y, width, height, align, indexAccel)
+	return rectFromPtr(retPtr)
 }
 
 func (o *DC) DrawLine(x1 int, y1 int, x2 int, y2 int) {
@@ -198,8 +386,9 @@ func (o *DC) GetMapMode() int {
 	return cgo_wxDC_GetMapMode(o.Ptr())
 }
 
-func (o *DC) GetPPI() unsafe.Pointer {
-	return cgo_wxDC_GetPPI(o.Ptr())
+func (o *DC) GetPPI() Size {
+	retPtr := cgo_wxDC_GetPPI(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *DC) GetPen(ref unsafe.Pointer) {
@@ -210,12 +399,14 @@ func (o *DC) GetPixel(x int, y int, col unsafe.Pointer) bool {
 	return cgo_wxDC_GetPixel(o.Ptr(), x, y, col)
 }
 
-func (o *DC) GetSize() unsafe.Pointer {
-	return cgo_wxDC_GetSize(o.Ptr())
+func (o *DC) GetSize() Size {
+	retPtr := cgo_wxDC_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
-func (o *DC) GetSizeMM() unsafe.Pointer {
-	return cgo_wxDC_GetSizeMM(o.Ptr())
+func (o *DC) GetSizeMM() Size {
+	retPtr := cgo_wxDC_GetSizeMM(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *DC) GetTextBackground(ref unsafe.Pointer) {

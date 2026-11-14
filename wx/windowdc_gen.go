@@ -6,6 +6,18 @@ import "unsafe"
 
 type WindowDC struct{ DC }
 
+// WindowDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WindowDCFromPtr(ptr unsafe.Pointer) *WindowDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WindowDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewWindowDC(win unsafe.Pointer) *WindowDC {
 	ptr := cgo_wxWindowDC_Create(win)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewWindowDC(win unsafe.Pointer) *WindowDC {
 }
 
 func (o *WindowDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxWindowDC_Delete(o.Ptr())
 }
 

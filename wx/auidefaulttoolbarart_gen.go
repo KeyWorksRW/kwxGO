@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiDefaultToolBarArt struct{ AuiToolBarArt }
 
+// AuiDefaultToolBarArtFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiDefaultToolBarArtFromPtr(ptr unsafe.Pointer) *AuiDefaultToolBarArt {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiDefaultToolBarArt{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiDefaultToolBarArt() *AuiDefaultToolBarArt {
 	ptr := cgo_wxAuiDefaultToolBarArt_Create()
 	if ptr == nil {
@@ -80,12 +92,14 @@ func (o *AuiDefaultToolBarArt) DrawOverflowButton(dc unsafe.Pointer, window unsa
 	cgo_wxAuiDefaultToolBarArt_DrawOverflowButton(o.Ptr(), dc, window, rect, state)
 }
 
-func (o *AuiDefaultToolBarArt) GetLabelSize(dc unsafe.Pointer, window unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
-	return cgo_wxAuiDefaultToolBarArt_GetLabelSize(o.Ptr(), dc, window, item)
+func (o *AuiDefaultToolBarArt) GetLabelSize(dc unsafe.Pointer, window unsafe.Pointer, item unsafe.Pointer) Size {
+	retPtr := cgo_wxAuiDefaultToolBarArt_GetLabelSize(o.Ptr(), dc, window, item)
+	return sizeFromPtr(retPtr)
 }
 
-func (o *AuiDefaultToolBarArt) GetToolSize(dc unsafe.Pointer, window unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
-	return cgo_wxAuiDefaultToolBarArt_GetToolSize(o.Ptr(), dc, window, item)
+func (o *AuiDefaultToolBarArt) GetToolSize(dc unsafe.Pointer, window unsafe.Pointer, item unsafe.Pointer) Size {
+	retPtr := cgo_wxAuiDefaultToolBarArt_GetToolSize(o.Ptr(), dc, window, item)
+	return sizeFromPtr(retPtr)
 }
 
 func (o *AuiDefaultToolBarArt) GetElementSize(element int) int {

@@ -6,6 +6,18 @@ import "unsafe"
 
 type MDIParentFrame struct{ Frame }
 
+// MDIParentFrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MDIParentFrameFromPtr(ptr unsafe.Pointer) *MDIParentFrame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MDIParentFrame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *MDIParentFrame) ActivateNext() {
 	cgo_wxMDIParentFrame_ActivateNext(o.Ptr())
 }

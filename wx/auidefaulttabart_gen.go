@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiDefaultTabArt struct{ AuiTabArt }
 
+// AuiDefaultTabArtFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiDefaultTabArtFromPtr(ptr unsafe.Pointer) *AuiDefaultTabArt {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiDefaultTabArt{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiDefaultTabArt() *AuiDefaultTabArt {
 	ptr := cgo_wxAuiDefaultTabArt_Create()
 	if ptr == nil {
@@ -64,10 +76,11 @@ func (o *AuiDefaultTabArt) GetIndentSize() int {
 	return cgo_wxAuiDefaultTabArt_GetIndentSize(o.Ptr())
 }
 
-func (o *AuiDefaultTabArt) GetTabSize(dc unsafe.Pointer, window unsafe.Pointer, caption string, bitmap unsafe.Pointer, active bool, closeButtonState int, xExtent unsafe.Pointer) unsafe.Pointer {
+func (o *AuiDefaultTabArt) GetTabSize(dc unsafe.Pointer, window unsafe.Pointer, caption string, bitmap unsafe.Pointer, active bool, closeButtonState int, xExtent unsafe.Pointer) Size {
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
-	return cgo_wxAuiDefaultTabArt_GetTabSize(o.Ptr(), dc, window, wxCaption.Ptr(), bitmap, active, closeButtonState, xExtent)
+	retPtr := cgo_wxAuiDefaultTabArt_GetTabSize(o.Ptr(), dc, window, wxCaption.Ptr(), bitmap, active, closeButtonState, xExtent)
+	return sizeFromPtr(retPtr)
 }
 
 func (o *AuiDefaultTabArt) ShowDropDown(window unsafe.Pointer, items unsafe.Pointer, activeIdx int) int {

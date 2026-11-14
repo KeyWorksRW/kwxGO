@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type FloatProperty struct{ PGProperty }
+
+// FloatPropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FloatPropertyFromPtr(ptr unsafe.Pointer) *FloatProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FloatProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *FloatProperty) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxFloatProperty_Delete(o.Ptr())
+}
 
 func NewFloatProperty(label string, name string, value float32) *FloatProperty {
 	wxLabel := NewWxString(label)

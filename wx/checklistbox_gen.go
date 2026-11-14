@@ -6,12 +6,26 @@ import "unsafe"
 
 type CheckListBox struct{ ListBox }
 
+// CheckListBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CheckListBoxFromPtr(ptr unsafe.Pointer) *CheckListBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CheckListBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *CheckListBox) Check(item int, check bool) {
 	cgo_wxCheckListBox_Check(o.Ptr(), item, check)
 }
 
-func NewCheckListBox(parent unsafe.Pointer, id int, left int, top int, width int, height int, n int, str unsafe.Pointer, style int) *CheckListBox {
-	ptr := cgo_wxCheckListBox_Create(parent, id, left, top, width, height, n, str, style)
+func NewCheckListBox(parent unsafe.Pointer, id int, left int, top int, width int, height int, str []string, style int) *CheckListBox {
+	strPtr, releaseStr := wxStringTable(str)
+	defer releaseStr()
+	ptr := cgo_wxCheckListBox_Create(parent, id, left, top, width, height, len(str), strPtr, style)
 	if ptr == nil {
 		return nil
 	}
@@ -21,6 +35,9 @@ func NewCheckListBox(parent unsafe.Pointer, id int, left int, top int, width int
 }
 
 func (o *CheckListBox) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCheckListBox_Delete(o.Ptr())
 }
 

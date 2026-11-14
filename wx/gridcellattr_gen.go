@@ -6,8 +6,24 @@ import "unsafe"
 
 type GridCellAttr struct{ BaseObject }
 
-func (o *GridCellAttr) Ctor() unsafe.Pointer {
+// GridCellAttrFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridCellAttrFromPtr(ptr unsafe.Pointer) *GridCellAttr {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridCellAttr{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func GridCellAttr_Ctor() unsafe.Pointer {
 	return cgo_wxGridCellAttr_Ctor()
+}
+
+func (o *GridCellAttr) Clone() unsafe.Pointer {
+	return cgo_wxGridCellAttr_Clone(o.Ptr())
 }
 
 func (o *GridCellAttr) DecRef() {

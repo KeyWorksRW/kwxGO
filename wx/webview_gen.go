@@ -6,12 +6,111 @@ import "unsafe"
 
 type WebView struct{ Control }
 
-func (o *WebView) New(parent unsafe.Pointer, id int, url string, x int, y int, width int, height int, backend string, style int) unsafe.Pointer {
+// WebViewFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WebViewFromPtr(ptr unsafe.Pointer) *WebView {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WebView{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *WebView) RegisterHandler(handler unsafe.Pointer) {
+	cgo_wxWebView_RegisterHandler(o.Ptr(), handler)
+}
+
+func WebView_New(parent unsafe.Pointer, id int, url string, x int, y int, width int, height int, backend string, style int) unsafe.Pointer {
 	wxUrl := NewWxString(url)
 	defer wxUrl.Free()
 	wxBackend := NewWxString(backend)
 	defer wxBackend.Free()
 	return cgo_wxWebView_New(parent, id, wxUrl.Ptr(), x, y, width, height, wxBackend.Ptr(), style)
+}
+
+func (o *WebView) AddScriptMessageHandler(name string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxWebView_AddScriptMessageHandler(o.Ptr(), wxName.Ptr())
+}
+
+func (o *WebView) AddUserScript(javascript string, injectionTime int) bool {
+	wxJavascript := NewWxString(javascript)
+	defer wxJavascript.Free()
+	return cgo_wxWebView_AddUserScript(o.Ptr(), wxJavascript.Ptr(), injectionTime)
+}
+
+func (o *WebView) AreBrowserAcceleratorKeysEnabled() bool {
+	return cgo_wxWebView_AreBrowserAcceleratorKeysEnabled(o.Ptr())
+}
+
+func (o *WebView) CanRedo() bool {
+	return cgo_wxWebView_CanRedo(o.Ptr())
+}
+
+func (o *WebView) CanSetZoomType(typ int) bool {
+	return cgo_wxWebView_CanSetZoomType(o.Ptr(), typ)
+}
+
+func (o *WebView) CanUndo() bool {
+	return cgo_wxWebView_CanUndo(o.Ptr())
+}
+
+func (o *WebView) ClearBrowsingData() {
+	cgo_wxWebView_ClearBrowsingData(o.Ptr())
+}
+
+func (o *WebView) ClearHistory() {
+	cgo_wxWebView_ClearHistory(o.Ptr())
+}
+
+func (o *WebView) DeleteSelection() {
+	cgo_wxWebView_DeleteSelection(o.Ptr())
+}
+
+func (o *WebView) EnableHistory(enable bool) {
+	cgo_wxWebView_EnableHistory(o.Ptr(), enable)
+}
+
+func (o *WebView) GetUserAgent() string {
+	retPtr := cgo_wxWebView_GetUserAgent(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func WebView_NewConfiguration(backend string) unsafe.Pointer {
+	wxBackend := NewWxString(backend)
+	defer wxBackend.Free()
+	return cgo_wxWebView_NewConfiguration(wxBackend.Ptr())
+}
+
+func (o *WebView) Redo() {
+	cgo_wxWebView_Redo(o.Ptr())
+}
+
+func (o *WebView) SelectAll() {
+	cgo_wxWebView_SelectAll(o.Ptr())
+}
+
+func (o *WebView) SetProxy(proxy string) bool {
+	wxProxy := NewWxString(proxy)
+	defer wxProxy.Free()
+	return cgo_wxWebView_SetProxy(o.Ptr(), wxProxy.Ptr())
+}
+
+func (o *WebView) SetUserAgent(userAgent string) bool {
+	wxUserAgent := NewWxString(userAgent)
+	defer wxUserAgent.Free()
+	return cgo_wxWebView_SetUserAgent(o.Ptr(), wxUserAgent.Ptr())
+}
+
+func (o *WebView) ShowDevTools() bool {
+	return cgo_wxWebView_ShowDevTools(o.Ptr())
+}
+
+func (o *WebView) Undo() {
+	cgo_wxWebView_Undo(o.Ptr())
 }
 
 func (o *WebView) LoadURL(url string) {
@@ -176,7 +275,7 @@ func (o *WebView) EnableAccessToDevTools(enable bool) {
 	cgo_wxWebView_EnableAccessToDevTools(o.Ptr(), enable)
 }
 
-func (o *WebView) IsBackendAvailable(backend string) bool {
+func WebView_IsBackendAvailable(backend string) bool {
 	wxBackend := NewWxString(backend)
 	defer wxBackend.Free()
 	return cgo_wxWebView_IsBackendAvailable(wxBackend.Ptr())

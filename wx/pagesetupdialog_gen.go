@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type PageSetupDialog struct{ BaseObject }
+type PageSetupDialog struct{ Object }
+
+// PageSetupDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PageSetupDialogFromPtr(ptr unsafe.Pointer) *PageSetupDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PageSetupDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewPageSetupDialog(parent unsafe.Pointer, data unsafe.Pointer) *PageSetupDialog {
 	ptr := cgo_wxPageSetupDialog_Create(parent, data)
@@ -14,6 +26,10 @@ func NewPageSetupDialog(parent unsafe.Pointer, data unsafe.Pointer) *PageSetupDi
 	obj := &PageSetupDialog{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *PageSetupDialog) GetPageSetupDialogData() unsafe.Pointer {
+	return cgo_wxPageSetupDialog_GetPageSetupDialogData(o.Ptr())
 }
 
 func (o *PageSetupDialog) GetPageSetupData(ref unsafe.Pointer) {

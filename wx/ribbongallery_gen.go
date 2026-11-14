@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RibbonGallery struct{ BaseObject }
+type RibbonGallery struct{ RibbonControl }
+
+// RibbonGalleryFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RibbonGalleryFromPtr(ptr unsafe.Pointer) *RibbonGallery {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RibbonGallery{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRibbonGallery(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *RibbonGallery {
 	ptr := cgo_wxRibbonGallery_Create(parent, id, x, y, width, height, style)
@@ -14,6 +26,20 @@ func NewRibbonGallery(parent unsafe.Pointer, id int, x int, y int, width int, he
 	obj := &RibbonGallery{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RibbonGallery) GetItemClientObject(item unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxRibbonGallery_GetItemClientObject(o.Ptr(), item)
+}
+
+func (o *RibbonGallery) SetItemClientObject(item unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxRibbonGallery_SetItemClientObject(o.Ptr(), item, data)
+}
+
+func (o *RibbonGallery) SetKeyTip(keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonGallery_SetKeyTip(o.Ptr(), wxKeytip.Ptr())
 }
 
 func (o *RibbonGallery) Append(bitmap unsafe.Pointer, id int) unsafe.Pointer {

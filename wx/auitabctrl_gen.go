@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiTabCtrl struct{ Control }
 
+// AuiTabCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiTabCtrlFromPtr(ptr unsafe.Pointer) *AuiTabCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiTabCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *AuiTabCtrl) SetArtProvider(artId unsafe.Pointer) {
 	cgo_wxAuiTabCtrl_SetArtProvider(o.Ptr(), artId)
 }

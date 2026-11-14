@@ -6,6 +6,18 @@ import "unsafe"
 
 type BannerWindow struct{ Window }
 
+// BannerWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BannerWindowFromPtr(ptr unsafe.Pointer) *BannerWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BannerWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewBannerWindow(parent unsafe.Pointer, id int, dir int, x int, y int, width int, height int, style int) *BannerWindow {
 	ptr := cgo_wxBannerWindow_Create(parent, id, dir, x, y, width, height, style)
 	if ptr == nil {

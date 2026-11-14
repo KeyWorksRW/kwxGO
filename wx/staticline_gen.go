@@ -6,6 +6,18 @@ import "unsafe"
 
 type StaticLine struct{ Control }
 
+// StaticLineFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StaticLineFromPtr(ptr unsafe.Pointer) *StaticLine {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StaticLine{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewStaticLine(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *StaticLine {
 	ptr := cgo_wxStaticLine_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {

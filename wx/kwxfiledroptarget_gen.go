@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxFileDropTarget struct{ BaseObject }
 
+// KwxFileDropTargetFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxFileDropTargetFromPtr(ptr unsafe.Pointer) *KwxFileDropTarget {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxFileDropTarget{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxFileDropTarget(pObject unsafe.Pointer, pFunction unsafe.Pointer) *KwxFileDropTarget {
 	ptr := cgo_kwxFileDropTarget_Create(pObject, pFunction)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewKwxFileDropTarget(pObject unsafe.Pointer, pFunction unsafe.Pointer) *Kwx
 }
 
 func (o *KwxFileDropTarget) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxFileDropTarget_Delete(o.Ptr())
 }
 

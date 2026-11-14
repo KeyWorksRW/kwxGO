@@ -6,6 +6,18 @@ import "unsafe"
 
 type MiniFrame struct{ Frame }
 
+// MiniFrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MiniFrameFromPtr(ptr unsafe.Pointer) *MiniFrame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MiniFrame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewMiniFrame(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *MiniFrame {
 	wxText := NewWxString(text)
 	defer wxText.Free()

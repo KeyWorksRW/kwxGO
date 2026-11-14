@@ -6,7 +6,20 @@ import "unsafe"
 
 type SizeEvent struct{ Event }
 
-func (o *SizeEvent) GetSize() unsafe.Pointer {
-	return cgo_wxSizeEvent_GetSize(o.Ptr())
+// SizeEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SizeEventFromPtr(ptr unsafe.Pointer) *SizeEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SizeEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *SizeEvent) GetSize() Size {
+	retPtr := cgo_wxSizeEvent_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 

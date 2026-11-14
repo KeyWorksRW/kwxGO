@@ -6,8 +6,40 @@ import "unsafe"
 
 type KeyEvent struct{ Event }
 
+// KeyEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KeyEventFromPtr(ptr unsafe.Pointer) *KeyEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KeyEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *KeyEvent) AltDown() bool {
 	return cgo_wxKeyEvent_AltDown(o.Ptr())
+}
+
+func (o *KeyEvent) GetRawKeyCode() uint32 {
+	return cgo_wxKeyEvent_GetRawKeyCode(o.Ptr())
+}
+
+func (o *KeyEvent) GetRawKeyFlags() uint32 {
+	return cgo_wxKeyEvent_GetRawKeyFlags(o.Ptr())
+}
+
+func (o *KeyEvent) GetUnicodeChar() int {
+	return cgo_wxKeyEvent_GetUnicodeChar(o.Ptr())
+}
+
+func (o *KeyEvent) IsAutoRepeat() bool {
+	return cgo_wxKeyEvent_IsAutoRepeat(o.Ptr())
+}
+
+func (o *KeyEvent) IsKeyInCategory(category int) bool {
+	return cgo_wxKeyEvent_IsKeyInCategory(o.Ptr(), category)
 }
 
 func (o *KeyEvent) ControlDown() bool {
@@ -18,8 +50,9 @@ func (o *KeyEvent) GetKeyCode() int {
 	return cgo_wxKeyEvent_GetKeyCode(o.Ptr())
 }
 
-func (o *KeyEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxKeyEvent_GetPosition(o.Ptr())
+func (o *KeyEvent) GetPosition() Point {
+	retPtr := cgo_wxKeyEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *KeyEvent) GetX() int {

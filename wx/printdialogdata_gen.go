@@ -4,10 +4,30 @@ package wx
 
 import "unsafe"
 
-type PrintDialogData struct{ BaseObject }
+type PrintDialogData struct{ Object }
+
+// PrintDialogDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PrintDialogDataFromPtr(ptr unsafe.Pointer) *PrintDialogData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PrintDialogData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *PrintDialogData) Assign(data unsafe.Pointer) {
 	cgo_wxPrintDialogData_Assign(o.Ptr(), data)
+}
+
+func (o *PrintDialogData) EnableCurrentPage(flag bool) {
+	cgo_wxPrintDialogData_EnableCurrentPage(o.Ptr(), flag)
+}
+
+func (o *PrintDialogData) GetCurrentPage() bool {
+	return cgo_wxPrintDialogData_GetCurrentPage(o.Ptr())
 }
 
 func (o *PrintDialogData) AssignData(data unsafe.Pointer) {
@@ -35,6 +55,9 @@ func NewPrintDialogDataFromData(printData unsafe.Pointer) *PrintDialogData {
 }
 
 func (o *PrintDialogData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPrintDialogData_Delete(o.Ptr())
 }
 

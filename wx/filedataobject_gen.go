@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type FileDataObject struct{ BaseObject }
+type FileDataObject struct{ DataObjectSimple }
+
+// FileDataObjectFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FileDataObjectFromPtr(ptr unsafe.Pointer) *FileDataObject {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileDataObject{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *FileDataObject) AddFile(files string) {
 	wxFiles := NewWxString(files)
@@ -12,8 +24,10 @@ func (o *FileDataObject) AddFile(files string) {
 	cgo_FileDataObject_AddFile(o.Ptr(), wxFiles.Ptr())
 }
 
-func NewFileDataObject(count int, list unsafe.Pointer) *FileDataObject {
-	ptr := cgo_FileDataObject_Create(count, list)
+func NewFileDataObject(list []string) *FileDataObject {
+	listPtr, releaseList := wxStringTable(list)
+	defer releaseList()
+	ptr := cgo_FileDataObject_Create(len(list), listPtr)
 	if ptr == nil {
 		return nil
 	}
@@ -23,10 +37,13 @@ func NewFileDataObject(count int, list unsafe.Pointer) *FileDataObject {
 }
 
 func (o *FileDataObject) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_FileDataObject_Delete(o.Ptr())
 }
 
-func (o *FileDataObject) GetFilenames(list unsafe.Pointer) int {
-	return cgo_FileDataObject_GetFilenames(o.Ptr(), list)
+func (o *FileDataObject) GetFilenames(list unsafe.Pointer, capacity int) int {
+	return cgo_FileDataObject_GetFilenames(o.Ptr(), list, capacity)
 }
 

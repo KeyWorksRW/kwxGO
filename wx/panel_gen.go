@@ -6,6 +6,26 @@ import "unsafe"
 
 type Panel struct{ Window }
 
+// PanelFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PanelFromPtr(ptr unsafe.Pointer) *Panel {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Panel{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func Panel_GetDefaultItem(pObject unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxPanel_GetDefaultItem(pObject)
+}
+
+func Panel_SetDefaultItem(pObject unsafe.Pointer, btn unsafe.Pointer) {
+	cgo_wxPanel_SetDefaultItem(pObject, btn)
+}
+
 func NewPanel(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *Panel {
 	ptr := cgo_wxPanel_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {
@@ -26,5 +46,21 @@ func (o *Panel) SetFocus() {
 
 func (o *Panel) SetFocusIgnoringChildren() {
 	cgo_wxPanel_SetFocusIgnoringChildren(o.Ptr())
+}
+
+func (o *Panel) SetOnTransferDataFromWindow(pFunction unsafe.Pointer) {
+	cgo_wxPanel_SetOnTransferDataFromWindow(o.Ptr(), pFunction)
+}
+
+func (o *Panel) SetOnTransferDataToWindow(pFunction unsafe.Pointer) {
+	cgo_wxPanel_SetOnTransferDataToWindow(o.Ptr(), pFunction)
+}
+
+func (o *Panel) SetOnDoGetBestClientSize(pFunction unsafe.Pointer) {
+	cgo_wxPanel_SetOnDoGetBestClientSize(o.Ptr(), pFunction)
+}
+
+func (o *Panel) SetOnScrollWindow(pFunction unsafe.Pointer) {
+	cgo_wxPanel_SetOnScrollWindow(o.Ptr(), pFunction)
 }
 

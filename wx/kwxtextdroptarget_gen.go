@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxTextDropTarget struct{ BaseObject }
 
+// KwxTextDropTargetFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxTextDropTargetFromPtr(ptr unsafe.Pointer) *KwxTextDropTarget {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxTextDropTarget{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxTextDropTarget(pObject unsafe.Pointer, pFunction unsafe.Pointer) *KwxTextDropTarget {
 	ptr := cgo_kwxTextDropTarget_Create(pObject, pFunction)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewKwxTextDropTarget(pObject unsafe.Pointer, pFunction unsafe.Pointer) *Kwx
 }
 
 func (o *KwxTextDropTarget) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxTextDropTarget_Delete(o.Ptr())
 }
 

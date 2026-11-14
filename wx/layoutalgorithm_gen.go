@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type LayoutAlgorithm struct{ BaseObject }
+type LayoutAlgorithm struct{ Object }
+
+// LayoutAlgorithmFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func LayoutAlgorithmFromPtr(ptr unsafe.Pointer) *LayoutAlgorithm {
+	if ptr == nil {
+		return nil
+	}
+	obj := &LayoutAlgorithm{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewLayoutAlgorithm() *LayoutAlgorithm {
 	ptr := cgo_wxLayoutAlgorithm_Create()
@@ -17,6 +29,9 @@ func NewLayoutAlgorithm() *LayoutAlgorithm {
 }
 
 func (o *LayoutAlgorithm) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxLayoutAlgorithm_Delete(o.Ptr())
 }
 

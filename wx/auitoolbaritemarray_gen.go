@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiToolBarItemArray struct{ BaseObject }
 
+// AuiToolBarItemArrayFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiToolBarItemArrayFromPtr(ptr unsafe.Pointer) *AuiToolBarItemArray {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiToolBarItemArray{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiToolBarItemArray() *AuiToolBarItemArray {
 	ptr := cgo_wxAuiToolBarItemArray_Create()
 	if ptr == nil {
@@ -17,11 +29,18 @@ func NewAuiToolBarItemArray() *AuiToolBarItemArray {
 }
 
 func (o *AuiToolBarItemArray) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAuiToolBarItemArray_Delete(o.Ptr())
 }
 
 func (o *AuiToolBarItemArray) GetCount() int {
 	return cgo_wxAuiToolBarItemArray_GetCount(o.Ptr())
+}
+
+func (o *AuiToolBarItemArray) Add(item unsafe.Pointer) {
+	cgo_wxAuiToolBarItemArray_Add(o.Ptr(), item)
 }
 
 func (o *AuiToolBarItemArray) Item(index int) unsafe.Pointer {

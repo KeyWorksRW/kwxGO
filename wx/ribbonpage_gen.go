@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RibbonPage struct{ BaseObject }
+type RibbonPage struct{ RibbonControl }
+
+// RibbonPageFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RibbonPageFromPtr(ptr unsafe.Pointer) *RibbonPage {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RibbonPage{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRibbonPage(parent unsafe.Pointer, id int, label string, icon unsafe.Pointer, style int) *RibbonPage {
 	wxLabel := NewWxString(label)
@@ -16,6 +28,18 @@ func NewRibbonPage(parent unsafe.Pointer, id int, label string, icon unsafe.Poin
 	obj := &RibbonPage{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RibbonPage) GetPanel(n int) unsafe.Pointer {
+	return cgo_wxRibbonPage_GetPanel(o.Ptr(), n)
+}
+
+func (o *RibbonPage) GetPanelCount() int {
+	return cgo_wxRibbonPage_GetPanelCount(o.Ptr())
+}
+
+func (o *RibbonPage) SetSizeWithScrollButtonAdjustment(x int, y int, width int, height int) {
+	cgo_wxRibbonPage_SetSizeWithScrollButtonAdjustment(o.Ptr(), x, y, width, height)
 }
 
 func (o *RibbonPage) DismissExpandedPanel() {
@@ -35,12 +59,13 @@ func (o *RibbonPage) GetLabel() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *RibbonPage) Realize() {
-	cgo_wxRibbonPage_Realize(o.Ptr())
+func (o *RibbonPage) Realize() bool {
+	return cgo_wxRibbonPage_Realize(o.Ptr())
 }
 
-func (o *RibbonPage) GetMinSize() unsafe.Pointer {
-	return cgo_wxRibbonPage_GetMinSize(o.Ptr())
+func (o *RibbonPage) GetMinSize() Size {
+	retPtr := cgo_wxRibbonPage_GetMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *RibbonPage) SetArtProvider(art unsafe.Pointer) {

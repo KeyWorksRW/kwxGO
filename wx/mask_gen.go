@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type Mask struct{ BaseObject }
+type Mask struct{ Object }
+
+// MaskFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MaskFromPtr(ptr unsafe.Pointer) *Mask {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Mask{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewMask(bitmap unsafe.Pointer) *Mask {
 	ptr := cgo_wxMask_Create(bitmap)

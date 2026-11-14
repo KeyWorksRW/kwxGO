@@ -6,6 +6,478 @@ import "unsafe"
 
 type RichTextCtrl struct{ Control }
 
+// RichTextCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RichTextCtrlFromPtr(ptr unsafe.Pointer) *RichTextCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RichTextCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *RichTextCtrl) GetBuffer() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_GetBuffer(o.Ptr())
+}
+
+func (o *RichTextCtrl) BeginSuppressUndo() bool {
+	return cgo_wxRichTextCtrl_BeginSuppressUndo(o.Ptr())
+}
+
+func (o *RichTextCtrl) EndSuppressUndo() bool {
+	return cgo_wxRichTextCtrl_EndSuppressUndo(o.Ptr())
+}
+
+func (o *RichTextCtrl) GetCommandProcessor() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_GetCommandProcessor(o.Ptr())
+}
+
+func (o *RichTextCtrl) WriteField(fieldType string, properties unsafe.Pointer, textAttr unsafe.Pointer) unsafe.Pointer {
+	wxFieldType := NewWxString(fieldType)
+	defer wxFieldType.Free()
+	return cgo_wxRichTextCtrl_WriteField(o.Ptr(), wxFieldType.Ptr(), properties, textAttr)
+}
+
+func (o *RichTextCtrl) WriteTable(rows int, cols int, tableAttr unsafe.Pointer, cellAttr unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxRichTextCtrl_WriteTable(o.Ptr(), rows, cols, tableAttr, cellAttr)
+}
+
+func (o *RichTextCtrl) WriteTextBox(textAttr unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxRichTextCtrl_WriteTextBox(o.Ptr(), textAttr)
+}
+
+func (o *RichTextCtrl) GetFocusObject() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_GetFocusObject(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetFocusObject(objValue unsafe.Pointer, setCaretPosition bool) bool {
+	return cgo_wxRichTextCtrl_SetFocusObject(o.Ptr(), objValue, setCaretPosition)
+}
+
+func (o *RichTextCtrl) IsSingleLine() bool {
+	return cgo_wxRichTextCtrl_IsSingleLine(o.Ptr())
+}
+
+func (o *RichTextCtrl) IsMultiLine() bool {
+	return cgo_wxRichTextCtrl_IsMultiLine(o.Ptr())
+}
+
+func (o *RichTextCtrl) HasSelection() bool {
+	return cgo_wxRichTextCtrl_HasSelection(o.Ptr())
+}
+
+func (o *RichTextCtrl) HasUnfocusedSelection() bool {
+	return cgo_wxRichTextCtrl_HasUnfocusedSelection(o.Ptr())
+}
+
+func (o *RichTextCtrl) GetSelectionRange(start unsafe.Pointer, end unsafe.Pointer) {
+	cgo_wxRichTextCtrl_GetSelectionRange(o.Ptr(), start, end)
+}
+
+func (o *RichTextCtrl) SetSelectionRange(start int, end int) {
+	cgo_wxRichTextCtrl_SetSelectionRange(o.Ptr(), start, end)
+}
+
+func (o *RichTextCtrl) GetInternalSelectionRange(start unsafe.Pointer, end unsafe.Pointer) {
+	cgo_wxRichTextCtrl_GetInternalSelectionRange(o.Ptr(), start, end)
+}
+
+func (o *RichTextCtrl) SetInternalSelectionRange(start int, end int) {
+	cgo_wxRichTextCtrl_SetInternalSelectionRange(o.Ptr(), start, end)
+}
+
+func (o *RichTextCtrl) SelectWord(position int) bool {
+	return cgo_wxRichTextCtrl_SelectWord(o.Ptr(), position)
+}
+
+func (o *RichTextCtrl) GetDelayedLayoutThreshold() int {
+	return cgo_wxRichTextCtrl_GetDelayedLayoutThreshold(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetDelayedLayoutThreshold(threshold int) {
+	cgo_wxRichTextCtrl_SetDelayedLayoutThreshold(o.Ptr(), threshold)
+}
+
+func (o *RichTextCtrl) GetFullLayoutRequired() bool {
+	return cgo_wxRichTextCtrl_GetFullLayoutRequired(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetFullLayoutRequired(required bool) {
+	cgo_wxRichTextCtrl_SetFullLayoutRequired(o.Ptr(), required)
+}
+
+func (o *RichTextCtrl) GetFullLayoutSavedPosition() int {
+	return cgo_wxRichTextCtrl_GetFullLayoutSavedPosition(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetFullLayoutSavedPosition(position int) {
+	cgo_wxRichTextCtrl_SetFullLayoutSavedPosition(o.Ptr(), position)
+}
+
+func (o *RichTextCtrl) GetCaretAtLineStart() bool {
+	return cgo_wxRichTextCtrl_GetCaretAtLineStart(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetCaretAtLineStart(atStart bool) {
+	cgo_wxRichTextCtrl_SetCaretAtLineStart(o.Ptr(), atStart)
+}
+
+func (o *RichTextCtrl) GetVerticalScrollbarEnabled() bool {
+	return cgo_wxRichTextCtrl_GetVerticalScrollbarEnabled(o.Ptr())
+}
+
+func (o *RichTextCtrl) EnableVerticalScrollbar(enable bool) {
+	cgo_wxRichTextCtrl_EnableVerticalScrollbar(o.Ptr(), enable)
+}
+
+func (o *RichTextCtrl) GetVirtualAttributesEnabled() bool {
+	return cgo_wxRichTextCtrl_GetVirtualAttributesEnabled(o.Ptr())
+}
+
+func (o *RichTextCtrl) EnableVirtualAttributes(enable bool) {
+	cgo_wxRichTextCtrl_EnableVirtualAttributes(o.Ptr(), enable)
+}
+
+func (o *RichTextCtrl) GetFontScale() float64 {
+	return cgo_wxRichTextCtrl_GetFontScale(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetFontScale(fontScale float64, refresh bool) {
+	cgo_wxRichTextCtrl_SetFontScale(o.Ptr(), fontScale, refresh)
+}
+
+func (o *RichTextCtrl) GetDimensionScale() float64 {
+	return cgo_wxRichTextCtrl_GetDimensionScale(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetDimensionScale(dimScale float64, refresh bool) {
+	cgo_wxRichTextCtrl_SetDimensionScale(o.Ptr(), dimScale, refresh)
+}
+
+func (o *RichTextCtrl) GetScale() float64 {
+	return cgo_wxRichTextCtrl_GetScale(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetScale(scale float64, refresh bool) {
+	cgo_wxRichTextCtrl_SetScale(o.Ptr(), scale, refresh)
+}
+
+func (o *RichTextCtrl) GetBasicStyle(style unsafe.Pointer) {
+	cgo_wxRichTextCtrl_GetBasicStyle(o.Ptr(), style)
+}
+
+func (o *RichTextCtrl) SetBasicStyle(style unsafe.Pointer) {
+	cgo_wxRichTextCtrl_SetBasicStyle(o.Ptr(), style)
+}
+
+func (o *RichTextCtrl) GetDefaultStyleEx(style unsafe.Pointer) {
+	cgo_wxRichTextCtrl_GetDefaultStyleEx(o.Ptr(), style)
+}
+
+func (o *RichTextCtrl) GetHandlerFlags() int {
+	return cgo_wxRichTextCtrl_GetHandlerFlags(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetHandlerFlags(flags int) {
+	cgo_wxRichTextCtrl_SetHandlerFlags(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) GetStyleSheet() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_GetStyleSheet(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetStyleSheet(styleSheet unsafe.Pointer) {
+	cgo_wxRichTextCtrl_SetStyleSheet(o.Ptr(), styleSheet)
+}
+
+func (o *RichTextCtrl) PushStyleSheet(styleSheet unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_PushStyleSheet(o.Ptr(), styleSheet)
+}
+
+func (o *RichTextCtrl) PopStyleSheet() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_PopStyleSheet(o.Ptr())
+}
+
+func (o *RichTextCtrl) ApplyStyleSheet(styleSheet unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_ApplyStyleSheet(o.Ptr(), styleSheet)
+}
+
+func (o *RichTextCtrl) SetDefaultStyleToCursorStyle() bool {
+	return cgo_wxRichTextCtrl_SetDefaultStyleToCursorStyle(o.Ptr())
+}
+
+func (o *RichTextCtrl) AddParagraph(text string, start unsafe.Pointer, end unsafe.Pointer) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxRichTextCtrl_AddParagraph(o.Ptr(), wxText.Ptr(), start, end)
+}
+
+func (o *RichTextCtrl) AddImage(image unsafe.Pointer, start unsafe.Pointer, end unsafe.Pointer) {
+	cgo_wxRichTextCtrl_AddImage(o.Ptr(), image, start, end)
+}
+
+func (o *RichTextCtrl) WriteImageBitmap(bitmap unsafe.Pointer, bitmapType int, textAttr unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_WriteImageBitmap(o.Ptr(), bitmap, bitmapType, textAttr)
+}
+
+func (o *RichTextCtrl) WriteImageBlock(imageBlock unsafe.Pointer, textAttr unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_WriteImageBlock(o.Ptr(), imageBlock, textAttr)
+}
+
+func (o *RichTextCtrl) DeleteRange(start int, end int) bool {
+	return cgo_wxRichTextCtrl_DeleteRange(o.Ptr(), start, end)
+}
+
+func (o *RichTextCtrl) SetStyleEx(start int, end int, style unsafe.Pointer, flags int) bool {
+	return cgo_wxRichTextCtrl_SetStyleEx(o.Ptr(), start, end, style, flags)
+}
+
+func (o *RichTextCtrl) GetUncombinedStyle(position int, style unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_GetUncombinedStyle(o.Ptr(), position, style)
+}
+
+func (o *RichTextCtrl) GetStyleForRange(start int, end int, style unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_GetStyleForRange(o.Ptr(), start, end, style)
+}
+
+func (o *RichTextCtrl) BeginStyle(style unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_BeginStyle(o.Ptr(), style)
+}
+
+func (o *RichTextCtrl) EndStyle() bool {
+	return cgo_wxRichTextCtrl_EndStyle(o.Ptr())
+}
+
+func (o *RichTextCtrl) EndAllStyles() bool {
+	return cgo_wxRichTextCtrl_EndAllStyles(o.Ptr())
+}
+
+func (o *RichTextCtrl) BeginCharacterStyle(name string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxRichTextCtrl_BeginCharacterStyle(o.Ptr(), wxName.Ptr())
+}
+
+func (o *RichTextCtrl) EndCharacterStyle() bool {
+	return cgo_wxRichTextCtrl_EndCharacterStyle(o.Ptr())
+}
+
+func (o *RichTextCtrl) BeginParagraphStyle(name string) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxRichTextCtrl_BeginParagraphStyle(o.Ptr(), wxName.Ptr())
+}
+
+func (o *RichTextCtrl) EndParagraphStyle() bool {
+	return cgo_wxRichTextCtrl_EndParagraphStyle(o.Ptr())
+}
+
+func (o *RichTextCtrl) BeginListStyle(name string, level int, number int) bool {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxRichTextCtrl_BeginListStyle(o.Ptr(), wxName.Ptr(), level, number)
+}
+
+func (o *RichTextCtrl) EndListStyle() bool {
+	return cgo_wxRichTextCtrl_EndListStyle(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetListStyle(start int, end int, defName string, flags int, startFrom int, specifiedLevel int) bool {
+	wxDefName := NewWxString(defName)
+	defer wxDefName.Free()
+	return cgo_wxRichTextCtrl_SetListStyle(o.Ptr(), start, end, wxDefName.Ptr(), flags, startFrom, specifiedLevel)
+}
+
+func (o *RichTextCtrl) ClearListStyle(start int, end int, flags int) bool {
+	return cgo_wxRichTextCtrl_ClearListStyle(o.Ptr(), start, end, flags)
+}
+
+func (o *RichTextCtrl) NumberList(start int, end int, defName string, flags int, startFrom int, specifiedLevel int) bool {
+	wxDefName := NewWxString(defName)
+	defer wxDefName.Free()
+	return cgo_wxRichTextCtrl_NumberList(o.Ptr(), start, end, wxDefName.Ptr(), flags, startFrom, specifiedLevel)
+}
+
+func (o *RichTextCtrl) PromoteList(promoteBy int, start int, end int, defName string, flags int, specifiedLevel int) bool {
+	wxDefName := NewWxString(defName)
+	defer wxDefName.Free()
+	return cgo_wxRichTextCtrl_PromoteList(o.Ptr(), promoteBy, start, end, wxDefName.Ptr(), flags, specifiedLevel)
+}
+
+func (o *RichTextCtrl) ApplyStyle(def unsafe.Pointer) bool {
+	return cgo_wxRichTextCtrl_ApplyStyle(o.Ptr(), def)
+}
+
+func (o *RichTextCtrl) MoveCaret(position int, showAtLineStart bool) bool {
+	return cgo_wxRichTextCtrl_MoveCaret(o.Ptr(), position, showAtLineStart)
+}
+
+func (o *RichTextCtrl) MoveRight(noPositions int, flags int) bool {
+	return cgo_wxRichTextCtrl_MoveRight(o.Ptr(), noPositions, flags)
+}
+
+func (o *RichTextCtrl) MoveLeft(noPositions int, flags int) bool {
+	return cgo_wxRichTextCtrl_MoveLeft(o.Ptr(), noPositions, flags)
+}
+
+func (o *RichTextCtrl) MoveUp(noLines int, flags int) bool {
+	return cgo_wxRichTextCtrl_MoveUp(o.Ptr(), noLines, flags)
+}
+
+func (o *RichTextCtrl) MoveDown(noLines int, flags int) bool {
+	return cgo_wxRichTextCtrl_MoveDown(o.Ptr(), noLines, flags)
+}
+
+func (o *RichTextCtrl) MoveToLineEnd(flags int) bool {
+	return cgo_wxRichTextCtrl_MoveToLineEnd(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) MoveToLineStart(flags int) bool {
+	return cgo_wxRichTextCtrl_MoveToLineStart(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) MoveToParagraphEnd(flags int) bool {
+	return cgo_wxRichTextCtrl_MoveToParagraphEnd(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) MoveToParagraphStart(flags int) bool {
+	return cgo_wxRichTextCtrl_MoveToParagraphStart(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) MoveHome(flags int) bool {
+	return cgo_wxRichTextCtrl_MoveHome(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) MoveEnd(flags int) bool {
+	return cgo_wxRichTextCtrl_MoveEnd(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) PageUp(noPages int, flags int) bool {
+	return cgo_wxRichTextCtrl_PageUp(o.Ptr(), noPages, flags)
+}
+
+func (o *RichTextCtrl) PageDown(noPages int, flags int) bool {
+	return cgo_wxRichTextCtrl_PageDown(o.Ptr(), noPages, flags)
+}
+
+func (o *RichTextCtrl) WordLeft(noPages int, flags int) bool {
+	return cgo_wxRichTextCtrl_WordLeft(o.Ptr(), noPages, flags)
+}
+
+func (o *RichTextCtrl) WordRight(noPages int, flags int) bool {
+	return cgo_wxRichTextCtrl_WordRight(o.Ptr(), noPages, flags)
+}
+
+func (o *RichTextCtrl) IsSelectionBold() bool {
+	return cgo_wxRichTextCtrl_IsSelectionBold(o.Ptr())
+}
+
+func (o *RichTextCtrl) IsSelectionItalics() bool {
+	return cgo_wxRichTextCtrl_IsSelectionItalics(o.Ptr())
+}
+
+func (o *RichTextCtrl) IsSelectionUnderlined() bool {
+	return cgo_wxRichTextCtrl_IsSelectionUnderlined(o.Ptr())
+}
+
+func (o *RichTextCtrl) DoesSelectionHaveTextEffectFlag(flag int) bool {
+	return cgo_wxRichTextCtrl_DoesSelectionHaveTextEffectFlag(o.Ptr(), flag)
+}
+
+func (o *RichTextCtrl) IsSelectionAligned(alignment int) bool {
+	return cgo_wxRichTextCtrl_IsSelectionAligned(o.Ptr(), alignment)
+}
+
+func (o *RichTextCtrl) ApplyBoldToSelection() bool {
+	return cgo_wxRichTextCtrl_ApplyBoldToSelection(o.Ptr())
+}
+
+func (o *RichTextCtrl) ApplyItalicToSelection() bool {
+	return cgo_wxRichTextCtrl_ApplyItalicToSelection(o.Ptr())
+}
+
+func (o *RichTextCtrl) ApplyUnderlineToSelection() bool {
+	return cgo_wxRichTextCtrl_ApplyUnderlineToSelection(o.Ptr())
+}
+
+func (o *RichTextCtrl) ApplyTextEffectToSelection(flags int) bool {
+	return cgo_wxRichTextCtrl_ApplyTextEffectToSelection(o.Ptr(), flags)
+}
+
+func (o *RichTextCtrl) ApplyAlignmentToSelection(alignment int) bool {
+	return cgo_wxRichTextCtrl_ApplyAlignmentToSelection(o.Ptr(), alignment)
+}
+
+func (o *RichTextCtrl) ShowContextMenu(menu unsafe.Pointer, x int, y int, addPropertyCommands bool) bool {
+	return cgo_wxRichTextCtrl_ShowContextMenu(o.Ptr(), menu, x, y, addPropertyCommands)
+}
+
+func (o *RichTextCtrl) PrepareContextMenu(menu unsafe.Pointer, x int, y int, addPropertyCommands bool) int {
+	return cgo_wxRichTextCtrl_PrepareContextMenu(o.Ptr(), menu, x, y, addPropertyCommands)
+}
+
+func (o *RichTextCtrl) SetContextMenu(menu unsafe.Pointer) {
+	cgo_wxRichTextCtrl_SetContextMenu(o.Ptr(), menu)
+}
+
+func (o *RichTextCtrl) GetContextMenu() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_GetContextMenu(o.Ptr())
+}
+
+func (o *RichTextCtrl) GetSelectionAnchor() int {
+	return cgo_wxRichTextCtrl_GetSelectionAnchor(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetSelectionAnchor(anchor int) {
+	cgo_wxRichTextCtrl_SetSelectionAnchor(o.Ptr(), anchor)
+}
+
+func (o *RichTextCtrl) GetSelectionAnchorObject() unsafe.Pointer {
+	return cgo_wxRichTextCtrl_GetSelectionAnchorObject(o.Ptr())
+}
+
+func (o *RichTextCtrl) Freeze() {
+	cgo_wxRichTextCtrl_Freeze(o.Ptr())
+}
+
+func (o *RichTextCtrl) Thaw() {
+	cgo_wxRichTextCtrl_Thaw(o.Ptr())
+}
+
+func (o *RichTextCtrl) IsFrozen() bool {
+	return cgo_wxRichTextCtrl_IsFrozen(o.Ptr())
+}
+
+func (o *RichTextCtrl) HitTest(x int, y int, position unsafe.Pointer) int {
+	return cgo_wxRichTextCtrl_HitTest(o.Ptr(), x, y, position)
+}
+
+func (o *RichTextCtrl) SetCaretPosition(position int, showAtLineStart bool) {
+	cgo_wxRichTextCtrl_SetCaretPosition(o.Ptr(), position, showAtLineStart)
+}
+
+func (o *RichTextCtrl) GetAdjustedCaretPosition(caretPosition int) int {
+	return cgo_wxRichTextCtrl_GetAdjustedCaretPosition(o.Ptr(), caretPosition)
+}
+
+func (o *RichTextCtrl) FindNextWordPosition(direction int) int {
+	return cgo_wxRichTextCtrl_FindNextWordPosition(o.Ptr(), direction)
+}
+
+func (o *RichTextCtrl) IsPositionVisible(position int) bool {
+	return cgo_wxRichTextCtrl_IsPositionVisible(o.Ptr(), position)
+}
+
+func (o *RichTextCtrl) GetFirstVisiblePosition() int {
+	return cgo_wxRichTextCtrl_GetFirstVisiblePosition(o.Ptr())
+}
+
+func (o *RichTextCtrl) GetFirstVisiblePoint(x unsafe.Pointer, y unsafe.Pointer) {
+	cgo_wxRichTextCtrl_GetFirstVisiblePoint(o.Ptr(), x, y)
+}
+
 func NewRichTextCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *RichTextCtrl {
 	ptr := cgo_wxRichTextCtrl_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

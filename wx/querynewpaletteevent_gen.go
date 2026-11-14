@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type QueryNewPaletteEvent struct{ Event }
+
+// QueryNewPaletteEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func QueryNewPaletteEventFromPtr(ptr unsafe.Pointer) *QueryNewPaletteEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &QueryNewPaletteEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *QueryNewPaletteEvent) GetPaletteRealized() bool {
 	return cgo_wxQueryNewPaletteEvent_GetPaletteRealized(o.Ptr())

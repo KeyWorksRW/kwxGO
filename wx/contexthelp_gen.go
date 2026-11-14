@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type ContextHelp struct{ BaseObject }
+type ContextHelp struct{ Object }
+
+// ContextHelpFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ContextHelpFromPtr(ptr unsafe.Pointer) *ContextHelp {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ContextHelp{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *ContextHelp) BeginContextHelp(win unsafe.Pointer) bool {
 	return cgo_wxContextHelp_BeginContextHelp(o.Ptr(), win)
@@ -21,6 +33,9 @@ func NewContextHelp(win unsafe.Pointer, beginHelp bool) *ContextHelp {
 }
 
 func (o *ContextHelp) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxContextHelp_Delete(o.Ptr())
 }
 

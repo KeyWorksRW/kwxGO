@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RibbonPanel struct{ BaseObject }
+type RibbonPanel struct{ RibbonControl }
+
+// RibbonPanelFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RibbonPanelFromPtr(ptr unsafe.Pointer) *RibbonPanel {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RibbonPanel{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRibbonPanel(parent unsafe.Pointer, id int, label string, icon unsafe.Pointer, x int, y int, width int, height int, style int) *RibbonPanel {
 	wxLabel := NewWxString(label)
@@ -16,6 +28,12 @@ func NewRibbonPanel(parent unsafe.Pointer, id int, label string, icon unsafe.Poi
 	obj := &RibbonPanel{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RibbonPanel) SetExtButtonKeyTip(keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonPanel_SetExtButtonKeyTip(o.Ptr(), wxKeytip.Ptr())
 }
 
 func (o *RibbonPanel) GetLabel() string {
@@ -51,12 +69,13 @@ func (o *RibbonPanel) HideExpanded() bool {
 	return cgo_wxRibbonPanel_HideExpanded(o.Ptr())
 }
 
-func (o *RibbonPanel) Realize() {
-	cgo_wxRibbonPanel_Realize(o.Ptr())
+func (o *RibbonPanel) Realize() bool {
+	return cgo_wxRibbonPanel_Realize(o.Ptr())
 }
 
-func (o *RibbonPanel) GetMinSize() unsafe.Pointer {
-	return cgo_wxRibbonPanel_GetMinSize(o.Ptr())
+func (o *RibbonPanel) GetMinSize() Size {
+	retPtr := cgo_wxRibbonPanel_GetMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *RibbonPanel) SetArtProvider(art unsafe.Pointer) {

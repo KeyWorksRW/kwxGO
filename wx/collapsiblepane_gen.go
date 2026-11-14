@@ -6,6 +6,18 @@ import "unsafe"
 
 type CollapsiblePane struct{ Control }
 
+// CollapsiblePaneFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CollapsiblePaneFromPtr(ptr unsafe.Pointer) *CollapsiblePane {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CollapsiblePane{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCollapsiblePane(parent unsafe.Pointer, id int, label string, x int, y int, width int, height int, style int) *CollapsiblePane {
 	wxLabel := NewWxString(label)
 	defer wxLabel.Free()

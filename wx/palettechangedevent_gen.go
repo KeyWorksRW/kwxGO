@@ -6,6 +6,18 @@ import "unsafe"
 
 type PaletteChangedEvent struct{ Event }
 
+// PaletteChangedEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PaletteChangedEventFromPtr(ptr unsafe.Pointer) *PaletteChangedEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PaletteChangedEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *PaletteChangedEvent) GetChangedWindow() unsafe.Pointer {
 	return cgo_wxPaletteChangedEvent_GetChangedWindow(o.Ptr())
 }

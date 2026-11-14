@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type BoolProperty struct{ PGProperty }
+
+// BoolPropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BoolPropertyFromPtr(ptr unsafe.Pointer) *BoolProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BoolProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *BoolProperty) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxBoolProperty_Delete(o.Ptr())
+}
 
 func NewBoolProperty(label string, name string, value bool) *BoolProperty {
 	wxLabel := NewWxString(label)

@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type UpdateUIEvent struct{ Event }
+
+// UpdateUIEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func UpdateUIEventFromPtr(ptr unsafe.Pointer) *UpdateUIEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &UpdateUIEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *UpdateUIEvent) Check(check bool) {
 	cgo_wxUpdateUIEvent_Check(o.Ptr(), check)

@@ -4,7 +4,78 @@ package wx
 
 import "unsafe"
 
-type Sizer struct{ BaseObject }
+type Sizer struct{ Object }
+
+// SizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SizerFromPtr(ptr unsafe.Pointer) *Sizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Sizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Sizer) RemoveSizer(sizer unsafe.Pointer) bool {
+	return cgo_wxSizer_RemoveSizer(o.Ptr(), sizer)
+}
+
+func (o *Sizer) Remove(index int) bool {
+	return cgo_wxSizer_Remove(o.Ptr(), index)
+}
+
+func (o *Sizer) DeleteWindows() {
+	cgo_wxSizer_DeleteWindows(o.Ptr())
+}
+
+func (o *Sizer) ComputeFittingClientSize(window unsafe.Pointer) Size {
+	retPtr := cgo_wxSizer_ComputeFittingClientSize(o.Ptr(), window)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Sizer) ComputeFittingWindowSize(window unsafe.Pointer) Size {
+	retPtr := cgo_wxSizer_ComputeFittingWindowSize(o.Ptr(), window)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Sizer) FitWithSize(window unsafe.Pointer) Size {
+	retPtr := cgo_wxSizer_FitWithSize(o.Ptr(), window)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Sizer) GetItemCount() int {
+	return cgo_wxSizer_GetItemCount(o.Ptr())
+}
+
+func Sizer_GetDefaultBorder() int {
+	return cgo_wxSizer_GetDefaultBorder()
+}
+
+func (o *Sizer) IsEmpty() bool {
+	return cgo_wxSizer_IsEmpty(o.Ptr())
+}
+
+func (o *Sizer) GetItemById(id int, recursive bool) unsafe.Pointer {
+	return cgo_wxSizer_GetItemById(o.Ptr(), id, recursive)
+}
+
+func (o *Sizer) ShowItems(show bool) {
+	cgo_wxSizer_ShowItems(o.Ptr(), show)
+}
+
+func (o *Sizer) AreAnyItemsShown() bool {
+	return cgo_wxSizer_AreAnyItemsShown(o.Ptr())
+}
+
+func (o *Sizer) InformFirstDirection(direction int, size int, availableOtherDir int) bool {
+	return cgo_wxSizer_InformFirstDirection(o.Ptr(), direction, size, availableOtherDir)
+}
+
+func (o *Sizer) SetContainingWindow(window unsafe.Pointer) {
+	cgo_wxSizer_SetContainingWindow(o.Ptr(), window)
+}
 
 func (o *Sizer) Add(width int, height int, option int, flag int, border int, userData unsafe.Pointer) {
 	cgo_wxSizer_Add(o.Ptr(), width, height, option, flag, border, userData)
@@ -18,8 +89,9 @@ func (o *Sizer) AddWindow(window unsafe.Pointer, option int, flag int, border in
 	cgo_wxSizer_AddWindow(o.Ptr(), window, option, flag, border, userData)
 }
 
-func (o *Sizer) CalcMin() unsafe.Pointer {
-	return cgo_wxSizer_CalcMin(o.Ptr())
+func (o *Sizer) CalcMin() Size {
+	retPtr := cgo_wxSizer_CalcMin(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Sizer) Fit(window unsafe.Pointer) {
@@ -30,16 +102,19 @@ func (o *Sizer) GetChildren(result unsafe.Pointer, count int) int {
 	return cgo_wxSizer_GetChildren(o.Ptr(), result, count)
 }
 
-func (o *Sizer) GetMinSize() unsafe.Pointer {
-	return cgo_wxSizer_GetMinSize(o.Ptr())
+func (o *Sizer) GetMinSize() Size {
+	retPtr := cgo_wxSizer_GetMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
-func (o *Sizer) GetPosition() unsafe.Pointer {
-	return cgo_wxSizer_GetPosition(o.Ptr())
+func (o *Sizer) GetPosition() Point {
+	retPtr := cgo_wxSizer_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *Sizer) GetSize() unsafe.Pointer {
-	return cgo_wxSizer_GetSize(o.Ptr())
+func (o *Sizer) GetSize() Size {
+	retPtr := cgo_wxSizer_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Sizer) Insert(before int, width int, height int, option int, flag int, border int, userData unsafe.Pointer) {
@@ -98,8 +173,8 @@ func (o *Sizer) SetSizeHints(window unsafe.Pointer) {
 	cgo_wxSizer_SetSizeHints(o.Ptr(), window)
 }
 
-func (o *Sizer) AddSpacer(size int) {
-	cgo_wxSizer_AddSpacer(o.Ptr(), size)
+func (o *Sizer) AddSpacer(size int) unsafe.Pointer {
+	return cgo_wxSizer_AddSpacer(o.Ptr(), size)
 }
 
 func (o *Sizer) AddStretchSpacer(size int) {
@@ -140,6 +215,22 @@ func (o *Sizer) GetItemSizer(window unsafe.Pointer, recursive bool) unsafe.Point
 
 func (o *Sizer) GetItem(index int) unsafe.Pointer {
 	return cgo_wxSizer_GetItem(o.Ptr(), index)
+}
+
+func (o *Sizer) AddWindowFlags(window unsafe.Pointer, flags unsafe.Pointer) {
+	cgo_wxSizer_AddWindowFlags(o.Ptr(), window, flags)
+}
+
+func (o *Sizer) AddSizerFlags(sizer unsafe.Pointer, flags unsafe.Pointer) {
+	cgo_wxSizer_AddSizerFlags(o.Ptr(), sizer, flags)
+}
+
+func (o *Sizer) InsertWindowFlags(before int, window unsafe.Pointer, flags unsafe.Pointer) {
+	cgo_wxSizer_InsertWindowFlags(o.Ptr(), before, window, flags)
+}
+
+func (o *Sizer) InsertSizerFlags(before int, sizer unsafe.Pointer, flags unsafe.Pointer) {
+	cgo_wxSizer_InsertSizerFlags(o.Ptr(), before, sizer, flags)
 }
 
 func (o *Sizer) HideWindow(window unsafe.Pointer) bool {

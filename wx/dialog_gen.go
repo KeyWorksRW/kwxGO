@@ -6,6 +6,82 @@ import "unsafe"
 
 type Dialog struct{ TopLevelWindow }
 
+// DialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DialogFromPtr(ptr unsafe.Pointer) *Dialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Dialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Dialog) ShowWindowModal() {
+	cgo_wxDialog_ShowWindowModal(o.Ptr())
+}
+
+func (o *Dialog) Show(show bool) bool {
+	return cgo_wxDialog_Show(o.Ptr(), show)
+}
+
+func (o *Dialog) GetModality() int {
+	return cgo_wxDialog_GetModality(o.Ptr())
+}
+
+func (o *Dialog) AddMainButtonId(id int) {
+	cgo_wxDialog_AddMainButtonId(o.Ptr(), id)
+}
+
+func (o *Dialog) IsMainButtonId(id int) bool {
+	return cgo_wxDialog_IsMainButtonId(o.Ptr(), id)
+}
+
+func (o *Dialog) SetLayoutAdaptationLevel(level int) {
+	cgo_wxDialog_SetLayoutAdaptationLevel(o.Ptr(), level)
+}
+
+func (o *Dialog) GetLayoutAdaptationLevel() int {
+	return cgo_wxDialog_GetLayoutAdaptationLevel(o.Ptr())
+}
+
+func (o *Dialog) SetLayoutAdaptationMode(mode int) {
+	cgo_wxDialog_SetLayoutAdaptationMode(o.Ptr(), mode)
+}
+
+func (o *Dialog) GetLayoutAdaptationMode() int {
+	return cgo_wxDialog_GetLayoutAdaptationMode(o.Ptr())
+}
+
+func (o *Dialog) SetLayoutAdaptationDone(adaptationDone bool) {
+	cgo_wxDialog_SetLayoutAdaptationDone(o.Ptr(), adaptationDone)
+}
+
+func (o *Dialog) GetLayoutAdaptationDone() bool {
+	return cgo_wxDialog_GetLayoutAdaptationDone(o.Ptr())
+}
+
+func Dialog_IsLayoutAdaptationEnabled() bool {
+	return cgo_wxDialog_IsLayoutAdaptationEnabled()
+}
+
+func Dialog_EnableLayoutAdaptation(enable bool) {
+	cgo_wxDialog_EnableLayoutAdaptation(enable)
+}
+
+func (o *Dialog) CanDoLayoutAdaptation() bool {
+	return cgo_wxDialog_CanDoLayoutAdaptation(o.Ptr())
+}
+
+func (o *Dialog) DoLayoutAdaptation() bool {
+	return cgo_wxDialog_DoLayoutAdaptation(o.Ptr())
+}
+
+func (o *Dialog) GetContentWindow() unsafe.Pointer {
+	return cgo_wxDialog_GetContentWindow(o.Ptr())
+}
+
 func NewDialog(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *Dialog {
 	wxText := NewWxString(text)
 	defer wxText.Free()

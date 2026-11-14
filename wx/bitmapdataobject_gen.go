@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type BitmapDataObject struct{ BaseObject }
+type BitmapDataObject struct{ DataObjectSimple }
+
+// BitmapDataObjectFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BitmapDataObjectFromPtr(ptr unsafe.Pointer) *BitmapDataObject {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapDataObject{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewBitmapDataObject(bitmap unsafe.Pointer) *BitmapDataObject {
 	ptr := cgo_BitmapDataObject_Create(bitmap)
@@ -27,6 +39,9 @@ func NewBitmapDataObjectEmpty() *BitmapDataObject {
 }
 
 func (o *BitmapDataObject) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_BitmapDataObject_Delete(o.Ptr())
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type AutoBufferedPaintDC struct{ DC }
 
+// AutoBufferedPaintDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AutoBufferedPaintDCFromPtr(ptr unsafe.Pointer) *AutoBufferedPaintDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AutoBufferedPaintDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAutoBufferedPaintDC(window unsafe.Pointer) *AutoBufferedPaintDC {
 	ptr := cgo_wxAutoBufferedPaintDC_Create(window)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewAutoBufferedPaintDC(window unsafe.Pointer) *AutoBufferedPaintDC {
 }
 
 func (o *AutoBufferedPaintDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAutoBufferedPaintDC_Delete(o.Ptr())
 }
 

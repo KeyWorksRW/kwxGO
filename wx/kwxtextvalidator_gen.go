@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxTextValidator struct{ TextValidator }
 
+// KwxTextValidatorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxTextValidatorFromPtr(ptr unsafe.Pointer) *KwxTextValidator {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxTextValidator{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxTextValidator(pObject unsafe.Pointer, pFunction unsafe.Pointer, text unsafe.Pointer, style int) *KwxTextValidator {
 	ptr := cgo_kwxTextValidator_Create(pObject, pFunction, text, style)
 	if ptr == nil {

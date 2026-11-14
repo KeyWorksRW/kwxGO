@@ -6,6 +6,18 @@ import "unsafe"
 
 type Button struct{ Control }
 
+// ButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ButtonFromPtr(ptr unsafe.Pointer) *Button {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Button{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewButton(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *Button {
 	wxText := NewWxString(text)
 	defer wxText.Free()
@@ -18,11 +30,19 @@ func NewButton(parent unsafe.Pointer, id int, text string, left int, top int, wi
 	return obj
 }
 
-func (o *Button) SetBackgroundColour(colour unsafe.Pointer) int {
+func (o *Button) SetBackgroundColour(colour unsafe.Pointer) bool {
 	return cgo_wxButton_SetBackgroundColour(o.Ptr(), colour)
 }
 
 func (o *Button) SetDefault() {
 	cgo_wxButton_SetDefault(o.Ptr())
+}
+
+func (o *Button) SetAuthNeeded(show bool) {
+	cgo_wxButton_SetAuthNeeded(o.Ptr(), show)
+}
+
+func (o *Button) GetAuthNeeded() bool {
+	return cgo_wxButton_GetAuthNeeded(o.Ptr())
 }
 

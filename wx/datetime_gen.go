@@ -6,6 +6,158 @@ import "unsafe"
 
 type DateTime struct{ BaseObject }
 
+// DateTimeFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DateTimeFromPtr(ptr unsafe.Pointer) *DateTime {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DateTime{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *DateTime) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxDateTime_Delete(o.Ptr())
+}
+
+func (o *DateTime) SetFromTimeT(ticks int64) {
+	cgo_wxDateTime_SetFromTimeT(o.Ptr(), ticks)
+}
+
+func (o *DateTime) SetFromJDN(julian_day float64) {
+	cgo_wxDateTime_SetFromJDN(o.Ptr(), julian_day)
+}
+
+func NewDateTimeFromTimeT(ticks int64) *DateTime {
+	ptr := cgo_wxDateTime_CreateFromTimeT(ticks)
+	if ptr == nil {
+		return nil
+	}
+	obj := &DateTime{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewDateTimeFromJDN(julian_day float64) *DateTime {
+	ptr := cgo_wxDateTime_CreateFromJDN(julian_day)
+	if ptr == nil {
+		return nil
+	}
+	obj := &DateTime{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func DateTime_GetFirstWeekDay(first_week_day unsafe.Pointer) bool {
+	return cgo_wxDateTime_GetFirstWeekDay(first_week_day)
+}
+
+func DateTime_GetEnglishMonthName(month int, flags int) string {
+	retPtr := cgo_wxDateTime_GetEnglishMonthName(month, flags)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func DateTime_GetEnglishWeekDayName(weekday int, flags int) string {
+	retPtr := cgo_wxDateTime_GetEnglishWeekDayName(weekday, flags)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *DateTime) GetDateOnly(ref unsafe.Pointer) {
+	cgo_wxDateTime_GetDateOnly(o.Ptr(), ref)
+}
+
+func (o *DateTime) SetToYearDay(year_day int) {
+	cgo_wxDateTime_SetToYearDay(o.Ptr(), year_day)
+}
+
+func (o *DateTime) GetYearDay(year_day int, ref unsafe.Pointer) {
+	cgo_wxDateTime_GetYearDay(o.Ptr(), year_day, ref)
+}
+
+func (o *DateTime) GetJulianDayNumber() float64 {
+	return cgo_wxDateTime_GetJulianDayNumber(o.Ptr())
+}
+
+func (o *DateTime) GetModifiedJulianDayNumber() float64 {
+	return cgo_wxDateTime_GetModifiedJulianDayNumber(o.Ptr())
+}
+
+func (o *DateTime) GetRataDie() float64 {
+	return cgo_wxDateTime_GetRataDie(o.Ptr())
+}
+
+func (o *DateTime) FromTimezone(time_zone int, no_dst int, ref unsafe.Pointer) {
+	cgo_wxDateTime_FromTimezone(o.Ptr(), time_zone, no_dst, ref)
+}
+
+func (o *DateTime) MakeFromTimezone(time_zone int, no_dst int) {
+	cgo_wxDateTime_MakeFromTimezone(o.Ptr(), time_zone, no_dst)
+}
+
+func (o *DateTime) ToUTC(no_dst int, ref unsafe.Pointer) {
+	cgo_wxDateTime_ToUTC(o.Ptr(), no_dst, ref)
+}
+
+func (o *DateTime) MakeUTC(no_dst int) {
+	cgo_wxDateTime_MakeUTC(o.Ptr(), no_dst)
+}
+
+func (o *DateTime) FromUTC(no_dst int, ref unsafe.Pointer) {
+	cgo_wxDateTime_FromUTC(o.Ptr(), no_dst, ref)
+}
+
+func (o *DateTime) MakeFromUTC(no_dst int) {
+	cgo_wxDateTime_MakeFromUTC(o.Ptr(), no_dst)
+}
+
+func (o *DateTime) GetCenturyTZ(time_zone int) int {
+	return cgo_wxDateTime_GetCenturyTZ(o.Ptr(), time_zone)
+}
+
+func (o *DateTime) GetWeekBasedYear(time_zone int) int {
+	return cgo_wxDateTime_GetWeekBasedYear(o.Ptr(), time_zone)
+}
+
+func (o *DateTime) FormatISOCombined(separator byte) string {
+	retPtr := cgo_wxDateTime_FormatISOCombined(o.Ptr(), separator)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *DateTime) ParseISODate(text string) bool {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxDateTime_ParseISODate(o.Ptr(), wxText.Ptr())
+}
+
+func (o *DateTime) ParseISOTime(text string) bool {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxDateTime_ParseISOTime(o.Ptr(), wxText.Ptr())
+}
+
+func (o *DateTime) ParseISOCombined(text string, separator byte) bool {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxDateTime_ParseISOCombined(o.Ptr(), wxText.Ptr(), separator)
+}
+
+func (o *DateTime) DiffAsDateSpan(datetime unsafe.Pointer, ref unsafe.Pointer) {
+	cgo_wxDateTime_DiffAsDateSpan(o.Ptr(), datetime, ref)
+}
+
+func (o *DateTime) SetFromDOS(dos_date_time uint32) {
+	cgo_wxDateTime_SetFromDOS(o.Ptr(), dos_date_time)
+}
+
+func (o *DateTime) GetAsDOS() uint32 {
+	return cgo_wxDateTime_GetAsDOS(o.Ptr())
+}
+
 func (o *DateTime) AddDate(diff unsafe.Pointer, ref unsafe.Pointer) {
 	cgo_wxDateTime_AddDate(o.Ptr(), diff, ref)
 }
@@ -22,7 +174,7 @@ func (o *DateTime) AddTimeValues(hours int, minVal int, seconds int, millisecond
 	cgo_wxDateTime_AddTimeValues(o.Ptr(), hours, minVal, seconds, milliseconds)
 }
 
-func (o *DateTime) ConvertYearToBC(year int) int {
+func DateTime_ConvertYearToBC(year int) int {
 	return cgo_wxDateTime_ConvertYearToBC(year)
 }
 
@@ -61,28 +213,28 @@ func (o *DateTime) FormatTime() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *DateTime) GetAmString() string {
+func DateTime_GetAmString() string {
 	retPtr := cgo_wxDateTime_GetAmString()
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *DateTime) GetBeginDST(year int, country int, dateTime unsafe.Pointer) {
+func DateTime_GetBeginDST(year int, country int, dateTime unsafe.Pointer) {
 	cgo_wxDateTime_GetBeginDST(year, country, dateTime)
 }
 
-func (o *DateTime) GetCentury(year int) int {
+func DateTime_GetCentury(year int) int {
 	return cgo_wxDateTime_GetCentury(year)
 }
 
-func (o *DateTime) GetCountry() int {
+func DateTime_GetCountry() int {
 	return cgo_wxDateTime_GetCountry()
 }
 
-func (o *DateTime) GetCurrentMonth(cal int) int {
+func DateTime_GetCurrentMonth(cal int) int {
 	return cgo_wxDateTime_GetCurrentMonth(cal)
 }
 
-func (o *DateTime) GetCurrentYear(cal int) int {
+func DateTime_GetCurrentYear(cal int) int {
 	return cgo_wxDateTime_GetCurrentYear(cal)
 }
 
@@ -94,7 +246,7 @@ func (o *DateTime) GetDayOfYear(timeZone int) int {
 	return cgo_wxDateTime_GetDayOfYear(o.Ptr(), timeZone)
 }
 
-func (o *DateTime) GetEndDST(year int, country int, dateTime unsafe.Pointer) {
+func DateTime_GetEndDST(year int, country int, dateTime unsafe.Pointer) {
 	cgo_wxDateTime_GetEndDST(year, country, dateTime)
 }
 
@@ -122,7 +274,7 @@ func (o *DateTime) GetMonth(timeZone int) int {
 	return cgo_wxDateTime_GetMonth(o.Ptr(), timeZone)
 }
 
-func (o *DateTime) GetMonthName(month int, flags int) string {
+func DateTime_GetMonthName(month int, flags int) string {
 	retPtr := cgo_wxDateTime_GetMonthName(month, flags)
 	return WxStringToGoAndFree(retPtr)
 }
@@ -131,15 +283,15 @@ func (o *DateTime) GetNextWeekDay(weekday int, ref unsafe.Pointer) {
 	cgo_wxDateTime_GetNextWeekDay(o.Ptr(), weekday, ref)
 }
 
-func (o *DateTime) GetNumberOfDays(year int, cal int) int {
+func DateTime_GetNumberOfDays(year int, cal int) int {
 	return cgo_wxDateTime_GetNumberOfDays(year, cal)
 }
 
-func (o *DateTime) GetNumberOfDaysMonth(month int, year int, cal int) int {
+func DateTime_GetNumberOfDaysMonth(month int, year int, cal int) int {
 	return cgo_wxDateTime_GetNumberOfDaysMonth(month, year, cal)
 }
 
-func (o *DateTime) GetPmString() string {
+func DateTime_GetPmString() string {
 	retPtr := cgo_wxDateTime_GetPmString()
 	return WxStringToGoAndFree(retPtr)
 }
@@ -156,7 +308,7 @@ func (o *DateTime) GetTicks() int {
 	return cgo_wxDateTime_GetTicks(o.Ptr())
 }
 
-func (o *DateTime) GetTimeNow() int {
+func DateTime_GetTimeNow() int {
 	return cgo_wxDateTime_GetTimeNow()
 }
 
@@ -172,7 +324,7 @@ func (o *DateTime) GetWeekDayInSameWeek(weekday int, flags int, ref unsafe.Point
 	cgo_wxDateTime_GetWeekDayInSameWeek(o.Ptr(), weekday, flags, ref)
 }
 
-func (o *DateTime) GetWeekDayName(weekday int, flags int) string {
+func DateTime_GetWeekDayName(weekday int, flags int) string {
 	retPtr := cgo_wxDateTime_GetWeekDayName(weekday, flags)
 	return WxStringToGoAndFree(retPtr)
 }
@@ -201,7 +353,7 @@ func (o *DateTime) IsDST(country int) bool {
 	return cgo_wxDateTime_IsDST(o.Ptr(), country)
 }
 
-func (o *DateTime) IsDSTApplicable(year int, country int) bool {
+func DateTime_IsDSTApplicable(year int, country int) bool {
 	return cgo_wxDateTime_IsDSTApplicable(year, country)
 }
 
@@ -221,7 +373,7 @@ func (o *DateTime) IsLaterThan(datetime unsafe.Pointer) bool {
 	return cgo_wxDateTime_IsLaterThan(o.Ptr(), datetime)
 }
 
-func (o *DateTime) IsLeapYear(year int, cal int) bool {
+func DateTime_IsLeapYear(year int, cal int) bool {
 	return cgo_wxDateTime_IsLeapYear(year, cal)
 }
 
@@ -241,7 +393,7 @@ func (o *DateTime) IsValid() bool {
 	return cgo_wxDateTime_IsValid(o.Ptr())
 }
 
-func (o *DateTime) IsWestEuropeanCountry(country int) bool {
+func DateTime_IsWestEuropeanCountry(country int) bool {
 	return cgo_wxDateTime_IsWestEuropeanCountry(country)
 }
 
@@ -277,8 +429,10 @@ func (o *DateTime) ParseRfc822Date(date unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxDateTime_ParseRfc822Date(o.Ptr(), date)
 }
 
-func (o *DateTime) ParseTime(time unsafe.Pointer) unsafe.Pointer {
-	return cgo_wxDateTime_ParseTime(o.Ptr(), time)
+func (o *DateTime) ParseTime(time string) unsafe.Pointer {
+	wxTime := NewWxString(time)
+	defer wxTime.Free()
+	return cgo_wxDateTime_ParseTime(o.Ptr(), wxTime.Ptr())
 }
 
 func (o *DateTime) ResetTime() {
@@ -289,7 +443,7 @@ func (o *DateTime) Set(day int, month int, year int, hour int, minute int, secon
 	cgo_wxDateTime_Set(o.Ptr(), day, month, year, hour, minute, second, millisec)
 }
 
-func (o *DateTime) SetCountry(country int) {
+func DateTime_SetCountry(country int) {
 	cgo_wxDateTime_SetCountry(country)
 }
 
@@ -377,7 +531,7 @@ func (o *DateTime) UNow() {
 	cgo_wxDateTime_UNow(o.Ptr())
 }
 
-func (o *DateTime) wxDateTime(hi_long int, lo_long int) unsafe.Pointer {
+func DateTime_wxDateTime(hi_long int, lo_long int) unsafe.Pointer {
 	return cgo_wxDateTime_wxDateTime(hi_long, lo_long)
 }
 

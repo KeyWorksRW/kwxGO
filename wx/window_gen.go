@@ -6,6 +6,634 @@ import "unsafe"
 
 type Window struct{ EvtHandler }
 
+// WindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WindowFromPtr(ptr unsafe.Pointer) *Window {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Window{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Window) SetAccessible(accessible unsafe.Pointer) {
+	cgo_wxWindow_SetAccessible(o.Ptr(), accessible)
+}
+
+func (o *Window) GetAccessible() unsafe.Pointer {
+	return cgo_wxWindow_GetAccessible(o.Ptr())
+}
+
+func (o *Window) GetOrCreateAccessible() unsafe.Pointer {
+	return cgo_wxWindow_GetOrCreateAccessible(o.Ptr())
+}
+
+func (o *Window) CreateAccessible() unsafe.Pointer {
+	return cgo_wxWindow_CreateAccessible(o.Ptr())
+}
+
+func (o *Window) SetAccessibleName(name string) {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	cgo_wxWindow_SetAccessibleName(o.Ptr(), wxName.Ptr())
+}
+
+func (o *Window) ConvertDialogToPixelsEx(x int, y int) Point {
+	retPtr := cgo_wxWindow_ConvertDialogToPixelsEx(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
+}
+
+func (o *Window) ConvertPixelsToDialogEx(x int, y int) Point {
+	retPtr := cgo_wxWindow_ConvertPixelsToDialogEx(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
+}
+
+func (o *Window) ScreenToClient2(x int, y int) Point {
+	retPtr := cgo_wxWindow_ScreenToClient2(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
+}
+
+func Window_NewControlId(count int) int {
+	return cgo_wxWindow_NewControlId(count)
+}
+
+func (o *Window) CentreOnParent(dir int) {
+	cgo_wxWindow_CentreOnParent(o.Ptr(), dir)
+}
+
+func Window_FindWindowById(winid int, parent unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxWindow_FindWindowById(winid, parent)
+}
+
+func Window_FindWindowByName(name string, parent unsafe.Pointer) unsafe.Pointer {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxWindow_FindWindowByName(wxName.Ptr(), parent)
+}
+
+func (o *Window) GetContainingSizer() unsafe.Pointer {
+	return cgo_wxWindow_GetContainingSizer(o.Ptr())
+}
+
+func (o *Window) GetMinSizeFromKnownDirection(direction int, size int, availableOtherDir int) Size {
+	retPtr := cgo_wxWindow_GetMinSizeFromKnownDirection(o.Ptr(), direction, size, availableOtherDir)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) IsTransparentBackgroundSupported(reason unsafe.Pointer) bool {
+	return cgo_wxWindow_IsTransparentBackgroundSupported(o.Ptr(), reason)
+}
+
+func (o *Window) PostSizeEvent() {
+	cgo_wxWindow_PostSizeEvent(o.Ptr())
+}
+
+func Window_UnreserveControlId(id int, count int) {
+	cgo_wxWindow_UnreserveControlId(id, count)
+}
+
+func (o *Window) GetWindowVariant() int {
+	return cgo_wxWindow_GetWindowVariant(o.Ptr())
+}
+
+func (o *Window) SetWindowVariant(variant int) {
+	cgo_wxWindow_SetWindowVariant(o.Ptr(), variant)
+}
+
+func (o *Window) GetLayoutDirection() int {
+	return cgo_wxWindow_GetLayoutDirection(o.Ptr())
+}
+
+func (o *Window) SetLayoutDirection(direction int) {
+	cgo_wxWindow_SetLayoutDirection(o.Ptr(), direction)
+}
+
+func (o *Window) SetPosition(x int, y int) {
+	cgo_wxWindow_SetPosition(o.Ptr(), x, y)
+}
+
+func (o *Window) GetScreenPosition(x unsafe.Pointer, y unsafe.Pointer) {
+	cgo_wxWindow_GetScreenPosition(o.Ptr(), x, y)
+}
+
+func (o *Window) GetScreenRect() Rect {
+	retPtr := cgo_wxWindow_GetScreenRect(o.Ptr())
+	return rectFromPtr(retPtr)
+}
+
+func (o *Window) GetClientAreaOrigin(x unsafe.Pointer, y unsafe.Pointer) {
+	cgo_wxWindow_GetClientAreaOrigin(o.Ptr(), x, y)
+}
+
+func (o *Window) GetClientRect() Rect {
+	retPtr := cgo_wxWindow_GetClientRect(o.Ptr())
+	return rectFromPtr(retPtr)
+}
+
+func (o *Window) ClientToWindowSize(width unsafe.Pointer, height unsafe.Pointer) {
+	cgo_wxWindow_ClientToWindowSize(o.Ptr(), width, height)
+}
+
+func (o *Window) WindowToClientSize(width unsafe.Pointer, height unsafe.Pointer) {
+	cgo_wxWindow_WindowToClientSize(o.Ptr(), width, height)
+}
+
+func (o *Window) GetBestHeight(width int) int {
+	return cgo_wxWindow_GetBestHeight(o.Ptr(), width)
+}
+
+func (o *Window) GetBestWidth(height int) int {
+	return cgo_wxWindow_GetBestWidth(o.Ptr(), height)
+}
+
+func (o *Window) InvalidateBestSize() {
+	cgo_wxWindow_InvalidateBestSize(o.Ptr())
+}
+
+func (o *Window) CacheBestSize(width int, height int) {
+	cgo_wxWindow_CacheBestSize(o.Ptr(), width, height)
+}
+
+func (o *Window) SetInitialSize(width int, height int) bool {
+	return cgo_wxWindow_SetInitialSize(o.Ptr(), width, height)
+}
+
+func (o *Window) Centre(direction int) {
+	cgo_wxWindow_Centre(o.Ptr(), direction)
+}
+
+func (o *Window) GetMinSize() Size {
+	retPtr := cgo_wxWindow_GetMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) GetMaxSize() Size {
+	retPtr := cgo_wxWindow_GetMaxSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) SetMinClientSize(width int, height int) {
+	cgo_wxWindow_SetMinClientSize(o.Ptr(), width, height)
+}
+
+func (o *Window) SetMaxClientSize(width int, height int) {
+	cgo_wxWindow_SetMaxClientSize(o.Ptr(), width, height)
+}
+
+func (o *Window) GetMinClientSize() Size {
+	retPtr := cgo_wxWindow_GetMinClientSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) GetMaxClientSize() Size {
+	retPtr := cgo_wxWindow_GetMaxClientSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) GetBestVirtualSize() Size {
+	retPtr := cgo_wxWindow_GetBestVirtualSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) GetContentScaleFactor() float64 {
+	return cgo_wxWindow_GetContentScaleFactor(o.Ptr())
+}
+
+func (o *Window) GetDPIScaleFactor() float64 {
+	return cgo_wxWindow_GetDPIScaleFactor(o.Ptr())
+}
+
+func (o *Window) GetWindowBorderSize() Size {
+	retPtr := cgo_wxWindow_GetWindowBorderSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) SendSizeEvent(flags int) {
+	cgo_wxWindow_SendSizeEvent(o.Ptr(), flags)
+}
+
+func (o *Window) SendSizeEventToParent(flags int) {
+	cgo_wxWindow_SendSizeEventToParent(o.Ptr(), flags)
+}
+
+func (o *Window) ShowWithEffect(effect int, timeout int) bool {
+	return cgo_wxWindow_ShowWithEffect(o.Ptr(), effect, timeout)
+}
+
+func (o *Window) HideWithEffect(effect int, timeout int) bool {
+	return cgo_wxWindow_HideWithEffect(o.Ptr(), effect, timeout)
+}
+
+func (o *Window) IsThisEnabled() bool {
+	return cgo_wxWindow_IsThisEnabled(o.Ptr())
+}
+
+func (o *Window) IsShownOnScreen() bool {
+	return cgo_wxWindow_IsShownOnScreen(o.Ptr())
+}
+
+func (o *Window) SetWindowStyle(style int) {
+	cgo_wxWindow_SetWindowStyle(o.Ptr(), style)
+}
+
+func (o *Window) GetWindowStyle() int {
+	return cgo_wxWindow_GetWindowStyle(o.Ptr())
+}
+
+func (o *Window) IsRetained() bool {
+	return cgo_wxWindow_IsRetained(o.Ptr())
+}
+
+func (o *Window) ToggleWindowStyle(flag int) bool {
+	return cgo_wxWindow_ToggleWindowStyle(o.Ptr(), flag)
+}
+
+func (o *Window) GetExtraStyle() int {
+	return cgo_wxWindow_GetExtraStyle(o.Ptr())
+}
+
+func (o *Window) HasExtraStyle(exFlag int) bool {
+	return cgo_wxWindow_HasExtraStyle(o.Ptr(), exFlag)
+}
+
+func (o *Window) SetThemeEnabled(enableTheme bool) {
+	cgo_wxWindow_SetThemeEnabled(o.Ptr(), enableTheme)
+}
+
+func (o *Window) GetThemeEnabled() bool {
+	return cgo_wxWindow_GetThemeEnabled(o.Ptr())
+}
+
+func (o *Window) SetFocusFromKbd() {
+	cgo_wxWindow_SetFocusFromKbd(o.Ptr())
+}
+
+func (o *Window) AcceptsFocus() bool {
+	return cgo_wxWindow_AcceptsFocus(o.Ptr())
+}
+
+func (o *Window) AcceptsFocusRecursively() bool {
+	return cgo_wxWindow_AcceptsFocusRecursively(o.Ptr())
+}
+
+func (o *Window) AcceptsFocusFromKeyboard() bool {
+	return cgo_wxWindow_AcceptsFocusFromKeyboard(o.Ptr())
+}
+
+func (o *Window) DisableFocusFromKeyboard() {
+	cgo_wxWindow_DisableFocusFromKeyboard(o.Ptr())
+}
+
+func (o *Window) EnableFocusFromKeyboard() {
+	cgo_wxWindow_EnableFocusFromKeyboard(o.Ptr())
+}
+
+func (o *Window) CanBeFocused() bool {
+	return cgo_wxWindow_CanBeFocused(o.Ptr())
+}
+
+func (o *Window) IsFocusable() bool {
+	return cgo_wxWindow_IsFocusable(o.Ptr())
+}
+
+func (o *Window) CanAcceptFocus() bool {
+	return cgo_wxWindow_CanAcceptFocus(o.Ptr())
+}
+
+func (o *Window) CanAcceptFocusFromKeyboard() bool {
+	return cgo_wxWindow_CanAcceptFocusFromKeyboard(o.Ptr())
+}
+
+func (o *Window) SetCanFocus(canFocus bool) {
+	cgo_wxWindow_SetCanFocus(o.Ptr(), canFocus)
+}
+
+func (o *Window) EnableVisibleFocus(enabled bool) {
+	cgo_wxWindow_EnableVisibleFocus(o.Ptr(), enabled)
+}
+
+func (o *Window) NavigateIn(flags int) bool {
+	return cgo_wxWindow_NavigateIn(o.Ptr(), flags)
+}
+
+func (o *Window) Navigate(flags int) bool {
+	return cgo_wxWindow_Navigate(o.Ptr(), flags)
+}
+
+func (o *Window) MoveBeforeInTabOrder(win unsafe.Pointer) {
+	cgo_wxWindow_MoveBeforeInTabOrder(o.Ptr(), win)
+}
+
+func (o *Window) MoveAfterInTabOrder(win unsafe.Pointer) {
+	cgo_wxWindow_MoveAfterInTabOrder(o.Ptr(), win)
+}
+
+func (o *Window) IsDescendant(win unsafe.Pointer) bool {
+	return cgo_wxWindow_IsDescendant(o.Ptr(), win)
+}
+
+func (o *Window) SetParent(parent unsafe.Pointer) {
+	cgo_wxWindow_SetParent(o.Ptr(), parent)
+}
+
+func (o *Window) SetEventHandler(handler unsafe.Pointer) {
+	cgo_wxWindow_SetEventHandler(o.Ptr(), handler)
+}
+
+func (o *Window) RemoveEventHandler(handler unsafe.Pointer) bool {
+	return cgo_wxWindow_RemoveEventHandler(o.Ptr(), handler)
+}
+
+func (o *Window) ProcessWindowEvent(event unsafe.Pointer) bool {
+	return cgo_wxWindow_ProcessWindowEvent(o.Ptr(), event)
+}
+
+func (o *Window) ProcessWindowEventLocally(event unsafe.Pointer) bool {
+	return cgo_wxWindow_ProcessWindowEventLocally(o.Ptr(), event)
+}
+
+func (o *Window) HandleWindowEvent(event unsafe.Pointer) bool {
+	return cgo_wxWindow_HandleWindowEvent(o.Ptr(), event)
+}
+
+func (o *Window) GetAcceleratorTable() unsafe.Pointer {
+	return cgo_wxWindow_GetAcceleratorTable(o.Ptr())
+}
+
+func (o *Window) RegisterHotKey(hotkeyId int, modifiers int, keycode int) bool {
+	return cgo_wxWindow_RegisterHotKey(o.Ptr(), hotkeyId, modifiers, keycode)
+}
+
+func (o *Window) UnregisterHotKey(hotkeyId int) bool {
+	return cgo_wxWindow_UnregisterHotKey(o.Ptr(), hotkeyId)
+}
+
+func (o *Window) GetDPI() Size {
+	retPtr := cgo_wxWindow_GetDPI(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Window) FromDIP(value int) int {
+	return cgo_wxWindow_FromDIP(o.Ptr(), value)
+}
+
+func (o *Window) ToDIP(value int) int {
+	return cgo_wxWindow_ToDIP(o.Ptr(), value)
+}
+
+func (o *Window) HasCapture() bool {
+	return cgo_wxWindow_HasCapture(o.Ptr())
+}
+
+func (o *Window) EnableTouchEvents(eventsMask int) bool {
+	return cgo_wxWindow_EnableTouchEvents(o.Ptr(), eventsMask)
+}
+
+func (o *Window) IsFrozen() bool {
+	return cgo_wxWindow_IsFrozen(o.Ptr())
+}
+
+func (o *Window) SetDoubleBuffered(on bool) {
+	cgo_wxWindow_SetDoubleBuffered(o.Ptr(), on)
+}
+
+func (o *Window) IsDoubleBuffered() bool {
+	return cgo_wxWindow_IsDoubleBuffered(o.Ptr())
+}
+
+func (o *Window) GetUpdateClientRect() Rect {
+	retPtr := cgo_wxWindow_GetUpdateClientRect(o.Ptr())
+	return rectFromPtr(retPtr)
+}
+
+func (o *Window) SetOwnBackgroundColour(colour unsafe.Pointer) {
+	cgo_wxWindow_SetOwnBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *Window) UseBgCol() bool {
+	return cgo_wxWindow_UseBgCol(o.Ptr())
+}
+
+func (o *Window) UseBackgroundColour() bool {
+	return cgo_wxWindow_UseBackgroundColour(o.Ptr())
+}
+
+func (o *Window) InheritsBackgroundColour() bool {
+	return cgo_wxWindow_InheritsBackgroundColour(o.Ptr())
+}
+
+func (o *Window) SetOwnForegroundColour(colour unsafe.Pointer) {
+	cgo_wxWindow_SetOwnForegroundColour(o.Ptr(), colour)
+}
+
+func (o *Window) UseForegroundColour() bool {
+	return cgo_wxWindow_UseForegroundColour(o.Ptr())
+}
+
+func (o *Window) InheritsForegroundColour() bool {
+	return cgo_wxWindow_InheritsForegroundColour(o.Ptr())
+}
+
+func (o *Window) SetBackgroundStyle(style int) bool {
+	return cgo_wxWindow_SetBackgroundStyle(o.Ptr(), style)
+}
+
+func (o *Window) GetBackgroundStyle() int {
+	return cgo_wxWindow_GetBackgroundStyle(o.Ptr())
+}
+
+func (o *Window) HasTransparentBackground() bool {
+	return cgo_wxWindow_HasTransparentBackground(o.Ptr())
+}
+
+func (o *Window) SetOwnFont(font unsafe.Pointer) {
+	cgo_wxWindow_SetOwnFont(o.Ptr(), font)
+}
+
+func (o *Window) EnableInputMethod(enable bool) {
+	cgo_wxWindow_EnableInputMethod(o.Ptr(), enable)
+}
+
+func (o *Window) IsInputMethodEnabled() bool {
+	return cgo_wxWindow_IsInputMethodEnabled(o.Ptr())
+}
+
+func (o *Window) UpdateInputMethodCursorRect(x int, y int, width int, height int) {
+	cgo_wxWindow_UpdateInputMethodCursorRect(o.Ptr(), x, y, width, height)
+}
+
+func (o *Window) GetInputMethodCursorRect() Rect {
+	retPtr := cgo_wxWindow_GetInputMethodCursorRect(o.Ptr())
+	return rectFromPtr(retPtr)
+}
+
+func (o *Window) HitTest(x int, y int) int {
+	return cgo_wxWindow_HitTest(o.Ptr(), x, y)
+}
+
+func (o *Window) GetBorder(flags int) int {
+	return cgo_wxWindow_GetBorder(o.Ptr(), flags)
+}
+
+func (o *Window) HasMultiplePages() bool {
+	return cgo_wxWindow_HasMultiplePages(o.Ptr())
+}
+
+func (o *Window) CanScroll(orient int) bool {
+	return cgo_wxWindow_CanScroll(o.Ptr(), orient)
+}
+
+func (o *Window) HasScrollbar(orient int) bool {
+	return cgo_wxWindow_HasScrollbar(o.Ptr(), orient)
+}
+
+func (o *Window) GetScrollbarSize(orient int) int {
+	return cgo_wxWindow_GetScrollbarSize(o.Ptr(), orient)
+}
+
+func (o *Window) ScrollLines(lines int) bool {
+	return cgo_wxWindow_ScrollLines(o.Ptr(), lines)
+}
+
+func (o *Window) ScrollPages(pages int) bool {
+	return cgo_wxWindow_ScrollPages(o.Ptr(), pages)
+}
+
+func (o *Window) LineUp() bool {
+	return cgo_wxWindow_LineUp(o.Ptr())
+}
+
+func (o *Window) LineDown() bool {
+	return cgo_wxWindow_LineDown(o.Ptr())
+}
+
+func (o *Window) PageUp() bool {
+	return cgo_wxWindow_PageUp(o.Ptr())
+}
+
+func (o *Window) PageDown() bool {
+	return cgo_wxWindow_PageDown(o.Ptr())
+}
+
+func (o *Window) AlwaysShowScrollbars(horz bool, vert bool) {
+	cgo_wxWindow_AlwaysShowScrollbars(o.Ptr(), horz, vert)
+}
+
+func (o *Window) IsScrollbarAlwaysShown(orient int) bool {
+	return cgo_wxWindow_IsScrollbarAlwaysShown(o.Ptr(), orient)
+}
+
+func (o *Window) SetHelpText(text string) {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	cgo_wxWindow_SetHelpText(o.Ptr(), wxText.Ptr())
+}
+
+func (o *Window) GetHelpText() string {
+	retPtr := cgo_wxWindow_GetHelpText(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Window) UnsetToolTip() {
+	cgo_wxWindow_UnsetToolTip(o.Ptr())
+}
+
+func (o *Window) GetToolTipText() string {
+	retPtr := cgo_wxWindow_GetToolTipText(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Window) DragAcceptFiles(accept bool) {
+	cgo_wxWindow_DragAcceptFiles(o.Ptr(), accept)
+}
+
+func (o *Window) SetContainingSizer(sizer unsafe.Pointer) {
+	cgo_wxWindow_SetContainingSizer(o.Ptr(), sizer)
+}
+
+func (o *Window) SetTransparent(alpha uint8) bool {
+	return cgo_wxWindow_SetTransparent(o.Ptr(), alpha)
+}
+
+func (o *Window) CanSetTransparent() bool {
+	return cgo_wxWindow_CanSetTransparent(o.Ptr())
+}
+
+func (o *Window) GetPalette() unsafe.Pointer {
+	return cgo_wxWindow_GetPalette(o.Ptr())
+}
+
+func (o *Window) SetPalette(palette unsafe.Pointer) {
+	cgo_wxWindow_SetPalette(o.Ptr(), palette)
+}
+
+func (o *Window) HasCustomPalette() bool {
+	return cgo_wxWindow_HasCustomPalette(o.Ptr())
+}
+
+func (o *Window) InheritAttributes() {
+	cgo_wxWindow_InheritAttributes(o.Ptr())
+}
+
+func (o *Window) ShouldInheritColours() bool {
+	return cgo_wxWindow_ShouldInheritColours(o.Ptr())
+}
+
+func (o *Window) GetPopupMenuSelectionFromUser(menu unsafe.Pointer, x int, y int) int {
+	return cgo_wxWindow_GetPopupMenuSelectionFromUser(o.Ptr(), menu, x, y)
+}
+
+func (o *Window) AdjustForLayoutDirection(x int, width int, widthTotal int) int {
+	return cgo_wxWindow_AdjustForLayoutDirection(o.Ptr(), x, width, widthTotal)
+}
+
+func (o *Window) BeginRepositioningChildren() bool {
+	return cgo_wxWindow_BeginRepositioningChildren(o.Ptr())
+}
+
+func (o *Window) EndRepositioningChildren() {
+	cgo_wxWindow_EndRepositioningChildren(o.Ptr())
+}
+
+func (o *Window) IsClientAreaChild(child unsafe.Pointer) bool {
+	return cgo_wxWindow_IsClientAreaChild(o.Ptr(), child)
+}
+
+func (o *Window) FromPhys(value int) int {
+	return cgo_wxWindow_FromPhys(o.Ptr(), value)
+}
+
+func (o *Window) ToPhys(value int) int {
+	return cgo_wxWindow_ToPhys(o.Ptr(), value)
+}
+
+func (o *Window) GetHelpTextAtPoint(x int, y int, origin int) string {
+	retPtr := cgo_wxWindow_GetHelpTextAtPoint(o.Ptr(), x, y, origin)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *Window) GetHelpIdAtPoint(x int, y int) int {
+	return cgo_wxWindow_GetHelpIdAtPoint(o.Ptr(), x, y)
+}
+
+func (o *Window) CopyToolTip(tip unsafe.Pointer) bool {
+	return cgo_wxWindow_CopyToolTip(o.Ptr(), tip)
+}
+
+func (o *Window) CanBeOutsideClientArea() bool {
+	return cgo_wxWindow_CanBeOutsideClientArea(o.Ptr())
+}
+
+func (o *Window) CanApplyThemeBorder() bool {
+	return cgo_wxWindow_CanApplyThemeBorder(o.Ptr())
+}
+
+func (o *Window) IsTopNavigationDomain(kind int) bool {
+	return cgo_wxWindow_IsTopNavigationDomain(o.Ptr(), kind)
+}
+
 func (o *Window) AddChild(child unsafe.Pointer) {
 	cgo_wxWindow_AddChild(o.Ptr(), child)
 }
@@ -26,20 +654,23 @@ func (o *Window) ClearBackground() {
 	cgo_wxWindow_ClearBackground(o.Ptr())
 }
 
-func (o *Window) ClientToScreen(x int, y int) unsafe.Pointer {
-	return cgo_wxWindow_ClientToScreen(o.Ptr(), x, y)
+func (o *Window) ClientToScreen(x int, y int) Point {
+	retPtr := cgo_wxWindow_ClientToScreen(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
 }
 
 func (o *Window) Close(force bool) bool {
 	return cgo_wxWindow_Close(o.Ptr(), force)
 }
 
-func (o *Window) ConvertDialogToPixels() unsafe.Pointer {
-	return cgo_wxWindow_ConvertDialogToPixels(o.Ptr())
+func (o *Window) ConvertDialogToPixels() Point {
+	retPtr := cgo_wxWindow_ConvertDialogToPixels(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *Window) ConvertPixelsToDialog() unsafe.Pointer {
-	return cgo_wxWindow_ConvertPixelsToDialog(o.Ptr())
+func (o *Window) ConvertPixelsToDialog() Point {
+	retPtr := cgo_wxWindow_ConvertPixelsToDialog(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func NewWindow(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *Window {
@@ -64,8 +695,8 @@ func (o *Window) Disable() bool {
 	return cgo_wxWindow_Disable(o.Ptr())
 }
 
-func (o *Window) Enable() bool {
-	return cgo_wxWindow_Enable(o.Ptr())
+func (o *Window) Enable(enable bool) bool {
+	return cgo_wxWindow_Enable(o.Ptr(), enable)
 }
 
 func (o *Window) FindFocus() unsafe.Pointer {
@@ -76,6 +707,10 @@ func (o *Window) FindWindow(name string) unsafe.Pointer {
 	wxName := NewWxString(name)
 	defer wxName.Free()
 	return cgo_wxWindow_FindWindow(o.Ptr(), wxName.Ptr())
+}
+
+func (o *Window) FindWindowByIdSelf(id int) unsafe.Pointer {
+	return cgo_wxWindow_FindWindowByIdSelf(o.Ptr(), id)
 }
 
 func (o *Window) Fit() {
@@ -90,8 +725,9 @@ func (o *Window) Freeze() {
 	cgo_wxWindow_Freeze(o.Ptr())
 }
 
-func (o *Window) GetEffectiveMinSize() unsafe.Pointer {
-	return cgo_wxWindow_GetEffectiveMinSize(o.Ptr())
+func (o *Window) GetEffectiveMinSize() Size {
+	retPtr := cgo_wxWindow_GetEffectiveMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Window) GetAutoLayout() int {
@@ -102,8 +738,9 @@ func (o *Window) GetBackgroundColour(ref unsafe.Pointer) {
 	cgo_wxWindow_GetBackgroundColour(o.Ptr(), ref)
 }
 
-func (o *Window) GetBestSize() unsafe.Pointer {
-	return cgo_wxWindow_GetBestSize(o.Ptr())
+func (o *Window) GetBestSize() Size {
+	retPtr := cgo_wxWindow_GetBestSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Window) GetCaret() unsafe.Pointer {
@@ -126,8 +763,9 @@ func (o *Window) GetClientData() unsafe.Pointer {
 	return cgo_wxWindow_GetClientData(o.Ptr())
 }
 
-func (o *Window) GetClientSize() unsafe.Pointer {
-	return cgo_wxWindow_GetClientSize(o.Ptr())
+func (o *Window) GetClientSize() Size {
+	retPtr := cgo_wxWindow_GetClientSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Window) GetCursor() unsafe.Pointer {
@@ -192,12 +830,14 @@ func (o *Window) GetParent() unsafe.Pointer {
 	return cgo_wxWindow_GetParent(o.Ptr())
 }
 
-func (o *Window) GetPosition() unsafe.Pointer {
-	return cgo_wxWindow_GetPosition(o.Ptr())
+func (o *Window) GetPosition() Point {
+	retPtr := cgo_wxWindow_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *Window) GetRect() unsafe.Pointer {
-	return cgo_wxWindow_GetRect(o.Ptr())
+func (o *Window) GetRect() Rect {
+	retPtr := cgo_wxWindow_GetRect(o.Ptr())
+	return rectFromPtr(retPtr)
 }
 
 func (o *Window) GetScrollPos(orient int) int {
@@ -212,8 +852,9 @@ func (o *Window) GetScrollThumb(orient int) int {
 	return cgo_wxWindow_GetScrollThumb(o.Ptr(), orient)
 }
 
-func (o *Window) GetSize() unsafe.Pointer {
-	return cgo_wxWindow_GetSize(o.Ptr())
+func (o *Window) GetSize() Size {
+	retPtr := cgo_wxWindow_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Window) GetSizer() unsafe.Pointer {
@@ -239,8 +880,9 @@ func (o *Window) GetValidator() unsafe.Pointer {
 	return cgo_wxWindow_GetValidator(o.Ptr())
 }
 
-func (o *Window) GetVirtualSize() unsafe.Pointer {
-	return cgo_wxWindow_GetVirtualSize(o.Ptr())
+func (o *Window) GetVirtualSize() Size {
+	retPtr := cgo_wxWindow_GetVirtualSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Window) GetWindowStyleFlag() int {
@@ -335,8 +977,9 @@ func (o *Window) Reparent(parent unsafe.Pointer) int {
 	return cgo_wxWindow_Reparent(o.Ptr(), parent)
 }
 
-func (o *Window) ScreenToClient(x int, y int) unsafe.Pointer {
-	return cgo_wxWindow_ScreenToClient(o.Ptr(), x, y)
+func (o *Window) ScreenToClient(x int, y int) Point {
+	retPtr := cgo_wxWindow_ScreenToClient(o.Ptr(), x, y)
+	return pointFromPtr(retPtr)
 }
 
 func (o *Window) ScrollWindow(dx int, dy int) {
@@ -355,7 +998,7 @@ func (o *Window) SetAutoLayout(autoLayout bool) {
 	cgo_wxWindow_SetAutoLayout(o.Ptr(), autoLayout)
 }
 
-func (o *Window) SetBackgroundColour(colour unsafe.Pointer) int {
+func (o *Window) SetBackgroundColour(colour unsafe.Pointer) bool {
 	return cgo_wxWindow_SetBackgroundColour(o.Ptr(), colour)
 }
 
@@ -391,7 +1034,7 @@ func (o *Window) SetFocus() {
 	cgo_wxWindow_SetFocus(o.Ptr())
 }
 
-func (o *Window) SetFont(font unsafe.Pointer) int {
+func (o *Window) SetFont(font unsafe.Pointer) bool {
 	return cgo_wxWindow_SetFont(o.Ptr(), font)
 }
 

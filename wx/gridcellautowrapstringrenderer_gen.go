@@ -4,9 +4,21 @@ package wx
 
 import "unsafe"
 
-type GridCellAutoWrapStringRenderer struct{ BaseObject }
+type GridCellAutoWrapStringRenderer struct{ GridCellStringRenderer }
 
-func (o *GridCellAutoWrapStringRenderer) Ctor() unsafe.Pointer {
+// GridCellAutoWrapStringRendererFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridCellAutoWrapStringRendererFromPtr(ptr unsafe.Pointer) *GridCellAutoWrapStringRenderer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridCellAutoWrapStringRenderer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func GridCellAutoWrapStringRenderer_Ctor() unsafe.Pointer {
 	return cgo_wxGridCellAutoWrapStringRenderer_Ctor()
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type SpinButton struct{ Control }
 
+// SpinButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SpinButtonFromPtr(ptr unsafe.Pointer) *SpinButton {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SpinButton{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSpinButton(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) *SpinButton {
 	ptr := cgo_wxSpinButton_Create(parent, id, left, top, width, height, style)
 	if ptr == nil {
@@ -14,6 +26,10 @@ func NewSpinButton(parent unsafe.Pointer, id int, left int, top int, width int, 
 	obj := &SpinButton{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *SpinButton) SetIncrement(value int) {
+	cgo_wxSpinButton_SetIncrement(o.Ptr(), value)
 }
 
 func (o *SpinButton) GetMax() int {

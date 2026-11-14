@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type Metafile struct{ BaseObject }
+type Metafile struct{ Object }
+
+// MetafileFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MetafileFromPtr(ptr unsafe.Pointer) *Metafile {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Metafile{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewMetafile(filePath string) *Metafile {
 	wxFilePath := NewWxString(filePath)
@@ -19,6 +31,9 @@ func NewMetafile(filePath string) *Metafile {
 }
 
 func (o *Metafile) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMetafile_Delete(o.Ptr())
 }
 

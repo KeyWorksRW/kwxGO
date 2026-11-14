@@ -4,10 +4,22 @@ package wx
 
 import "unsafe"
 
-type TimePickerCtrl struct{ BaseObject }
+type TimePickerCtrl struct{ Control }
 
-func NewTimePickerCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *TimePickerCtrl {
-	ptr := cgo_wxTimePickerCtrl_Create(parent, id, x, y, width, height, style)
+// TimePickerCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TimePickerCtrlFromPtr(ptr unsafe.Pointer) *TimePickerCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TimePickerCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewTimePickerCtrl(parent unsafe.Pointer, id int, date unsafe.Pointer, x int, y int, width int, height int, style int) *TimePickerCtrl {
+	ptr := cgo_wxTimePickerCtrl_Create(parent, id, date, x, y, width, height, style)
 	if ptr == nil {
 		return nil
 	}

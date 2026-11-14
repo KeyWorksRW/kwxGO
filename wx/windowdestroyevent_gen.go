@@ -6,6 +6,18 @@ import "unsafe"
 
 type WindowDestroyEvent struct{ CommandEvent }
 
+// WindowDestroyEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func WindowDestroyEventFromPtr(ptr unsafe.Pointer) *WindowDestroyEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &WindowDestroyEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *WindowDestroyEvent) GetWindow() unsafe.Pointer {
 	return cgo_wxWindowDestroyEvent_GetWindow(o.Ptr())
 }

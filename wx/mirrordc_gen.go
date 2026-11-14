@@ -6,6 +6,18 @@ import "unsafe"
 
 type MirrorDC struct{ DC }
 
+// MirrorDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MirrorDCFromPtr(ptr unsafe.Pointer) *MirrorDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MirrorDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewMirrorDC(dc unsafe.Pointer) *MirrorDC {
 	ptr := cgo_wxMirrorDC_Create(dc)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewMirrorDC(dc unsafe.Pointer) *MirrorDC {
 }
 
 func (o *MirrorDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMirrorDC_Delete(o.Ptr())
 }
 

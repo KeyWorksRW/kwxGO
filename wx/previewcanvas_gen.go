@@ -6,6 +6,18 @@ import "unsafe"
 
 type PreviewCanvas struct{ ScrolledWindow }
 
+// PreviewCanvasFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PreviewCanvasFromPtr(ptr unsafe.Pointer) *PreviewCanvas {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PreviewCanvas{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewPreviewCanvas(preview unsafe.Pointer, parent unsafe.Pointer, x int, y int, width int, height int, style int) *PreviewCanvas {
 	ptr := cgo_wxPreviewCanvas_Create(preview, parent, x, y, width, height, style)
 	if ptr == nil {

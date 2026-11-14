@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type KwxPreviewControlBar struct{ BaseWindow }
+type KwxPreviewControlBar struct{ PreviewControlBar }
+
+// KwxPreviewControlBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxPreviewControlBarFromPtr(ptr unsafe.Pointer) *KwxPreviewControlBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxPreviewControlBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewKwxPreviewControlBar(preview unsafe.Pointer, buttons int, parent unsafe.Pointer, title unsafe.Pointer, x int, y int, width int, height int, style int) *KwxPreviewControlBar {
 	ptr := cgo_kwxPreviewControlBar_Create(preview, buttons, parent, title, x, y, width, height, style)

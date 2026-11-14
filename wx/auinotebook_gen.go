@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiNotebook struct{ BookCtrlBase }
 
+// AuiNotebookFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiNotebookFromPtr(ptr unsafe.Pointer) *AuiNotebook {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebook{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiNotebookDefault() *AuiNotebook {
 	ptr := cgo_wxAuiNotebook_CreateDefault()
 	if ptr == nil {
@@ -14,6 +26,38 @@ func NewAuiNotebookDefault() *AuiNotebook {
 	obj := &AuiNotebook{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *AuiNotebook) GetActiveTabCtrl() unsafe.Pointer {
+	return cgo_wxAuiNotebook_GetActiveTabCtrl(o.Ptr())
+}
+
+func (o *AuiNotebook) GetMainTabCtrl() unsafe.Pointer {
+	return cgo_wxAuiNotebook_GetMainTabCtrl(o.Ptr())
+}
+
+func (o *AuiNotebook) GetPageKind(pageIdx int) int {
+	return cgo_wxAuiNotebook_GetPageKind(o.Ptr(), pageIdx)
+}
+
+func (o *AuiNotebook) GetPagePosition(page int) int {
+	return cgo_wxAuiNotebook_GetPagePosition(o.Ptr(), page)
+}
+
+func (o *AuiNotebook) SetManagerFlags(flags uint) {
+	cgo_wxAuiNotebook_SetManagerFlags(o.Ptr(), flags)
+}
+
+func (o *AuiNotebook) SetPageKind(pageIdx int, kind int) bool {
+	return cgo_wxAuiNotebook_SetPageKind(o.Ptr(), pageIdx, kind)
+}
+
+func (o *AuiNotebook) SetWindowStyleFlag(style int) {
+	cgo_wxAuiNotebook_SetWindowStyleFlag(o.Ptr(), style)
+}
+
+func (o *AuiNotebook) UnsplitAll() {
+	cgo_wxAuiNotebook_UnsplitAll(o.Ptr())
 }
 
 func NewAuiNotebook(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *AuiNotebook {
@@ -178,5 +222,41 @@ func (o *AuiNotebook) SetUniformBitmapSize(width int, height int) {
 
 func (o *AuiNotebook) Split(page int, direction int) {
 	cgo_wxAuiNotebook_Split(o.Ptr(), page, direction)
+}
+
+func (o *AuiNotebook) HitTest(point_x int, point_y int, flags unsafe.Pointer) int {
+	return cgo_wxAuiNotebook_HitTest(o.Ptr(), point_x, point_y, flags)
+}
+
+func (o *AuiNotebook) GetAllTabCtrls() *AuiTabCtrlArray {
+	ptr := cgo_wxAuiNotebook_GetAllTabCtrls(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiTabCtrlArray{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *AuiNotebook) GetPagesInDisplayOrder(tabCtrl unsafe.Pointer) *ArrayInt {
+	ptr := cgo_wxAuiNotebook_GetPagesInDisplayOrder(o.Ptr(), tabCtrl)
+	if ptr == nil {
+		return nil
+	}
+	obj := &ArrayInt{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *AuiNotebook) SaveLayout(name string, serializer unsafe.Pointer) {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	cgo_wxAuiNotebook_SaveLayout(o.Ptr(), wxName.Ptr(), serializer)
+}
+
+func (o *AuiNotebook) LoadLayout(name string, deserializer unsafe.Pointer) {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	cgo_wxAuiNotebook_LoadLayout(o.Ptr(), wxName.Ptr(), deserializer)
 }
 

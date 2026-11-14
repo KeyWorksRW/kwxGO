@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type StopWatch struct{ BaseObject }
+
+// StopWatchFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StopWatchFromPtr(ptr unsafe.Pointer) *StopWatch {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StopWatch{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewStopWatch() *StopWatch {
 	ptr := cgo_wxStopWatch_Create()
@@ -15,6 +29,9 @@ func NewStopWatch() *StopWatch {
 }
 
 func (o *StopWatch) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxStopWatch_Delete(o.Ptr())
 }
 

@@ -4,10 +4,26 @@ package wx
 
 import "unsafe"
 
-type HtmlHelpController struct{ BaseObject }
+type HtmlHelpController struct{ HelpControllerBase }
+
+// HtmlHelpControllerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func HtmlHelpControllerFromPtr(ptr unsafe.Pointer) *HtmlHelpController {
+	if ptr == nil {
+		return nil
+	}
+	obj := &HtmlHelpController{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *HtmlHelpController) AddBook(book unsafe.Pointer, show_wait_msg int) bool {
 	return cgo_wxHtmlHelpController_AddBook(o.Ptr(), book, show_wait_msg)
+}
+
+func (o *HtmlHelpController) SetShouldPreventAppExit(enable bool) {
+	cgo_wxHtmlHelpController_SetShouldPreventAppExit(o.Ptr(), enable)
 }
 
 func NewHtmlHelpController(style int, parentWindow unsafe.Pointer) *HtmlHelpController {
@@ -21,6 +37,9 @@ func NewHtmlHelpController(style int, parentWindow unsafe.Pointer) *HtmlHelpCont
 }
 
 func (o *HtmlHelpController) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxHtmlHelpController_Delete(o.Ptr())
 }
 
@@ -32,7 +51,7 @@ func (o *HtmlHelpController) DisplayBlock(blockNo int) bool {
 	return cgo_wxHtmlHelpController_DisplayBlock(o.Ptr(), blockNo)
 }
 
-func (o *HtmlHelpController) DisplayContents() int {
+func (o *HtmlHelpController) DisplayContents() bool {
 	return cgo_wxHtmlHelpController_DisplayContents(o.Ptr())
 }
 

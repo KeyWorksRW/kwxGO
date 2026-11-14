@@ -6,6 +6,18 @@ import "unsafe"
 
 type ContextHelpButton struct{ BitmapButton }
 
+// ContextHelpButtonFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ContextHelpButtonFromPtr(ptr unsafe.Pointer) *ContextHelpButton {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ContextHelpButton{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewContextHelpButton(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *ContextHelpButton {
 	ptr := cgo_wxContextHelpButton_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

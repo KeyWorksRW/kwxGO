@@ -6,15 +6,33 @@ import "unsafe"
 
 type FindDialogEvent struct{ CommandEvent }
 
-func (o *FindDialogEvent) GetFindString(ref unsafe.Pointer) int {
-	return cgo_wxFindDialogEvent_GetFindString(o.Ptr(), ref)
+// FindDialogEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FindDialogEventFromPtr(ptr unsafe.Pointer) *FindDialogEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FindDialogEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *FindDialogEvent) GetFindString() string {
+	retPtr := cgo_wxFindDialogEvent_GetFindString(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *FindDialogEvent) GetDialog() unsafe.Pointer {
+	return cgo_wxFindDialogEvent_GetDialog(o.Ptr())
 }
 
 func (o *FindDialogEvent) GetFlags() int {
 	return cgo_wxFindDialogEvent_GetFlags(o.Ptr())
 }
 
-func (o *FindDialogEvent) GetReplaceString(ref unsafe.Pointer) int {
-	return cgo_wxFindDialogEvent_GetReplaceString(o.Ptr(), ref)
+func (o *FindDialogEvent) GetReplaceString() string {
+	retPtr := cgo_wxFindDialogEvent_GetReplaceString(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
 }
 

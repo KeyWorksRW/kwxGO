@@ -6,6 +6,36 @@ import "unsafe"
 
 type DataViewListCtrl struct{ BaseObject }
 
+// DataViewListCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DataViewListCtrlFromPtr(ptr unsafe.Pointer) *DataViewListCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataViewListCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *DataViewListCtrl) AppendColumn(column unsafe.Pointer, variantType string) bool {
+	wxVariantType := NewWxString(variantType)
+	defer wxVariantType.Free()
+	return cgo_wxDataViewListCtrl_AppendColumn(o.Ptr(), column, wxVariantType.Ptr())
+}
+
+func (o *DataViewListCtrl) PrependColumn(column unsafe.Pointer, variantType string) bool {
+	wxVariantType := NewWxString(variantType)
+	defer wxVariantType.Free()
+	return cgo_wxDataViewListCtrl_PrependColumn(o.Ptr(), column, wxVariantType.Ptr())
+}
+
+func (o *DataViewListCtrl) InsertColumn(pos uint, column unsafe.Pointer, variantType string) bool {
+	wxVariantType := NewWxString(variantType)
+	defer wxVariantType.Free()
+	return cgo_wxDataViewListCtrl_InsertColumn(o.Ptr(), pos, column, wxVariantType.Ptr())
+}
+
 func NewDataViewListCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *DataViewListCtrl {
 	ptr := cgo_wxDataViewListCtrl_Create(parent, id, x, y, width, height, style)
 	if ptr == nil {

@@ -6,6 +6,22 @@ import "unsafe"
 
 type FileDialog struct{ Dialog }
 
+// FileDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FileDialogFromPtr(ptr unsafe.Pointer) *FileDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *FileDialog) SetExtraControlCreator(pFunction unsafe.Pointer) bool {
+	return cgo_wxFileDialog_SetExtraControlCreator(o.Ptr(), pFunction)
+}
+
 func NewFileDialog(parent unsafe.Pointer, message string, directory string, files string, weekday string, left int, top int, style int, sz_w int, sz_h int) *FileDialog {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
@@ -24,6 +40,20 @@ func NewFileDialog(parent unsafe.Pointer, message string, directory string, file
 	return obj
 }
 
+func (o *FileDialog) AddShortcut(directory string, flags int) bool {
+	wxDirectory := NewWxString(directory)
+	defer wxDirectory.Free()
+	return cgo_wxFileDialog_AddShortcut(o.Ptr(), wxDirectory.Ptr(), flags)
+}
+
+func (o *FileDialog) GetCurrentlySelectedFilterIndex() int {
+	return cgo_wxFileDialog_GetCurrentlySelectedFilterIndex(o.Ptr())
+}
+
+func (o *FileDialog) SetCustomizeHook(customizeHook unsafe.Pointer) bool {
+	return cgo_wxFileDialog_SetCustomizeHook(o.Ptr(), customizeHook)
+}
+
 func (o *FileDialog) GetDirectory() string {
 	retPtr := cgo_wxFileDialog_GetDirectory(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
@@ -34,8 +64,8 @@ func (o *FileDialog) GetFilename() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *FileDialog) GetFilenames(paths unsafe.Pointer) int {
-	return cgo_wxFileDialog_GetFilenames(o.Ptr(), paths)
+func (o *FileDialog) GetFilenames(paths unsafe.Pointer, capacity int) int {
+	return cgo_wxFileDialog_GetFilenames(o.Ptr(), paths, capacity)
 }
 
 func (o *FileDialog) GetFilterIndex() int {
@@ -52,8 +82,8 @@ func (o *FileDialog) GetPath() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *FileDialog) GetPaths(paths unsafe.Pointer) int {
-	return cgo_wxFileDialog_GetPaths(o.Ptr(), paths)
+func (o *FileDialog) GetPaths(paths unsafe.Pointer, capacity int) int {
+	return cgo_wxFileDialog_GetPaths(o.Ptr(), paths, capacity)
 }
 
 func (o *FileDialog) GetStyle() int {

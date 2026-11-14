@@ -6,6 +6,121 @@ import "unsafe"
 
 type ListCtrl struct{ Control }
 
+// ListCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ListCtrlFromPtr(ptr unsafe.Pointer) *ListCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ListCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *ListCtrl) AssignImageList(images unsafe.Pointer, which int) {
+	cgo_wxListCtrl_AssignImageList(o.Ptr(), images, which)
+}
+
+func (o *ListCtrl) GetColumn2(col int, item unsafe.Pointer) {
+	cgo_wxListCtrl_GetColumn2(o.Ptr(), col, item)
+}
+
+func (o *ListCtrl) GetItem2(info unsafe.Pointer) {
+	cgo_wxListCtrl_GetItem2(o.Ptr(), info)
+}
+
+func (o *ListCtrl) GetItemPosition2(item int) Point {
+	retPtr := cgo_wxListCtrl_GetItemPosition2(o.Ptr(), item)
+	return pointFromPtr(retPtr)
+}
+
+func (o *ListCtrl) RefreshItems(from int, toPos int) {
+	cgo_wxListCtrl_RefreshItems(o.Ptr(), from, toPos)
+}
+
+func (o *ListCtrl) SortItems2(closure unsafe.Pointer) bool {
+	return cgo_wxListCtrl_SortItems2(o.Ptr(), closure)
+}
+
+func (o *ListCtrl) GetColumnOrder(col int) int {
+	return cgo_wxListCtrl_GetColumnOrder(o.Ptr(), col)
+}
+
+func (o *ListCtrl) GetColumnIndexFromOrder(order int) int {
+	return cgo_wxListCtrl_GetColumnIndexFromOrder(o.Ptr(), order)
+}
+
+func (o *ListCtrl) SetItemColumnImage(item int, column int, image int) bool {
+	return cgo_wxListCtrl_SetItemColumnImage(o.Ptr(), item, column, image)
+}
+
+func (o *ListCtrl) SetItemPtrData(item int, data uintptr) bool {
+	return cgo_wxListCtrl_SetItemPtrData(o.Ptr(), item, data)
+}
+
+func (o *ListCtrl) GetItemTextColour(item int) unsafe.Pointer {
+	return cgo_wxListCtrl_GetItemTextColour(o.Ptr(), item)
+}
+
+func (o *ListCtrl) SetItemTextColour(item int, col unsafe.Pointer) {
+	cgo_wxListCtrl_SetItemTextColour(o.Ptr(), item, col)
+}
+
+func (o *ListCtrl) GetItemBackgroundColour(item int) unsafe.Pointer {
+	return cgo_wxListCtrl_GetItemBackgroundColour(o.Ptr(), item)
+}
+
+func (o *ListCtrl) SetItemBackgroundColour(item int, col unsafe.Pointer) {
+	cgo_wxListCtrl_SetItemBackgroundColour(o.Ptr(), item, col)
+}
+
+func (o *ListCtrl) SetItemFont(item int, font unsafe.Pointer) {
+	cgo_wxListCtrl_SetItemFont(o.Ptr(), item, font)
+}
+
+func (o *ListCtrl) AppendColumn(heading string, format int, width int) int {
+	wxHeading := NewWxString(heading)
+	defer wxHeading.Free()
+	return cgo_wxListCtrl_AppendColumn(o.Ptr(), wxHeading.Ptr(), format, width)
+}
+
+func (o *ListCtrl) IsEmpty() bool {
+	return cgo_wxListCtrl_IsEmpty(o.Ptr())
+}
+
+func (o *ListCtrl) InReportView() bool {
+	return cgo_wxListCtrl_InReportView(o.Ptr())
+}
+
+func (o *ListCtrl) EnableBellOnNoMatch(on bool) {
+	cgo_wxListCtrl_EnableBellOnNoMatch(o.Ptr(), on)
+}
+
+func (o *ListCtrl) EnableAlternateRowColours(enable bool) {
+	cgo_wxListCtrl_EnableAlternateRowColours(o.Ptr(), enable)
+}
+
+func (o *ListCtrl) SetAlternateRowColour(colour unsafe.Pointer) {
+	cgo_wxListCtrl_SetAlternateRowColour(o.Ptr(), colour)
+}
+
+func (o *ListCtrl) GetAlternateRowColour() unsafe.Pointer {
+	return cgo_wxListCtrl_GetAlternateRowColour(o.Ptr())
+}
+
+func (o *ListCtrl) ExtendRulesAndAlternateColour(extend bool) {
+	cgo_wxListCtrl_ExtendRulesAndAlternateColour(o.Ptr(), extend)
+}
+
+func (o *ListCtrl) RemoveSortIndicator() {
+	cgo_wxListCtrl_RemoveSortIndicator(o.Ptr())
+}
+
+func (o *ListCtrl) GetUpdatedAscendingSortIndicator(col int) bool {
+	return cgo_wxListCtrl_GetUpdatedAscendingSortIndicator(o.Ptr(), col)
+}
+
 func (o *ListCtrl) Arrange(flag int) bool {
 	return cgo_wxListCtrl_Arrange(o.Ptr(), flag)
 }
@@ -106,16 +221,19 @@ func (o *ListCtrl) GetItemFont(item int) unsafe.Pointer {
 	return cgo_wxListCtrl_GetItemFont(o.Ptr(), item)
 }
 
-func (o *ListCtrl) GetItemPosition(item int) unsafe.Pointer {
-	return cgo_wxListCtrl_GetItemPosition(o.Ptr(), item)
+func (o *ListCtrl) GetItemPosition(item int) Point {
+	retPtr := cgo_wxListCtrl_GetItemPosition(o.Ptr(), item)
+	return pointFromPtr(retPtr)
 }
 
-func (o *ListCtrl) GetItemRect(item int, code int) unsafe.Pointer {
-	return cgo_wxListCtrl_GetItemRect(o.Ptr(), item, code)
+func (o *ListCtrl) GetItemRect(item int, code int) Rect {
+	retPtr := cgo_wxListCtrl_GetItemRect(o.Ptr(), item, code)
+	return rectFromPtr(retPtr)
 }
 
-func (o *ListCtrl) GetItemSpacing(isSmall bool) unsafe.Pointer {
-	return cgo_wxListCtrl_GetItemSpacing(o.Ptr(), isSmall)
+func (o *ListCtrl) GetItemSpacing(isSmall bool) Size {
+	retPtr := cgo_wxListCtrl_GetItemSpacing(o.Ptr(), isSmall)
+	return sizeFromPtr(retPtr)
 }
 
 func (o *ListCtrl) GetItemState(item int, stateMask int) int {
@@ -189,8 +307,8 @@ func (o *ListCtrl) ScrollList(dx int, dy int) bool {
 	return cgo_wxListCtrl_ScrollList(o.Ptr(), dx, dy)
 }
 
-func (o *ListCtrl) SetBackgroundColour(col unsafe.Pointer) {
-	cgo_wxListCtrl_SetBackgroundColour(o.Ptr(), col)
+func (o *ListCtrl) SetBackgroundColour(col unsafe.Pointer) bool {
+	return cgo_wxListCtrl_SetBackgroundColour(o.Ptr(), col)
 }
 
 func (o *ListCtrl) SetColumn(col int, item unsafe.Pointer) bool {
@@ -253,8 +371,8 @@ func (o *ListCtrl) SetWindowStyleFlag(style int) {
 	cgo_wxListCtrl_SetWindowStyleFlag(o.Ptr(), style)
 }
 
-func (o *ListCtrl) SortItems(compareFunc unsafe.Pointer, obj unsafe.Pointer) bool {
-	return cgo_wxListCtrl_SortItems(o.Ptr(), compareFunc, obj)
+func (o *ListCtrl) SortItems(compareFunc unsafe.Pointer, objValue unsafe.Pointer) bool {
+	return cgo_wxListCtrl_SortItems(o.Ptr(), compareFunc, objValue)
 }
 
 func (o *ListCtrl) GetSubItemRect(item int, subItem int, x unsafe.Pointer, y unsafe.Pointer, width unsafe.Pointer, height unsafe.Pointer, code int) bool {

@@ -6,6 +6,18 @@ import "unsafe"
 
 type GridEditorCreatedEvent struct{ CommandEvent }
 
+// GridEditorCreatedEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridEditorCreatedEventFromPtr(ptr unsafe.Pointer) *GridEditorCreatedEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridEditorCreatedEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *GridEditorCreatedEvent) GetCol() int {
 	return cgo_wxGridEditorCreatedEvent_GetCol(o.Ptr())
 }

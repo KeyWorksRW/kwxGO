@@ -6,6 +6,18 @@ import "unsafe"
 
 type QueryLayoutInfoEvent struct{ Event }
 
+// QueryLayoutInfoEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func QueryLayoutInfoEventFromPtr(ptr unsafe.Pointer) *QueryLayoutInfoEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &QueryLayoutInfoEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewQueryLayoutInfoEvent(id int) *QueryLayoutInfoEvent {
 	ptr := cgo_wxQueryLayoutInfoEvent_Create(id)
 	if ptr == nil {
@@ -32,8 +44,9 @@ func (o *QueryLayoutInfoEvent) GetRequestedLength() int {
 	return cgo_wxQueryLayoutInfoEvent_GetRequestedLength(o.Ptr())
 }
 
-func (o *QueryLayoutInfoEvent) GetSize() unsafe.Pointer {
-	return cgo_wxQueryLayoutInfoEvent_GetSize(o.Ptr())
+func (o *QueryLayoutInfoEvent) GetSize() Size {
+	retPtr := cgo_wxQueryLayoutInfoEvent_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *QueryLayoutInfoEvent) SetAlignment(align int) {

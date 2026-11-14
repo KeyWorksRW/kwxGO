@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type CloseEvent struct{ Event }
+
+// CloseEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CloseEventFromPtr(ptr unsafe.Pointer) *CloseEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CloseEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *CloseEvent) CanVeto() bool {
 	return cgo_wxCloseEvent_CanVeto(o.Ptr())

@@ -6,6 +6,18 @@ import "unsafe"
 
 type TreeListItem struct{ BaseObject }
 
+// TreeListItemFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TreeListItemFromPtr(ptr unsafe.Pointer) *TreeListItem {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TreeListItem{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewTreeListItem() *TreeListItem {
 	ptr := cgo_wxTreeListItem_Create()
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewTreeListItem() *TreeListItem {
 }
 
 func (o *TreeListItem) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxTreeListItem_Delete(o.Ptr())
 }
 

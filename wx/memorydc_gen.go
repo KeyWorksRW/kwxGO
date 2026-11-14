@@ -6,6 +6,18 @@ import "unsafe"
 
 type MemoryDC struct{ DC }
 
+// MemoryDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func MemoryDCFromPtr(ptr unsafe.Pointer) *MemoryDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &MemoryDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewMemoryDC() *MemoryDC {
 	ptr := cgo_wxMemoryDC_Create()
 	if ptr == nil {
@@ -14,6 +26,10 @@ func NewMemoryDC() *MemoryDC {
 	obj := &MemoryDC{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *MemoryDC) SelectObjectAsSource(bmp unsafe.Pointer) {
+	cgo_wxMemoryDC_SelectObjectAsSource(o.Ptr(), bmp)
 }
 
 func NewMemoryDCCompatible(dc unsafe.Pointer) *MemoryDC {
@@ -37,6 +53,9 @@ func NewMemoryDCWithBitmap(bitmap unsafe.Pointer) *MemoryDC {
 }
 
 func (o *MemoryDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxMemoryDC_Delete(o.Ptr())
 }
 

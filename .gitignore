@@ -5,7 +5,13 @@ wxFFI/
 build/
 bin/
 lib/
+.kwxgen-tmp/
 
 # Windows resource files (compiled by windres)
 *.syso
 .shared/
+
+*.exe
+*.dll
+*.so
+*.dylib

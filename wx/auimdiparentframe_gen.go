@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiMDIParentFrame struct{ Frame }
 
+// AuiMDIParentFrameFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiMDIParentFrameFromPtr(ptr unsafe.Pointer) *AuiMDIParentFrame {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiMDIParentFrame{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiMDIParentFrame(parent unsafe.Pointer, id int, title string, x int, y int, width int, height int, style int) *AuiMDIParentFrame {
 	wxTitle := NewWxString(title)
 	defer wxTitle.Free()

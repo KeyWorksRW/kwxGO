@@ -6,187 +6,211 @@ import "unsafe"
 
 type TextEntry struct{ BaseObject }
 
-func (o *TextEntry) SetValue(self unsafe.Pointer, value string) {
-	wxValue := NewWxString(value)
-	defer wxValue.Free()
-	cgo_wxTextEntry_SetValue(self, wxValue.Ptr())
+// TextEntryFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TextEntryFromPtr(ptr unsafe.Pointer) *TextEntry {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TextEntry{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
 }
 
-func (o *TextEntry) ChangeValue(self unsafe.Pointer, value string) {
-	wxValue := NewWxString(value)
-	defer wxValue.Free()
-	cgo_wxTextEntry_ChangeValue(self, wxValue.Ptr())
+func (o *TextEntry) ConvertToUpperCase() {
+	cgo_wxTextEntry_ConvertToUpperCase(o.Ptr())
 }
 
-func (o *TextEntry) GetValue(self unsafe.Pointer) string {
-	retPtr := cgo_wxTextEntry_GetValue(self)
+func (o *TextEntry) ForwardEnableTextChangedEvents(enable bool) {
+	cgo_wxTextEntry_ForwardEnableTextChangedEvents(o.Ptr(), enable)
+}
+
+func (o *TextEntry) SetValue(value string) {
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	cgo_wxTextEntry_SetValue(o.Ptr(), wxValue.Ptr())
+}
+
+func (o *TextEntry) ChangeValue(value string) {
+	wxValue := NewWxString(value)
+	defer wxValue.Free()
+	cgo_wxTextEntry_ChangeValue(o.Ptr(), wxValue.Ptr())
+}
+
+func (o *TextEntry) GetValue() string {
+	retPtr := cgo_wxTextEntry_GetValue(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *TextEntry) GetRange(self unsafe.Pointer, from int, to int) string {
-	retPtr := cgo_wxTextEntry_GetRange(self, from, to)
+func (o *TextEntry) GetRange(from int, to int) string {
+	retPtr := cgo_wxTextEntry_GetRange(o.Ptr(), from, to)
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *TextEntry) IsEmpty(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_IsEmpty(self)
+func (o *TextEntry) IsEmpty() bool {
+	return cgo_wxTextEntry_IsEmpty(o.Ptr())
 }
 
-func (o *TextEntry) WriteText(self unsafe.Pointer, text string) {
+func (o *TextEntry) WriteText(text string) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
-	cgo_wxTextEntry_WriteText(self, wxText.Ptr())
+	cgo_wxTextEntry_WriteText(o.Ptr(), wxText.Ptr())
 }
 
-func (o *TextEntry) AppendText(self unsafe.Pointer, text string) {
+func (o *TextEntry) AppendText(text string) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
-	cgo_wxTextEntry_AppendText(self, wxText.Ptr())
+	cgo_wxTextEntry_AppendText(o.Ptr(), wxText.Ptr())
 }
 
-func (o *TextEntry) Replace(self unsafe.Pointer, from int, to int, value string) {
+func (o *TextEntry) Replace(from int, to int, value string) {
 	wxValue := NewWxString(value)
 	defer wxValue.Free()
-	cgo_wxTextEntry_Replace(self, from, to, wxValue.Ptr())
+	cgo_wxTextEntry_Replace(o.Ptr(), from, to, wxValue.Ptr())
 }
 
-func (o *TextEntry) Remove(self unsafe.Pointer, from int, to int) {
-	cgo_wxTextEntry_Remove(self, from, to)
+func (o *TextEntry) Remove(from int, to int) {
+	cgo_wxTextEntry_Remove(o.Ptr(), from, to)
 }
 
-func (o *TextEntry) Clear(self unsafe.Pointer) {
-	cgo_wxTextEntry_Clear(self)
+func (o *TextEntry) Clear() {
+	cgo_wxTextEntry_Clear(o.Ptr())
 }
 
-func (o *TextEntry) RemoveSelection(self unsafe.Pointer) {
-	cgo_wxTextEntry_RemoveSelection(self)
+func (o *TextEntry) RemoveSelection() {
+	cgo_wxTextEntry_RemoveSelection(o.Ptr())
 }
 
-func (o *TextEntry) Copy(self unsafe.Pointer) {
-	cgo_wxTextEntry_Copy(self)
+func (o *TextEntry) Copy() {
+	cgo_wxTextEntry_Copy(o.Ptr())
 }
 
-func (o *TextEntry) Cut(self unsafe.Pointer) {
-	cgo_wxTextEntry_Cut(self)
+func (o *TextEntry) Cut() {
+	cgo_wxTextEntry_Cut(o.Ptr())
 }
 
-func (o *TextEntry) Paste(self unsafe.Pointer) {
-	cgo_wxTextEntry_Paste(self)
+func (o *TextEntry) Paste() {
+	cgo_wxTextEntry_Paste(o.Ptr())
 }
 
-func (o *TextEntry) CanCopy(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_CanCopy(self)
+func (o *TextEntry) CanCopy() bool {
+	return cgo_wxTextEntry_CanCopy(o.Ptr())
 }
 
-func (o *TextEntry) CanCut(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_CanCut(self)
+func (o *TextEntry) CanCut() bool {
+	return cgo_wxTextEntry_CanCut(o.Ptr())
 }
 
-func (o *TextEntry) CanPaste(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_CanPaste(self)
+func (o *TextEntry) CanPaste() bool {
+	return cgo_wxTextEntry_CanPaste(o.Ptr())
 }
 
-func (o *TextEntry) Undo(self unsafe.Pointer) {
-	cgo_wxTextEntry_Undo(self)
+func (o *TextEntry) Undo() {
+	cgo_wxTextEntry_Undo(o.Ptr())
 }
 
-func (o *TextEntry) Redo(self unsafe.Pointer) {
-	cgo_wxTextEntry_Redo(self)
+func (o *TextEntry) Redo() {
+	cgo_wxTextEntry_Redo(o.Ptr())
 }
 
-func (o *TextEntry) CanUndo(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_CanUndo(self)
+func (o *TextEntry) CanUndo() bool {
+	return cgo_wxTextEntry_CanUndo(o.Ptr())
 }
 
-func (o *TextEntry) CanRedo(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_CanRedo(self)
+func (o *TextEntry) CanRedo() bool {
+	return cgo_wxTextEntry_CanRedo(o.Ptr())
 }
 
-func (o *TextEntry) SetInsertionPoint(self unsafe.Pointer, pos int) {
-	cgo_wxTextEntry_SetInsertionPoint(self, pos)
+func (o *TextEntry) SetInsertionPoint(pos int) {
+	cgo_wxTextEntry_SetInsertionPoint(o.Ptr(), pos)
 }
 
-func (o *TextEntry) SetInsertionPointEnd(self unsafe.Pointer) {
-	cgo_wxTextEntry_SetInsertionPointEnd(self)
+func (o *TextEntry) SetInsertionPointEnd() {
+	cgo_wxTextEntry_SetInsertionPointEnd(o.Ptr())
 }
 
-func (o *TextEntry) GetInsertionPoint(self unsafe.Pointer) int {
-	return cgo_wxTextEntry_GetInsertionPoint(self)
+func (o *TextEntry) GetInsertionPoint() int {
+	return cgo_wxTextEntry_GetInsertionPoint(o.Ptr())
 }
 
-func (o *TextEntry) GetLastPosition(self unsafe.Pointer) int {
-	return cgo_wxTextEntry_GetLastPosition(self)
+func (o *TextEntry) GetLastPosition() int {
+	return cgo_wxTextEntry_GetLastPosition(o.Ptr())
 }
 
-func (o *TextEntry) SetSelection(self unsafe.Pointer, from int, to int) {
-	cgo_wxTextEntry_SetSelection(self, from, to)
+func (o *TextEntry) SetSelection(from int, to int) {
+	cgo_wxTextEntry_SetSelection(o.Ptr(), from, to)
 }
 
-func (o *TextEntry) SelectAll(self unsafe.Pointer) {
-	cgo_wxTextEntry_SelectAll(self)
+func (o *TextEntry) SelectAll() {
+	cgo_wxTextEntry_SelectAll(o.Ptr())
 }
 
-func (o *TextEntry) SelectNone(self unsafe.Pointer) {
-	cgo_wxTextEntry_SelectNone(self)
+func (o *TextEntry) SelectNone() {
+	cgo_wxTextEntry_SelectNone(o.Ptr())
 }
 
-func (o *TextEntry) GetSelection(self unsafe.Pointer, from unsafe.Pointer, to unsafe.Pointer) {
-	cgo_wxTextEntry_GetSelection(self, from, to)
+func (o *TextEntry) GetSelection(from unsafe.Pointer, to unsafe.Pointer) {
+	cgo_wxTextEntry_GetSelection(o.Ptr(), from, to)
 }
 
-func (o *TextEntry) HasSelection(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_HasSelection(self)
+func (o *TextEntry) HasSelection() bool {
+	return cgo_wxTextEntry_HasSelection(o.Ptr())
 }
 
-func (o *TextEntry) GetStringSelection(self unsafe.Pointer) string {
-	retPtr := cgo_wxTextEntry_GetStringSelection(self)
+func (o *TextEntry) GetStringSelection() string {
+	retPtr := cgo_wxTextEntry_GetStringSelection(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *TextEntry) IsEditable(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_IsEditable(self)
+func (o *TextEntry) IsEditable() bool {
+	return cgo_wxTextEntry_IsEditable(o.Ptr())
 }
 
-func (o *TextEntry) SetEditable(self unsafe.Pointer, editable bool) {
-	cgo_wxTextEntry_SetEditable(self, editable)
+func (o *TextEntry) SetEditable(editable bool) {
+	cgo_wxTextEntry_SetEditable(o.Ptr(), editable)
 }
 
-func (o *TextEntry) SetMaxLength(self unsafe.Pointer, len uint) {
-	cgo_wxTextEntry_SetMaxLength(self, len)
+func (o *TextEntry) SetMaxLength(len uint) {
+	cgo_wxTextEntry_SetMaxLength(o.Ptr(), len)
 }
 
-func (o *TextEntry) ForceUpper(self unsafe.Pointer) {
-	cgo_wxTextEntry_ForceUpper(self)
+func (o *TextEntry) ForceUpper() {
+	cgo_wxTextEntry_ForceUpper(o.Ptr())
 }
 
-func (o *TextEntry) SetHint(self unsafe.Pointer, hint string) bool {
+func (o *TextEntry) SetHint(hint string) bool {
 	wxHint := NewWxString(hint)
 	defer wxHint.Free()
-	return cgo_wxTextEntry_SetHint(self, wxHint.Ptr())
+	return cgo_wxTextEntry_SetHint(o.Ptr(), wxHint.Ptr())
 }
 
-func (o *TextEntry) GetHint(self unsafe.Pointer) string {
-	retPtr := cgo_wxTextEntry_GetHint(self)
+func (o *TextEntry) GetHint() string {
+	retPtr := cgo_wxTextEntry_GetHint(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *TextEntry) SetMargins(self unsafe.Pointer, left int, top int) bool {
-	return cgo_wxTextEntry_SetMargins(self, left, top)
+func (o *TextEntry) SetMargins(left int, top int) bool {
+	return cgo_wxTextEntry_SetMargins(o.Ptr(), left, top)
 }
 
-func (o *TextEntry) GetMargins(self unsafe.Pointer, left unsafe.Pointer, top unsafe.Pointer) {
-	cgo_wxTextEntry_GetMargins(self, left, top)
+func (o *TextEntry) GetMargins(left unsafe.Pointer, top unsafe.Pointer) {
+	cgo_wxTextEntry_GetMargins(o.Ptr(), left, top)
 }
 
-func (o *TextEntry) AutoComplete(self unsafe.Pointer, count int, items unsafe.Pointer) bool {
-	return cgo_wxTextEntry_AutoComplete(self, count, items)
+func (o *TextEntry) AutoComplete(count int, items unsafe.Pointer) bool {
+	return cgo_wxTextEntry_AutoComplete(o.Ptr(), count, items)
 }
 
-func (o *TextEntry) AutoCompleteFileNames(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_AutoCompleteFileNames(self)
+func (o *TextEntry) AutoCompleteFileNames() bool {
+	return cgo_wxTextEntry_AutoCompleteFileNames(o.Ptr())
 }
 
-func (o *TextEntry) AutoCompleteDirectories(self unsafe.Pointer) bool {
-	return cgo_wxTextEntry_AutoCompleteDirectories(self)
+func (o *TextEntry) AutoCompleteDirectories() bool {
+	return cgo_wxTextEntry_AutoCompleteDirectories(o.Ptr())
+}
+
+func (o *TextEntry) AutoCompleteCompleter(completer unsafe.Pointer) bool {
+	return cgo_wxTextEntry_AutoCompleteCompleter(o.Ptr(), completer)
 }
 

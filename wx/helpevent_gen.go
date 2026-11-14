@@ -6,13 +6,26 @@ import "unsafe"
 
 type HelpEvent struct{ CommandEvent }
 
+// HelpEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func HelpEventFromPtr(ptr unsafe.Pointer) *HelpEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &HelpEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *HelpEvent) GetLink() string {
 	retPtr := cgo_wxHelpEvent_GetLink(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *HelpEvent) GetPosition() unsafe.Pointer {
-	return cgo_wxHelpEvent_GetPosition(o.Ptr())
+func (o *HelpEvent) GetPosition() Point {
+	retPtr := cgo_wxHelpEvent_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *HelpEvent) GetTarget() string {

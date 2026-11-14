@@ -6,6 +6,18 @@ import "unsafe"
 
 type PropertySheetDialog struct{ Dialog }
 
+// PropertySheetDialogFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PropertySheetDialogFromPtr(ptr unsafe.Pointer) *PropertySheetDialog {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertySheetDialog{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewPropertySheetDialog(parent unsafe.Pointer, id int, title string, x int, y int, width int, height int, style int) *PropertySheetDialog {
 	wxTitle := NewWxString(title)
 	defer wxTitle.Free()
@@ -16,6 +28,22 @@ func NewPropertySheetDialog(parent unsafe.Pointer, id int, title string, x int, 
 	obj := &PropertySheetDialog{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func NewPropertySheetDialogDefault() *PropertySheetDialog {
+	ptr := cgo_wxPropertySheetDialog_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertySheetDialog{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *PropertySheetDialog) CreateEx(parent unsafe.Pointer, id int, title string, x int, y int, width int, height int, style int) bool {
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	return cgo_wxPropertySheetDialog_CreateEx(o.Ptr(), parent, id, wxTitle.Ptr(), x, y, width, height, style)
 }
 
 func (o *PropertySheetDialog) CreateButtons(flags int) {

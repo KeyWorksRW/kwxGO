@@ -6,6 +6,18 @@ import "unsafe"
 
 type FontEnumerator struct{ BaseObject }
 
+// FontEnumeratorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FontEnumeratorFromPtr(ptr unsafe.Pointer) *FontEnumerator {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FontEnumerator{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewFontEnumerator(pObject unsafe.Pointer, pFunction unsafe.Pointer) *FontEnumerator {
 	ptr := cgo_wxFontEnumerator_Create(pObject, pFunction)
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewFontEnumerator(pObject unsafe.Pointer, pFunction unsafe.Pointer) *FontEn
 }
 
 func (o *FontEnumerator) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxFontEnumerator_Delete(o.Ptr())
 }
 
@@ -28,5 +43,25 @@ func (o *FontEnumerator) EnumerateEncodings(facename string) bool {
 
 func (o *FontEnumerator) EnumerateFacenames(encoding int, fixedWidthOnly int) bool {
 	return cgo_wxFontEnumerator_EnumerateFacenames(o.Ptr(), encoding, fixedWidthOnly)
+}
+
+func NewFontEnumeratorDefault() *FontEnumerator {
+	ptr := cgo_wxFontEnumerator_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &FontEnumerator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *FontEnumerator) EnumerateFacenamesToArray(encoding int, fixedWidthOnly bool, out unsafe.Pointer) int {
+	return cgo_wxFontEnumerator_EnumerateFacenamesToArray(o.Ptr(), encoding, fixedWidthOnly, out)
+}
+
+func (o *FontEnumerator) EnumerateEncodingsToArray(facename string, out unsafe.Pointer) int {
+	wxFacename := NewWxString(facename)
+	defer wxFacename.Free()
+	return cgo_wxFontEnumerator_EnumerateEncodingsToArray(o.Ptr(), wxFacename.Ptr(), out)
 }
 

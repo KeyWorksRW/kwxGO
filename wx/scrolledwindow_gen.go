@@ -6,6 +6,22 @@ import "unsafe"
 
 type ScrolledWindow struct{ Panel }
 
+// ScrolledWindowFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ScrolledWindowFromPtr(ptr unsafe.Pointer) *ScrolledWindow {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ScrolledWindow{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *ScrolledWindow) SetScrollRate(xstep int, ystep int) {
+	cgo_wxScrolledWindow_SetScrollRate(o.Ptr(), xstep, ystep)
+}
+
 func (o *ScrolledWindow) AdjustScrollbars() {
 	cgo_wxScrolledWindow_AdjustScrollbars(o.Ptr())
 }

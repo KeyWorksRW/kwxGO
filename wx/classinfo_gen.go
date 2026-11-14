@@ -6,6 +6,47 @@ import "unsafe"
 
 type ClassInfo struct{ BaseObject }
 
+// ClassInfoFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ClassInfoFromPtr(ptr unsafe.Pointer) *ClassInfo {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ClassInfo{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func ClassInfo_FindClass(name string) unsafe.Pointer {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	return cgo_wxClassInfo_FindClass(wxName.Ptr())
+}
+
+func (o *ClassInfo) GetBaseClassName1() string {
+	retPtr := cgo_wxClassInfo_GetBaseClassName1(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *ClassInfo) GetBaseClassName2() string {
+	retPtr := cgo_wxClassInfo_GetBaseClassName2(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *ClassInfo) GetClassNameEx() string {
+	retPtr := cgo_wxClassInfo_GetClassNameEx(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *ClassInfo) GetSize() int {
+	return cgo_wxClassInfo_GetSize(o.Ptr())
+}
+
+func (o *ClassInfo) IsKindOfEx(classInfo unsafe.Pointer) bool {
+	return cgo_wxClassInfo_IsKindOfEx(o.Ptr(), classInfo)
+}
+
 func (o *ClassInfo) CreateClassByName() unsafe.Pointer {
 	return cgo_wxClassInfo_CreateClassByName(o.Ptr())
 }

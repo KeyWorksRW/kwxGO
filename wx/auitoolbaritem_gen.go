@@ -6,6 +6,18 @@ import "unsafe"
 
 type AuiToolBarItem struct{ BaseObject }
 
+// AuiToolBarItemFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AuiToolBarItemFromPtr(ptr unsafe.Pointer) *AuiToolBarItem {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiToolBarItem{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewAuiToolBarItemDefault() *AuiToolBarItem {
 	ptr := cgo_wxAuiToolBarItem_CreateDefault()
 	if ptr == nil {
@@ -135,8 +147,9 @@ func (o *AuiToolBarItem) SetMinSize(width int, height int) {
 	cgo_wxAuiToolBarItem_SetMinSize(o.Ptr(), width, height)
 }
 
-func (o *AuiToolBarItem) GetMinSize() unsafe.Pointer {
-	return cgo_wxAuiToolBarItem_GetMinSize(o.Ptr())
+func (o *AuiToolBarItem) GetMinSize() Size {
+	retPtr := cgo_wxAuiToolBarItem_GetMinSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *AuiToolBarItem) SetSpacerPixels(spacerPixels int) {

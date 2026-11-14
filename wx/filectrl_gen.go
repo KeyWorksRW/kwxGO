@@ -6,6 +6,18 @@ import "unsafe"
 
 type FileCtrl struct{ Control }
 
+// FileCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FileCtrlFromPtr(ptr unsafe.Pointer) *FileCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewFileCtrl(parent unsafe.Pointer, id int, defaultDirectory string, defaultFilename string, wildCard string, x int, y int, width int, height int, style int) *FileCtrl {
 	wxDefaultDirectory := NewWxString(defaultDirectory)
 	defer wxDefaultDirectory.Free()

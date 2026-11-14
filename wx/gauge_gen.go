@@ -6,6 +6,18 @@ import "unsafe"
 
 type Gauge struct{ Control }
 
+// GaugeFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GaugeFromPtr(ptr unsafe.Pointer) *Gauge {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Gauge{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewGauge(parent unsafe.Pointer, id int, rng int, left int, top int, width int, height int, style int) *Gauge {
 	ptr := cgo_wxGauge_Create(parent, id, rng, left, top, width, height, style)
 	if ptr == nil {

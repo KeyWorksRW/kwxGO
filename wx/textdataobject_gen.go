@@ -2,7 +2,21 @@
 
 package wx
 
-type TextDataObject struct{ BaseObject }
+import "unsafe"
+
+type TextDataObject struct{ DataObjectSimple }
+
+// TextDataObjectFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TextDataObjectFromPtr(ptr unsafe.Pointer) *TextDataObject {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TextDataObject{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewTextDataObject(text string) *TextDataObject {
 	wxText := NewWxString(text)
@@ -16,18 +30,21 @@ func NewTextDataObject(text string) *TextDataObject {
 	return obj
 }
 
-func (o *TextDataObject) Delete() {
-	cgo_TextDataObject_Delete(o.Ptr())
-}
-
 func (o *TextDataObject) GetText() string {
-	retPtr := cgo_TextDataObject_GetText(o.Ptr())
+	retPtr := cgo_wxTextDataObject_GetText(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
 func (o *TextDataObject) SetText(text string) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
-	cgo_TextDataObject_SetText(o.Ptr(), wxText.Ptr())
+	cgo_wxTextDataObject_SetText(o.Ptr(), wxText.Ptr())
+}
+
+func (o *TextDataObject) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_TextDataObject_Delete(o.Ptr())
 }
 

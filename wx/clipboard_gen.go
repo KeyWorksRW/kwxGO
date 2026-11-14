@@ -4,7 +4,26 @@ package wx
 
 import "unsafe"
 
-type Clipboard struct{ BaseObject }
+type Clipboard struct{ Object }
+
+// ClipboardFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ClipboardFromPtr(ptr unsafe.Pointer) *Clipboard {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Clipboard{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Clipboard) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxClipboard_Delete(o.Ptr())
+}
 
 func (o *Clipboard) AddData(data unsafe.Pointer) bool {
 	return cgo_wxClipboard_AddData(o.Ptr(), data)

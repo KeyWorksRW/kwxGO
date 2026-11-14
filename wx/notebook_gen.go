@@ -4,7 +4,98 @@ package wx
 
 import "unsafe"
 
-type Notebook struct{ Control }
+type Notebook struct{ BookCtrlBase }
+
+// NotebookFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func NotebookFromPtr(ptr unsafe.Pointer) *Notebook {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Notebook{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *Notebook) AssignImageList(imageList unsafe.Pointer) {
+	cgo_wxNotebook_AssignImageList(o.Ptr(), imageList)
+}
+
+func (o *Notebook) GetCurrentPage() unsafe.Pointer {
+	return cgo_wxNotebook_GetCurrentPage(o.Ptr())
+}
+
+func (o *Notebook) GetControllerSize() Size {
+	retPtr := cgo_wxNotebook_GetControllerSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Notebook) CalcSizeFromPage(width int, height int) Size {
+	retPtr := cgo_wxNotebook_CalcSizeFromPage(o.Ptr(), width, height)
+	return sizeFromPtr(retPtr)
+}
+
+func (o *Notebook) GetInternalBorder() uint {
+	return cgo_wxNotebook_GetInternalBorder(o.Ptr())
+}
+
+func (o *Notebook) SetInternalBorder(border uint) {
+	cgo_wxNotebook_SetInternalBorder(o.Ptr(), border)
+}
+
+func (o *Notebook) SetControlMargin(margin int) {
+	cgo_wxNotebook_SetControlMargin(o.Ptr(), margin)
+}
+
+func (o *Notebook) GetControlMargin() int {
+	return cgo_wxNotebook_GetControlMargin(o.Ptr())
+}
+
+func (o *Notebook) IsVertical() bool {
+	return cgo_wxNotebook_IsVertical(o.Ptr())
+}
+
+func (o *Notebook) SetFitToCurrentPage(fit bool) {
+	cgo_wxNotebook_SetFitToCurrentPage(o.Ptr(), fit)
+}
+
+func (o *Notebook) GetFitToCurrentPage() bool {
+	return cgo_wxNotebook_GetFitToCurrentPage(o.Ptr())
+}
+
+func (o *Notebook) ChangeSelection(nPage int) int {
+	return cgo_wxNotebook_ChangeSelection(o.Ptr(), nPage)
+}
+
+func (o *Notebook) FindPage(page unsafe.Pointer) int {
+	return cgo_wxNotebook_FindPage(o.Ptr(), page)
+}
+
+func (o *Notebook) SetTabSize(width int, height int) {
+	cgo_wxNotebook_SetTabSize(o.Ptr(), width, height)
+}
+
+func (o *Notebook) GetTabRect(page int) Rect {
+	retPtr := cgo_wxNotebook_GetTabRect(o.Ptr(), page)
+	return rectFromPtr(retPtr)
+}
+
+func (o *Notebook) GetTabOrientation() int {
+	return cgo_wxNotebook_GetTabOrientation(o.Ptr())
+}
+
+func (o *Notebook) GetThemeBackgroundColour() unsafe.Pointer {
+	return cgo_wxNotebook_GetThemeBackgroundColour(o.Ptr())
+}
+
+func (o *Notebook) SendPageChangingEvent(nPage int) bool {
+	return cgo_wxNotebook_SendPageChangingEvent(o.Ptr(), nPage)
+}
+
+func (o *Notebook) SendPageChangedEvent(nPageOld int, nPageNew int) {
+	cgo_wxNotebook_SendPageChangedEvent(o.Ptr(), nPageOld, nPageNew)
+}
 
 func (o *Notebook) AddPage(pPage unsafe.Pointer, strText string, bSelect bool, imageId int) bool {
 	wxStrText := NewWxString(strText)

@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type PrintData struct{ BaseObject }
+type PrintData struct{ Object }
+
+// PrintDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PrintDataFromPtr(ptr unsafe.Pointer) *PrintData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PrintData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *PrintData) Assign(data unsafe.Pointer) {
 	cgo_wxPrintData_Assign(o.Ptr(), data)
@@ -21,6 +33,9 @@ func NewPrintData() *PrintData {
 }
 
 func (o *PrintData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPrintData_Delete(o.Ptr())
 }
 
@@ -58,8 +73,9 @@ func (o *PrintData) GetPaperId() int {
 	return cgo_wxPrintData_GetPaperId(o.Ptr())
 }
 
-func (o *PrintData) GetPaperSize() unsafe.Pointer {
-	return cgo_wxPrintData_GetPaperSize(o.Ptr())
+func (o *PrintData) GetPaperSize() Size {
+	retPtr := cgo_wxPrintData_GetPaperSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *PrintData) GetPreviewCommand() string {

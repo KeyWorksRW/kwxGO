@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type PageSetupDialogData struct{ BaseObject }
+type PageSetupDialogData struct{ Object }
+
+// PageSetupDialogDataFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PageSetupDialogDataFromPtr(ptr unsafe.Pointer) *PageSetupDialogData {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PageSetupDialogData{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *PageSetupDialogData) Assign(data unsafe.Pointer) {
 	cgo_wxPageSetupDialogData_Assign(o.Ptr(), data)
@@ -43,6 +55,9 @@ func NewPageSetupDialogDataFromData(printData unsafe.Pointer) *PageSetupDialogDa
 }
 
 func (o *PageSetupDialogData) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxPageSetupDialogData_Delete(o.Ptr())
 }
 
@@ -94,28 +109,33 @@ func (o *PageSetupDialogData) GetEnablePrinter() bool {
 	return cgo_wxPageSetupDialogData_GetEnablePrinter(o.Ptr())
 }
 
-func (o *PageSetupDialogData) GetMarginBottomRight() unsafe.Pointer {
-	return cgo_wxPageSetupDialogData_GetMarginBottomRight(o.Ptr())
+func (o *PageSetupDialogData) GetMarginBottomRight() Point {
+	retPtr := cgo_wxPageSetupDialogData_GetMarginBottomRight(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *PageSetupDialogData) GetMarginTopLeft() unsafe.Pointer {
-	return cgo_wxPageSetupDialogData_GetMarginTopLeft(o.Ptr())
+func (o *PageSetupDialogData) GetMarginTopLeft() Point {
+	retPtr := cgo_wxPageSetupDialogData_GetMarginTopLeft(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *PageSetupDialogData) GetMinMarginBottomRight() unsafe.Pointer {
-	return cgo_wxPageSetupDialogData_GetMinMarginBottomRight(o.Ptr())
+func (o *PageSetupDialogData) GetMinMarginBottomRight() Point {
+	retPtr := cgo_wxPageSetupDialogData_GetMinMarginBottomRight(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
-func (o *PageSetupDialogData) GetMinMarginTopLeft() unsafe.Pointer {
-	return cgo_wxPageSetupDialogData_GetMinMarginTopLeft(o.Ptr())
+func (o *PageSetupDialogData) GetMinMarginTopLeft() Point {
+	retPtr := cgo_wxPageSetupDialogData_GetMinMarginTopLeft(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *PageSetupDialogData) GetPaperId() int {
 	return cgo_wxPageSetupDialogData_GetPaperId(o.Ptr())
 }
 
-func (o *PageSetupDialogData) GetPaperSize() unsafe.Pointer {
-	return cgo_wxPageSetupDialogData_GetPaperSize(o.Ptr())
+func (o *PageSetupDialogData) GetPaperSize() Size {
+	retPtr := cgo_wxPageSetupDialogData_GetPaperSize(o.Ptr())
+	return sizeFromPtr(retPtr)
 }
 
 func (o *PageSetupDialogData) GetPrintData(ref unsafe.Pointer) {

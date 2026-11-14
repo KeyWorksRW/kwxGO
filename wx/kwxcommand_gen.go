@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxCommand struct{ BaseObject }
 
+// KwxCommandFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxCommandFromPtr(ptr unsafe.Pointer) *KwxCommand {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxCommand{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *KwxCommand) CanUndo() bool {
 	return cgo_kwxCommand_CanUndo(o.Ptr())
 }
@@ -23,6 +35,9 @@ func NewKwxCommand(canUndo int, name string, pObject unsafe.Pointer, callback un
 }
 
 func (o *KwxCommand) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxCommand_Delete(o.Ptr())
 }
 

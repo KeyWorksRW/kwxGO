@@ -6,6 +6,18 @@ import "unsafe"
 
 type TextValidator struct{ Validator }
 
+// TextValidatorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TextValidatorFromPtr(ptr unsafe.Pointer) *TextValidator {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TextValidator{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewTextValidator(style int, val unsafe.Pointer) *TextValidator {
 	ptr := cgo_wxTextValidator_Create(style, val)
 	if ptr == nil {
@@ -16,12 +28,40 @@ func NewTextValidator(style int, val unsafe.Pointer) *TextValidator {
 	return obj
 }
 
-func (o *TextValidator) GetExcludes(ref unsafe.Pointer) int {
-	return cgo_wxTextValidator_GetExcludes(o.Ptr(), ref)
+func (o *TextValidator) AddCharIncludes(chars string) {
+	wxChars := NewWxString(chars)
+	defer wxChars.Free()
+	cgo_wxTextValidator_AddCharIncludes(o.Ptr(), wxChars.Ptr())
 }
 
-func (o *TextValidator) GetIncludes(ref unsafe.Pointer) int {
-	return cgo_wxTextValidator_GetIncludes(o.Ptr(), ref)
+func (o *TextValidator) GetCharExcludes() string {
+	retPtr := cgo_wxTextValidator_GetCharExcludes(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *TextValidator) GetCharIncludes() string {
+	retPtr := cgo_wxTextValidator_GetCharIncludes(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *TextValidator) SetCharExcludes(chars string) {
+	wxChars := NewWxString(chars)
+	defer wxChars.Free()
+	cgo_wxTextValidator_SetCharExcludes(o.Ptr(), wxChars.Ptr())
+}
+
+func (o *TextValidator) SetCharIncludes(chars string) {
+	wxChars := NewWxString(chars)
+	defer wxChars.Free()
+	cgo_wxTextValidator_SetCharIncludes(o.Ptr(), wxChars.Ptr())
+}
+
+func (o *TextValidator) GetExcludes(count unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxTextValidator_GetExcludes(o.Ptr(), count)
+}
+
+func (o *TextValidator) GetIncludes(count unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxTextValidator_GetIncludes(o.Ptr(), count)
 }
 
 func (o *TextValidator) SetExcludes(list unsafe.Pointer, count int) {

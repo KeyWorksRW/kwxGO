@@ -6,16 +6,38 @@ import "unsafe"
 
 type RadioBox struct{ Control }
 
-func NewRadioBox(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, n int, strings unsafe.Pointer, dimension int, style int) *RadioBox {
+// RadioBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RadioBoxFromPtr(ptr unsafe.Pointer) *RadioBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RadioBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewRadioBox(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, strings []string, dimension int, style int) *RadioBox {
 	wxText := NewWxString(text)
 	defer wxText.Free()
-	ptr := cgo_wxRadioBox_Create(parent, id, wxText.Ptr(), left, top, width, height, n, strings, dimension, style)
+	stringsPtr, releaseStrings := wxStringTable(strings)
+	defer releaseStrings()
+	ptr := cgo_wxRadioBox_Create(parent, id, wxText.Ptr(), left, top, width, height, len(strings), stringsPtr, dimension, style)
 	if ptr == nil {
 		return nil
 	}
 	obj := &RadioBox{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RadioBox) Enable(n uint, enable bool) bool {
+	return cgo_wxRadioBox_Enable(o.Ptr(), n, enable)
+}
+
+func (o *RadioBox) Show(n uint, show bool) bool {
+	return cgo_wxRadioBox_Show(o.Ptr(), n, show)
 }
 
 func (o *RadioBox) EnableItem(item int, enable bool) {

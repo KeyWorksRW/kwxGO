@@ -2,7 +2,21 @@
 
 package wx
 
+import "unsafe"
+
 type ScreenDC struct{ DC }
+
+// ScreenDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ScreenDCFromPtr(ptr unsafe.Pointer) *ScreenDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &ScreenDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewScreenDC() *ScreenDC {
 	ptr := cgo_wxScreenDC_Create()
@@ -15,6 +29,9 @@ func NewScreenDC() *ScreenDC {
 }
 
 func (o *ScreenDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxScreenDC_Delete(o.Ptr())
 }
 

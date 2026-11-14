@@ -6,6 +6,18 @@ import "unsafe"
 
 type SearchCtrl struct{ Control }
 
+// SearchCtrlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SearchCtrlFromPtr(ptr unsafe.Pointer) *SearchCtrl {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SearchCtrl{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSearchCtrl(parent unsafe.Pointer, id int, value string, x int, y int, width int, height int, style int) *SearchCtrl {
 	wxValue := NewWxString(value)
 	defer wxValue.Free()

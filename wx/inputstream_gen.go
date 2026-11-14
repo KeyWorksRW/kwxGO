@@ -6,8 +6,31 @@ import "unsafe"
 
 type InputStream struct{ StreamBase }
 
+// InputStreamFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func InputStreamFromPtr(ptr unsafe.Pointer) *InputStream {
+	if ptr == nil {
+		return nil
+	}
+	obj := &InputStream{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *InputStream) CanRead() bool {
+	return cgo_wxInputStream_CanRead(o.Ptr())
+}
+
 func (o *InputStream) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxInputStream_Delete(o.Ptr())
+}
+
+func (o *InputStream) TellI() int {
+	return cgo_wxInputStream_TellI(o.Ptr())
 }
 
 func (o *InputStream) Eof() bool {

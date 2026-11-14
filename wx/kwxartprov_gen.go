@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxArtProv struct{ ArtProvider }
 
+// KwxArtProvFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxArtProvFromPtr(ptr unsafe.Pointer) *KwxArtProv {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxArtProv{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewKwxArtProv(pObject unsafe.Pointer, callback unsafe.Pointer) *KwxArtProv {
 	ptr := cgo_kwxArtProv_Create(pObject, callback)
 	if ptr == nil {

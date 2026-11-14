@@ -6,7 +6,19 @@ import "unsafe"
 
 type SingleInstanceChecker struct{ BaseObject }
 
-func (o *SingleInstanceChecker) Create(pObject unsafe.Pointer, name string, path string) bool {
+// SingleInstanceCheckerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SingleInstanceCheckerFromPtr(ptr unsafe.Pointer) *SingleInstanceChecker {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SingleInstanceChecker{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func SingleInstanceChecker_Create(pObject unsafe.Pointer, name string, path string) bool {
 	wxName := NewWxString(name)
 	defer wxName.Free()
 	wxPath := NewWxString(path)
@@ -25,6 +37,9 @@ func NewSingleInstanceCheckerDefault() *SingleInstanceChecker {
 }
 
 func (o *SingleInstanceChecker) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxSingleInstanceChecker_Delete(o.Ptr())
 }
 

@@ -6,6 +6,18 @@ import "unsafe"
 
 type Simplebook struct{ BookCtrlBase }
 
+// SimplebookFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SimplebookFromPtr(ptr unsafe.Pointer) *Simplebook {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Simplebook{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *Simplebook) AddPage(pPage unsafe.Pointer, strText string, bSelect bool, imageId int) bool {
 	wxStrText := NewWxString(strText)
 	defer wxStrText.Free()

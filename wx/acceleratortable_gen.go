@@ -6,6 +6,38 @@ import "unsafe"
 
 type AcceleratorTable struct{ BaseObject }
 
+// AcceleratorTableFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func AcceleratorTableFromPtr(ptr unsafe.Pointer) *AcceleratorTable {
+	if ptr == nil {
+		return nil
+	}
+	obj := &AcceleratorTable{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewAcceleratorTableFromResource(resource string) *AcceleratorTable {
+	wxResource := NewWxString(resource)
+	defer wxResource.Free()
+	ptr := cgo_wxAcceleratorTable_CreateFromResource(wxResource.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &AcceleratorTable{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *AcceleratorTable) IsOk() bool {
+	return cgo_wxAcceleratorTable_IsOk(o.Ptr())
+}
+
+func (o *AcceleratorTable) GetEntry(event unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxAcceleratorTable_GetEntry(o.Ptr(), event)
+}
+
 func NewAcceleratorTable(count int, entries unsafe.Pointer) *AcceleratorTable {
 	ptr := cgo_wxAcceleratorTable_Create(count, entries)
 	if ptr == nil {
@@ -17,6 +49,9 @@ func NewAcceleratorTable(count int, entries unsafe.Pointer) *AcceleratorTable {
 }
 
 func (o *AcceleratorTable) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxAcceleratorTable_Delete(o.Ptr())
 }
 

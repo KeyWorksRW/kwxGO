@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type StringProperty struct{ PGProperty }
+
+// StringPropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StringPropertyFromPtr(ptr unsafe.Pointer) *StringProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StringProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *StringProperty) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxStringProperty_Delete(o.Ptr())
+}
 
 func NewStringProperty(label string, name string, value string) *StringProperty {
 	wxLabel := NewWxString(label)

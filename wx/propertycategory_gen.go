@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type PropertyCategory struct{ PGProperty }
+
+// PropertyCategoryFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PropertyCategoryFromPtr(ptr unsafe.Pointer) *PropertyCategory {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertyCategory{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *PropertyCategory) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxPropertyCategory_Delete(o.Ptr())
+}
 
 func NewPropertyCategory(label string) *PropertyCategory {
 	wxLabel := NewWxString(label)

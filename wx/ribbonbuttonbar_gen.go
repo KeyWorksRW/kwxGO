@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type RibbonButtonBar struct{ BaseObject }
+type RibbonButtonBar struct{ RibbonControl }
+
+// RibbonButtonBarFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func RibbonButtonBarFromPtr(ptr unsafe.Pointer) *RibbonButtonBar {
+	if ptr == nil {
+		return nil
+	}
+	obj := &RibbonButtonBar{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewRibbonButtonBar(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *RibbonButtonBar {
 	ptr := cgo_wxRibbonButtonBar_Create(parent, id, x, y, width, height, style)
@@ -14,6 +26,26 @@ func NewRibbonButtonBar(parent unsafe.Pointer, id int, x int, y int, width int, 
 	obj := &RibbonButtonBar{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func (o *RibbonButtonBar) SetButtonTextMinWidth(button_id int, min_width_medium int, min_width_large int) {
+	cgo_wxRibbonButtonBar_SetButtonTextMinWidth(o.Ptr(), button_id, min_width_medium, min_width_large)
+}
+
+func (o *RibbonButtonBar) SetDropdownKeyTip(button_id int, keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonButtonBar_SetDropdownKeyTip(o.Ptr(), button_id, wxKeytip.Ptr())
+}
+
+func (o *RibbonButtonBar) SetKeyTip(button_id int, keytip string) {
+	wxKeytip := NewWxString(keytip)
+	defer wxKeytip.Free()
+	cgo_wxRibbonButtonBar_SetKeyTip(o.Ptr(), button_id, wxKeytip.Ptr())
+}
+
+func (o *RibbonButtonBar) ToggleButton(button_id int, checked bool) {
+	cgo_wxRibbonButtonBar_ToggleButton(o.Ptr(), button_id, checked)
 }
 
 func (o *RibbonButtonBar) AddButton(button_id int, label string, bitmap unsafe.Pointer, help_string string, kind int, bitmap_small unsafe.Pointer, bitmap_disabled unsafe.Pointer, bitmap_small_disabled unsafe.Pointer) unsafe.Pointer {
@@ -164,8 +196,8 @@ func (o *RibbonButtonBar) GetShowToolTipsForDisabled() bool {
 	return cgo_wxRibbonButtonBar_GetShowToolTipsForDisabled(o.Ptr())
 }
 
-func (o *RibbonButtonBar) Realize() {
-	cgo_wxRibbonButtonBar_Realize(o.Ptr())
+func (o *RibbonButtonBar) Realize() bool {
+	return cgo_wxRibbonButtonBar_Realize(o.Ptr())
 }
 
 func (o *RibbonButtonBar) SetArtProvider(art unsafe.Pointer) {

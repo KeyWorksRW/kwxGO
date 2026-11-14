@@ -6,8 +6,50 @@ import "unsafe"
 
 type PropertyGridEvent struct{ NotifyEvent }
 
+// PropertyGridEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func PropertyGridEventFromPtr(ptr unsafe.Pointer) *PropertyGridEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &PropertyGridEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *PropertyGridEvent) SetValidationFailureBehavior(flags int) {
+	cgo_wxPropertyGridEvent_SetValidationFailureBehavior(o.Ptr(), flags)
+}
+
+func (o *PropertyGridEvent) SetValidationFailureMessage(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_wxPropertyGridEvent_SetValidationFailureMessage(o.Ptr(), wxMessage.Ptr())
+}
+
+func (o *PropertyGridEvent) GetValidationFailureBehavior() int {
+	return cgo_wxPropertyGridEvent_GetValidationFailureBehavior(o.Ptr())
+}
+
 func (o *PropertyGridEvent) HasProperty() bool {
 	return cgo_wxPropertyGridEvent_HasProperty(o.Ptr())
+}
+
+func (o *PropertyGridEvent) CanVeto() bool {
+	return cgo_wxPropertyGridEvent_CanVeto(o.Ptr())
+}
+
+func (o *PropertyGridEvent) GetColumn() uint {
+	return cgo_wxPropertyGridEvent_GetColumn(o.Ptr())
+}
+
+func (o *PropertyGridEvent) GetValue() unsafe.Pointer {
+	return cgo_wxPropertyGridEvent_GetValue(o.Ptr())
+}
+
+func (o *PropertyGridEvent) Veto(veto bool) {
+	cgo_wxPropertyGridEvent_Veto(o.Ptr(), veto)
 }
 
 func (o *PropertyGridEvent) GetProperty() unsafe.Pointer {

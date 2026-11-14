@@ -6,6 +6,18 @@ import "unsafe"
 
 type KwxConnection struct{ BaseObject }
 
+// KwxConnectionFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func KwxConnectionFromPtr(ptr unsafe.Pointer) *KwxConnection {
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxConnection{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *KwxConnection) Advise(item string, data unsafe.Pointer, size int, format int) int {
 	wxItem := NewWxString(item)
 	defer wxItem.Free()
@@ -31,6 +43,9 @@ func (o *KwxConnection) CreateDefault() unsafe.Pointer {
 }
 
 func (o *KwxConnection) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_kwxConnection_Delete(o.Ptr())
 }
 

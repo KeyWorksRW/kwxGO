@@ -6,6 +6,38 @@ import "unsafe"
 
 type Control struct{ Window }
 
+// ControlFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ControlFromPtr(ptr unsafe.Pointer) *Control {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Control{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func Control_FindAccelIndex(label string) int {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	return cgo_wxControl_FindAccelIndex(wxLabel.Ptr())
+}
+
+func (o *Control) ShouldInheritColours() bool {
+	return cgo_wxControl_ShouldInheritColours(o.Ptr())
+}
+
+func NewControl(parent unsafe.Pointer, id int, pos_x int, pos_y int, width int, height int, style int) *Control {
+	ptr := cgo_wxControl_Create(parent, id, pos_x, pos_y, width, height, style)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Control{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *Control) Command(event unsafe.Pointer) {
 	cgo_wxControl_Command(o.Ptr(), event)
 }
@@ -42,24 +74,31 @@ func (o *Control) GetAlignment() int {
 	return cgo_wxControl_GetAlignment(o.Ptr())
 }
 
-func (o *Control) GetSizeFromText(text string, w unsafe.Pointer, h unsafe.Pointer) {
+func (o *Control) GetSizeFromText(text string, width unsafe.Pointer, height unsafe.Pointer) {
 	wxText := NewWxString(text)
 	defer wxText.Free()
-	cgo_wxControl_GetSizeFromText(o.Ptr(), wxText.Ptr(), w, h)
+	cgo_wxControl_GetSizeFromText(o.Ptr(), wxText.Ptr(), width, height)
 }
 
-func (o *Control) GetSizeFromTextSize(xlen int, ylen int, w unsafe.Pointer, h unsafe.Pointer) {
-	cgo_wxControl_GetSizeFromTextSize(o.Ptr(), xlen, ylen, w, h)
+func (o *Control) GetSizeFromTextSize(xlen int, ylen int, width unsafe.Pointer, height unsafe.Pointer) {
+	cgo_wxControl_GetSizeFromTextSize(o.Ptr(), xlen, ylen, width, height)
 }
 
-func (o *Control) RemoveMnemonics(str string) string {
+func Control_RemoveMnemonics(str string) string {
 	wxStr := NewWxString(str)
 	defer wxStr.Free()
 	retPtr := cgo_wxControl_RemoveMnemonics(wxStr.Ptr())
 	return WxStringToGoAndFree(retPtr)
 }
 
-func (o *Control) EscapeMnemonics(str string) string {
+func Control_Ellipsize(label string, dc unsafe.Pointer, mode int, max_width int, flags int) string {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	retPtr := cgo_wxControl_Ellipsize(wxLabel.Ptr(), dc, mode, max_width, flags)
+	return WxStringToGoAndFree(retPtr)
+}
+
+func Control_EscapeMnemonics(str string) string {
 	wxStr := NewWxString(str)
 	defer wxStr.Free()
 	retPtr := cgo_wxControl_EscapeMnemonics(wxStr.Ptr())

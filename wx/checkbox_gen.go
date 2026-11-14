@@ -6,6 +6,18 @@ import "unsafe"
 
 type CheckBox struct{ Control }
 
+// CheckBoxFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func CheckBoxFromPtr(ptr unsafe.Pointer) *CheckBox {
+	if ptr == nil {
+		return nil
+	}
+	obj := &CheckBox{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewCheckBox(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) *CheckBox {
 	wxText := NewWxString(text)
 	defer wxText.Free()
@@ -18,7 +30,26 @@ func NewCheckBox(parent unsafe.Pointer, id int, text string, left int, top int, 
 	return obj
 }
 
+func NewCheckBoxDefault() *CheckBox {
+	ptr := cgo_wxCheckBox_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &CheckBox{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *CheckBox) Create2(parent unsafe.Pointer, id int, text string, left int, top int, width int, height int, style int) bool {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxCheckBox_Create2(o.Ptr(), parent, id, wxText.Ptr(), left, top, width, height, style)
+}
+
 func (o *CheckBox) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxCheckBox_Delete(o.Ptr())
 }
 

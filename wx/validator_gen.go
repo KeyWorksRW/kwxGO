@@ -6,6 +6,18 @@ import "unsafe"
 
 type Validator struct{ EvtHandler }
 
+// ValidatorFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func ValidatorFromPtr(ptr unsafe.Pointer) *Validator {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Validator{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewValidator() *Validator {
 	ptr := cgo_wxValidator_Create()
 	if ptr == nil {
@@ -16,7 +28,14 @@ func NewValidator() *Validator {
 	return obj
 }
 
+func Validator_IsSilent() bool {
+	return cgo_wxValidator_IsSilent()
+}
+
 func (o *Validator) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxValidator_Delete(o.Ptr())
 }
 
@@ -24,7 +43,7 @@ func (o *Validator) GetWindow() unsafe.Pointer {
 	return cgo_wxValidator_GetWindow(o.Ptr())
 }
 
-func (o *Validator) SuppressBellOnError(doIt bool) {
+func Validator_SuppressBellOnError(doIt bool) {
 	cgo_wxValidator_SuppressBellOnError(doIt)
 }
 
@@ -42,5 +61,21 @@ func (o *Validator) TransferToWindow() bool {
 
 func (o *Validator) Validate(parent unsafe.Pointer) bool {
 	return cgo_wxValidator_Validate(o.Ptr(), parent)
+}
+
+func (o *Validator) SetOnClone(pFunction unsafe.Pointer) {
+	cgo_wxValidator_SetOnClone(o.Ptr(), pFunction)
+}
+
+func (o *Validator) SetOnValidate(pFunction unsafe.Pointer) {
+	cgo_wxValidator_SetOnValidate(o.Ptr(), pFunction)
+}
+
+func (o *Validator) SetOnTransferFromWindow(pFunction unsafe.Pointer) {
+	cgo_wxValidator_SetOnTransferFromWindow(o.Ptr(), pFunction)
+}
+
+func (o *Validator) SetOnTransferToWindow(pFunction unsafe.Pointer) {
+	cgo_wxValidator_SetOnTransferToWindow(o.Ptr(), pFunction)
 }
 

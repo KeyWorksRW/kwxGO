@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type Joystick struct{ BaseObject }
+type Joystick struct{ Object }
+
+// JoystickFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func JoystickFromPtr(ptr unsafe.Pointer) *Joystick {
+	if ptr == nil {
+		return nil
+	}
+	obj := &Joystick{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func NewJoystick(joystick int) *Joystick {
 	ptr := cgo_wxJoystick_Create(joystick)
@@ -17,6 +29,9 @@ func NewJoystick(joystick int) *Joystick {
 }
 
 func (o *Joystick) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxJoystick_Delete(o.Ptr())
 }
 
@@ -68,8 +83,9 @@ func (o *Joystick) GetPollingMin() int {
 	return cgo_wxJoystick_GetPollingMin(o.Ptr())
 }
 
-func (o *Joystick) GetPosition() unsafe.Pointer {
-	return cgo_wxJoystick_GetPosition(o.Ptr())
+func (o *Joystick) GetPosition() Point {
+	retPtr := cgo_wxJoystick_GetPosition(o.Ptr())
+	return pointFromPtr(retPtr)
 }
 
 func (o *Joystick) GetProductId() int {

@@ -6,6 +6,18 @@ import "unsafe"
 
 type GridRangeSelectEvent struct{ NotifyEvent }
 
+// GridRangeSelectEventFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func GridRangeSelectEventFromPtr(ptr unsafe.Pointer) *GridRangeSelectEvent {
+	if ptr == nil {
+		return nil
+	}
+	obj := &GridRangeSelectEvent{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *GridRangeSelectEvent) GetTopLeftCoords(col unsafe.Pointer, row unsafe.Pointer) {
 	cgo_wxGridRangeSelectEvent_GetTopLeftCoords(o.Ptr(), col, row)
 }

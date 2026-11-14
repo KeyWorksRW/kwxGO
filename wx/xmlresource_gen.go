@@ -4,10 +4,42 @@ package wx
 
 import "unsafe"
 
-type XmlResource struct{ BaseObject }
+type XmlResource struct{ Object }
+
+// XmlResourceFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func XmlResourceFromPtr(ptr unsafe.Pointer) *XmlResource {
+	if ptr == nil {
+		return nil
+	}
+	obj := &XmlResource{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func XmlResource_GetStyledTextCtrl(win unsafe.Pointer, strId string) unsafe.Pointer {
+	wxStrId := NewWxString(strId)
+	defer wxStrId.Free()
+	return cgo_wxXmlResource_GetStyledTextCtrl(win, wxStrId.Ptr())
+}
 
 func (o *XmlResource) AddHandler(handler unsafe.Pointer) {
 	cgo_wxXmlResource_AddHandler(o.Ptr(), handler)
+}
+
+func (o *XmlResource) LoadAllFiles(dirname string) bool {
+	wxDirname := NewWxString(dirname)
+	defer wxDirname.Free()
+	return cgo_wxXmlResource_LoadAllFiles(o.Ptr(), wxDirname.Ptr())
+}
+
+func (o *XmlResource) LoadObjectRecursively(parent unsafe.Pointer, name string, classname string) unsafe.Pointer {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	wxClassname := NewWxString(classname)
+	defer wxClassname.Free()
+	return cgo_wxXmlResource_LoadObjectRecursively(o.Ptr(), parent, wxName.Ptr(), wxClassname.Ptr())
 }
 
 func (o *XmlResource) AddSubclassFactory(factory unsafe.Pointer) {
@@ -49,10 +81,13 @@ func NewXmlResourceFromFile(filemask string, flags int) *XmlResource {
 }
 
 func (o *XmlResource) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxXmlResource_Delete(o.Ptr())
 }
 
-func (o *XmlResource) Get() unsafe.Pointer {
+func XmlResource_Get() unsafe.Pointer {
 	return cgo_wxXmlResource_Get()
 }
 

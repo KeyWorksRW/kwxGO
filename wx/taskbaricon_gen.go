@@ -6,6 +6,18 @@ import "unsafe"
 
 type TaskBarIcon struct{ EvtHandler }
 
+// TaskBarIconFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func TaskBarIconFromPtr(ptr unsafe.Pointer) *TaskBarIcon {
+	if ptr == nil {
+		return nil
+	}
+	obj := &TaskBarIcon{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewTaskBarIcon() *TaskBarIcon {
 	ptr := cgo_wxTaskBarIcon_Create()
 	if ptr == nil {
@@ -17,6 +29,9 @@ func NewTaskBarIcon() *TaskBarIcon {
 }
 
 func (o *TaskBarIcon) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxTaskBarIcon_Delete(o.Ptr())
 }
 

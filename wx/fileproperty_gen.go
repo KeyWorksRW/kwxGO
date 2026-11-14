@@ -2,7 +2,28 @@
 
 package wx
 
+import "unsafe"
+
 type FileProperty struct{ PGProperty }
+
+// FilePropertyFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func FilePropertyFromPtr(ptr unsafe.Pointer) *FileProperty {
+	if ptr == nil {
+		return nil
+	}
+	obj := &FileProperty{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *FileProperty) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxFileProperty_Delete(o.Ptr())
+}
 
 func NewFileProperty(label string, name string, value string) *FileProperty {
 	wxLabel := NewWxString(label)
@@ -18,5 +39,9 @@ func NewFileProperty(label string, name string, value string) *FileProperty {
 	obj := &FileProperty{}
 	obj.SetPtr(ptr)
 	return obj
+}
+
+func FileProperty_GetClassValidator() unsafe.Pointer {
+	return cgo_wxFileProperty_GetClassValidator()
 }
 

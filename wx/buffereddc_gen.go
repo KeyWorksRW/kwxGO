@@ -6,8 +6,20 @@ import "unsafe"
 
 type BufferedDC struct{ DC }
 
-func NewBufferedDCByDCAndSize(dc unsafe.Pointer, width int, hight int, style int) *BufferedDC {
-	ptr := cgo_wxBufferedDC_CreateByDCAndSize(dc, width, hight, style)
+// BufferedDCFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BufferedDCFromPtr(ptr unsafe.Pointer) *BufferedDC {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BufferedDC{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func NewBufferedDCByDCAndSize(dc unsafe.Pointer, width int, height int, style int) *BufferedDC {
+	ptr := cgo_wxBufferedDC_CreateByDCAndSize(dc, width, height, style)
 	if ptr == nil {
 		return nil
 	}
@@ -27,6 +39,9 @@ func NewBufferedDCByDCAndBitmap(dc unsafe.Pointer, bitmap unsafe.Pointer, style 
 }
 
 func (o *BufferedDC) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxBufferedDC_Delete(o.Ptr())
 }
 

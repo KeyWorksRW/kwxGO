@@ -6,6 +6,18 @@ import "unsafe"
 
 type SpinCtrlDouble struct{ Control }
 
+// SpinCtrlDoubleFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func SpinCtrlDoubleFromPtr(ptr unsafe.Pointer) *SpinCtrlDouble {
+	if ptr == nil {
+		return nil
+	}
+	obj := &SpinCtrlDouble{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func NewSpinCtrlDouble(parent unsafe.Pointer, id int, value string, x int, y int, width int, height int, style int, min float64, max float64, initial float64, inc float64) *SpinCtrlDouble {
 	wxValue := NewWxString(value)
 	defer wxValue.Free()

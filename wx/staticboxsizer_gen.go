@@ -6,8 +6,25 @@ import "unsafe"
 
 type StaticBoxSizer struct{ BoxSizer }
 
-func (o *StaticBoxSizer) CalcMin() unsafe.Pointer {
-	return cgo_wxStaticBoxSizer_CalcMin(o.Ptr())
+// StaticBoxSizerFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func StaticBoxSizerFromPtr(ptr unsafe.Pointer) *StaticBoxSizer {
+	if ptr == nil {
+		return nil
+	}
+	obj := &StaticBoxSizer{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
+func (o *StaticBoxSizer) CalcMin() Size {
+	retPtr := cgo_wxStaticBoxSizer_CalcMin(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *StaticBoxSizer) Detach(window unsafe.Pointer) bool {
+	return cgo_wxStaticBoxSizer_Detach(o.Ptr(), window)
 }
 
 func NewStaticBoxSizer(box unsafe.Pointer, orient int) *StaticBoxSizer {

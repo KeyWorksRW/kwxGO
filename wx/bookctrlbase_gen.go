@@ -6,6 +6,18 @@ import "unsafe"
 
 type BookCtrlBase struct{ Control }
 
+// BookCtrlBaseFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func BookCtrlBaseFromPtr(ptr unsafe.Pointer) *BookCtrlBase {
+	if ptr == nil {
+		return nil
+	}
+	obj := &BookCtrlBase{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
+
 func (o *BookCtrlBase) CreateFromDefault(parent unsafe.Pointer, winid int, x int, y int, width int, height int, style int, name string) bool {
 	wxName := NewWxString(name)
 	defer wxName.Free()
@@ -18,6 +30,10 @@ func (o *BookCtrlBase) SetPageSize(width int, height int) {
 
 func (o *BookCtrlBase) HitTest(x int, y int, flags unsafe.Pointer) int {
 	return cgo_wxBookCtrlBase_HitTest(o.Ptr(), x, y, flags)
+}
+
+func (o *BookCtrlBase) HitTestFlags(x int, y int, flags unsafe.Pointer) int {
+	return cgo_wxBookCtrlBase_HitTestFlags(o.Ptr(), x, y, flags)
 }
 
 func (o *BookCtrlBase) GetPageImage(nPage int) int {
@@ -105,5 +121,21 @@ func (o *BookCtrlBase) SetImageList(imageList unsafe.Pointer) {
 
 func (o *BookCtrlBase) GetImageList() unsafe.Pointer {
 	return cgo_wxBookCtrlBase_GetImageList(o.Ptr())
+}
+
+func (o *BookCtrlBase) SetImages(images unsafe.Pointer) {
+	cgo_wxBookCtrlBase_SetImages(o.Ptr(), images)
+}
+
+func (o *BookCtrlBase) GetImageCount() int {
+	return cgo_wxBookCtrlBase_GetImageCount(o.Ptr())
+}
+
+func (o *BookCtrlBase) HasImages() bool {
+	return cgo_wxBookCtrlBase_HasImages(o.Ptr())
+}
+
+func (o *BookCtrlBase) GetImage(iconIndex int) unsafe.Pointer {
+	return cgo_wxBookCtrlBase_GetImage(o.Ptr(), iconIndex)
 }
 

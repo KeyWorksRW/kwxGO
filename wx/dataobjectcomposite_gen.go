@@ -4,7 +4,19 @@ package wx
 
 import "unsafe"
 
-type DataObjectComposite struct{ BaseObject }
+type DataObjectComposite struct{ DataObject }
+
+// DataObjectCompositeFromPtr wraps ptr without taking ownership of the native object:
+// Delete() is a no-op for the returned wrapper.
+func DataObjectCompositeFromPtr(ptr unsafe.Pointer) *DataObjectComposite {
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataObjectComposite{}
+	obj.SetPtr(ptr)
+	obj.SetBorrowed(true)
+	return obj
+}
 
 func (o *DataObjectComposite) Add(data unsafe.Pointer, preferred int) {
 	cgo_wxDataObjectComposite_Add(o.Ptr(), data, preferred)
@@ -21,6 +33,9 @@ func NewDataObjectComposite() *DataObjectComposite {
 }
 
 func (o *DataObjectComposite) Delete() {
+	if o.Borrowed() {
+		return
+	}
 	cgo_wxDataObjectComposite_Delete(o.Ptr())
 }
 
