@@ -136,6 +136,10 @@ func (o *Window) ClientToWindowSize(width unsafe.Pointer, height unsafe.Pointer)
 	cgo_wxWindow_ClientToWindowSize(o.Ptr(), width, height)
 }
 
+func (o *Window) SetSizeWH(width int, height int) {
+	cgo_wxWindow_SetSizeWH(o.Ptr(), width, height)
+}
+
 func (o *Window) WindowToClientSize(width unsafe.Pointer, height unsafe.Pointer) {
 	cgo_wxWindow_WindowToClientSize(o.Ptr(), width, height)
 }
@@ -381,6 +385,21 @@ func (o *Window) FromDIP(value int) int {
 
 func (o *Window) ToDIP(value int) int {
 	return cgo_wxWindow_ToDIP(o.Ptr(), value)
+}
+
+func (o *Window) FromDIPSize(width int, height int) Size {
+	retPtr := cgo_wxWindow_FromDIPSize(o.Ptr(), width, height)
+	return sizeFromPtr(retPtr)
+}
+
+func Window_FromDIPSizeForWindow(width int, height int, window unsafe.Pointer) Size {
+	retPtr := cgo_wxWindow_FromDIPSizeForWindow(width, height, window)
+	return sizeFromPtr(retPtr)
+}
+
+func Window_FromDIPSizeDefault(width int, height int) Size {
+	retPtr := cgo_wxWindow_FromDIPSizeDefault(width, height)
+	return sizeFromPtr(retPtr)
 }
 
 func (o *Window) HasCapture() bool {
@@ -1020,6 +1039,10 @@ func (o *Window) SetClientSize(width int, height int) {
 
 func (o *Window) SetCursor(cursor unsafe.Pointer) int {
 	return cgo_wxWindow_SetCursor(o.Ptr(), cursor)
+}
+
+func (o *Window) SetCursorBundle(bundle unsafe.Pointer) {
+	cgo_wxWindow_SetCursorBundle(o.Ptr(), bundle)
 }
 
 func (o *Window) SetDropTarget(dropTarget unsafe.Pointer) {

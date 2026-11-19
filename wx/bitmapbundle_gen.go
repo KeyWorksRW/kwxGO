@@ -86,6 +86,16 @@ func NewBitmapBundleFromData(data unsafe.Pointer, size int, bitmap_type int) *Bi
 	return obj
 }
 
+func NewBitmapBundleDefault() *BitmapBundle {
+	ptr := cgo_wxBitmapBundle_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapBundle{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func NewBitmapBundleFromBase64(base64 unsafe.Pointer, len int, bitmap_type int) *BitmapBundle {
 	ptr := cgo_wxBitmapBundle_CreateFromBase64(base64, len, bitmap_type)
 	if ptr == nil {

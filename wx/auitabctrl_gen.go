@@ -78,12 +78,24 @@ func (o *AuiTabCtrl) GetPageCount() int {
 	return cgo_wxAuiTabCtrl_GetPageCount(o.Ptr())
 }
 
-func (o *AuiTabCtrl) GetPage(idx int) unsafe.Pointer {
-	return cgo_wxAuiTabCtrl_GetPage(o.Ptr(), idx)
+func (o *AuiTabCtrl) GetPage(idx int) *AuiNotebookPage {
+	ptr := cgo_wxAuiTabCtrl_GetPage(o.Ptr(), idx)
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebookPage{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
-func (o *AuiTabCtrl) GetPages() unsafe.Pointer {
-	return cgo_wxAuiTabCtrl_GetPages(o.Ptr())
+func (o *AuiTabCtrl) GetPages() *AuiNotebookPageArray {
+	ptr := cgo_wxAuiTabCtrl_GetPages(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebookPageArray{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *AuiTabCtrl) SetNormalFont(normalFont unsafe.Pointer) {

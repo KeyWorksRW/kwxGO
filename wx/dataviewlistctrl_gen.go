@@ -4,7 +4,7 @@ package wx
 
 import "unsafe"
 
-type DataViewListCtrl struct{ BaseObject }
+type DataViewListCtrl struct{ DataViewCtrl }
 
 // DataViewListCtrlFromPtr wraps ptr without taking ownership of the native object:
 // Delete() is a no-op for the returned wrapper.

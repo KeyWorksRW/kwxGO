@@ -28,6 +28,13 @@ func NewCaret(window unsafe.Pointer, width int, height int) *Caret {
 	return obj
 }
 
+func (o *Caret) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxCaret_Delete(o.Ptr())
+}
+
 func Caret_GetBlinkTime() int {
 	return cgo_wxCaret_GetBlinkTime()
 }

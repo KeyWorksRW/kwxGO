@@ -38,10 +38,78 @@ func NewGenericValidatorBool(value unsafe.Pointer) *GenericValidator {
 	return obj
 }
 
-func NewGenericValidatorString(value string) *GenericValidator {
-	wxValue := NewWxString(value)
-	defer wxValue.Free()
-	ptr := cgo_wxGenericValidator_CreateString(wxValue.Ptr())
+func NewGenericValidatorString(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateString(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorArrayInt(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateArrayInt(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorDateTime(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateDateTime(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorFileName(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateFileName(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorFloat(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateFloat(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorDouble(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateDouble(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorColour(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateColour(value)
+	if ptr == nil {
+		return nil
+	}
+	obj := &GenericValidator{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewGenericValidatorCheckBoxState(value unsafe.Pointer) *GenericValidator {
+	ptr := cgo_wxGenericValidator_CreateCheckBoxState(value)
 	if ptr == nil {
 		return nil
 	}

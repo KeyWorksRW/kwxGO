@@ -28,6 +28,16 @@ func NewBitmapButton(parent unsafe.Pointer, id int, bitmap unsafe.Pointer, left 
 	return obj
 }
 
+func NewBitmapButtonWithBundle(parent unsafe.Pointer, id int, bitmap unsafe.Pointer, left int, top int, width int, height int, style int) *BitmapButton {
+	ptr := cgo_wxBitmapButton_CreateWithBundle(parent, id, bitmap, left, top, width, height, style)
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapButton{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *BitmapButton) GetBitmapDisabled(ref unsafe.Pointer) {
 	cgo_wxBitmapButton_GetBitmapDisabled(o.Ptr(), ref)
 }
@@ -66,6 +76,22 @@ func (o *BitmapButton) SetBitmapLabel(bitmap unsafe.Pointer) {
 
 func (o *BitmapButton) SetBitmapSelected(sel unsafe.Pointer) {
 	cgo_wxBitmapButton_SetBitmapSelected(o.Ptr(), sel)
+}
+
+func (o *BitmapButton) SetBitmapDisabledBundle(disabled unsafe.Pointer) {
+	cgo_wxBitmapButton_SetBitmapDisabledBundle(o.Ptr(), disabled)
+}
+
+func (o *BitmapButton) SetBitmapFocusBundle(focus unsafe.Pointer) {
+	cgo_wxBitmapButton_SetBitmapFocusBundle(o.Ptr(), focus)
+}
+
+func (o *BitmapButton) SetBitmapLabelBundle(bitmap unsafe.Pointer) {
+	cgo_wxBitmapButton_SetBitmapLabelBundle(o.Ptr(), bitmap)
+}
+
+func (o *BitmapButton) SetBitmapSelectedBundle(sel unsafe.Pointer) {
+	cgo_wxBitmapButton_SetBitmapSelectedBundle(o.Ptr(), sel)
 }
 
 func (o *BitmapButton) SetMargins(x int, y int) {

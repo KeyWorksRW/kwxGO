@@ -158,6 +158,18 @@ func AsDPIChangedEvent(evt *Event) *DPIChangedEvent {
 	return obj
 }
 
+// AsDataViewEvent reinterprets evt as a *DataViewEvent without taking ownership.
+// Returns nil when evt is not a wxDataViewEvent (runtime class check).
+func AsDataViewEvent(evt *Event) *DataViewEvent {
+	if evt == nil || !cgo_wxEvent_IsOfClass(evt.Ptr(), "wxDataViewEvent") {
+		return nil
+	}
+	obj := &DataViewEvent{}
+	obj.SetPtr(evt.Ptr())
+	obj.SetBorrowed(true)
+	return obj
+}
+
 // AsDateEvent reinterprets evt as a *DateEvent without taking ownership.
 // Returns nil when evt is not a wxDateEvent (runtime class check).
 func AsDateEvent(evt *Event) *DateEvent {
@@ -861,6 +873,18 @@ func AsSysColourChangedEvent(evt *Event) *SysColourChangedEvent {
 		return nil
 	}
 	obj := &SysColourChangedEvent{}
+	obj.SetPtr(evt.Ptr())
+	obj.SetBorrowed(true)
+	return obj
+}
+
+// AsSysMetricChangedEvent reinterprets evt as a *SysMetricChangedEvent without taking ownership.
+// Returns nil when evt is not a wxSysMetricChangedEvent (runtime class check).
+func AsSysMetricChangedEvent(evt *Event) *SysMetricChangedEvent {
+	if evt == nil || !cgo_wxEvent_IsOfClass(evt.Ptr(), "wxSysMetricChangedEvent") {
+		return nil
+	}
+	obj := &SysMetricChangedEvent{}
 	obj.SetPtr(evt.Ptr())
 	obj.SetBorrowed(true)
 	return obj

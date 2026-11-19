@@ -26,6 +26,10 @@ func (o *GraphicsRenderer) CreateContextFromWindow(window unsafe.Pointer) unsafe
 	return cgo_wxGraphicsRenderer_CreateContextFromWindow(o.Ptr(), window)
 }
 
+func (o *GraphicsRenderer) CreateContextFromMemory(dc unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGraphicsRenderer_CreateContextFromMemory(o.Ptr(), dc)
+}
+
 func (o *GraphicsRenderer) CreateContextFromNativeContext(context unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxGraphicsRenderer_CreateContextFromNativeContext(o.Ptr(), context)
 }
@@ -43,6 +47,10 @@ func (o *GraphicsRenderer) Delete() {
 		return
 	}
 	cgo_wxGraphicsRenderer_Delete(o.Ptr())
+}
+
+func (o *GraphicsRenderer) GetCairoRenderer() unsafe.Pointer {
+	return cgo_wxGraphicsRenderer_GetCairoRenderer(o.Ptr())
 }
 
 func (o *GraphicsRenderer) GetDefaultRenderer() unsafe.Pointer {

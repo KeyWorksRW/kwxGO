@@ -169,3 +169,57 @@ func AuiManager_GetManager(window unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxAuiManager_GetManager(window)
 }
 
+func (o *AuiManager) CanDockPanel(pane unsafe.Pointer) bool {
+	return cgo_wxAuiManager_CanDockPanel(o.Ptr(), pane)
+}
+
+func (o *AuiManager) CalculateNewSplitSize() Size {
+	retPtr := cgo_wxAuiManager_CalculateNewSplitSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *AuiManager) CalculateHintRect(paneWindow unsafe.Pointer, x int, y int, offsetX int, offsetY int) Rect {
+	retPtr := cgo_wxAuiManager_CalculateHintRect(o.Ptr(), paneWindow, x, y, offsetX, offsetY)
+	return rectFromPtr(retPtr)
+}
+
+func (o *AuiManager) ClosePane(paneInfo unsafe.Pointer) {
+	cgo_wxAuiManager_ClosePane(o.Ptr(), paneInfo)
+}
+
+func (o *AuiManager) DrawHintRect(paneWindow unsafe.Pointer, x int, y int, offsetX int, offsetY int) {
+	cgo_wxAuiManager_DrawHintRect(o.Ptr(), paneWindow, x, y, offsetX, offsetY)
+}
+
+func (o *AuiManager) HasLiveResize() bool {
+	return cgo_wxAuiManager_HasLiveResize(o.Ptr())
+}
+
+func (o *AuiManager) MaximizePane(paneInfo unsafe.Pointer) {
+	cgo_wxAuiManager_MaximizePane(o.Ptr(), paneInfo)
+}
+
+func (o *AuiManager) MinimizePane(paneInfo unsafe.Pointer) {
+	cgo_wxAuiManager_MinimizePane(o.Ptr(), paneInfo)
+}
+
+func (o *AuiManager) RestoreMaximizedPane() {
+	cgo_wxAuiManager_RestoreMaximizedPane(o.Ptr())
+}
+
+func (o *AuiManager) RestorePane(paneInfo unsafe.Pointer) {
+	cgo_wxAuiManager_RestorePane(o.Ptr(), paneInfo)
+}
+
+func (o *AuiManager) SplitPane(window unsafe.Pointer, newWindow unsafe.Pointer, direction int, dropX int, dropY int) bool {
+	return cgo_wxAuiManager_SplitPane(o.Ptr(), window, newWindow, direction, dropX, dropY)
+}
+
+func (o *AuiManager) StartPaneDrag(paneWindow unsafe.Pointer, offsetX int, offsetY int) {
+	cgo_wxAuiManager_StartPaneDrag(o.Ptr(), paneWindow, offsetX, offsetY)
+}
+
+func (o *AuiManager) UpdateHint(rect unsafe.Pointer) {
+	cgo_wxAuiManager_UpdateHint(o.Ptr(), rect)
+}
+

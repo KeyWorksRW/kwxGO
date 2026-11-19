@@ -54,6 +54,23 @@ func ArtProvider_GetBitmapBundle(id string, client string, width int, height int
 	return obj
 }
 
+func ArtProvider_GetBitmapBundleDefault(id string) *BitmapBundle {
+	wxId := NewWxString(id)
+	defer wxId.Free()
+	ptr := cgo_wxArtProvider_GetBitmapBundleDefault(wxId.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &BitmapBundle{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func ArtProvider_MakeClientId(id string) string {
+	retPtr := cgo_wxArtProvider_MakeClientId(id)
+	return CStringToGoAndFree(retPtr)
+}
+
 func ArtProvider_GetIcon(id string, client string, width int, height int) *Icon {
 	wxId := NewWxString(id)
 	defer wxId.Free()

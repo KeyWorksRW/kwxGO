@@ -55,3 +55,56 @@ func (o *KwxTextDropTarget) SetOnLeave(pFunction unsafe.Pointer) {
 	cgo_kwxTextDropTarget_SetOnLeave(o.Ptr(), pFunction)
 }
 
+func (o *KwxTextDropTarget) SetOnDataWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxTextDropTarget_SetOnDataWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxTextDropTarget) SetOnDropWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxTextDropTarget_SetOnDropWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxTextDropTarget) SetOnEnterWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxTextDropTarget_SetOnEnterWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxTextDropTarget) SetOnDragOverWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxTextDropTarget_SetOnDragOverWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxTextDropTarget) SetOnLeaveWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxTextDropTarget_SetOnLeaveWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxTextDropTarget) SetDataResult(result int) {
+	cgo_kwxTextDropTarget_SetDataResult(o.Ptr(), result)
+}
+
+func (o *KwxTextDropTarget) SetDropResult(result int) {
+	cgo_kwxTextDropTarget_SetDropResult(o.Ptr(), result)
+}
+
+func (o *KwxTextDropTarget) SetEnterResult(result int) {
+	cgo_kwxTextDropTarget_SetEnterResult(o.Ptr(), result)
+}
+
+func (o *KwxTextDropTarget) SetDragOverResult(result int) {
+	cgo_kwxTextDropTarget_SetDragOverResult(o.Ptr(), result)
+}
+
+func (o *KwxTextDropTarget) GetDropResult() int {
+	return cgo_kwxTextDropTarget_GetDropResult(o.Ptr())
+}
+
+func (o *KwxTextDropTarget) SetOnDropTextWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxTextDropTarget_SetOnDropTextWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxTextDropTarget) SetDropTextResult(result int) {
+	cgo_kwxTextDropTarget_SetDropTextResult(o.Ptr(), result)
+}
+
+func (o *KwxTextDropTarget) GetDropText() string {
+	retPtr := cgo_kwxTextDropTarget_GetDropText(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+

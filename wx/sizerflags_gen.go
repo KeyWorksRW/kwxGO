@@ -131,6 +131,10 @@ func SizerFlags_GetDefaultBorderFractional() float64 {
 	return cgo_wxSizerFlags_GetDefaultBorderFractional()
 }
 
+func SizerFlags_GetDefaultBorder() int {
+	return cgo_wxSizerFlags_GetDefaultBorder()
+}
+
 func SizerFlags_DisableConsistencyChecks() {
 	cgo_wxSizerFlags_DisableConsistencyChecks()
 }

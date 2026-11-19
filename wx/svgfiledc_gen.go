@@ -30,8 +30,37 @@ func NewSVGFileDC(fileName string) *SVGFileDC {
 	return obj
 }
 
+func (o *SVGFileDC) BeginAccessibleGroup(attributes unsafe.Pointer, title string, desc string) {
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	wxDesc := NewWxString(desc)
+	defer wxDesc.Free()
+	cgo_wxSVGFileDC_BeginAccessibleGroup(o.Ptr(), attributes, wxTitle.Ptr(), wxDesc.Ptr())
+}
+
 func (o *SVGFileDC) EndAccessibleGroup() {
 	cgo_wxSVGFileDC_EndAccessibleGroup(o.Ptr())
+}
+
+func (o *SVGFileDC) BeginLayer(opacity float64) {
+	cgo_wxSVGFileDC_BeginLayer(o.Ptr(), opacity)
+}
+
+func (o *SVGFileDC) EndLayer() {
+	cgo_wxSVGFileDC_EndLayer(o.Ptr())
+}
+
+func (o *SVGFileDC) Save() bool {
+	return cgo_wxSVGFileDC_Save(o.Ptr())
+}
+
+func (o *SVGFileDC) GetSVGDocument() string {
+	retPtr := cgo_wxSVGFileDC_GetSVGDocument(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *SVGFileDC) SetShapeRenderingMode(mode int) {
+	cgo_wxSVGFileDC_SetShapeRenderingMode(o.Ptr(), mode)
 }
 
 func (o *SVGFileDC) SetBitmapHandler(handler unsafe.Pointer) {
@@ -54,6 +83,86 @@ func NewSVGFileDCWithSizeAndResolution(fileName string, width int, height int, a
 	wxFileName := NewWxString(fileName)
 	defer wxFileName.Free()
 	ptr := cgo_wxSVGFileDC_CreateWithSizeAndResolution(wxFileName.Ptr(), width, height, a_dpi)
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewSVGFileDCWithTitle(fileName string, title string) *SVGFileDC {
+	wxFileName := NewWxString(fileName)
+	defer wxFileName.Free()
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	ptr := cgo_wxSVGFileDC_CreateWithTitle(wxFileName.Ptr(), wxTitle.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewSVGFileDCWithSizeAndTitle(fileName string, width int, height int, title string) *SVGFileDC {
+	wxFileName := NewWxString(fileName)
+	defer wxFileName.Free()
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	ptr := cgo_wxSVGFileDC_CreateWithSizeAndTitle(wxFileName.Ptr(), width, height, wxTitle.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewSVGFileDCWithSizeResolutionAndTitle(fileName string, width int, height int, a_dpi float32, title string) *SVGFileDC {
+	wxFileName := NewWxString(fileName)
+	defer wxFileName.Free()
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	ptr := cgo_wxSVGFileDC_CreateWithSizeResolutionAndTitle(wxFileName.Ptr(), width, height, a_dpi, wxTitle.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewSVGFileDCFromSize(width int, height int) *SVGFileDC {
+	ptr := cgo_wxSVGFileDC_CreateFromSize(width, height)
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewSVGFileDCFromSizeWithFileAndTitle(width int, height int, fileName string, title string) *SVGFileDC {
+	wxFileName := NewWxString(fileName)
+	defer wxFileName.Free()
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	ptr := cgo_wxSVGFileDC_CreateFromSizeWithFileAndTitle(width, height, wxFileName.Ptr(), wxTitle.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &SVGFileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewSVGFileDCFromSizeWithFileTitleAndResolution(width int, height int, fileName string, title string, a_dpi float32) *SVGFileDC {
+	wxFileName := NewWxString(fileName)
+	defer wxFileName.Free()
+	wxTitle := NewWxString(title)
+	defer wxTitle.Free()
+	ptr := cgo_wxSVGFileDC_CreateFromSizeWithFileTitleAndResolution(width, height, wxFileName.Ptr(), wxTitle.Ptr(), a_dpi)
 	if ptr == nil {
 		return nil
 	}

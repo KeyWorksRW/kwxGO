@@ -60,6 +60,23 @@ func (o *GenericFileDialog) GetDirectory() string {
 	return WxStringToGoAndFree(retPtr)
 }
 
+func (o *GenericFileDialog) SetDirectory(dir string) {
+	wxDir := NewWxString(dir)
+	defer wxDir.Free()
+	cgo_wxGenericFileDialog_SetDirectory(o.Ptr(), wxDir.Ptr())
+}
+
+func (o *GenericFileDialog) GetMessage() string {
+	retPtr := cgo_wxGenericFileDialog_GetMessage(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+
+func (o *GenericFileDialog) SetMessage(message string) {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	cgo_wxGenericFileDialog_SetMessage(o.Ptr(), wxMessage.Ptr())
+}
+
 func (o *GenericFileDialog) GetFilename() string {
 	retPtr := cgo_wxGenericFileDialog_GetFilename(o.Ptr())
 	return WxStringToGoAndFree(retPtr)
@@ -92,6 +109,11 @@ func (o *GenericFileDialog) SetFilterIndex(filterIndex int) {
 
 func (o *GenericFileDialog) SetCustomizeHook(customizeHook unsafe.Pointer) bool {
 	return cgo_wxGenericFileDialog_SetCustomizeHook(o.Ptr(), customizeHook)
+}
+
+func (o *GenericFileDialog) GetCurrentlySelectedFilename() string {
+	retPtr := cgo_wxGenericFileDialog_GetCurrentlySelectedFilename(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
 }
 
 func (o *GenericFileDialog) Delete() {

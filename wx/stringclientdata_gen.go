@@ -58,3 +58,7 @@ func (o *StringClientData) SetData(data string) {
 	cgo_wxStringClientData_SetData(o.Ptr(), wxData.Ptr())
 }
 
+func StringClientData_FromClientData(data unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxStringClientData_FromClientData(data)
+}
+

@@ -107,3 +107,27 @@ func (o *Wizard) GetBitmapPlacement() int {
 	return cgo_wxWizard_GetBitmapPlacement(o.Ptr())
 }
 
+func (o *Wizard) IsRunning() bool {
+	return cgo_wxWizard_IsRunning(o.Ptr())
+}
+
+func (o *Wizard) SetBitmapBackgroundColour(colour unsafe.Pointer) {
+	cgo_wxWizard_SetBitmapBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *Wizard) GetBitmapBackgroundColour(ref unsafe.Pointer) {
+	cgo_wxWizard_GetBitmapBackgroundColour(o.Ptr(), ref)
+}
+
+func (o *Wizard) SetMinimumBitmapWidth(width int) {
+	cgo_wxWizard_SetMinimumBitmapWidth(o.Ptr(), width)
+}
+
+func (o *Wizard) GetMinimumBitmapWidth() int {
+	return cgo_wxWizard_GetMinimumBitmapWidth(o.Ptr())
+}
+
+func Wizard_TileBitmap(left int, top int, width int, height int, dc unsafe.Pointer, bitmap unsafe.Pointer) bool {
+	return cgo_wxWizard_TileBitmap(left, top, width, height, dc, bitmap)
+}
+

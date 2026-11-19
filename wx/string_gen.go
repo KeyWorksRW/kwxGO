@@ -63,3 +63,15 @@ func (o *String) Length() int {
 	return cgo_wxString_Length(o.Ptr())
 }
 
+func (o *String) ToLong(value unsafe.Pointer) bool {
+	return cgo_wxString_ToLong(o.Ptr(), value)
+}
+
+func (o *String) ToLongLong(value unsafe.Pointer) bool {
+	return cgo_wxString_ToLongLong(o.Ptr(), value)
+}
+
+func (o *String) ToDouble(value unsafe.Pointer) bool {
+	return cgo_wxString_ToDouble(o.Ptr(), value)
+}
+

@@ -44,6 +44,18 @@ func pointFromPtr(ptr unsafe.Pointer) Point {
 	return point
 }
 
+// RectApply writes r into a borrowed native wxRect* (e.g. the pointer an
+// AccGetLocationFunc callback receives). It does not allocate or free anything.
+func RectApply(ptr unsafe.Pointer, r Rect) {
+	if ptr == nil {
+		return
+	}
+	cgo_wxRect_SetX(ptr, r.X)
+	cgo_wxRect_SetY(ptr, r.Y)
+	cgo_wxRect_SetWidth(ptr, r.Width)
+	cgo_wxRect_SetHeight(ptr, r.Height)
+}
+
 // rectFromPtr converts a heap-allocated wxRect returned by the C layer into a
 // Rect value and releases the native object.
 func rectFromPtr(ptr unsafe.Pointer) Rect {

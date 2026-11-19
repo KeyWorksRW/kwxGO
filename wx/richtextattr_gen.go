@@ -71,3 +71,15 @@ func (o *RichTextAttr) HasTextBoxAttr() bool {
 	return cgo_wxRichTextAttr_HasTextBoxAttr(o.Ptr())
 }
 
+func (o *RichTextAttr) SetBackgroundColour(colour unsafe.Pointer) {
+	cgo_wxRichTextAttr_SetBackgroundColour(o.Ptr(), colour)
+}
+
+func (o *RichTextAttr) SetParagraphSpacingAfter(spacing int) {
+	cgo_wxRichTextAttr_SetParagraphSpacingAfter(o.Ptr(), spacing)
+}
+
+func (o *RichTextAttr) SetLineSpacing(spacing int) {
+	cgo_wxRichTextAttr_SetLineSpacing(o.Ptr(), spacing)
+}
+

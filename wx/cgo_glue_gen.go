@@ -64,10 +64,16 @@ extern int expwxHSCROLL(void);
 extern int expwxCAPTION(void);
 extern int expwxBORDER_THEME(void);
 extern int expwxBORDER_SUNKEN(void);
+extern int expwxSUNKEN_BORDER(void);
 extern int expwxBORDER_RAISED(void);
+extern int expwxRAISED_BORDER(void);
 extern int expwxBORDER_STATIC(void);
+extern int expwxSTATIC_BORDER(void);
 extern int expwxBORDER_SIMPLE(void);
+extern int expwxSIMPLE_BORDER(void);
+extern int expwxBORDER(void);
 extern int expwxBORDER_NONE(void);
+extern int expwxNO_BORDER(void);
 extern int expwxBORDER_DEFAULT(void);
 extern int expwxALWAYS_SHOW_SB(void);
 extern int expwxCLIP_CHILDREN(void);
@@ -200,6 +206,7 @@ extern int expwxCAL_NO_YEAR_CHANGE(void);
 extern int expwxCAL_NO_MONTH_CHANGE(void);
 extern int expwxICON_WARNING(void);
 extern int expwxICON_ERROR(void);
+extern int expwxICON_HAND(void);
 extern int expwxICON_QUESTION(void);
 extern int expwxICON_INFORMATION(void);
 extern int expwxFORWARD(void);
@@ -551,6 +558,8 @@ extern int expwxLIST_NEXT_LEFT(void);
 extern int expwxLIST_NEXT_RIGHT(void);
 extern int expwxRA_SPECIFY_COLS(void);
 extern int expwxRA_SPECIFY_ROWS(void);
+extern int expwxTEMPLATE_INVISIBLE(void);
+extern int expwxTEMPLATE_VISIBLE(void);
 extern int expwxTREE_HITTEST_ABOVE(void);
 extern int expwxTREE_HITTEST_BELOW(void);
 extern int expwxTREE_HITTEST_NOWHERE(void);
@@ -609,6 +618,39 @@ extern void* expwxITALIC_FONT(void);
 extern void* expwxNORMAL_FONT(void);
 extern void* expwxSMALL_FONT(void);
 extern void* expwxSWISS_FONT(void);
+extern int expwxPEN_STOCK_RED(void);
+extern int expwxPEN_STOCK_CYAN(void);
+extern int expwxPEN_STOCK_GREEN(void);
+extern int expwxPEN_STOCK_BLACK(void);
+extern int expwxPEN_STOCK_WHITE(void);
+extern int expwxPEN_STOCK_TRANSPARENT(void);
+extern int expwxPEN_STOCK_BLACK_DASHED(void);
+extern int expwxPEN_STOCK_GREY(void);
+extern int expwxPEN_STOCK_MEDIUM_GREY(void);
+extern int expwxPEN_STOCK_LIGHT_GREY(void);
+extern int expwxBRUSH_STOCK_BLUE(void);
+extern int expwxBRUSH_STOCK_GREEN(void);
+extern int expwxBRUSH_STOCK_WHITE(void);
+extern int expwxBRUSH_STOCK_BLACK(void);
+extern int expwxBRUSH_STOCK_GREY(void);
+extern int expwxBRUSH_STOCK_MEDIUM_GREY(void);
+extern int expwxBRUSH_STOCK_LIGHT_GREY(void);
+extern int expwxBRUSH_STOCK_TRANSPARENT(void);
+extern int expwxBRUSH_STOCK_CYAN(void);
+extern int expwxBRUSH_STOCK_RED(void);
+extern int expwxCOLOUR_STOCK_BLACK(void);
+extern int expwxCOLOUR_STOCK_WHITE(void);
+extern int expwxCOLOUR_STOCK_RED(void);
+extern int expwxCOLOUR_STOCK_BLUE(void);
+extern int expwxCOLOUR_STOCK_GREEN(void);
+extern int expwxCOLOUR_STOCK_CYAN(void);
+extern int expwxCOLOUR_STOCK_LIGHT_GREY(void);
+extern int expwxFONT_STOCK_ITALIC(void);
+extern int expwxFONT_STOCK_NORMAL(void);
+extern int expwxFONT_STOCK_SMALL(void);
+extern int expwxFONT_STOCK_SWISS(void);
+extern int expwxDebugReport_Context_Current(void);
+extern int expwxDebugReport_Context_Exception(void);
 extern int expwxNOT_FOUND(void);
 extern int expwxPRINTER_NO_ERROR(void);
 extern int expwxPRINTER_CANCELLED(void);
@@ -1105,6 +1147,7 @@ extern void* expwxART_CMN_DIALOG(void);
 extern void* expwxART_HELP_BROWSER(void);
 extern void* expwxART_MESSAGE_BOX(void);
 extern void* expwxART_BUTTON(void);
+extern void* expwxART_LIST(void);
 extern void* expwxART_OTHER(void);
 extern void* expwxART_ADD_BOOKMARK(void);
 extern void* expwxART_DEL_BOOKMARK(void);
@@ -1119,6 +1162,8 @@ extern void* expwxART_GO_UP(void);
 extern void* expwxART_GO_DOWN(void);
 extern void* expwxART_GO_TO_PARENT(void);
 extern void* expwxART_GO_HOME(void);
+extern void* expwxART_GOTO_FIRST(void);
+extern void* expwxART_GOTO_LAST(void);
 extern void* expwxART_FILE_OPEN(void);
 extern void* expwxART_FILE_SAVE(void);
 extern void* expwxART_FILE_SAVE_AS(void);
@@ -1143,6 +1188,7 @@ extern void* expwxART_ERROR(void);
 extern void* expwxART_QUESTION(void);
 extern void* expwxART_WARNING(void);
 extern void* expwxART_INFORMATION(void);
+extern void* expwxTRACE_OleCalls(void);
 extern void* expwxART_MISSING_IMAGE(void);
 extern void* expwxART_COPY(void);
 extern void* expwxART_CUT(void);
@@ -1151,10 +1197,17 @@ extern void* expwxART_DELETE(void);
 extern void* expwxART_NEW(void);
 extern void* expwxART_UNDO(void);
 extern void* expwxART_REDO(void);
+extern void* expwxART_PLUS(void);
+extern void* expwxART_MINUS(void);
+extern void* expwxART_CLOSE(void);
 extern void* expwxART_QUIT(void);
 extern void* expwxART_FIND(void);
 extern void* expwxART_FIND_AND_REPLACE(void);
 extern void* expwxART_FULL_SCREEN(void);
+extern void* expwxART_EDIT(void);
+extern void* expwxART_WX_LOGO(void);
+extern void* expwxART_REFRESH(void);
+extern void* expwxART_STOP(void);
 extern int expwxMINOR_VERSION(void);
 extern int expwxALPHA_OPAQUE(void);
 extern void* expwxVERSION_NUM_DOT_STRING(void);
@@ -1492,6 +1545,46 @@ extern int expwxAUI_TB_HORZ_TEXT(void);
 extern int expwxAUI_TB_OVERFLOW(void);
 extern int expwxAUI_TB_TEXT(void);
 extern int expwxAUI_TB_VERTICAL(void);
+extern int expwxAUI_DOCK_NONE(void);
+extern int expwxAUI_DOCK_TOP(void);
+extern int expwxAUI_DOCK_RIGHT(void);
+extern int expwxAUI_DOCK_BOTTOM(void);
+extern int expwxAUI_DOCK_LEFT(void);
+extern int expwxAUI_DOCK_CENTER(void);
+extern int expwxAUI_DOCK_CENTRE(void);
+extern int expwxAUI_BUTTON_CLOSE(void);
+extern int expwxAUI_BUTTON_MAXIMIZE_RESTORE(void);
+extern int expwxAUI_BUTTON_MINIMIZE(void);
+extern int expwxAUI_BUTTON_PIN(void);
+extern int expwxAUI_BUTTON_OPTIONS(void);
+extern int expwxAUI_BUTTON_WINDOWLIST(void);
+extern int expwxAUI_BUTTON_LEFT(void);
+extern int expwxAUI_BUTTON_RIGHT(void);
+extern int expwxAUI_BUTTON_UP(void);
+extern int expwxAUI_BUTTON_DOWN(void);
+extern int expwxAUI_BUTTON_CUSTOM1(void);
+extern int expwxAUI_BUTTON_CUSTOM2(void);
+extern int expwxAUI_BUTTON_CUSTOM3(void);
+extern int expwxAUI_BUTTON_STATE_NORMAL(void);
+extern int expwxAUI_BUTTON_STATE_HOVER(void);
+extern int expwxAUI_BUTTON_STATE_PRESSED(void);
+extern int expwxAUI_BUTTON_STATE_DISABLED(void);
+extern int expwxAUI_BUTTON_STATE_HIDDEN(void);
+extern int expwxAUI_BUTTON_STATE_CHECKED(void);
+extern int expwxAUI_INSERT_PANE(void);
+extern int expwxAUI_INSERT_ROW(void);
+extern int expwxAUI_INSERT_DOCK(void);
+extern int expwxAUI_TB_NO_TOOLTIPS(void);
+extern int expwxAUI_TB_NO_AUTORESIZE(void);
+extern int expwxAUI_TB_GRIPPER(void);
+extern int expwxAUI_TB_HORZ_LAYOUT(void);
+extern int expwxAUI_TB_PLAIN_BACKGROUND(void);
+extern int expwxAUI_MGR_DEFAULT(void);
+extern int expwxAUI_MGR_NO_VENETIAN_BLINDS_FADE(void);
+extern int expwxAUI_NB_MIDDLE_CLICK_CLOSE(void);
+extern int expwxAUI_TAB_NORMAL(void);
+extern int expwxAUI_TAB_PINNED(void);
+extern int expwxAUI_TAB_LOCKED(void);
 extern int expwxBATTERY_CRITICAL_STATE(void);
 extern int expwxBATTERY_LOW_STATE(void);
 extern int expwxBATTERY_NORMAL_STATE(void);
@@ -1615,12 +1708,22 @@ extern int expwxCONTROL_SPECIAL(void);
 extern int expwxCONTROL_UNDETERMINED(void);
 extern int expwxCURSOR_ARROWWAIT(void);
 extern int expwxColourData_NUM_CUSTOM(void);
+extern int expwxColourDatabase_CSS(void);
+extern int expwxColourDatabase_Traditional(void);
 extern int expwxDATAVIEW_CELL_ACTIVATABLE(void);
 extern int expwxDATAVIEW_CELL_EDITABLE(void);
 extern int expwxDATAVIEW_CELL_INERT(void);
 extern int expwxDATAVIEW_COL_REORDERABLE(void);
 extern int expwxDATAVIEW_COL_RESIZABLE(void);
 extern int expwxDATAVIEW_COL_SORTABLE(void);
+extern int expwxDV_SINGLE(void);
+extern int expwxDV_MULTIPLE(void);
+extern int expwxDV_NO_HEADER(void);
+extern int expwxDV_HORIZ_RULES(void);
+extern int expwxDV_VERT_RULES(void);
+extern int expwxDV_ROW_LINES(void);
+extern int expwxDV_VARIABLE_LINE_HEIGHT(void);
+extern int expwxDVR_DEFAULT_ALIGNMENT(void);
 extern int expwxCHOICEDLG_STYLE(void);
 extern int expwxDEFAULT_DIALOG_STYLE(void);
 extern int expwxDIALOG_ADAPTATION_MODE_ENABLED(void);
@@ -1630,11 +1733,13 @@ extern int expwxDIRCTRL_EDIT_LABELS(void);
 extern int expwxDIRCTRL_MULTIPLE(void);
 extern int expwxDIRCTRL_SELECT_FIRST(void);
 extern int expwxDIRCTRL_SHOW_FILTERS(void);
+extern int expwxDEFAULT_TEMPLATE_FLAGS(void);
 extern int expwxDIRP_CHANGE_DIR(void);
 extern int expwxDIRP_DEFAULT_STYLE(void);
 extern int expwxDIRP_DIR_MUST_EXIST(void);
 extern int expwxDIRP_SMALL(void);
 extern int expwxDIRP_USE_TEXTCTRL(void);
+extern int expwxDOC_NEW(void);
 extern int expwxDOC_SILENT(void);
 extern int expwxDOUBLE_BORDER(void);
 extern int expwxDP_ALLOWNONE(void);
@@ -1827,6 +1932,7 @@ extern int expwxMOUSE_BTN_LEFT(void);
 extern int expwxMOUSE_WHEEL_VERTICAL(void);
 extern int expwxNUM_VAL_NO_TRAILING_ZEROES(void);
 extern int expwxNUM_VAL_SIGN_PLUS(void);
+extern int expwxNUM_VAL_SIGN_SPACE(void);
 extern int expwxNUM_VAL_THOUSANDS_SEPARATOR(void);
 extern int expwxNUM_VAL_ZERO_AS_BLANK(void);
 extern int expwxNotificationMessage_Timeout_Auto(void);
@@ -1987,6 +2093,7 @@ extern int expwxRICHTEXT_TYPE_PDF(void);
 extern int expwxRICHTEXT_TYPE_RTF(void);
 extern int expwxRICHTEXT_TYPE_TEXT(void);
 extern int expwxRICHTEXT_TYPE_XML(void);
+extern int expwxRichTextFormattingDialog_Option_AllowPixelFontSize(void);
 extern int expwxSHOW_SB_DEFAULT(void);
 extern int expwxSHOW_SB_NEVER(void);
 extern int expwxSOCKET_BLOCK(void);
@@ -2030,6 +2137,8 @@ extern int expwxSYS_COLOUR_MAX(void);
 extern int expwxSYS_COLOUR_MENUBAR(void);
 extern int expwxSYS_COLOUR_MENUHILIGHT(void);
 extern int expwxS_DIR_DEFAULT(void);
+extern int expwxSysMetric_CursorSize(void);
+extern int expwxSysMetric_Other(void);
 extern int expwxTASKBAR_BUTTON_ERROR(void);
 extern int expwxTASKBAR_BUTTON_INDETERMINATE(void);
 extern int expwxTASKBAR_BUTTON_NORMAL(void);
@@ -2301,6 +2410,36 @@ func cgo_WxStringToGoAndFree(ptr unsafe.Pointer) string {
 	return s
 }
 
+// cgo_WxStringToGo reads a borrowed wxString without freeing it.
+func cgo_WxStringToGo(ptr unsafe.Pointer) string {
+	if ptr == nil {
+		return ""
+	}
+	buf := C.kwxUtf8Buffer_Create(ptr)
+	s := C.GoString(C.kwxUtf8Buffer_Data(buf))
+	C.kwxUtf8Buffer_Delete(buf)
+	return s
+}
+
+// cgo_CStringToGoAndFree converts a strdup'ed UTF-8 C string into a Go string,
+// then frees it with the library allocator.
+func cgo_CStringToGoAndFree(ptr unsafe.Pointer) string {
+	if ptr == nil {
+		return ""
+	}
+	s := C.GoString((*C.char)(ptr))
+	C.wxCFree(ptr)
+	return s
+}
+
+// cgo_CStringToGo reads a borrowed UTF-8 C string without freeing it.
+func cgo_CStringToGo(ptr unsafe.Pointer) string {
+	if ptr == nil {
+		return ""
+	}
+	return C.GoString((*C.char)(ptr))
+}
+
 // ----------------------------------------------------------------------
 // Class method glue functions
 // ----------------------------------------------------------------------
@@ -2391,6 +2530,128 @@ func cgo_wxAccessible_SetOnSelect(self unsafe.Pointer, pFunction unsafe.Pointer)
 
 func cgo_wxAccessible_SetOnGetFocus(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.wxAccessible_SetOnGetFocus(self, pFunction)
+}
+
+func cgo_wxAccessible_SetOnGetSelections(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.wxAccessible_SetOnGetSelections(self, pFunction)
+}
+
+func cgo_wxAccessible_SetOnHitTestWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnHitTestWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetLocationWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetLocationWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnNavigateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnNavigateWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetNameWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetNameWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetChildCountWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetChildCountWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetChildWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetChildWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetParentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetParentWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnDoDefaultActionWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnDoDefaultActionWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetDefaultActionWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetDefaultActionWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetDescriptionWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetDescriptionWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetHelpTextWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetHelpTextWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetKeyboardShortcutWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetKeyboardShortcutWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetRoleWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetRoleWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetStateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetStateWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetValueWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnSelectWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnSelectWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetFocusWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetFocusWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetOnGetSelectionsWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxAccessible_SetOnGetSelectionsWithData(self, pFunction, data)
+}
+
+func cgo_wxAccessible_SetHookResult(self unsafe.Pointer, result int) {
+	C.wxAccessible_SetHookResult(self, C.int(result))
+}
+
+func cgo_wxAccessible_SetHitTestResult(self unsafe.Pointer, childId int, childObject unsafe.Pointer) {
+	C.wxAccessible_SetHitTestResult(self, C.int(childId), childObject)
+}
+
+func cgo_wxAccessible_SetGetLocationResult(self unsafe.Pointer, x int, y int, width int, height int) {
+	C.wxAccessible_SetGetLocationResult(self, C.int(x), C.int(y), C.int(width), C.int(height))
+}
+
+func cgo_wxAccessible_SetNavigateResult(self unsafe.Pointer, toId int, toObject unsafe.Pointer) {
+	C.wxAccessible_SetNavigateResult(self, C.int(toId), toObject)
+}
+
+func cgo_wxAccessible_SetGetChildCountResult(self unsafe.Pointer, childCount int) {
+	C.wxAccessible_SetGetChildCountResult(self, C.int(childCount))
+}
+
+func cgo_wxAccessible_SetGetChildResult(self unsafe.Pointer, child unsafe.Pointer) {
+	C.wxAccessible_SetGetChildResult(self, child)
+}
+
+func cgo_wxAccessible_SetGetParentResult(self unsafe.Pointer, parent unsafe.Pointer) {
+	C.wxAccessible_SetGetParentResult(self, parent)
+}
+
+func cgo_wxAccessible_SetGetRoleResult(self unsafe.Pointer, role int) {
+	C.wxAccessible_SetGetRoleResult(self, C.int(role))
+}
+
+func cgo_wxAccessible_SetGetStateResult(self unsafe.Pointer, state int) {
+	C.wxAccessible_SetGetStateResult(self, C.int(state))
+}
+
+func cgo_wxAccessible_SetGetFocusResult(self unsafe.Pointer, childId int, child unsafe.Pointer) {
+	C.wxAccessible_SetGetFocusResult(self, C.int(childId), child)
+}
+
+func cgo_kwxAccString_SetValue(name unsafe.Pointer, value string) {
+	cValue := C.CString(value)
+	defer C.free(unsafe.Pointer(cValue))
+	C.kwxAccString_SetValue(name, cValue)
 }
 
 func cgo_wxWindow_SetAccessible(self unsafe.Pointer, accessible unsafe.Pointer) {
@@ -2499,6 +2760,10 @@ func cgo_wxWindow_GetClientRect(self unsafe.Pointer) unsafe.Pointer {
 
 func cgo_wxWindow_ClientToWindowSize(self unsafe.Pointer, width unsafe.Pointer, height unsafe.Pointer) {
 	C.wxWindow_ClientToWindowSize(self, (*C.int)(width), (*C.int)(height))
+}
+
+func cgo_wxWindow_SetSizeWH(self unsafe.Pointer, width int, height int) {
+	C.wxWindow_SetSizeWH(self, C.int(width), C.int(height))
 }
 
 func cgo_wxWindow_WindowToClientSize(self unsafe.Pointer, width unsafe.Pointer, height unsafe.Pointer) {
@@ -2739,6 +3004,18 @@ func cgo_wxWindow_FromDIP(self unsafe.Pointer, value int) int {
 
 func cgo_wxWindow_ToDIP(self unsafe.Pointer, value int) int {
 	return int(C.wxWindow_ToDIP(self, C.int(value)))
+}
+
+func cgo_wxWindow_FromDIPSize(self unsafe.Pointer, width int, height int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxWindow_FromDIPSize(self, C.int(width), C.int(height)))
+}
+
+func cgo_wxWindow_FromDIPSizeForWindow(width int, height int, window unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxWindow_FromDIPSizeForWindow(C.int(width), C.int(height), window))
+}
+
+func cgo_wxWindow_FromDIPSizeDefault(width int, height int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxWindow_FromDIPSizeDefault(C.int(width), C.int(height)))
 }
 
 func cgo_wxWindow_HasCapture(self unsafe.Pointer) bool {
@@ -3347,6 +3624,10 @@ func cgo_wxWindow_SetClientSize(self unsafe.Pointer, width int, height int) {
 
 func cgo_wxWindow_SetCursor(self unsafe.Pointer, cursor unsafe.Pointer) int {
 	return int(C.wxWindow_SetCursor(self, cursor))
+}
+
+func cgo_wxWindow_SetCursorBundle(self unsafe.Pointer, bundle unsafe.Pointer) {
+	C.wxWindow_SetCursorBundle(self, bundle)
 }
 
 func cgo_wxWindow_SetDropTarget(self unsafe.Pointer, dropTarget unsafe.Pointer) {
@@ -4169,6 +4450,12 @@ func cgo_wxBitmap_CreateFromXPM(data unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxBitmap_CreateFromXPM(data))
 }
 
+func cgo_wxBitmap_CreateFromXPMString(xpm string) unsafe.Pointer {
+	cXpm := C.CString(xpm)
+	defer C.free(unsafe.Pointer(cXpm))
+	return unsafe.Pointer(C.wxBitmap_CreateFromXPMString(cXpm))
+}
+
 func cgo_wxBitmap_CreateLoad(name unsafe.Pointer, typ int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxBitmap_CreateLoad(name, C.int(typ)))
 }
@@ -4883,6 +5170,12 @@ func cgo_Cursor_CreateFromImage(image unsafe.Pointer) unsafe.Pointer {
 
 func cgo_Cursor_CreateLoad(name unsafe.Pointer, typ int, width int, height int) unsafe.Pointer {
 	return unsafe.Pointer(C.Cursor_CreateLoad(name, C.long(typ), C.int(width), C.int(height)))
+}
+
+func cgo_Cursor_CreateFromXPMString(xpm string) unsafe.Pointer {
+	cXpm := C.CString(xpm)
+	defer C.free(unsafe.Pointer(cXpm))
+	return unsafe.Pointer(C.Cursor_CreateFromXPMString(cXpm))
 }
 
 func cgo_wxDateTime_Delete(self unsafe.Pointer) {
@@ -5961,8 +6254,16 @@ func cgo_wxDragImage_BeginDragFullScreen(self unsafe.Pointer, x_pos int, y_pos i
 	return C.wxDragImage_BeginDragFullScreen(self, C.int(x_pos), C.int(y_pos), window, boolToInt(fullScreen), rect) != 0
 }
 
+func cgo_wxDragImage_BeginDragFullScreenDefault(self unsafe.Pointer, x_pos int, y_pos int, window unsafe.Pointer, fullScreen bool) bool {
+	return C.wxDragImage_BeginDragFullScreenDefault(self, C.int(x_pos), C.int(y_pos), window, boolToInt(fullScreen)) != 0
+}
+
 func cgo_wxDragImage_Create(image unsafe.Pointer, x int, y int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDragImage_Create(image, C.int(x), C.int(y)))
+}
+
+func cgo_wxDragImage_CreateWithCursor(image unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDragImage_CreateWithCursor(image, cursor))
 }
 
 func cgo_wxDragImage_Delete(self unsafe.Pointer) {
@@ -6045,6 +6346,14 @@ func cgo_wxEvent_SetTimestamp(self unsafe.Pointer, timestamp int) {
 
 func cgo_wxEvent_Skip(self unsafe.Pointer, skip bool) {
 	C.wxEvent_Skip(self, boolToInt(skip))
+}
+
+func cgo_wxEvent_StopPropagation(self unsafe.Pointer) int {
+	return int(C.wxEvent_StopPropagation(self))
+}
+
+func cgo_wxEvent_ResumePropagation(self unsafe.Pointer, propagationLevel int) {
+	C.wxEvent_ResumePropagation(self, C.int(propagationLevel))
 }
 
 func cgo_wxEvent_SetOnClone(self unsafe.Pointer, pFunction unsafe.Pointer) {
@@ -6215,6 +6524,14 @@ func cgo_wxStringOutputStream_GetString(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxStringOutputStream_GetString(self))
 }
 
+func cgo_wxStringInputStream_Create(str unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxStringInputStream_Create(str))
+}
+
+func cgo_wxStringInputStream_Delete(self unsafe.Pointer) {
+	C.wxStringInputStream_Delete(self)
+}
+
 func cgo_wxFrame_Centre(self unsafe.Pointer, orientation int) {
 	C.wxFrame_Centre(self, C.int(orientation))
 }
@@ -6381,6 +6698,10 @@ func cgo_wxGCDC_CreateFromMemory(dc unsafe.Pointer) unsafe.Pointer {
 
 func cgo_wxGCDC_CreateFromPrinter(dc unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGCDC_CreateFromPrinter(dc))
+}
+
+func cgo_wxGCDC_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxGCDC_CreateDefault())
 }
 
 func cgo_wxGCDC_Delete(self unsafe.Pointer) {
@@ -6579,6 +6900,18 @@ func cgo_wxGraphicsContext_CreatePen(self unsafe.Pointer, pen unsafe.Pointer) un
 	return unsafe.Pointer(C.wxGraphicsContext_CreatePen(self, pen))
 }
 
+func cgo_wxGraphicsContext_CreatePenFromInfo(self unsafe.Pointer, info unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsContext_CreatePenFromInfo(self, info))
+}
+
+func cgo_wxGraphicsContext_CreateLinearGradientBrushFromStops(self unsafe.Pointer, x1 float64, y1 float64, x2 float64, y2 float64, stops unsafe.Pointer, matrix unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsContext_CreateLinearGradientBrushFromStops(self, C.double(x1), C.double(y1), C.double(x2), C.double(y2), stops, matrix))
+}
+
+func cgo_wxGraphicsContext_CreateRadialGradientBrushFromStops(self unsafe.Pointer, startX float64, startY float64, endX float64, endY float64, radius float64, stops unsafe.Pointer, matrix unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsContext_CreateRadialGradientBrushFromStops(self, C.double(startX), C.double(startY), C.double(endX), C.double(endY), C.double(radius), stops, matrix))
+}
+
 func cgo_wxGraphicsContext_CreateRadialGradientBrush(self unsafe.Pointer, startX float64, startY float64, endX float64, endY float64, radius float64, oColor unsafe.Pointer, cColor unsafe.Pointer, matrix unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGraphicsContext_CreateRadialGradientBrush(self, C.double(startX), C.double(startY), C.double(endX), C.double(endY), C.double(radius), oColor, cColor, matrix))
 }
@@ -6653,6 +6986,10 @@ func cgo_wxGraphicsContext_Delete(self unsafe.Pointer) {
 
 func cgo_wxGraphicsContext_DrawBitmap(self unsafe.Pointer, bmp unsafe.Pointer, x float64, y float64, width float64, height float64) {
 	C.wxGraphicsContext_DrawBitmap(self, bmp, C.double(x), C.double(y), C.double(width), C.double(height))
+}
+
+func cgo_wxGraphicsContext_DrawGraphicsBitmap(self unsafe.Pointer, bmp unsafe.Pointer, x float64, y float64, width float64, height float64) {
+	C.wxGraphicsContext_DrawGraphicsBitmap(self, bmp, C.double(x), C.double(y), C.double(width), C.double(height))
 }
 
 func cgo_wxGraphicsContext_DrawEllipse(self unsafe.Pointer, x float64, y float64, width float64, height float64) {
@@ -6935,12 +7272,76 @@ func cgo_wxGraphicsPen_Delete(self unsafe.Pointer) {
 	C.wxGraphicsPen_Delete(self)
 }
 
+func cgo_wxGraphicsGradientStops_Create(startColour unsafe.Pointer, endColour unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsGradientStops_Create(startColour, endColour))
+}
+
+func cgo_wxGraphicsGradientStops_Add(self unsafe.Pointer, colour unsafe.Pointer, pos float32) {
+	C.wxGraphicsGradientStops_Add(self, colour, C.float(pos))
+}
+
+func cgo_wxGraphicsGradientStops_GetCount(self unsafe.Pointer) int {
+	return int(C.wxGraphicsGradientStops_GetCount(self))
+}
+
+func cgo_wxGraphicsGradientStops_GetStartColour(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsGradientStops_GetStartColour(self))
+}
+
+func cgo_wxGraphicsGradientStops_SetStartColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxGraphicsGradientStops_SetStartColour(self, colour)
+}
+
+func cgo_wxGraphicsGradientStops_GetEndColour(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsGradientStops_GetEndColour(self))
+}
+
+func cgo_wxGraphicsGradientStops_SetEndColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxGraphicsGradientStops_SetEndColour(self, colour)
+}
+
+func cgo_wxGraphicsGradientStops_Delete(self unsafe.Pointer) {
+	C.wxGraphicsGradientStops_Delete(self)
+}
+
+func cgo_wxGraphicsPenInfo_Create(colour unsafe.Pointer, width float64, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsPenInfo_Create(colour, C.double(width), C.int(style)))
+}
+
+func cgo_wxGraphicsPenInfo_Delete(self unsafe.Pointer) {
+	C.wxGraphicsPenInfo_Delete(self)
+}
+
+func cgo_wxGraphicsPenInfo_SetWidth(self unsafe.Pointer, width float64) {
+	C.wxGraphicsPenInfo_SetWidth(self, C.double(width))
+}
+
+func cgo_wxGraphicsPenInfo_SetLinearGradient(self unsafe.Pointer, x1 float64, y1 float64, x2 float64, y2 float64, c1 unsafe.Pointer, c2 unsafe.Pointer) {
+	C.wxGraphicsPenInfo_SetLinearGradient(self, C.double(x1), C.double(y1), C.double(x2), C.double(y2), c1, c2)
+}
+
+func cgo_wxGraphicsPenInfo_SetLinearGradientStops(self unsafe.Pointer, x1 float64, y1 float64, x2 float64, y2 float64, stops unsafe.Pointer) {
+	C.wxGraphicsPenInfo_SetLinearGradientStops(self, C.double(x1), C.double(y1), C.double(x2), C.double(y2), stops)
+}
+
+func cgo_wxGraphicsPenInfo_SetRadialGradient(self unsafe.Pointer, startX float64, startY float64, endX float64, endY float64, radius float64, oColor unsafe.Pointer, cColor unsafe.Pointer) {
+	C.wxGraphicsPenInfo_SetRadialGradient(self, C.double(startX), C.double(startY), C.double(endX), C.double(endY), C.double(radius), oColor, cColor)
+}
+
+func cgo_wxGraphicsPenInfo_SetRadialGradientStops(self unsafe.Pointer, startX float64, startY float64, endX float64, endY float64, radius float64, stops unsafe.Pointer) {
+	C.wxGraphicsPenInfo_SetRadialGradientStops(self, C.double(startX), C.double(startY), C.double(endX), C.double(endY), C.double(radius), stops)
+}
+
 func cgo_wxGraphicsRenderer_CreateContext(self unsafe.Pointer, dc unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGraphicsRenderer_CreateContext(self, dc))
 }
 
 func cgo_wxGraphicsRenderer_CreateContextFromWindow(self unsafe.Pointer, window unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGraphicsRenderer_CreateContextFromWindow(self, window))
+}
+
+func cgo_wxGraphicsRenderer_CreateContextFromMemory(self unsafe.Pointer, dc unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsRenderer_CreateContextFromMemory(self, dc))
 }
 
 func cgo_wxGraphicsRenderer_CreateContextFromNativeContext(self unsafe.Pointer, context unsafe.Pointer) unsafe.Pointer {
@@ -6957,6 +7358,10 @@ func cgo_wxGraphicsRenderer_CreatePath(self unsafe.Pointer) unsafe.Pointer {
 
 func cgo_wxGraphicsRenderer_Delete(self unsafe.Pointer) {
 	C.wxGraphicsRenderer_Delete(self)
+}
+
+func cgo_wxGraphicsRenderer_GetCairoRenderer(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGraphicsRenderer_GetCairoRenderer(self))
 }
 
 func cgo_wxGraphicsRenderer_GetDefaultRenderer(self unsafe.Pointer) unsafe.Pointer {
@@ -7983,6 +8388,10 @@ func cgo_wxListCtrl_SetItemPtrData(self unsafe.Pointer, item int, data uintptr) 
 	return C.wxListCtrl_SetItemPtrData(self, C.long(item), C.uintptr_t(data)) != 0
 }
 
+func cgo_wxListCtrl_GetItemPtrData(self unsafe.Pointer, item int) uintptr {
+	return uintptr(C.wxListCtrl_GetItemPtrData(self, C.long(item)))
+}
+
 func cgo_wxListCtrl_GetItemTextColour(self unsafe.Pointer, item int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxListCtrl_GetItemTextColour(self, C.long(item)))
 }
@@ -8351,8 +8760,8 @@ func cgo_wxListEvent_GetColumn(self unsafe.Pointer) int {
 	return int(C.wxListEvent_GetColumn(self))
 }
 
-func cgo_wxListEvent_GetData(self unsafe.Pointer) int {
-	return int(C.wxListEvent_GetData(self))
+func cgo_wxListEvent_GetData(self unsafe.Pointer) uintptr {
+	return uintptr(C.wxListEvent_GetData(self))
 }
 
 func cgo_wxListEvent_GetImage(self unsafe.Pointer) int {
@@ -8533,6 +8942,10 @@ func cgo_wxMenu_Check(self unsafe.Pointer, id int, check bool) {
 
 func cgo_wxMenu_Create(title unsafe.Pointer, style int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxMenu_Create(title, C.long(style)))
+}
+
+func cgo_wxMenu_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxMenu_CreateDefault())
 }
 
 func cgo_wxMenu_DeleteById(self unsafe.Pointer, id int) {
@@ -9391,6 +9804,12 @@ func cgo_wxObject_IsScrolledWindow(self unsafe.Pointer) bool {
 	return C.wxObject_IsScrolledWindow(self) != 0
 }
 
+func cgo_wxObject_IsOfClass(self unsafe.Pointer, className string) bool {
+	cClassName := C.CString(className)
+	defer C.free(unsafe.Pointer(cClassName))
+	return C.wxObject_IsOfClass(self, cClassName) != 0
+}
+
 func cgo_wxObject_SetClientClosure(self unsafe.Pointer, closure unsafe.Pointer) {
 	C.wxObject_SetClientClosure(self, closure)
 }
@@ -9901,6 +10320,22 @@ func cgo_wxScrolledWindow_DisableKeyboardScrolling(self unsafe.Pointer) {
 
 func cgo_wxScrolledWindow_GetViewStartPixels(self unsafe.Pointer, x unsafe.Pointer, y unsafe.Pointer) {
 	C.wxScrolledWindow_GetViewStartPixels(self, (*C.int)(x), (*C.int)(y))
+}
+
+func cgo_wxScrolledWindow_EnableAutoScrollInside(self unsafe.Pointer, insideWidth int) {
+	C.wxScrolledWindow_EnableAutoScrollInside(self, C.int(insideWidth))
+}
+
+func cgo_wxScrolledWindow_DisableAutoScrollOutside(self unsafe.Pointer) {
+	C.wxScrolledWindow_DisableAutoScrollOutside(self)
+}
+
+func cgo_wxScrolledWindow_EnableAutoscrollWithoutCapture(self unsafe.Pointer) {
+	C.wxScrolledWindow_EnableAutoscrollWithoutCapture(self)
+}
+
+func cgo_wxScrolledWindow_DisableAutoscrollWithoutCapture(self unsafe.Pointer) {
+	C.wxScrolledWindow_DisableAutoscrollWithoutCapture(self)
 }
 
 func cgo_wxSockAddress_Clear(self unsafe.Pointer) {
@@ -13961,6 +14396,106 @@ func cgo_wxXmlNode_SetNoConversion(self unsafe.Pointer, no_conversion bool) {
 	C.wxXmlNode_SetNoConversion(self, boolToInt(no_conversion))
 }
 
+func cgo_wxXmlDocument_LoadFile(self unsafe.Pointer, filename unsafe.Pointer, flags int) bool {
+	return C.wxXmlDocument_LoadFile(self, filename, C.int(flags)) != 0
+}
+
+func cgo_wxXmlDocument_LoadStream(self unsafe.Pointer, stream unsafe.Pointer, flags int) bool {
+	return C.wxXmlDocument_LoadStream(self, stream, C.int(flags)) != 0
+}
+
+func cgo_wxXmlDocument_SaveFile(self unsafe.Pointer, filename unsafe.Pointer, indentstep int) bool {
+	return C.wxXmlDocument_SaveFile(self, filename, C.int(indentstep)) != 0
+}
+
+func cgo_wxXmlDocument_SaveStream(self unsafe.Pointer, stream unsafe.Pointer, indentstep int) bool {
+	return C.wxXmlDocument_SaveStream(self, stream, C.int(indentstep)) != 0
+}
+
+func cgo_wxXmlDocument_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_Create())
+}
+
+func cgo_wxXmlDocument_GetDocumentNode(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_GetDocumentNode(self))
+}
+
+func cgo_wxXmlDocument_CreateFromFile(file_name unsafe.Pointer, flags int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_CreateFromFile(file_name, C.int(flags)))
+}
+
+func cgo_wxXmlDocument_CreateFromString(text unsafe.Pointer, flags int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_CreateFromString(text, C.int(flags)))
+}
+
+func cgo_wxXmlDocument_Delete(self unsafe.Pointer) {
+	C.wxXmlDocument_Delete(self)
+}
+
+func cgo_wxXmlDocument_Load(self unsafe.Pointer, file_name unsafe.Pointer, flags int) bool {
+	return C.wxXmlDocument_Load(self, file_name, C.int(flags)) != 0
+}
+
+func cgo_wxXmlDocument_LoadFromString(self unsafe.Pointer, text unsafe.Pointer, flags int) bool {
+	return C.wxXmlDocument_LoadFromString(self, text, C.int(flags)) != 0
+}
+
+func cgo_wxXmlDocument_Save(self unsafe.Pointer, file_name unsafe.Pointer, indent_step int) bool {
+	return C.wxXmlDocument_Save(self, file_name, C.int(indent_step)) != 0
+}
+
+func cgo_wxXmlDocument_SaveToString(self unsafe.Pointer, indent_step int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_SaveToString(self, C.int(indent_step)))
+}
+
+func cgo_wxXmlDocument_GetRoot(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_GetRoot(self))
+}
+
+func cgo_wxXmlDocument_SetRoot(self unsafe.Pointer, root unsafe.Pointer) {
+	C.wxXmlDocument_SetRoot(self, root)
+}
+
+func cgo_wxXmlDocument_DetachRoot(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_DetachRoot(self))
+}
+
+func cgo_wxXmlDocument_GetVersion(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_GetVersion(self))
+}
+
+func cgo_wxXmlDocument_SetVersion(self unsafe.Pointer, version unsafe.Pointer) {
+	C.wxXmlDocument_SetVersion(self, version)
+}
+
+func cgo_wxXmlDocument_GetFileEncoding(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxXmlDocument_GetFileEncoding(self))
+}
+
+func cgo_wxXmlDocument_SetFileEncoding(self unsafe.Pointer, encoding unsafe.Pointer) {
+	C.wxXmlDocument_SetFileEncoding(self, encoding)
+}
+
+func cgo_wxXmlDocument_GetFileType(self unsafe.Pointer) int {
+	return int(C.wxXmlDocument_GetFileType(self))
+}
+
+func cgo_wxXmlDocument_SetFileType(self unsafe.Pointer, file_type int) {
+	C.wxXmlDocument_SetFileType(self, C.int(file_type))
+}
+
+func cgo_wxXmlDocument_AppendToProlog(self unsafe.Pointer, node unsafe.Pointer) {
+	C.wxXmlDocument_AppendToProlog(self, node)
+}
+
+func cgo_wxXmlDocument_AppendChild(self unsafe.Pointer, child unsafe.Pointer) bool {
+	return C.wxXmlDocument_AppendChild(self, child) != 0
+}
+
+func cgo_wxXmlDocument_IsOk(self unsafe.Pointer) bool {
+	return C.wxXmlDocument_IsOk(self) != 0
+}
+
 func cgo_wxFSFile_Delete(self unsafe.Pointer) {
 	C.wxFSFile_Delete(self)
 }
@@ -15289,6 +15824,10 @@ func cgo_wxCmdLineParser_ParseStringArgs(self unsafe.Pointer, command_line unsaf
 	return int(C.wxCmdLineParser_ParseStringArgs(self, command_line))
 }
 
+func cgo_wxCmdLineParser_ParseArgv(self unsafe.Pointer, argc int, argv unsafe.Pointer) int {
+	return int(C.wxCmdLineParser_ParseArgv(self, C.int(argc), (**C.char)(argv)))
+}
+
 func cgo_wxCmdLineParser_Found(self unsafe.Pointer, name unsafe.Pointer) bool {
 	return C.wxCmdLineParser_Found(self, name) != 0
 }
@@ -15367,6 +15906,22 @@ func cgo_wxVariant_CreateFromObject(value unsafe.Pointer, name unsafe.Pointer) u
 
 func cgo_wxVariant_CreateFromArrayString(value unsafe.Pointer, name unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxVariant_CreateFromArrayString(value, name))
+}
+
+func cgo_wxVariant_CreateFromDataViewIconText(text unsafe.Pointer, icon unsafe.Pointer, name unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxVariant_CreateFromDataViewIconText(text, icon, name))
+}
+
+func cgo_wxVariant_CreateFromDataViewCheckIconText(text unsafe.Pointer, icon unsafe.Pointer, checkedState int, name unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxVariant_CreateFromDataViewCheckIconText(text, icon, C.int(checkedState), name))
+}
+
+func cgo_wxVariant_GetDataViewIconText(self unsafe.Pointer, result unsafe.Pointer) bool {
+	return C.wxVariant_GetDataViewIconText(self, result) != 0
+}
+
+func cgo_wxVariant_GetDataViewCheckIconText(self unsafe.Pointer, result unsafe.Pointer) bool {
+	return C.wxVariant_GetDataViewCheckIconText(self, result) != 0
 }
 
 func cgo_wxVariant_SetName(self unsafe.Pointer, name unsafe.Pointer) {
@@ -15519,6 +16074,130 @@ func cgo_wxVariant_GetLong(self unsafe.Pointer) int {
 
 func cgo_wxVariant_GetDouble(self unsafe.Pointer) float64 {
 	return float64(C.wxVariant_GetDouble(self))
+}
+
+func cgo_wxDebugReport_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReport_Create())
+}
+
+func cgo_wxDebugReport_Delete(self unsafe.Pointer) {
+	C.wxDebugReport_Delete(self)
+}
+
+func cgo_wxDebugReport_GetDirectory(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReport_GetDirectory(self))
+}
+
+func cgo_wxDebugReport_IsOk(self unsafe.Pointer) bool {
+	return C.wxDebugReport_IsOk(self) != 0
+}
+
+func cgo_wxDebugReport_Reset(self unsafe.Pointer) {
+	C.wxDebugReport_Reset(self)
+}
+
+func cgo_wxDebugReport_AddFile(self unsafe.Pointer, filename unsafe.Pointer, description unsafe.Pointer) {
+	C.wxDebugReport_AddFile(self, filename, description)
+}
+
+func cgo_wxDebugReport_AddText(self unsafe.Pointer, filename unsafe.Pointer, text unsafe.Pointer, description unsafe.Pointer) bool {
+	return C.wxDebugReport_AddText(self, filename, text, description) != 0
+}
+
+func cgo_wxDebugReport_AddContext(self unsafe.Pointer, ctx int) bool {
+	return C.wxDebugReport_AddContext(self, C.int(ctx)) != 0
+}
+
+func cgo_wxDebugReport_AddCurrentContext(self unsafe.Pointer) bool {
+	return C.wxDebugReport_AddCurrentContext(self) != 0
+}
+
+func cgo_wxDebugReport_AddExceptionContext(self unsafe.Pointer) bool {
+	return C.wxDebugReport_AddExceptionContext(self) != 0
+}
+
+func cgo_wxDebugReport_AddDump(self unsafe.Pointer, ctx int) bool {
+	return C.wxDebugReport_AddDump(self, C.int(ctx)) != 0
+}
+
+func cgo_wxDebugReport_AddCurrentDump(self unsafe.Pointer) bool {
+	return C.wxDebugReport_AddCurrentDump(self) != 0
+}
+
+func cgo_wxDebugReport_AddExceptionDump(self unsafe.Pointer) bool {
+	return C.wxDebugReport_AddExceptionDump(self) != 0
+}
+
+func cgo_wxDebugReport_AddAll(self unsafe.Pointer, context int) {
+	C.wxDebugReport_AddAll(self, C.int(context))
+}
+
+func cgo_wxDebugReport_Process(self unsafe.Pointer) bool {
+	return C.wxDebugReport_Process(self) != 0
+}
+
+func cgo_wxDebugReport_GetReportName(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReport_GetReportName(self))
+}
+
+func cgo_wxDebugReport_GetFilesCount(self unsafe.Pointer) int {
+	return int(C.wxDebugReport_GetFilesCount(self))
+}
+
+func cgo_wxDebugReport_GetFileName(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReport_GetFileName(self, C.size_t(index)))
+}
+
+func cgo_wxDebugReport_GetFileDescription(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReport_GetFileDescription(self, C.size_t(index)))
+}
+
+func cgo_wxDebugReport_RemoveFile(self unsafe.Pointer, name unsafe.Pointer) {
+	C.wxDebugReport_RemoveFile(self, name)
+}
+
+func cgo_wxDebugReportCompress_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReportCompress_Create())
+}
+
+func cgo_wxDebugReportCompress_Delete(self unsafe.Pointer) {
+	C.wxDebugReportCompress_Delete(self)
+}
+
+func cgo_wxDebugReportCompress_SetCompressedFileDirectory(self unsafe.Pointer, dir unsafe.Pointer) {
+	C.wxDebugReportCompress_SetCompressedFileDirectory(self, dir)
+}
+
+func cgo_wxDebugReportCompress_SetCompressedFileBaseName(self unsafe.Pointer, name unsafe.Pointer) {
+	C.wxDebugReportCompress_SetCompressedFileBaseName(self, name)
+}
+
+func cgo_wxDebugReportCompress_GetCompressedFileName(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReportCompress_GetCompressedFileName(self))
+}
+
+func cgo_wxDebugReportUpload_Create(url unsafe.Pointer, input unsafe.Pointer, action unsafe.Pointer, curl unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReportUpload_Create(url, input, action, curl))
+}
+
+func cgo_wxDebugReportUpload_CreateDefault(url unsafe.Pointer, input unsafe.Pointer, action unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReportUpload_CreateDefault(url, input, action))
+}
+
+func cgo_wxDebugReportUpload_Delete(self unsafe.Pointer) {
+	C.wxDebugReportUpload_Delete(self)
+}
+
+func cgo_wxDebugReportPreviewStd_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDebugReportPreviewStd_Create())
+}
+
+func cgo_wxDebugReportPreviewStd_Delete(self unsafe.Pointer) {
+	C.wxDebugReportPreviewStd_Delete(self)
+}
+
+func cgo_wxDebugReportPreviewStd_Show(self unsafe.Pointer, report unsafe.Pointer) bool {
+	return C.wxDebugReportPreviewStd_Show(self, report) != 0
 }
 
 func cgo_wxCredentialEntryDialog_Create(parent unsafe.Pointer, message unsafe.Pointer, title unsafe.Pointer, user unsafe.Pointer, password unsafe.Pointer) unsafe.Pointer {
@@ -15765,6 +16444,18 @@ func cgo_wxGenericFileDialog_GetDirectory(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGenericFileDialog_GetDirectory(self))
 }
 
+func cgo_wxGenericFileDialog_SetDirectory(self unsafe.Pointer, dir unsafe.Pointer) {
+	C.wxGenericFileDialog_SetDirectory(self, dir)
+}
+
+func cgo_wxGenericFileDialog_GetMessage(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericFileDialog_GetMessage(self))
+}
+
+func cgo_wxGenericFileDialog_SetMessage(self unsafe.Pointer, message unsafe.Pointer) {
+	C.wxGenericFileDialog_SetMessage(self, message)
+}
+
 func cgo_wxGenericFileDialog_GetFilename(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGenericFileDialog_GetFilename(self))
 }
@@ -15791,6 +16482,10 @@ func cgo_wxGenericFileDialog_SetFilterIndex(self unsafe.Pointer, filterIndex int
 
 func cgo_wxGenericFileDialog_SetCustomizeHook(self unsafe.Pointer, customizeHook unsafe.Pointer) bool {
 	return C.wxGenericFileDialog_SetCustomizeHook(self, customizeHook) != 0
+}
+
+func cgo_wxGenericFileDialog_GetCurrentlySelectedFilename(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericFileDialog_GetCurrentlySelectedFilename(self))
 }
 
 func cgo_wxGenericFileDialog_Delete(self unsafe.Pointer) {
@@ -15895,6 +16590,10 @@ func cgo_wxNumValidator_SetMin(self unsafe.Pointer, min_value int) {
 
 func cgo_wxNumValidator_SetMinDouble(self unsafe.Pointer, min_value float64) {
 	C.wxNumValidator_SetMinDouble(self, C.double(min_value))
+}
+
+func cgo_wxNumValidator_SetPrecision(self unsafe.Pointer, precision int) {
+	C.wxNumValidator_SetPrecision(self, C.int(precision))
 }
 
 func cgo_wxNumValidator_SetRange(self unsafe.Pointer, min_value int, max_value int) {
@@ -17841,6 +18540,42 @@ func cgo_kwxApp_SetOnCreateTraits(self unsafe.Pointer, pFunction unsafe.Pointer)
 	C.kwxApp_SetOnCreateTraits(self, pFunction)
 }
 
+func cgo_kwxApp_SetOnOnFatalException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxApp_SetOnOnFatalException(self, pFunction)
+}
+
+func cgo_kwxApp_SetOnOnUnhandledException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxApp_SetOnOnUnhandledException(self, pFunction)
+}
+
+func cgo_kwxApp_SetOnStoreCurrentException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxApp_SetOnStoreCurrentException(self, pFunction)
+}
+
+func cgo_kwxApp_SetOnOnExceptionInMainLoop(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxApp_SetOnOnExceptionInMainLoop(self, pFunction)
+}
+
+func cgo_kwxApp_SetOnRethrowStoredException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxApp_SetOnRethrowStoredException(self, pFunction)
+}
+
+func cgo_kwxDebugReportUpload_Create(pObject unsafe.Pointer, url unsafe.Pointer, input unsafe.Pointer, action unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDebugReportUpload_Create(pObject, url, input, action))
+}
+
+func cgo_kwxDebugReportUpload_Delete(self unsafe.Pointer) {
+	C.kwxDebugReportUpload_Delete(self)
+}
+
+func cgo_kwxDebugReportUpload_SetOnOnServerReply(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxDebugReportUpload_SetOnOnServerReply(self, pFunction)
+}
+
+func cgo_kwxDebugReportUpload_SetOnServerReplyResult(self unsafe.Pointer, result bool) {
+	C.kwxDebugReportUpload_SetOnServerReplyResult(self, boolToInt(result))
+}
+
 func cgo_kwxObject_Create(pObject unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxObject_Create(pObject))
 }
@@ -17899,6 +18634,46 @@ func cgo_kwxEvtHandler_Delete(self unsafe.Pointer) {
 
 func cgo_kwxEvtHandler_SetOnProcessEvent(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.kwxEvtHandler_SetOnProcessEvent(self, pFunction)
+}
+
+func cgo_kwxFrame_Create(parent unsafe.Pointer, id int, title unsafe.Pointer, x int, y int, width int, height int, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxFrame_Create(parent, C.int(id), title, C.int(x), C.int(y), C.int(width), C.int(height), C.long(style)))
+}
+
+func cgo_kwxFrame_Delete(self unsafe.Pointer) {
+	C.kwxFrame_Delete(self)
+}
+
+func cgo_kwxFrame_SetCallbackObject(self unsafe.Pointer, object unsafe.Pointer) {
+	C.kwxFrame_SetCallbackObject(self, object)
+}
+
+func cgo_kwxFrame_GetCallbackObject(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxFrame_GetCallbackObject(self))
+}
+
+func cgo_kwxFrame_SetOnProcessEvent(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxFrame_SetOnProcessEvent(self, pFunction)
+}
+
+func cgo_kwxFrame_SetOnProcessEventWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFrame_SetOnProcessEventWithData(self, pFunction, data)
+}
+
+func cgo_kwxFrame_SetProcessEventResult(self unsafe.Pointer, result bool) {
+	C.kwxFrame_SetProcessEventResult(self, boolToInt(result))
+}
+
+func cgo_kwxFrame_SetOnTryBefore(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxFrame_SetOnTryBefore(self, pFunction)
+}
+
+func cgo_kwxFrame_SetOnTryBeforeWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFrame_SetOnTryBeforeWithData(self, pFunction, data)
+}
+
+func cgo_kwxFrame_SetTryBeforeResult(self unsafe.Pointer, result bool) {
+	C.kwxFrame_SetTryBeforeResult(self, boolToInt(result))
 }
 
 func cgo_kwxVarHScrollHelper_Create(winToScroll unsafe.Pointer, pObject unsafe.Pointer) unsafe.Pointer {
@@ -18333,6 +19108,70 @@ func cgo_kwxDocument_SetOnOnOpenDocument(self unsafe.Pointer, pFunction unsafe.P
 	C.kwxDocument_SetOnOnOpenDocument(self, pFunction)
 }
 
+func cgo_kwxDocument_SetOnDoOpenDocumentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDocument_SetOnDoOpenDocumentWithData(self, pFunction, data)
+}
+
+func cgo_kwxDocument_SetDoOpenDocumentResult(self unsafe.Pointer, result bool) {
+	C.kwxDocument_SetDoOpenDocumentResult(self, boolToInt(result))
+}
+
+func cgo_kwxDocument_SetOnDoSaveDocumentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDocument_SetOnDoSaveDocumentWithData(self, pFunction, data)
+}
+
+func cgo_kwxDocument_SetDoSaveDocumentResult(self unsafe.Pointer, result bool) {
+	C.kwxDocument_SetDoSaveDocumentResult(self, boolToInt(result))
+}
+
+func cgo_kwxDocument_SetOnIsModifiedWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDocument_SetOnIsModifiedWithData(self, pFunction, data)
+}
+
+func cgo_kwxDocument_SetIsModifiedResult(self unsafe.Pointer, result bool) {
+	C.kwxDocument_SetIsModifiedResult(self, boolToInt(result))
+}
+
+func cgo_kwxDocument_SetOnModifyWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDocument_SetOnModifyWithData(self, pFunction, data)
+}
+
+func cgo_kwxDocument_SetOnOnCreateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDocument_SetOnOnCreateWithData(self, pFunction, data)
+}
+
+func cgo_kwxDocument_SetOnCreateResult(self unsafe.Pointer, result bool) {
+	C.kwxDocument_SetOnCreateResult(self, boolToInt(result))
+}
+
+func cgo_kwxDocument_SetOnOnOpenDocumentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDocument_SetOnOnOpenDocumentWithData(self, pFunction, data)
+}
+
+func cgo_kwxDocument_SetOnOpenDocumentResult(self unsafe.Pointer, result bool) {
+	C.kwxDocument_SetOnOpenDocumentResult(self, boolToInt(result))
+}
+
+func cgo_kwxDocument_OnCreateBase(self unsafe.Pointer, path unsafe.Pointer, flags int) bool {
+	return C.kwxDocument_OnCreateBase(self, path, C.long(flags)) != 0
+}
+
+func cgo_kwxDocument_OnOpenDocumentBase(self unsafe.Pointer, filename unsafe.Pointer) bool {
+	return C.kwxDocument_OnOpenDocumentBase(self, filename) != 0
+}
+
+func cgo_kwxDocument_IsModifiedBase(self unsafe.Pointer) bool {
+	return C.kwxDocument_IsModifiedBase(self) != 0
+}
+
+func cgo_kwxDocument_ModifyBase(self unsafe.Pointer, modified bool) {
+	C.kwxDocument_ModifyBase(self, boolToInt(modified))
+}
+
+func cgo_kwxDocument_CreateWithParent(pObject unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocument_CreateWithParent(pObject, parent))
+}
+
 func cgo_kwxView_Create(pObject unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxView_Create(pObject))
 }
@@ -18355,6 +19194,66 @@ func cgo_kwxView_SetOnOnCreate(self unsafe.Pointer, pFunction unsafe.Pointer) {
 
 func cgo_kwxView_SetOnOnUpdate(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.kwxView_SetOnOnUpdate(self, pFunction)
+}
+
+func cgo_kwxView_SetOnOnCreateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxView_SetOnOnCreateWithData(self, pFunction, data)
+}
+
+func cgo_kwxView_SetOnCreateResult(self unsafe.Pointer, result bool) {
+	C.kwxView_SetOnCreateResult(self, boolToInt(result))
+}
+
+func cgo_kwxView_SetOnOnCloseWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxView_SetOnOnCloseWithData(self, pFunction, data)
+}
+
+func cgo_kwxView_SetOnCloseResult(self unsafe.Pointer, result bool) {
+	C.kwxView_SetOnCloseResult(self, boolToInt(result))
+}
+
+func cgo_kwxView_OnCloseBase(self unsafe.Pointer, deleteWindow bool) bool {
+	return C.kwxView_OnCloseBase(self, boolToInt(deleteWindow)) != 0
+}
+
+func cgo_kwxDocTemplate_Create(pObject unsafe.Pointer, manager unsafe.Pointer, descr unsafe.Pointer, filter unsafe.Pointer, dir unsafe.Pointer, ext unsafe.Pointer, docTypeName unsafe.Pointer, viewTypeName unsafe.Pointer, flags int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocTemplate_Create(pObject, manager, descr, filter, dir, ext, docTypeName, viewTypeName, C.long(flags)))
+}
+
+func cgo_kwxDocTemplate_SetOnCreateDocument(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxDocTemplate_SetOnCreateDocument(self, pFunction)
+}
+
+func cgo_kwxDocTemplate_SetOnCreateView(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxDocTemplate_SetOnCreateView(self, pFunction)
+}
+
+func cgo_kwxDocTemplate_SetCreatedDocument(self unsafe.Pointer, doc unsafe.Pointer) {
+	C.kwxDocTemplate_SetCreatedDocument(self, doc)
+}
+
+func cgo_kwxDocTemplate_SetCreatedView(self unsafe.Pointer, view unsafe.Pointer) {
+	C.kwxDocTemplate_SetCreatedView(self, view)
+}
+
+func cgo_kwxDocAuiParentFrame_Create(manager unsafe.Pointer, parent unsafe.Pointer, id int, title unsafe.Pointer, x int, y int, width int, height int, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocAuiParentFrame_Create(manager, parent, C.int(id), title, C.int(x), C.int(y), C.int(width), C.int(height), C.int(style)))
+}
+
+func cgo_kwxDocAuiParentFrame_GetDocumentManager(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocAuiParentFrame_GetDocumentManager(self))
+}
+
+func cgo_kwxDocAuiChildFrame_Create(doc unsafe.Pointer, view unsafe.Pointer, parent unsafe.Pointer, id int, title unsafe.Pointer, x int, y int, width int, height int, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocAuiChildFrame_Create(doc, view, parent, C.int(id), title, C.int(x), C.int(y), C.int(width), C.int(height), C.int(style)))
+}
+
+func cgo_kwxDocAuiChildFrame_GetDocument(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocAuiChildFrame_GetDocument(self))
+}
+
+func cgo_kwxDocAuiChildFrame_GetView(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDocAuiChildFrame_GetView(self))
 }
 
 func cgo_kwxFileSystemHandler_Create(pObject unsafe.Pointer) unsafe.Pointer {
@@ -18461,6 +19360,46 @@ func cgo_kwxWizardPage_SetOnTransferDataToWindowOut(self unsafe.Pointer, pFuncti
 	C.kwxWizardPage_SetOnTransferDataToWindowOut(self, pFunction)
 }
 
+func cgo_kwxWizardPageSimple_Create(pObject unsafe.Pointer, parent unsafe.Pointer, prev unsafe.Pointer, next unsafe.Pointer, bitmap unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxWizardPageSimple_Create(pObject, parent, prev, next, bitmap))
+}
+
+func cgo_kwxWizardPageSimple_Delete(self unsafe.Pointer) {
+	C.kwxWizardPageSimple_Delete(self)
+}
+
+func cgo_kwxWizardPageSimple_SetOnGetNext(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnGetNext(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnGetPrev(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnGetPrev(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnTransferDataFromWindow(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnTransferDataFromWindow(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnTransferDataToWindow(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnTransferDataToWindow(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnGetNextOut(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnGetNextOut(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnGetPrevOut(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnGetPrevOut(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnTransferDataFromWindowOut(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnTransferDataFromWindowOut(self, pFunction)
+}
+
+func cgo_kwxWizardPageSimple_SetOnTransferDataToWindowOut(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.kwxWizardPageSimple_SetOnTransferDataToWindowOut(self, pFunction)
+}
+
 func cgo_kwxPopupTransientWindow_Create(pObject unsafe.Pointer, parent unsafe.Pointer, style int) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxPopupTransientWindow_Create(pObject, parent, C.int(style)))
 }
@@ -18499,6 +19438,988 @@ func cgo_kwxPopupTransientWindow_CallBaseProcessLeftDown(self unsafe.Pointer, ev
 
 func cgo_kwxPopupTransientWindow_CallBaseOnDismiss(self unsafe.Pointer) {
 	C.kwxPopupTransientWindow_CallBaseOnDismiss(self)
+}
+
+func cgo_wxDataViewModel_CreateDefault(pObject unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewModel_CreateDefault(pObject))
+}
+
+func cgo_wxDataViewModel_SetOnGetValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnGetValueWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnSetValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnSetValueWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnGetParentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnGetParentWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnIsContainerWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnIsContainerWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnGetChildrenWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnGetChildrenWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnHasValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnHasValueWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnIsEnabledWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnIsEnabledWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnHasContainerColumnsWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnHasContainerColumnsWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnCompareWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnCompareWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnHasDefaultCompareWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnHasDefaultCompareWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnResortWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnResortWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_SetOnGetAttrWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewModel_SetOnGetAttrWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewModel_GetPendingColumn(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewModel_GetPendingColumn(self))
+}
+
+func cgo_wxDataViewModel_GetPendingAscending(self unsafe.Pointer) bool {
+	return C.wxDataViewModel_GetPendingAscending(self) != 0
+}
+
+func cgo_wxDataViewModel_SetGetValueResult(self unsafe.Pointer, value unsafe.Pointer) {
+	C.wxDataViewModel_SetGetValueResult(self, value)
+}
+
+func cgo_wxDataViewModel_SetSetValueResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewModel_SetSetValueResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewModel_SetGetParentResult(self unsafe.Pointer, parent unsafe.Pointer) {
+	C.wxDataViewModel_SetGetParentResult(self, parent)
+}
+
+func cgo_wxDataViewModel_SetIsContainerResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewModel_SetIsContainerResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewModel_SetGetChildrenCountResult(self unsafe.Pointer, count uint) {
+	C.wxDataViewModel_SetGetChildrenCountResult(self, C.uint(count))
+}
+
+func cgo_wxDataViewModel_AddChildResult(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewModel_AddChildResult(self, item)
+}
+
+func cgo_wxDataViewModel_SetHasValueResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewModel_SetHasValueResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewModel_SetIsEnabledResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewModel_SetIsEnabledResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewModel_SetHasContainerColumnsResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewModel_SetHasContainerColumnsResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewModel_SetCompareResult(self unsafe.Pointer, result int) {
+	C.wxDataViewModel_SetCompareResult(self, C.int(result))
+}
+
+func cgo_wxDataViewModel_SetHasDefaultCompareResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewModel_SetHasDefaultCompareResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewModel_SetGetAttrResult(self unsafe.Pointer, attr unsafe.Pointer) {
+	C.wxDataViewModel_SetGetAttrResult(self, attr)
+}
+
+func cgo_wxDataViewModel_GetValue(self unsafe.Pointer, variant unsafe.Pointer, item unsafe.Pointer, col uint) {
+	C.wxDataViewModel_GetValue(self, variant, item, C.uint(col))
+}
+
+func cgo_wxDataViewModel_SetValue(self unsafe.Pointer, variant unsafe.Pointer, item unsafe.Pointer, col uint) bool {
+	return C.wxDataViewModel_SetValue(self, variant, item, C.uint(col)) != 0
+}
+
+func cgo_wxDataViewModel_ChangeValue(self unsafe.Pointer, variant unsafe.Pointer, item unsafe.Pointer, col uint) bool {
+	return C.wxDataViewModel_ChangeValue(self, variant, item, C.uint(col)) != 0
+}
+
+func cgo_wxDataViewModel_HasValue(self unsafe.Pointer, item unsafe.Pointer, col uint) bool {
+	return C.wxDataViewModel_HasValue(self, item, C.uint(col)) != 0
+}
+
+func cgo_wxDataViewModel_IsEnabled(self unsafe.Pointer, item unsafe.Pointer, col uint) bool {
+	return C.wxDataViewModel_IsEnabled(self, item, C.uint(col)) != 0
+}
+
+func cgo_wxDataViewModel_GetAttr(self unsafe.Pointer, item unsafe.Pointer, col uint, attr unsafe.Pointer) bool {
+	return C.wxDataViewModel_GetAttr(self, item, C.uint(col), attr) != 0
+}
+
+func cgo_wxDataViewModel_GetParent(self unsafe.Pointer, item unsafe.Pointer, parent unsafe.Pointer) {
+	C.wxDataViewModel_GetParent(self, item, parent)
+}
+
+func cgo_wxDataViewModel_IsContainer(self unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewModel_IsContainer(self, item) != 0
+}
+
+func cgo_wxDataViewModel_HasContainerColumns(self unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewModel_HasContainerColumns(self, item) != 0
+}
+
+func cgo_wxDataViewModel_GetChildren(self unsafe.Pointer, item unsafe.Pointer, children unsafe.Pointer) uint {
+	return uint(C.wxDataViewModel_GetChildren(self, item, children))
+}
+
+func cgo_wxDataViewModel_ItemAdded(self unsafe.Pointer, parent unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewModel_ItemAdded(self, parent, item) != 0
+}
+
+func cgo_wxDataViewModel_ItemsAdded(self unsafe.Pointer, parent unsafe.Pointer, items unsafe.Pointer) bool {
+	return C.wxDataViewModel_ItemsAdded(self, parent, items) != 0
+}
+
+func cgo_wxDataViewModel_ItemDeleted(self unsafe.Pointer, parent unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewModel_ItemDeleted(self, parent, item) != 0
+}
+
+func cgo_wxDataViewModel_ItemsDeleted(self unsafe.Pointer, parent unsafe.Pointer, items unsafe.Pointer) bool {
+	return C.wxDataViewModel_ItemsDeleted(self, parent, items) != 0
+}
+
+func cgo_wxDataViewModel_ItemChanged(self unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewModel_ItemChanged(self, item) != 0
+}
+
+func cgo_wxDataViewModel_ItemsChanged(self unsafe.Pointer, items unsafe.Pointer) bool {
+	return C.wxDataViewModel_ItemsChanged(self, items) != 0
+}
+
+func cgo_wxDataViewModel_ValueChanged(self unsafe.Pointer, item unsafe.Pointer, col uint) bool {
+	return C.wxDataViewModel_ValueChanged(self, item, C.uint(col)) != 0
+}
+
+func cgo_wxDataViewModel_Cleared(self unsafe.Pointer) bool {
+	return C.wxDataViewModel_Cleared(self) != 0
+}
+
+func cgo_wxDataViewModel_BeforeReset(self unsafe.Pointer) bool {
+	return C.wxDataViewModel_BeforeReset(self) != 0
+}
+
+func cgo_wxDataViewModel_AfterReset(self unsafe.Pointer) bool {
+	return C.wxDataViewModel_AfterReset(self) != 0
+}
+
+func cgo_wxDataViewModel_Compare(self unsafe.Pointer, item1 unsafe.Pointer, item2 unsafe.Pointer, column uint, ascending bool) int {
+	return int(C.wxDataViewModel_Compare(self, item1, item2, C.uint(column), boolToInt(ascending)))
+}
+
+func cgo_wxDataViewModel_HasDefaultCompare(self unsafe.Pointer) bool {
+	return C.wxDataViewModel_HasDefaultCompare(self) != 0
+}
+
+func cgo_wxDataViewModel_Resort(self unsafe.Pointer) {
+	C.wxDataViewModel_Resort(self)
+}
+
+func cgo_wxDataViewModel_IncRef(self unsafe.Pointer) {
+	C.wxDataViewModel_IncRef(self)
+}
+
+func cgo_wxDataViewModel_DecRef(self unsafe.Pointer) {
+	C.wxDataViewModel_DecRef(self)
+}
+
+func cgo_wxDataViewVirtualListModel_Create(pObject unsafe.Pointer, initialSize uint) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewVirtualListModel_Create(pObject, C.uint(initialSize)))
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnGetValueByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnGetValueByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnSetValueByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnSetValueByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnGetRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnGetRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnGetCountWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnGetCountWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnGetAttrByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnGetAttrByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnIsEnabledByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnIsEnabledByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnCompareWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnCompareWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_SetOnHasDefaultCompareWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetOnHasDefaultCompareWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewVirtualListModel_GetPendingColumn(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewVirtualListModel_GetPendingColumn(self))
+}
+
+func cgo_wxDataViewVirtualListModel_GetPendingRow(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewVirtualListModel_GetPendingRow(self))
+}
+
+func cgo_wxDataViewVirtualListModel_GetPendingAscending(self unsafe.Pointer) bool {
+	return C.wxDataViewVirtualListModel_GetPendingAscending(self) != 0
+}
+
+func cgo_wxDataViewVirtualListModel_SetGetValueByRowResult(self unsafe.Pointer, value unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetGetValueByRowResult(self, value)
+}
+
+func cgo_wxDataViewVirtualListModel_SetSetValueByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewVirtualListModel_SetSetValueByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewVirtualListModel_SetGetRowResult(self unsafe.Pointer, row uint) {
+	C.wxDataViewVirtualListModel_SetGetRowResult(self, C.uint(row))
+}
+
+func cgo_wxDataViewVirtualListModel_SetGetCountResult(self unsafe.Pointer, count uint) {
+	C.wxDataViewVirtualListModel_SetGetCountResult(self, C.uint(count))
+}
+
+func cgo_wxDataViewVirtualListModel_SetGetAttrByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewVirtualListModel_SetGetAttrByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewVirtualListModel_SetGetAttrByRowAttr(self unsafe.Pointer, attr unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_SetGetAttrByRowAttr(self, attr)
+}
+
+func cgo_wxDataViewVirtualListModel_SetIsEnabledByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewVirtualListModel_SetIsEnabledByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewVirtualListModel_SetCompareResult(self unsafe.Pointer, result int) {
+	C.wxDataViewVirtualListModel_SetCompareResult(self, C.int(result))
+}
+
+func cgo_wxDataViewVirtualListModel_SetHasDefaultCompareResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewVirtualListModel_SetHasDefaultCompareResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewVirtualListModel_RowPrepended(self unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_RowPrepended(self)
+}
+
+func cgo_wxDataViewVirtualListModel_RowInserted(self unsafe.Pointer, before uint) {
+	C.wxDataViewVirtualListModel_RowInserted(self, C.uint(before))
+}
+
+func cgo_wxDataViewVirtualListModel_RowAppended(self unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_RowAppended(self)
+}
+
+func cgo_wxDataViewVirtualListModel_RowDeleted(self unsafe.Pointer, row uint) {
+	C.wxDataViewVirtualListModel_RowDeleted(self, C.uint(row))
+}
+
+func cgo_wxDataViewVirtualListModel_RowsDeleted(self unsafe.Pointer, rows unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_RowsDeleted(self, rows)
+}
+
+func cgo_wxDataViewVirtualListModel_RowChanged(self unsafe.Pointer, row uint) {
+	C.wxDataViewVirtualListModel_RowChanged(self, C.uint(row))
+}
+
+func cgo_wxDataViewVirtualListModel_RowValueChanged(self unsafe.Pointer, row uint, col uint) {
+	C.wxDataViewVirtualListModel_RowValueChanged(self, C.uint(row), C.uint(col))
+}
+
+func cgo_wxDataViewVirtualListModel_Reset(self unsafe.Pointer, newSize uint) {
+	C.wxDataViewVirtualListModel_Reset(self, C.uint(newSize))
+}
+
+func cgo_wxDataViewVirtualListModel_GetItem(self unsafe.Pointer, row uint, result unsafe.Pointer) {
+	C.wxDataViewVirtualListModel_GetItem(self, C.uint(row), result)
+}
+
+func cgo_wxDataViewIndexListModel_Create(pObject unsafe.Pointer, initialSize uint) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIndexListModel_Create(pObject, C.uint(initialSize)))
+}
+
+func cgo_wxDataViewIndexListModel_SetOnGetValueByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnGetValueByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnSetValueByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnSetValueByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnGetRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnGetRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnGetCountWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnGetCountWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnGetAttrByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnGetAttrByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnIsEnabledByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnIsEnabledByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnCompareWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnCompareWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_SetOnHasDefaultCompareWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetOnHasDefaultCompareWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewIndexListModel_GetPendingColumn(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewIndexListModel_GetPendingColumn(self))
+}
+
+func cgo_wxDataViewIndexListModel_GetPendingRow(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewIndexListModel_GetPendingRow(self))
+}
+
+func cgo_wxDataViewIndexListModel_GetPendingAscending(self unsafe.Pointer) bool {
+	return C.wxDataViewIndexListModel_GetPendingAscending(self) != 0
+}
+
+func cgo_wxDataViewIndexListModel_SetGetValueByRowResult(self unsafe.Pointer, value unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetGetValueByRowResult(self, value)
+}
+
+func cgo_wxDataViewIndexListModel_SetSetValueByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewIndexListModel_SetSetValueByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewIndexListModel_SetGetRowResult(self unsafe.Pointer, row uint) {
+	C.wxDataViewIndexListModel_SetGetRowResult(self, C.uint(row))
+}
+
+func cgo_wxDataViewIndexListModel_SetGetCountResult(self unsafe.Pointer, count uint) {
+	C.wxDataViewIndexListModel_SetGetCountResult(self, C.uint(count))
+}
+
+func cgo_wxDataViewIndexListModel_SetGetAttrByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewIndexListModel_SetGetAttrByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewIndexListModel_SetGetAttrByRowAttr(self unsafe.Pointer, attr unsafe.Pointer) {
+	C.wxDataViewIndexListModel_SetGetAttrByRowAttr(self, attr)
+}
+
+func cgo_wxDataViewIndexListModel_SetIsEnabledByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewIndexListModel_SetIsEnabledByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewIndexListModel_SetCompareResult(self unsafe.Pointer, result int) {
+	C.wxDataViewIndexListModel_SetCompareResult(self, C.int(result))
+}
+
+func cgo_wxDataViewIndexListModel_SetHasDefaultCompareResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewIndexListModel_SetHasDefaultCompareResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewIndexListModel_RowPrepended(self unsafe.Pointer) {
+	C.wxDataViewIndexListModel_RowPrepended(self)
+}
+
+func cgo_wxDataViewIndexListModel_RowInserted(self unsafe.Pointer, before uint) {
+	C.wxDataViewIndexListModel_RowInserted(self, C.uint(before))
+}
+
+func cgo_wxDataViewIndexListModel_RowAppended(self unsafe.Pointer) {
+	C.wxDataViewIndexListModel_RowAppended(self)
+}
+
+func cgo_wxDataViewIndexListModel_RowDeleted(self unsafe.Pointer, row uint) {
+	C.wxDataViewIndexListModel_RowDeleted(self, C.uint(row))
+}
+
+func cgo_wxDataViewIndexListModel_RowsDeleted(self unsafe.Pointer, rows unsafe.Pointer) {
+	C.wxDataViewIndexListModel_RowsDeleted(self, rows)
+}
+
+func cgo_wxDataViewIndexListModel_RowChanged(self unsafe.Pointer, row uint) {
+	C.wxDataViewIndexListModel_RowChanged(self, C.uint(row))
+}
+
+func cgo_wxDataViewIndexListModel_RowValueChanged(self unsafe.Pointer, row uint, col uint) {
+	C.wxDataViewIndexListModel_RowValueChanged(self, C.uint(row), C.uint(col))
+}
+
+func cgo_wxDataViewIndexListModel_Reset(self unsafe.Pointer, newSize uint) {
+	C.wxDataViewIndexListModel_Reset(self, C.uint(newSize))
+}
+
+func cgo_wxDataViewIndexListModel_GetItem(self unsafe.Pointer, row uint, result unsafe.Pointer) {
+	C.wxDataViewIndexListModel_GetItem(self, C.uint(row), result)
+}
+
+func cgo_wxDataViewListStore_SetOnHasValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewListStore_SetOnHasValueWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewListStore_SetOnIsEnabledByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewListStore_SetOnIsEnabledByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewListStore_SetOnGetAttrByRowWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewListStore_SetOnGetAttrByRowWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewListStore_SetHasValueResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewListStore_SetHasValueResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewListStore_SetIsEnabledByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewListStore_SetIsEnabledByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewListStore_SetGetAttrByRowResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewListStore_SetGetAttrByRowResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewListStore_SetGetAttrByRowAttr(self unsafe.Pointer, attr unsafe.Pointer) {
+	C.wxDataViewListStore_SetGetAttrByRowAttr(self, attr)
+}
+
+func cgo_wxDataViewListStore_GetPendingRow(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewListStore_GetPendingRow(self))
+}
+
+func cgo_wxDataViewListStore_GetPendingColumn(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewListStore_GetPendingColumn(self))
+}
+
+func cgo_wxDataViewListStore_PrependColumn(self unsafe.Pointer, variant_type unsafe.Pointer) {
+	C.wxDataViewListStore_PrependColumn(self, variant_type)
+}
+
+func cgo_wxDataViewListStore_AppendColumn(self unsafe.Pointer, variant_type unsafe.Pointer) {
+	C.wxDataViewListStore_AppendColumn(self, variant_type)
+}
+
+func cgo_wxDataViewListStore_InsertColumn(self unsafe.Pointer, pos uint, variant_type unsafe.Pointer) {
+	C.wxDataViewListStore_InsertColumn(self, C.uint(pos), variant_type)
+}
+
+func cgo_wxDataViewListStore_AppendItem(self unsafe.Pointer, values unsafe.Pointer, data uintptr) {
+	C.wxDataViewListStore_AppendItem(self, values, C.uintptr_t(data))
+}
+
+func cgo_wxDataViewListStore_PrependItem(self unsafe.Pointer, values unsafe.Pointer, data uintptr) {
+	C.wxDataViewListStore_PrependItem(self, values, C.uintptr_t(data))
+}
+
+func cgo_wxDataViewListStore_InsertItem(self unsafe.Pointer, row uint, values unsafe.Pointer, data uintptr) {
+	C.wxDataViewListStore_InsertItem(self, C.uint(row), values, C.uintptr_t(data))
+}
+
+func cgo_wxDataViewListStore_DeleteItem(self unsafe.Pointer, pos uint) {
+	C.wxDataViewListStore_DeleteItem(self, C.uint(pos))
+}
+
+func cgo_wxDataViewListStore_DeleteAllItems(self unsafe.Pointer) {
+	C.wxDataViewListStore_DeleteAllItems(self)
+}
+
+func cgo_wxDataViewListStore_ClearColumns(self unsafe.Pointer) {
+	C.wxDataViewListStore_ClearColumns(self)
+}
+
+func cgo_wxDataViewListStore_GetItemCount(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewListStore_GetItemCount(self))
+}
+
+func cgo_wxDataViewListStore_SetItemData(self unsafe.Pointer, item unsafe.Pointer, data uintptr) {
+	C.wxDataViewListStore_SetItemData(self, item, C.uintptr_t(data))
+}
+
+func cgo_wxDataViewListStore_GetItemData(self unsafe.Pointer, item unsafe.Pointer) uintptr {
+	return uintptr(C.wxDataViewListStore_GetItemData(self, item))
+}
+
+func cgo_wxDataViewListStore_GetValueByRow(self unsafe.Pointer, value unsafe.Pointer, row uint, col uint) {
+	C.wxDataViewListStore_GetValueByRow(self, value, C.uint(row), C.uint(col))
+}
+
+func cgo_wxDataViewListStore_SetValueByRow(self unsafe.Pointer, value unsafe.Pointer, row uint, col uint) bool {
+	return C.wxDataViewListStore_SetValueByRow(self, value, C.uint(row), C.uint(col)) != 0
+}
+
+func cgo_wxDataViewListStore_Create(pObject unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewListStore_Create(pObject))
+}
+
+func cgo_wxDataViewListStore_IsEnabledByRow(self unsafe.Pointer, row uint, col uint) bool {
+	return C.wxDataViewListStore_IsEnabledByRow(self, C.uint(row), C.uint(col)) != 0
+}
+
+func cgo_wxDataViewListStore_GetAttrByRow(self unsafe.Pointer, row uint, col uint, attr unsafe.Pointer) bool {
+	return C.wxDataViewListStore_GetAttrByRow(self, C.uint(row), C.uint(col), attr) != 0
+}
+
+func cgo_wxDataViewRenderer_SetMode(self unsafe.Pointer, mode int) {
+	C.wxDataViewRenderer_SetMode(self, C.int(mode))
+}
+
+func cgo_wxDataViewRenderer_GetMode(self unsafe.Pointer) int {
+	return int(C.wxDataViewRenderer_GetMode(self))
+}
+
+func cgo_wxDataViewRenderer_SetAlignment(self unsafe.Pointer, align int) {
+	C.wxDataViewRenderer_SetAlignment(self, C.int(align))
+}
+
+func cgo_wxDataViewRenderer_GetAlignment(self unsafe.Pointer) int {
+	return int(C.wxDataViewRenderer_GetAlignment(self))
+}
+
+func cgo_wxDataViewRenderer_EnableEllipsize(self unsafe.Pointer, mode int) {
+	C.wxDataViewRenderer_EnableEllipsize(self, C.int(mode))
+}
+
+func cgo_wxDataViewRenderer_GetEllipsizeMode(self unsafe.Pointer) int {
+	return int(C.wxDataViewRenderer_GetEllipsizeMode(self))
+}
+
+func cgo_wxDataViewRenderer_GetVariantType(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewRenderer_GetVariantType(self))
+}
+
+func cgo_wxDataViewRenderer_GetValue(self unsafe.Pointer, value unsafe.Pointer) bool {
+	return C.wxDataViewRenderer_GetValue(self, value) != 0
+}
+
+func cgo_wxDataViewRenderer_SetValue(self unsafe.Pointer, value unsafe.Pointer) bool {
+	return C.wxDataViewRenderer_SetValue(self, value) != 0
+}
+
+func cgo_wxDataViewRenderer_SetEnabled(self unsafe.Pointer, enabled bool) {
+	C.wxDataViewRenderer_SetEnabled(self, boolToInt(enabled))
+}
+
+func cgo_wxDataViewRenderer_IsHighlighted(self unsafe.Pointer) bool {
+	return C.wxDataViewRenderer_IsHighlighted(self) != 0
+}
+
+func cgo_wxDataViewRenderer_GetAccessibleDescription(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewRenderer_GetAccessibleDescription(self))
+}
+
+func cgo_wxDataViewCustomRenderer_Create(variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_Create(cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnRenderWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnRenderWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnGetSizeWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnGetSizeWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnSetValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnSetValueWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnGetValueWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnGetValueWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnActivateCellWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnActivateCellWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnActivateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnActivateWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnLeftClickWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnLeftClickWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnStartDragWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnStartDragWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnCreateEditorCtrlWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnCreateEditorCtrlWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnGetValueFromEditorCtrlWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnGetValueFromEditorCtrlWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnValidateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnValidateWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnHasEditorCtrlWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnHasEditorCtrlWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_SetOnGetAccessibleDescriptionWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetOnGetAccessibleDescriptionWithData(self, pFunction, data)
+}
+
+func cgo_wxDataViewCustomRenderer_GetRenderDC(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_GetRenderDC(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetRenderRect(self unsafe.Pointer, x unsafe.Pointer, y unsafe.Pointer, width unsafe.Pointer, height unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_GetRenderRect(self, (*C.int)(x), (*C.int)(y), (*C.int)(width), (*C.int)(height))
+}
+
+func cgo_wxDataViewCustomRenderer_GetRenderState(self unsafe.Pointer) int {
+	return int(C.wxDataViewCustomRenderer_GetRenderState(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetCurrentValue(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_GetCurrentValue(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetEditorRect(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_GetEditorRect(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetEditorParent(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_GetEditorParent(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetEditorCtrl(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_GetEditorCtrl(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetPendingColumn(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewCustomRenderer_GetPendingColumn(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetActivateCellMouseEvent(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCustomRenderer_GetActivateCellMouseEvent(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetPendingCursorX(self unsafe.Pointer) int {
+	return int(C.wxDataViewCustomRenderer_GetPendingCursorX(self))
+}
+
+func cgo_wxDataViewCustomRenderer_GetPendingCursorY(self unsafe.Pointer) int {
+	return int(C.wxDataViewCustomRenderer_GetPendingCursorY(self))
+}
+
+func cgo_wxDataViewCustomRenderer_RenderText(self unsafe.Pointer, text string, xoffset int, cell_x int, cell_y int, cell_width int, cell_height int, dc unsafe.Pointer, state int) {
+	cText := C.CString(text)
+	defer C.free(unsafe.Pointer(cText))
+	C.wxDataViewCustomRenderer_RenderText(self, cText, C.int(xoffset), C.int(cell_x), C.int(cell_y), C.int(cell_width), C.int(cell_height), dc, C.int(state))
+}
+
+func cgo_wxDataViewCustomRenderer_GetTextExtent(self unsafe.Pointer, text string, width unsafe.Pointer, height unsafe.Pointer) {
+	cText := C.CString(text)
+	defer C.free(unsafe.Pointer(cText))
+	C.wxDataViewCustomRenderer_GetTextExtent(self, cText, (*C.int)(width), (*C.int)(height))
+}
+
+func cgo_wxDataViewCustomRenderer_SetRenderResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetRenderResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetGetSizeResult(self unsafe.Pointer, width int, height int) {
+	C.wxDataViewCustomRenderer_SetGetSizeResult(self, C.int(width), C.int(height))
+}
+
+func cgo_wxDataViewCustomRenderer_SetGetValueResult(self unsafe.Pointer, value unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetGetValueResult(self, value)
+}
+
+func cgo_wxDataViewCustomRenderer_SetSetValueResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetSetValueResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetActivateCellResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetActivateCellResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetActivateResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetActivateResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetLeftClickResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetLeftClickResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetStartDragResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetStartDragResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetCreateEditorCtrlResult(self unsafe.Pointer, editor unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetCreateEditorCtrlResult(self, editor)
+}
+
+func cgo_wxDataViewCustomRenderer_SetGetValueFromEditorCtrlResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetGetValueFromEditorCtrlResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetGetValueFromEditorCtrlValue(self unsafe.Pointer, value unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetGetValueFromEditorCtrlValue(self, value)
+}
+
+func cgo_wxDataViewCustomRenderer_SetValidateResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetValidateResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetHasEditorCtrlResult(self unsafe.Pointer, result bool) {
+	C.wxDataViewCustomRenderer_SetHasEditorCtrlResult(self, boolToInt(result))
+}
+
+func cgo_wxDataViewCustomRenderer_SetAccessibleDescription(self unsafe.Pointer, description unsafe.Pointer) {
+	C.wxDataViewCustomRenderer_SetAccessibleDescription(self, description)
+}
+
+func cgo_wxDataViewTextRenderer_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTextRenderer_CreateDefault())
+}
+
+func cgo_wxDataViewTextRenderer_Create(variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewTextRenderer_Create(cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewTextRenderer_EnableMarkup(self unsafe.Pointer, enable bool) {
+	C.wxDataViewTextRenderer_EnableMarkup(self, boolToInt(enable))
+}
+
+func cgo_wxDataViewToggleRenderer_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewToggleRenderer_CreateDefault())
+}
+
+func cgo_wxDataViewToggleRenderer_Create(variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewToggleRenderer_Create(cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewToggleRenderer_ShowAsRadio(self unsafe.Pointer, radio bool) {
+	C.wxDataViewToggleRenderer_ShowAsRadio(self, boolToInt(radio))
+}
+
+func cgo_wxDataViewBitmapRenderer_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewBitmapRenderer_CreateDefault())
+}
+
+func cgo_wxDataViewBitmapRenderer_Create(variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewBitmapRenderer_Create(cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewProgressRenderer_Create(label unsafe.Pointer, variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewProgressRenderer_Create(label, cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewIconTextRenderer_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIconTextRenderer_CreateDefault())
+}
+
+func cgo_wxDataViewIconTextRenderer_Create(variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewIconTextRenderer_Create(cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewSpinRenderer_Create(min int, max int, mode int, align int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewSpinRenderer_Create(C.int(min), C.int(max), C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewChoiceRenderer_Create(choices unsafe.Pointer, mode int, align int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewChoiceRenderer_Create(choices, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewChoiceRenderer_GetChoice(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewChoiceRenderer_GetChoice(self, C.int(index)))
+}
+
+func cgo_wxDataViewChoiceRenderer_GetChoices(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewChoiceRenderer_GetChoices(self))
+}
+
+func cgo_wxDataViewChoiceByIndexRenderer_Create(choices unsafe.Pointer, mode int, align int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewChoiceByIndexRenderer_Create(choices, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewDateRenderer_Create(variantType string, mode int, align int) unsafe.Pointer {
+	cVariantType := C.CString(variantType)
+	defer C.free(unsafe.Pointer(cVariantType))
+	return unsafe.Pointer(C.wxDataViewDateRenderer_Create(cVariantType, C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewCheckIconTextRenderer_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCheckIconTextRenderer_CreateDefault())
+}
+
+func cgo_wxDataViewCheckIconTextRenderer_Create(mode int, align int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCheckIconTextRenderer_Create(C.int(mode), C.int(align)))
+}
+
+func cgo_wxDataViewCheckIconTextRenderer_Allow3rdStateForUser(self unsafe.Pointer, allow bool) {
+	C.wxDataViewCheckIconTextRenderer_Allow3rdStateForUser(self, boolToInt(allow))
+}
+
+func cgo_wxDataViewColumn_CreateWithRenderer(title unsafe.Pointer, renderer unsafe.Pointer, modelColumn uint, width int, align int, flags int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewColumn_CreateWithRenderer(title, renderer, C.uint(modelColumn), C.int(width), C.int(align), C.int(flags)))
+}
+
+func cgo_wxDataViewColumn_GetTitle(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewColumn_GetTitle(self))
+}
+
+func cgo_wxDataViewColumn_SetTitle(self unsafe.Pointer, title unsafe.Pointer) {
+	C.wxDataViewColumn_SetTitle(self, title)
+}
+
+func cgo_wxDataViewColumn_GetBitmapBundle(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewColumn_GetBitmapBundle(self))
+}
+
+func cgo_wxDataViewColumn_SetBitmap(self unsafe.Pointer, bitmap unsafe.Pointer) {
+	C.wxDataViewColumn_SetBitmap(self, bitmap)
+}
+
+func cgo_wxDataViewColumn_GetWidth(self unsafe.Pointer) int {
+	return int(C.wxDataViewColumn_GetWidth(self))
+}
+
+func cgo_wxDataViewColumn_SetWidth(self unsafe.Pointer, width int) {
+	C.wxDataViewColumn_SetWidth(self, C.int(width))
+}
+
+func cgo_wxDataViewColumn_GetMinWidth(self unsafe.Pointer) int {
+	return int(C.wxDataViewColumn_GetMinWidth(self))
+}
+
+func cgo_wxDataViewColumn_SetMinWidth(self unsafe.Pointer, min_width int) {
+	C.wxDataViewColumn_SetMinWidth(self, C.int(min_width))
+}
+
+func cgo_wxDataViewColumn_GetAlignment(self unsafe.Pointer) int {
+	return int(C.wxDataViewColumn_GetAlignment(self))
+}
+
+func cgo_wxDataViewColumn_SetAlignment(self unsafe.Pointer, alignment int) {
+	C.wxDataViewColumn_SetAlignment(self, C.int(alignment))
+}
+
+func cgo_wxDataViewColumn_GetFlags(self unsafe.Pointer) int {
+	return int(C.wxDataViewColumn_GetFlags(self))
+}
+
+func cgo_wxDataViewColumn_SetFlags(self unsafe.Pointer, flags int) {
+	C.wxDataViewColumn_SetFlags(self, C.int(flags))
+}
+
+func cgo_wxDataViewColumn_SetFlag(self unsafe.Pointer, flag int) {
+	C.wxDataViewColumn_SetFlag(self, C.int(flag))
+}
+
+func cgo_wxDataViewColumn_ChangeFlag(self unsafe.Pointer, flag int, set bool) {
+	C.wxDataViewColumn_ChangeFlag(self, C.int(flag), boolToInt(set))
+}
+
+func cgo_wxDataViewColumn_IsResizeable(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsResizeable(self) != 0
+}
+
+func cgo_wxDataViewColumn_SetResizeable(self unsafe.Pointer, resizeable bool) {
+	C.wxDataViewColumn_SetResizeable(self, boolToInt(resizeable))
+}
+
+func cgo_wxDataViewColumn_IsSortable(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsSortable(self) != 0
+}
+
+func cgo_wxDataViewColumn_SetSortable(self unsafe.Pointer, sortable bool) {
+	C.wxDataViewColumn_SetSortable(self, boolToInt(sortable))
+}
+
+func cgo_wxDataViewColumn_IsReorderable(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsReorderable(self) != 0
+}
+
+func cgo_wxDataViewColumn_SetReorderable(self unsafe.Pointer, reorderable bool) {
+	C.wxDataViewColumn_SetReorderable(self, boolToInt(reorderable))
+}
+
+func cgo_wxDataViewColumn_IsHidden(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsHidden(self) != 0
+}
+
+func cgo_wxDataViewColumn_SetHidden(self unsafe.Pointer, hidden bool) {
+	C.wxDataViewColumn_SetHidden(self, boolToInt(hidden))
+}
+
+func cgo_wxDataViewColumn_IsShown(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsShown(self) != 0
+}
+
+func cgo_wxDataViewColumn_IsSortKey(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsSortKey(self) != 0
+}
+
+func cgo_wxDataViewColumn_SetSortOrder(self unsafe.Pointer, ascending bool) {
+	C.wxDataViewColumn_SetSortOrder(self, boolToInt(ascending))
+}
+
+func cgo_wxDataViewColumn_IsSortOrderAscending(self unsafe.Pointer) bool {
+	return C.wxDataViewColumn_IsSortOrderAscending(self) != 0
+}
+
+func cgo_wxDataViewColumn_UnsetAsSortKey(self unsafe.Pointer) {
+	C.wxDataViewColumn_UnsetAsSortKey(self)
+}
+
+func cgo_wxDataViewColumn_GetModelColumn(self unsafe.Pointer) uint {
+	return uint(C.wxDataViewColumn_GetModelColumn(self))
+}
+
+func cgo_wxDataViewColumn_GetRenderer(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewColumn_GetRenderer(self))
 }
 
 func cgo_wxHtmlCell_Create() unsafe.Pointer {
@@ -20069,6 +21990,150 @@ func cgo_wxAcceleratorTable_Delete(self unsafe.Pointer) {
 	C.wxAcceleratorTable_Delete(self)
 }
 
+func cgo_wxDCPenChanger_Create(dc unsafe.Pointer, pen unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDCPenChanger_Create(dc, pen))
+}
+
+func cgo_wxDCPenChanger_Set(self unsafe.Pointer, pen unsafe.Pointer) {
+	C.wxDCPenChanger_Set(self, pen)
+}
+
+func cgo_wxDCPenChanger_Delete(self unsafe.Pointer) {
+	C.wxDCPenChanger_Delete(self)
+}
+
+func cgo_wxDCBrushChanger_Create(dc unsafe.Pointer, brush unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDCBrushChanger_Create(dc, brush))
+}
+
+func cgo_wxDCBrushChanger_Set(self unsafe.Pointer, brush unsafe.Pointer) {
+	C.wxDCBrushChanger_Set(self, brush)
+}
+
+func cgo_wxDCBrushChanger_Delete(self unsafe.Pointer) {
+	C.wxDCBrushChanger_Delete(self)
+}
+
+func cgo_wxDCFontChanger_Create(dc unsafe.Pointer, font unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDCFontChanger_Create(dc, font))
+}
+
+func cgo_wxDCFontChanger_Set(self unsafe.Pointer, font unsafe.Pointer) {
+	C.wxDCFontChanger_Set(self, font)
+}
+
+func cgo_wxDCFontChanger_Delete(self unsafe.Pointer) {
+	C.wxDCFontChanger_Delete(self)
+}
+
+func cgo_wxDCTextColourChanger_Create(dc unsafe.Pointer, colour unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDCTextColourChanger_Create(dc, colour))
+}
+
+func cgo_wxDCTextColourChanger_Set(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxDCTextColourChanger_Set(self, colour)
+}
+
+func cgo_wxDCTextColourChanger_Delete(self unsafe.Pointer) {
+	C.wxDCTextColourChanger_Delete(self)
+}
+
+func cgo_wxDCTextBgColourChanger_Create(dc unsafe.Pointer, colour unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDCTextBgColourChanger_Create(dc, colour))
+}
+
+func cgo_wxDCTextBgColourChanger_Set(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxDCTextBgColourChanger_Set(self, colour)
+}
+
+func cgo_wxDCTextBgColourChanger_Delete(self unsafe.Pointer) {
+	C.wxDCTextBgColourChanger_Delete(self)
+}
+
+func cgo_wxDCTextBgModeChanger_Create(dc unsafe.Pointer, mode int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDCTextBgModeChanger_Create(dc, C.int(mode)))
+}
+
+func cgo_wxDCTextBgModeChanger_Set(self unsafe.Pointer, mode int) {
+	C.wxDCTextBgModeChanger_Set(self, C.int(mode))
+}
+
+func cgo_wxDCTextBgModeChanger_Delete(self unsafe.Pointer) {
+	C.wxDCTextBgModeChanger_Delete(self)
+}
+
+func cgo_wxDataViewItemAttr_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewItemAttr_Create())
+}
+
+func cgo_wxDataViewItemAttr_Copy(self unsafe.Pointer, other unsafe.Pointer) {
+	C.wxDataViewItemAttr_Copy(self, other)
+}
+
+func cgo_wxDataViewItemAttr_Delete(self unsafe.Pointer) {
+	C.wxDataViewItemAttr_Delete(self)
+}
+
+func cgo_wxDataViewItemAttr_SetColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxDataViewItemAttr_SetColour(self, colour)
+}
+
+func cgo_wxDataViewItemAttr_SetBackgroundColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxDataViewItemAttr_SetBackgroundColour(self, colour)
+}
+
+func cgo_wxDataViewItemAttr_SetBold(self unsafe.Pointer, set bool) {
+	C.wxDataViewItemAttr_SetBold(self, boolToInt(set))
+}
+
+func cgo_wxDataViewItemAttr_SetItalic(self unsafe.Pointer, set bool) {
+	C.wxDataViewItemAttr_SetItalic(self, boolToInt(set))
+}
+
+func cgo_wxDataViewItemAttr_SetStrikethrough(self unsafe.Pointer, set bool) {
+	C.wxDataViewItemAttr_SetStrikethrough(self, boolToInt(set))
+}
+
+func cgo_wxDataViewItemAttr_HasColour(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_HasColour(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_HasFont(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_HasFont(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_HasBackgroundColour(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_HasBackgroundColour(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_GetBold(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_GetBold(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_GetItalic(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_GetItalic(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_GetStrikethrough(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_GetStrikethrough(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_IsDefault(self unsafe.Pointer) bool {
+	return C.wxDataViewItemAttr_IsDefault(self) != 0
+}
+
+func cgo_wxDataViewItemAttr_GetColour(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewItemAttr_GetColour(self))
+}
+
+func cgo_wxDataViewItemAttr_GetBackgroundColour(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewItemAttr_GetBackgroundColour(self))
+}
+
+func cgo_wxDataViewItemAttr_GetEffectiveFont(self unsafe.Pointer, font unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewItemAttr_GetEffectiveFont(self, font))
+}
+
 func cgo_wxDataViewCtrl_SetHeaderAttr(self unsafe.Pointer, attr unsafe.Pointer) bool {
 	return C.wxDataViewCtrl_SetHeaderAttr(self, attr) != 0
 }
@@ -20081,6 +22146,10 @@ func cgo_wxDataViewCtrl_EnableDragSource(self unsafe.Pointer, format unsafe.Poin
 	return C.wxDataViewCtrl_EnableDragSource(self, format) != 0
 }
 
+func cgo_wxDataViewCtrl_EnableDropTarget(self unsafe.Pointer, format unsafe.Pointer) bool {
+	return C.wxDataViewCtrl_EnableDropTarget(self, format) != 0
+}
+
 func cgo_wxDataViewCtrl_SetBackgroundColour(self unsafe.Pointer, colour unsafe.Pointer) bool {
 	return C.wxDataViewCtrl_SetBackgroundColour(self, colour) != 0
 }
@@ -20089,8 +22158,24 @@ func cgo_wxDataViewCtrl_SetFocus(self unsafe.Pointer) {
 	C.wxDataViewCtrl_SetFocus(self)
 }
 
-func cgo_wxDataViewCtrl_SetForegroundColour(self unsafe.Pointer, colour unsafe.Pointer) bool {
-	return C.wxDataViewCtrl_SetForegroundColour(self, colour) != 0
+func cgo_wxDataViewCtrl_SetForegroundColour(self unsafe.Pointer, colour unsafe.Pointer) int {
+	return int(C.wxDataViewCtrl_SetForegroundColour(self, colour))
+}
+
+func cgo_wxDataViewCtrl_GetSortingColumnCount(self unsafe.Pointer) int {
+	return int(C.wxDataViewCtrl_GetSortingColumnCount(self))
+}
+
+func cgo_wxDataViewCtrl_GetSortingColumnAt(self unsafe.Pointer, pos int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCtrl_GetSortingColumnAt(self, C.int(pos)))
+}
+
+func cgo_wxDataViewCtrl_GenericGetHeader(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCtrl_GenericGetHeader(self))
+}
+
+func cgo_wxDataViewCtrl_HitTestColumnPosition(self unsafe.Pointer, x int, y int, item unsafe.Pointer) int {
+	return int(C.wxDataViewCtrl_HitTestColumnPosition(self, C.int(x), C.int(y), item))
 }
 
 func cgo_wxDataViewCtrl_Create(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) unsafe.Pointer {
@@ -20437,6 +22522,306 @@ func cgo_wxDataViewListCtrl_IsRowSelected(self unsafe.Pointer, row uint) bool {
 	return C.wxDataViewListCtrl_IsRowSelected(self, C.uint(row)) != 0
 }
 
+func cgo_wxDataViewTreeStore_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeStore_Create())
+}
+
+func cgo_wxDataViewTreeStore_Delete(self unsafe.Pointer) {
+	C.wxDataViewTreeStore_Delete(self)
+}
+
+func cgo_wxDataViewTreeStore_AppendContainer(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon unsafe.Pointer, expanded unsafe.Pointer, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_AppendContainer(self, parent, text, icon, expanded, data, result)
+}
+
+func cgo_wxDataViewTreeStore_AppendItem(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon unsafe.Pointer, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_AppendItem(self, parent, text, icon, data, result)
+}
+
+func cgo_wxDataViewTreeStore_PrependContainer(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon unsafe.Pointer, expanded unsafe.Pointer, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_PrependContainer(self, parent, text, icon, expanded, data, result)
+}
+
+func cgo_wxDataViewTreeStore_PrependItem(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon unsafe.Pointer, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_PrependItem(self, parent, text, icon, data, result)
+}
+
+func cgo_wxDataViewTreeStore_InsertContainer(self unsafe.Pointer, parent unsafe.Pointer, previous unsafe.Pointer, text unsafe.Pointer, icon unsafe.Pointer, expanded unsafe.Pointer, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_InsertContainer(self, parent, previous, text, icon, expanded, data, result)
+}
+
+func cgo_wxDataViewTreeStore_InsertItem(self unsafe.Pointer, parent unsafe.Pointer, previous unsafe.Pointer, text unsafe.Pointer, icon unsafe.Pointer, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_InsertItem(self, parent, previous, text, icon, data, result)
+}
+
+func cgo_wxDataViewTreeStore_GetNthChild(self unsafe.Pointer, parent unsafe.Pointer, pos uint, result unsafe.Pointer) {
+	C.wxDataViewTreeStore_GetNthChild(self, parent, C.uint(pos), result)
+}
+
+func cgo_wxDataViewTreeStore_GetChildCount(self unsafe.Pointer, parent unsafe.Pointer) int {
+	return int(C.wxDataViewTreeStore_GetChildCount(self, parent))
+}
+
+func cgo_wxDataViewTreeStore_SetItemText(self unsafe.Pointer, item unsafe.Pointer, text unsafe.Pointer) {
+	C.wxDataViewTreeStore_SetItemText(self, item, text)
+}
+
+func cgo_wxDataViewTreeStore_GetItemText(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeStore_GetItemText(self, item))
+}
+
+func cgo_wxDataViewTreeStore_SetItemIcon(self unsafe.Pointer, item unsafe.Pointer, icon unsafe.Pointer) {
+	C.wxDataViewTreeStore_SetItemIcon(self, item, icon)
+}
+
+func cgo_wxDataViewTreeStore_GetItemIcon(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeStore_GetItemIcon(self, item))
+}
+
+func cgo_wxDataViewTreeStore_SetItemExpandedIcon(self unsafe.Pointer, item unsafe.Pointer, icon unsafe.Pointer) {
+	C.wxDataViewTreeStore_SetItemExpandedIcon(self, item, icon)
+}
+
+func cgo_wxDataViewTreeStore_GetItemExpandedIcon(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeStore_GetItemExpandedIcon(self, item))
+}
+
+func cgo_wxDataViewTreeStore_SetItemData(self unsafe.Pointer, item unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewTreeStore_SetItemData(self, item, data)
+}
+
+func cgo_wxDataViewTreeStore_GetItemData(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeStore_GetItemData(self, item))
+}
+
+func cgo_wxDataViewTreeStore_DeleteItem(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewTreeStore_DeleteItem(self, item)
+}
+
+func cgo_wxDataViewTreeStore_DeleteChildren(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewTreeStore_DeleteChildren(self, item)
+}
+
+func cgo_wxDataViewTreeStore_DeleteAllItems(self unsafe.Pointer) {
+	C.wxDataViewTreeStore_DeleteAllItems(self)
+}
+
+func cgo_wxDataViewTreeCtrl_Create(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_Create(parent, C.int(id), C.int(x), C.int(y), C.int(width), C.int(height), C.int(style)))
+}
+
+func cgo_wxDataViewTreeCtrl_GetStore(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_GetStore(self))
+}
+
+func cgo_wxDataViewTreeCtrl_AppendContainer(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon int, expanded int, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_AppendContainer(self, parent, text, C.int(icon), C.int(expanded), data, result)
+}
+
+func cgo_wxDataViewTreeCtrl_AppendItem(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon int, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_AppendItem(self, parent, text, C.int(icon), data, result)
+}
+
+func cgo_wxDataViewTreeCtrl_PrependContainer(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon int, expanded int, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_PrependContainer(self, parent, text, C.int(icon), C.int(expanded), data, result)
+}
+
+func cgo_wxDataViewTreeCtrl_PrependItem(self unsafe.Pointer, parent unsafe.Pointer, text unsafe.Pointer, icon int, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_PrependItem(self, parent, text, C.int(icon), data, result)
+}
+
+func cgo_wxDataViewTreeCtrl_InsertContainer(self unsafe.Pointer, parent unsafe.Pointer, previous unsafe.Pointer, text unsafe.Pointer, icon int, expanded int, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_InsertContainer(self, parent, previous, text, C.int(icon), C.int(expanded), data, result)
+}
+
+func cgo_wxDataViewTreeCtrl_InsertItem(self unsafe.Pointer, parent unsafe.Pointer, previous unsafe.Pointer, text unsafe.Pointer, icon int, data unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_InsertItem(self, parent, previous, text, C.int(icon), data, result)
+}
+
+func cgo_wxDataViewTreeCtrl_DeleteItem(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_DeleteItem(self, item)
+}
+
+func cgo_wxDataViewTreeCtrl_DeleteChildren(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_DeleteChildren(self, item)
+}
+
+func cgo_wxDataViewTreeCtrl_DeleteAllItems(self unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_DeleteAllItems(self)
+}
+
+func cgo_wxDataViewTreeCtrl_GetChildCount(self unsafe.Pointer, parent unsafe.Pointer) int {
+	return int(C.wxDataViewTreeCtrl_GetChildCount(self, parent))
+}
+
+func cgo_wxDataViewTreeCtrl_GetItemText(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_GetItemText(self, item))
+}
+
+func cgo_wxDataViewTreeCtrl_SetItemText(self unsafe.Pointer, item unsafe.Pointer, text unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_SetItemText(self, item, text)
+}
+
+func cgo_wxDataViewTreeCtrl_GetItemIcon(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_GetItemIcon(self, item))
+}
+
+func cgo_wxDataViewTreeCtrl_SetItemIcon(self unsafe.Pointer, item unsafe.Pointer, icon unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_SetItemIcon(self, item, icon)
+}
+
+func cgo_wxDataViewTreeCtrl_GetItemExpandedIcon(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_GetItemExpandedIcon(self, item))
+}
+
+func cgo_wxDataViewTreeCtrl_SetItemExpandedIcon(self unsafe.Pointer, item unsafe.Pointer, icon unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_SetItemExpandedIcon(self, item, icon)
+}
+
+func cgo_wxDataViewTreeCtrl_GetItemData(self unsafe.Pointer, item unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_GetItemData(self, item))
+}
+
+func cgo_wxDataViewTreeCtrl_SetItemData(self unsafe.Pointer, item unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_SetItemData(self, item, data)
+}
+
+func cgo_wxDataViewTreeCtrl_IsContainer(self unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewTreeCtrl_IsContainer(self, item) != 0
+}
+
+func cgo_wxDataViewTreeCtrl_GetItemParent(self unsafe.Pointer, item unsafe.Pointer, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_GetItemParent(self, item, result)
+}
+
+func cgo_wxDataViewTreeCtrl_GetNthChild(self unsafe.Pointer, parent unsafe.Pointer, pos uint, result unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_GetNthChild(self, parent, C.uint(pos), result)
+}
+
+func cgo_wxDataViewTreeCtrl_Expand(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_Expand(self, item)
+}
+
+func cgo_wxDataViewTreeCtrl_Collapse(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_Collapse(self, item)
+}
+
+func cgo_wxDataViewTreeCtrl_IsExpanded(self unsafe.Pointer, item unsafe.Pointer) bool {
+	return C.wxDataViewTreeCtrl_IsExpanded(self, item) != 0
+}
+
+func cgo_wxDataViewTreeCtrl_SetImageList(self unsafe.Pointer, list unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_SetImageList(self, list)
+}
+
+func cgo_wxDataViewTreeCtrl_GetImageList(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewTreeCtrl_GetImageList(self))
+}
+
+func cgo_wxDataViewTreeCtrl_AssignImageList(self unsafe.Pointer, list unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_AssignImageList(self, list)
+}
+
+func cgo_wxDataViewTreeCtrl_SetImages(self unsafe.Pointer, images unsafe.Pointer) {
+	C.wxDataViewTreeCtrl_SetImages(self, images)
+}
+
+func cgo_wxDataViewEvent_GetItem(self unsafe.Pointer, item unsafe.Pointer) {
+	C.wxDataViewEvent_GetItem(self, item)
+}
+
+func cgo_wxDataViewEvent_GetColumn(self unsafe.Pointer) int {
+	return int(C.wxDataViewEvent_GetColumn(self))
+}
+
+func cgo_wxDataViewEvent_GetDataViewColumn(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewEvent_GetDataViewColumn(self))
+}
+
+func cgo_wxDataViewEvent_GetValue(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewEvent_GetValue(self))
+}
+
+func cgo_wxDataViewEvent_SetValue(self unsafe.Pointer, value unsafe.Pointer) {
+	C.wxDataViewEvent_SetValue(self, value)
+}
+
+func cgo_wxDataViewEvent_GetDataObject(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewEvent_GetDataObject(self))
+}
+
+func cgo_wxDataViewEvent_SetDataObject(self unsafe.Pointer, objValue unsafe.Pointer) {
+	C.wxDataViewEvent_SetDataObject(self, objValue)
+}
+
+func cgo_wxDataViewEvent_GetDataFormat(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewEvent_GetDataFormat(self))
+}
+
+func cgo_wxDataViewEvent_SetDataFormat(self unsafe.Pointer, format unsafe.Pointer) {
+	C.wxDataViewEvent_SetDataFormat(self, format)
+}
+
+func cgo_wxDataViewEvent_GetDataSize(self unsafe.Pointer) int {
+	return int(C.wxDataViewEvent_GetDataSize(self))
+}
+
+func cgo_wxDataViewEvent_SetDataSize(self unsafe.Pointer, size int) {
+	C.wxDataViewEvent_SetDataSize(self, C.size_t(size))
+}
+
+func cgo_wxDataViewEvent_GetDataBuffer(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewEvent_GetDataBuffer(self))
+}
+
+func cgo_wxDataViewEvent_SetDataBuffer(self unsafe.Pointer, buffer unsafe.Pointer) {
+	C.wxDataViewEvent_SetDataBuffer(self, buffer)
+}
+
+func cgo_wxDataViewEvent_GetDropEffect(self unsafe.Pointer) int {
+	return int(C.wxDataViewEvent_GetDropEffect(self))
+}
+
+func cgo_wxDataViewEvent_SetDropEffect(self unsafe.Pointer, effect int) {
+	C.wxDataViewEvent_SetDropEffect(self, C.int(effect))
+}
+
+func cgo_wxDataViewEvent_SetDragFlags(self unsafe.Pointer, flags int) {
+	C.wxDataViewEvent_SetDragFlags(self, C.int(flags))
+}
+
+func cgo_wxDataViewEvent_GetDragFlags(self unsafe.Pointer) int {
+	return int(C.wxDataViewEvent_GetDragFlags(self))
+}
+
+func cgo_wxDataViewEvent_SetProposedDropIndex(self unsafe.Pointer, index int) {
+	C.wxDataViewEvent_SetProposedDropIndex(self, C.int(index))
+}
+
+func cgo_wxDataViewEvent_GetProposedDropIndex(self unsafe.Pointer) int {
+	return int(C.wxDataViewEvent_GetProposedDropIndex(self))
+}
+
+func cgo_wxDataViewEvent_GetPosition(self unsafe.Pointer, x unsafe.Pointer, y unsafe.Pointer) {
+	C.wxDataViewEvent_GetPosition(self, (*C.int)(x), (*C.int)(y))
+}
+
+func cgo_wxDataViewEvent_SetPosition(self unsafe.Pointer, x int, y int) {
+	C.wxDataViewEvent_SetPosition(self, C.int(x), C.int(y))
+}
+
+func cgo_wxDataViewEvent_IsEditCancelled(self unsafe.Pointer) bool {
+	return C.wxDataViewEvent_IsEditCancelled(self) != 0
+}
+
+func cgo_wxDataViewEvent_SetEditCancelled(self unsafe.Pointer) {
+	C.wxDataViewEvent_SetEditCancelled(self)
+}
+
+func cgo_wxDataViewEvent_GetModel(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewEvent_GetModel(self))
+}
+
 func cgo_wxTreeListCtrl_SetItemTextSimple(self unsafe.Pointer, item unsafe.Pointer, text unsafe.Pointer) {
 	C.wxTreeListCtrl_SetItemTextSimple(self, item, text)
 }
@@ -20685,6 +23070,70 @@ func cgo_wxStatusBar_GetStatusStyle(self unsafe.Pointer, n int) int {
 	return int(C.wxStatusBar_GetStatusStyle(self, C.int(n)))
 }
 
+func cgo_wxDataViewIconText_Create(text unsafe.Pointer, icon unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIconText_Create(text, icon))
+}
+
+func cgo_wxDataViewIconText_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIconText_CreateDefault())
+}
+
+func cgo_wxDataViewIconText_Copy(self unsafe.Pointer, other unsafe.Pointer) {
+	C.wxDataViewIconText_Copy(self, other)
+}
+
+func cgo_wxDataViewIconText_Delete(self unsafe.Pointer) {
+	C.wxDataViewIconText_Delete(self)
+}
+
+func cgo_wxDataViewIconText_SetText(self unsafe.Pointer, text unsafe.Pointer) {
+	C.wxDataViewIconText_SetText(self, text)
+}
+
+func cgo_wxDataViewIconText_GetText(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIconText_GetText(self))
+}
+
+func cgo_wxDataViewIconText_SetBitmapBundle(self unsafe.Pointer, icon unsafe.Pointer) {
+	C.wxDataViewIconText_SetBitmapBundle(self, icon)
+}
+
+func cgo_wxDataViewIconText_GetBitmapBundle(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIconText_GetBitmapBundle(self))
+}
+
+func cgo_wxDataViewIconText_SetIcon(self unsafe.Pointer, icon unsafe.Pointer) {
+	C.wxDataViewIconText_SetIcon(self, icon)
+}
+
+func cgo_wxDataViewIconText_GetIcon(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewIconText_GetIcon(self))
+}
+
+func cgo_wxDataViewCheckIconText_Create(text unsafe.Pointer, icon unsafe.Pointer, checkedState int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCheckIconText_Create(text, icon, C.int(checkedState)))
+}
+
+func cgo_wxDataViewCheckIconText_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataViewCheckIconText_CreateDefault())
+}
+
+func cgo_wxDataViewCheckIconText_Copy(self unsafe.Pointer, other unsafe.Pointer) {
+	C.wxDataViewCheckIconText_Copy(self, other)
+}
+
+func cgo_wxDataViewCheckIconText_Delete(self unsafe.Pointer) {
+	C.wxDataViewCheckIconText_Delete(self)
+}
+
+func cgo_wxDataViewCheckIconText_SetCheckedState(self unsafe.Pointer, state int) {
+	C.wxDataViewCheckIconText_SetCheckedState(self, C.int(state))
+}
+
+func cgo_wxDataViewCheckIconText_GetCheckedState(self unsafe.Pointer) int {
+	return int(C.wxDataViewCheckIconText_GetCheckedState(self))
+}
+
 func cgo_wxControl_FindAccelIndex(label unsafe.Pointer) int {
 	return int(C.wxControl_FindAccelIndex(label))
 }
@@ -20911,6 +23360,10 @@ func cgo_wxTextEntry_GetMargins(self unsafe.Pointer, left unsafe.Pointer, top un
 
 func cgo_wxTextEntry_AutoComplete(self unsafe.Pointer, count int, items unsafe.Pointer) bool {
 	return C.wxTextEntry_AutoComplete(self, C.int(count), items) != 0
+}
+
+func cgo_wxTextEntry_AutoCompleteStrings(self unsafe.Pointer, items unsafe.Pointer) bool {
+	return C.wxTextEntry_AutoCompleteStrings(self, items) != 0
 }
 
 func cgo_wxTextEntry_AutoCompleteFileNames(self unsafe.Pointer) bool {
@@ -21295,6 +23748,66 @@ func cgo_wxTopLevelWindow_OSXIsModified(self unsafe.Pointer) bool {
 
 func cgo_wxTopLevelWindow_SetRepresentedFilename(self unsafe.Pointer, filename unsafe.Pointer) {
 	C.wxTopLevelWindow_SetRepresentedFilename(self, filename)
+}
+
+func cgo_kwxMSAA_FromWindow(window unsafe.Pointer, objectId int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_FromWindow(window, C.int(objectId)))
+}
+
+func cgo_kwxMSAA_Release(accessible unsafe.Pointer) {
+	C.kwxMSAA_Release(accessible)
+}
+
+func cgo_kwxMSAA_GetChildCount(accessible unsafe.Pointer) int {
+	return int(C.kwxMSAA_GetChildCount(accessible))
+}
+
+func cgo_kwxMSAA_GetName(accessible unsafe.Pointer, childId int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetName(accessible, C.int(childId)))
+}
+
+func cgo_kwxMSAA_GetRoleText(accessible unsafe.Pointer, childId int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetRoleText(accessible, C.int(childId)))
+}
+
+func cgo_kwxMSAA_GetValue(accessible unsafe.Pointer, childId int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetValue(accessible, C.int(childId)))
+}
+
+func cgo_kwxMSAA_GetDescription(accessible unsafe.Pointer, childId int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetDescription(accessible, C.int(childId)))
+}
+
+func cgo_kwxMSAA_GetNameWithStatus(accessible unsafe.Pointer, childId int, result unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetNameWithStatus(accessible, C.int(childId), (*C.int)(result)))
+}
+
+func cgo_kwxMSAA_GetRoleTextWithStatus(accessible unsafe.Pointer, childId int, result unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetRoleTextWithStatus(accessible, C.int(childId), (*C.int)(result)))
+}
+
+func cgo_kwxMSAA_GetValueWithStatus(accessible unsafe.Pointer, childId int, result unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetValueWithStatus(accessible, C.int(childId), (*C.int)(result)))
+}
+
+func cgo_kwxMSAA_GetDescriptionWithStatus(accessible unsafe.Pointer, childId int, result unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetDescriptionWithStatus(accessible, C.int(childId), (*C.int)(result)))
+}
+
+func cgo_kwxMSAA_GetState(accessible unsafe.Pointer, childId int) int {
+	return int(C.kwxMSAA_GetState(accessible, C.int(childId)))
+}
+
+func cgo_kwxMSAA_GetChild(accessible unsafe.Pointer, childId int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetChild(accessible, C.int(childId)))
+}
+
+func cgo_kwxMSAA_GetAccessibleChildCount(accessible unsafe.Pointer) int {
+	return int(C.kwxMSAA_GetAccessibleChildCount(accessible))
+}
+
+func cgo_kwxMSAA_GetAccessibleChild(accessible unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxMSAA_GetAccessibleChild(accessible, C.int(index)))
 }
 
 func cgo_wxProtocol_Delete(self unsafe.Pointer) {
@@ -23709,90 +26222,6 @@ func cgo_wxRegEx_ReplaceFirst(self unsafe.Pointer, text unsafe.Pointer, replacem
 	return int(C.wxRegEx_ReplaceFirst(self, text, replacement))
 }
 
-func cgo_wxXmlDocument_Create() unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_Create())
-}
-
-func cgo_wxXmlDocument_GetDocumentNode(self unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_GetDocumentNode(self))
-}
-
-func cgo_wxXmlDocument_CreateFromFile(file_name unsafe.Pointer, flags int) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_CreateFromFile(file_name, C.int(flags)))
-}
-
-func cgo_wxXmlDocument_CreateFromString(text unsafe.Pointer, flags int) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_CreateFromString(text, C.int(flags)))
-}
-
-func cgo_wxXmlDocument_Delete(self unsafe.Pointer) {
-	C.wxXmlDocument_Delete(self)
-}
-
-func cgo_wxXmlDocument_Load(self unsafe.Pointer, file_name unsafe.Pointer, flags int) bool {
-	return C.wxXmlDocument_Load(self, file_name, C.int(flags)) != 0
-}
-
-func cgo_wxXmlDocument_LoadFromString(self unsafe.Pointer, text unsafe.Pointer, flags int) bool {
-	return C.wxXmlDocument_LoadFromString(self, text, C.int(flags)) != 0
-}
-
-func cgo_wxXmlDocument_Save(self unsafe.Pointer, file_name unsafe.Pointer, indent_step int) bool {
-	return C.wxXmlDocument_Save(self, file_name, C.int(indent_step)) != 0
-}
-
-func cgo_wxXmlDocument_SaveToString(self unsafe.Pointer, indent_step int) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_SaveToString(self, C.int(indent_step)))
-}
-
-func cgo_wxXmlDocument_GetRoot(self unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_GetRoot(self))
-}
-
-func cgo_wxXmlDocument_SetRoot(self unsafe.Pointer, root unsafe.Pointer) {
-	C.wxXmlDocument_SetRoot(self, root)
-}
-
-func cgo_wxXmlDocument_DetachRoot(self unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_DetachRoot(self))
-}
-
-func cgo_wxXmlDocument_GetVersion(self unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_GetVersion(self))
-}
-
-func cgo_wxXmlDocument_SetVersion(self unsafe.Pointer, version unsafe.Pointer) {
-	C.wxXmlDocument_SetVersion(self, version)
-}
-
-func cgo_wxXmlDocument_GetFileEncoding(self unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxXmlDocument_GetFileEncoding(self))
-}
-
-func cgo_wxXmlDocument_SetFileEncoding(self unsafe.Pointer, encoding unsafe.Pointer) {
-	C.wxXmlDocument_SetFileEncoding(self, encoding)
-}
-
-func cgo_wxXmlDocument_GetFileType(self unsafe.Pointer) int {
-	return int(C.wxXmlDocument_GetFileType(self))
-}
-
-func cgo_wxXmlDocument_SetFileType(self unsafe.Pointer, file_type int) {
-	C.wxXmlDocument_SetFileType(self, C.int(file_type))
-}
-
-func cgo_wxXmlDocument_AppendToProlog(self unsafe.Pointer, node unsafe.Pointer) {
-	C.wxXmlDocument_AppendToProlog(self, node)
-}
-
-func cgo_wxXmlDocument_AppendChild(self unsafe.Pointer, child unsafe.Pointer) bool {
-	return C.wxXmlDocument_AppendChild(self, child) != 0
-}
-
-func cgo_wxXmlDocument_IsOk(self unsafe.Pointer) bool {
-	return C.wxXmlDocument_IsOk(self) != 0
-}
-
 func cgo_wxURI_Create() unsafe.Pointer {
 	return unsafe.Pointer(C.wxURI_Create())
 }
@@ -24411,6 +26840,18 @@ func cgo_wxRichTextAttr_SetTextBoxAttr(self unsafe.Pointer, attr unsafe.Pointer)
 
 func cgo_wxRichTextAttr_HasTextBoxAttr(self unsafe.Pointer) bool {
 	return C.wxRichTextAttr_HasTextBoxAttr(self) != 0
+}
+
+func cgo_wxRichTextAttr_SetBackgroundColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxRichTextAttr_SetBackgroundColour(self, colour)
+}
+
+func cgo_wxRichTextAttr_SetParagraphSpacingAfter(self unsafe.Pointer, spacing int) {
+	C.wxRichTextAttr_SetParagraphSpacingAfter(self, C.int(spacing))
+}
+
+func cgo_wxRichTextAttr_SetLineSpacing(self unsafe.Pointer, spacing int) {
+	C.wxRichTextAttr_SetLineSpacing(self, C.int(spacing))
 }
 
 func cgo_wxRichTextProperties_Create() unsafe.Pointer {
@@ -25091,6 +27532,22 @@ func cgo_wxRichTextCompositeObject_DeleteChildren(self unsafe.Pointer) bool {
 
 func cgo_wxRichTextCompositeObject_Delete(self unsafe.Pointer) {
 	C.wxRichTextCompositeObject_Delete(self)
+}
+
+func cgo_wxRichTextParagraph_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxRichTextParagraph_Create())
+}
+
+func cgo_wxRichTextParagraph_Delete(self unsafe.Pointer) {
+	C.wxRichTextParagraph_Delete(self)
+}
+
+func cgo_wxRichTextPlainText_Create(text unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxRichTextPlainText_Create(text))
+}
+
+func cgo_wxRichTextPlainText_Delete(self unsafe.Pointer) {
+	C.wxRichTextPlainText_Delete(self)
 }
 
 func cgo_wxRichTextParagraphLayoutBox_Create(parent unsafe.Pointer) unsafe.Pointer {
@@ -26281,6 +28738,14 @@ func cgo_wxRichTextCtrl_GetAdjustedCaretPosition(self unsafe.Pointer, caretPosit
 	return int(C.wxRichTextCtrl_GetAdjustedCaretPosition(self, C.long(caretPosition)))
 }
 
+func cgo_wxRichTextCtrl_GetCaretPosition(self unsafe.Pointer) int {
+	return int(C.wxRichTextCtrl_GetCaretPosition(self))
+}
+
+func cgo_wxRichTextCtrl_SetMargins(self unsafe.Pointer, left int, top int) bool {
+	return C.wxRichTextCtrl_SetMargins(self, C.int(left), C.int(top)) != 0
+}
+
 func cgo_wxRichTextCtrl_FindNextWordPosition(self unsafe.Pointer, direction int) int {
 	return int(C.wxRichTextCtrl_FindNextWordPosition(self, C.int(direction)))
 }
@@ -27333,6 +29798,18 @@ func cgo_kwxRichTextCtrl_SetOnCanInsertContent(self unsafe.Pointer, pFunction un
 	C.kwxRichTextCtrl_SetOnCanInsertContent(self, pFunction)
 }
 
+func cgo_kwxRichTextCtrl_SetOnPrepareContentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextCtrl_SetOnPrepareContentWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextCtrl_SetOnCanDeleteRangeWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextCtrl_SetOnCanDeleteRangeWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextCtrl_SetOnCanInsertContentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextCtrl_SetOnCanInsertContentWithData(self, pFunction, data)
+}
+
 func cgo_kwxRichTextCtrl_SetCanDeleteRangeResult(self unsafe.Pointer, result bool) {
 	C.kwxRichTextCtrl_SetCanDeleteRangeResult(self, boolToInt(result))
 }
@@ -27341,8 +29818,40 @@ func cgo_kwxRichTextCtrl_SetCanInsertContentResult(self unsafe.Pointer, result b
 	C.kwxRichTextCtrl_SetCanInsertContentResult(self, boolToInt(result))
 }
 
+func cgo_kwxRichTextCtrl_SetCallbackObject(self unsafe.Pointer, object unsafe.Pointer) {
+	C.kwxRichTextCtrl_SetCallbackObject(self, object)
+}
+
+func cgo_kwxRichTextCtrl_GetCallbackObject(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxRichTextCtrl_GetCallbackObject(self))
+}
+
+func cgo_kwxRichTextCtrl_SetLockId(self unsafe.Pointer, id int) {
+	C.kwxRichTextCtrl_SetLockId(self, C.long(id))
+}
+
+func cgo_kwxRichTextCtrl_GetLockId(self unsafe.Pointer) int {
+	return int(C.kwxRichTextCtrl_GetLockId(self))
+}
+
+func cgo_kwxRichTextCtrl_BeginLock(self unsafe.Pointer) {
+	C.kwxRichTextCtrl_BeginLock(self)
+}
+
+func cgo_kwxRichTextCtrl_EndLock(self unsafe.Pointer) {
+	C.kwxRichTextCtrl_EndLock(self)
+}
+
+func cgo_kwxRichTextCtrl_IsLocked(self unsafe.Pointer) bool {
+	return C.kwxRichTextCtrl_IsLocked(self) != 0
+}
+
 func cgo_kwxRichTextFieldTypeStandard_Create(pObject unsafe.Pointer, name unsafe.Pointer, label unsafe.Pointer, displayStyle int) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxRichTextFieldTypeStandard_Create(pObject, name, label, C.int(displayStyle)))
+}
+
+func cgo_kwxRichTextFieldTypeStandard_CreateWithBitmap(pObject unsafe.Pointer, name unsafe.Pointer, bitmap unsafe.Pointer, displayStyle int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxRichTextFieldTypeStandard_CreateWithBitmap(pObject, name, bitmap, C.int(displayStyle)))
 }
 
 func cgo_kwxRichTextFieldTypeStandard_Delete(self unsafe.Pointer) {
@@ -27389,6 +29898,26 @@ func cgo_kwxRichTextFieldTypeStandard_SetOnIsTopLevel(self unsafe.Pointer, pFunc
 	C.kwxRichTextFieldTypeStandard_SetOnIsTopLevel(self, pFunction)
 }
 
+func cgo_kwxRichTextFieldTypeStandard_SetOnCanEditPropertiesWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextFieldTypeStandard_SetOnCanEditPropertiesWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextFieldTypeStandard_SetOnEditPropertiesWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextFieldTypeStandard_SetOnEditPropertiesWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextFieldTypeStandard_SetOnGetPropertiesMenuLabelWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextFieldTypeStandard_SetOnGetPropertiesMenuLabelWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextFieldTypeStandard_SetOnUpdateFieldWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextFieldTypeStandard_SetOnUpdateFieldWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextFieldTypeStandard_SetOnIsTopLevelWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextFieldTypeStandard_SetOnIsTopLevelWithData(self, pFunction, data)
+}
+
 func cgo_kwxRichTextDrawingHandler_Create(pObject unsafe.Pointer, name unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxRichTextDrawingHandler_Create(pObject, name))
 }
@@ -27415,6 +29944,26 @@ func cgo_kwxRichTextDrawingHandler_SetOnHasVirtualText(self unsafe.Pointer, pFun
 
 func cgo_kwxRichTextDrawingHandler_SetOnGetVirtualText(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.kwxRichTextDrawingHandler_SetOnGetVirtualText(self, pFunction)
+}
+
+func cgo_kwxRichTextDrawingHandler_SetOnHasVirtualAttributesWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextDrawingHandler_SetOnHasVirtualAttributesWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextDrawingHandler_SetOnGetVirtualAttributesWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextDrawingHandler_SetOnGetVirtualAttributesWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextDrawingHandler_SetOnGetVirtualSubobjectAttributesCountWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextDrawingHandler_SetOnGetVirtualSubobjectAttributesCountWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextDrawingHandler_SetOnHasVirtualTextWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextDrawingHandler_SetOnHasVirtualTextWithData(self, pFunction, data)
+}
+
+func cgo_kwxRichTextDrawingHandler_SetOnGetVirtualTextWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxRichTextDrawingHandler_SetOnGetVirtualTextWithData(self, pFunction, data)
 }
 
 func cgo_kwxRichTextDrawingHandler_SetVirtualTextResult(self unsafe.Pointer, text unsafe.Pointer) {
@@ -27635,6 +30184,10 @@ func cgo_wxTextUrlEvent_GetURLStart(self unsafe.Pointer) int {
 
 func cgo_wxTextUrlEvent_GetURLEnd(self unsafe.Pointer) int {
 	return int(C.wxTextUrlEvent_GetURLEnd(self))
+}
+
+func cgo_wxTextUrlEvent_GetString(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxTextUrlEvent_GetString(self))
 }
 
 func cgo_wxThreadEvent_Create(event_type int, id int) unsafe.Pointer {
@@ -27917,6 +30470,22 @@ func cgo_wxDCOverlay_Clear(self unsafe.Pointer) {
 	C.wxDCOverlay_Clear(self)
 }
 
+func cgo_wxOverlayDC_Create(overlay unsafe.Pointer, win unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxOverlayDC_Create(overlay, win))
+}
+
+func cgo_wxOverlayDC_CreateWithRect(overlay unsafe.Pointer, win unsafe.Pointer, x int, y int, width int, height int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxOverlayDC_CreateWithRect(overlay, win, C.int(x), C.int(y), C.int(width), C.int(height)))
+}
+
+func cgo_wxOverlayDC_CreateGCDC(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxOverlayDC_CreateGCDC(self))
+}
+
+func cgo_wxOverlayDC_Delete(self unsafe.Pointer) {
+	C.wxOverlayDC_Delete(self)
+}
+
 func cgo_wxAffineMatrix2D_Create() unsafe.Pointer {
 	return unsafe.Pointer(C.wxAffineMatrix2D_Create())
 }
@@ -27987,6 +30556,16 @@ func cgo_wxArtProvider_Push(provider unsafe.Pointer) {
 
 func cgo_wxArtProvider_GetBitmapBundle(id unsafe.Pointer, client unsafe.Pointer, width int, height int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxArtProvider_GetBitmapBundle(id, client, C.int(width), C.int(height)))
+}
+
+func cgo_wxArtProvider_GetBitmapBundleDefault(id unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxArtProvider_GetBitmapBundleDefault(id))
+}
+
+func cgo_wxArtProvider_MakeClientId(id string) unsafe.Pointer {
+	cId := C.CString(id)
+	defer C.free(unsafe.Pointer(cId))
+	return unsafe.Pointer(C.wxArtProvider_MakeClientId(cId))
 }
 
 func cgo_wxArtProvider_GetIcon(id unsafe.Pointer, client unsafe.Pointer, width int, height int) unsafe.Pointer {
@@ -28581,6 +31160,42 @@ func cgo_wxDynamicLibrary_GetName(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDynamicLibrary_GetName(self))
 }
 
+func cgo_wxDynamicLibraryDetails_GetName(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDynamicLibraryDetails_GetName(self))
+}
+
+func cgo_wxDynamicLibraryDetails_GetPath(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDynamicLibraryDetails_GetPath(self))
+}
+
+func cgo_wxDynamicLibraryDetails_GetVersion(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDynamicLibraryDetails_GetVersion(self))
+}
+
+func cgo_wxDynamicLibraryDetails_GetAddress(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDynamicLibraryDetails_GetAddress(self))
+}
+
+func cgo_wxDynamicLibraryDetails_GetLength(self unsafe.Pointer) int {
+	return int(C.wxDynamicLibraryDetails_GetLength(self))
+}
+
+func cgo_kwxDynamicLibraryList_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDynamicLibraryList_Create())
+}
+
+func cgo_kwxDynamicLibraryList_Delete(self unsafe.Pointer) {
+	C.kwxDynamicLibraryList_Delete(self)
+}
+
+func cgo_kwxDynamicLibraryList_GetCount(self unsafe.Pointer) int {
+	return int(C.kwxDynamicLibraryList_GetCount(self))
+}
+
+func cgo_kwxDynamicLibraryList_GetDetails(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxDynamicLibraryList_GetDetails(self, C.size_t(index)))
+}
+
 func cgo_wxMutex_IsOk(self unsafe.Pointer) bool {
 	return C.wxMutex_IsOk(self) != 0
 }
@@ -28661,12 +31276,104 @@ func cgo_wxCondition_WaitFor(self unsafe.Pointer, sec int, nsec int) int {
 	return int(C.wxCondition_WaitFor(self, C.int(sec), C.int(nsec)))
 }
 
+func cgo_wxItemAttr_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxItemAttr_Create())
+}
+
+func cgo_wxItemAttr_Copy(self unsafe.Pointer, other unsafe.Pointer) {
+	C.wxItemAttr_Copy(self, other)
+}
+
+func cgo_wxItemAttr_Delete(self unsafe.Pointer) {
+	C.wxItemAttr_Delete(self)
+}
+
+func cgo_wxItemAttr_SetTextColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxItemAttr_SetTextColour(self, colour)
+}
+
+func cgo_wxItemAttr_SetBackgroundColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxItemAttr_SetBackgroundColour(self, colour)
+}
+
+func cgo_wxItemAttr_SetFont(self unsafe.Pointer, font unsafe.Pointer) {
+	C.wxItemAttr_SetFont(self, font)
+}
+
+func cgo_wxItemAttr_HasTextColour(self unsafe.Pointer) bool {
+	return C.wxItemAttr_HasTextColour(self) != 0
+}
+
+func cgo_wxItemAttr_HasBackgroundColour(self unsafe.Pointer) bool {
+	return C.wxItemAttr_HasBackgroundColour(self) != 0
+}
+
+func cgo_wxItemAttr_HasFont(self unsafe.Pointer) bool {
+	return C.wxItemAttr_HasFont(self) != 0
+}
+
+func cgo_wxItemAttr_HasColours(self unsafe.Pointer) bool {
+	return C.wxItemAttr_HasColours(self) != 0
+}
+
+func cgo_wxItemAttr_GetTextColour(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxItemAttr_GetTextColour(self))
+}
+
+func cgo_wxItemAttr_GetBackgroundColour(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxItemAttr_GetBackgroundColour(self))
+}
+
+func cgo_wxItemAttr_GetFont(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxItemAttr_GetFont(self))
+}
+
+func cgo_wxOverlay_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxOverlay_Create())
+}
+
+func cgo_wxOverlay_Delete(self unsafe.Pointer) {
+	C.wxOverlay_Delete(self)
+}
+
+func cgo_wxOverlay_Reset(self unsafe.Pointer) {
+	C.wxOverlay_Reset(self)
+}
+
+func cgo_wxOverlay_SetOpacity(self unsafe.Pointer, alpha int) {
+	C.wxOverlay_SetOpacity(self, C.int(alpha))
+}
+
 func cgo_kwxArtProv_Create(pObject unsafe.Pointer, callback unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxArtProv_Create(pObject, callback))
 }
 
 func cgo_kwxArtProv_Release(self unsafe.Pointer) {
 	C.kwxArtProv_Release(self)
+}
+
+func cgo_kwxArtProv_Push(self unsafe.Pointer) {
+	C.kwxArtProv_Push(self)
+}
+
+func cgo_kwxArtProv_PushBack(self unsafe.Pointer) {
+	C.kwxArtProv_PushBack(self)
+}
+
+func cgo_kwxArtProv_SetOnCreateBitmapWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxArtProv_SetOnCreateBitmapWithData(self, pFunction, data)
+}
+
+func cgo_kwxArtProv_GetRequestedWidth(self unsafe.Pointer) int {
+	return int(C.kwxArtProv_GetRequestedWidth(self))
+}
+
+func cgo_kwxArtProv_GetRequestedHeight(self unsafe.Pointer) int {
+	return int(C.kwxArtProv_GetRequestedHeight(self))
+}
+
+func cgo_kwxArtProv_SetCreateBitmapResult(self unsafe.Pointer, bitmap unsafe.Pointer) {
+	C.kwxArtProv_SetCreateBitmapResult(self, bitmap)
 }
 
 func cgo_kwxClient_Create(kwxObject unsafe.Pointer, connectFunc unsafe.Pointer) unsafe.Pointer {
@@ -28805,6 +31512,46 @@ func cgo_kwxDropTarget_SetOnLeave(self unsafe.Pointer, pFunction unsafe.Pointer)
 	C.kwxDropTarget_SetOnLeave(self, pFunction)
 }
 
+func cgo_kwxDropTarget_SetOnDataWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDropTarget_SetOnDataWithData(self, pFunction, data)
+}
+
+func cgo_kwxDropTarget_SetOnDropWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDropTarget_SetOnDropWithData(self, pFunction, data)
+}
+
+func cgo_kwxDropTarget_SetOnEnterWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDropTarget_SetOnEnterWithData(self, pFunction, data)
+}
+
+func cgo_kwxDropTarget_SetOnDragOverWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDropTarget_SetOnDragOverWithData(self, pFunction, data)
+}
+
+func cgo_kwxDropTarget_SetOnLeaveWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxDropTarget_SetOnLeaveWithData(self, pFunction, data)
+}
+
+func cgo_kwxDropTarget_SetDataResult(self unsafe.Pointer, result int) {
+	C.kwxDropTarget_SetDataResult(self, C.int(result))
+}
+
+func cgo_kwxDropTarget_SetDropResult(self unsafe.Pointer, result int) {
+	C.kwxDropTarget_SetDropResult(self, C.int(result))
+}
+
+func cgo_kwxDropTarget_SetEnterResult(self unsafe.Pointer, result int) {
+	C.kwxDropTarget_SetEnterResult(self, C.int(result))
+}
+
+func cgo_kwxDropTarget_SetDragOverResult(self unsafe.Pointer, result int) {
+	C.kwxDropTarget_SetDragOverResult(self, C.int(result))
+}
+
+func cgo_kwxDropTarget_GetDropResult(self unsafe.Pointer) int {
+	return int(C.kwxDropTarget_GetDropResult(self))
+}
+
 func cgo_kwxFileDropTarget_Create(pObject unsafe.Pointer, pFunction unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxFileDropTarget_Create(pObject, pFunction))
 }
@@ -28831,6 +31578,58 @@ func cgo_kwxFileDropTarget_SetOnEnter(self unsafe.Pointer, pFunction unsafe.Poin
 
 func cgo_kwxFileDropTarget_SetOnLeave(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.kwxFileDropTarget_SetOnLeave(self, pFunction)
+}
+
+func cgo_kwxFileDropTarget_SetOnDataWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFileDropTarget_SetOnDataWithData(self, pFunction, data)
+}
+
+func cgo_kwxFileDropTarget_SetOnDropWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFileDropTarget_SetOnDropWithData(self, pFunction, data)
+}
+
+func cgo_kwxFileDropTarget_SetOnEnterWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFileDropTarget_SetOnEnterWithData(self, pFunction, data)
+}
+
+func cgo_kwxFileDropTarget_SetOnDragOverWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFileDropTarget_SetOnDragOverWithData(self, pFunction, data)
+}
+
+func cgo_kwxFileDropTarget_SetOnLeaveWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFileDropTarget_SetOnLeaveWithData(self, pFunction, data)
+}
+
+func cgo_kwxFileDropTarget_SetDataResult(self unsafe.Pointer, result int) {
+	C.kwxFileDropTarget_SetDataResult(self, C.int(result))
+}
+
+func cgo_kwxFileDropTarget_SetDropResult(self unsafe.Pointer, result int) {
+	C.kwxFileDropTarget_SetDropResult(self, C.int(result))
+}
+
+func cgo_kwxFileDropTarget_SetEnterResult(self unsafe.Pointer, result int) {
+	C.kwxFileDropTarget_SetEnterResult(self, C.int(result))
+}
+
+func cgo_kwxFileDropTarget_SetDragOverResult(self unsafe.Pointer, result int) {
+	C.kwxFileDropTarget_SetDragOverResult(self, C.int(result))
+}
+
+func cgo_kwxFileDropTarget_GetDropResult(self unsafe.Pointer) int {
+	return int(C.kwxFileDropTarget_GetDropResult(self))
+}
+
+func cgo_kwxFileDropTarget_SetOnDropFilesWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxFileDropTarget_SetOnDropFilesWithData(self, pFunction, data)
+}
+
+func cgo_kwxFileDropTarget_SetDropFilesResult(self unsafe.Pointer, result int) {
+	C.kwxFileDropTarget_SetDropFilesResult(self, C.int(result))
+}
+
+func cgo_kwxFileDropTarget_GetDropFiles(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxFileDropTarget_GetDropFiles(self))
 }
 
 func cgo_kwxGridTable_Create(pObject unsafe.Pointer, fnGetNumberRows unsafe.Pointer, fnGetNumberCols unsafe.Pointer, fnGetValue unsafe.Pointer, fnSetValue unsafe.Pointer, fnIsEmptyCell unsafe.Pointer, fnClear unsafe.Pointer, fnInsertRows unsafe.Pointer, fnAppendRows unsafe.Pointer, fnDeleteRows unsafe.Pointer, fnInsertCols unsafe.Pointer, fnAppendCols unsafe.Pointer, fnDeleteCols unsafe.Pointer, fnSetRowLabelValue unsafe.Pointer, fnSetColLabelValue unsafe.Pointer, fnGetRowLabelValue unsafe.Pointer, fnGetColLabelValue unsafe.Pointer) unsafe.Pointer {
@@ -29133,6 +31932,58 @@ func cgo_kwxTextDropTarget_SetOnLeave(self unsafe.Pointer, pFunction unsafe.Poin
 	C.kwxTextDropTarget_SetOnLeave(self, pFunction)
 }
 
+func cgo_kwxTextDropTarget_SetOnDataWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxTextDropTarget_SetOnDataWithData(self, pFunction, data)
+}
+
+func cgo_kwxTextDropTarget_SetOnDropWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxTextDropTarget_SetOnDropWithData(self, pFunction, data)
+}
+
+func cgo_kwxTextDropTarget_SetOnEnterWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxTextDropTarget_SetOnEnterWithData(self, pFunction, data)
+}
+
+func cgo_kwxTextDropTarget_SetOnDragOverWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxTextDropTarget_SetOnDragOverWithData(self, pFunction, data)
+}
+
+func cgo_kwxTextDropTarget_SetOnLeaveWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxTextDropTarget_SetOnLeaveWithData(self, pFunction, data)
+}
+
+func cgo_kwxTextDropTarget_SetDataResult(self unsafe.Pointer, result int) {
+	C.kwxTextDropTarget_SetDataResult(self, C.int(result))
+}
+
+func cgo_kwxTextDropTarget_SetDropResult(self unsafe.Pointer, result int) {
+	C.kwxTextDropTarget_SetDropResult(self, C.int(result))
+}
+
+func cgo_kwxTextDropTarget_SetEnterResult(self unsafe.Pointer, result int) {
+	C.kwxTextDropTarget_SetEnterResult(self, C.int(result))
+}
+
+func cgo_kwxTextDropTarget_SetDragOverResult(self unsafe.Pointer, result int) {
+	C.kwxTextDropTarget_SetDragOverResult(self, C.int(result))
+}
+
+func cgo_kwxTextDropTarget_GetDropResult(self unsafe.Pointer) int {
+	return int(C.kwxTextDropTarget_GetDropResult(self))
+}
+
+func cgo_kwxTextDropTarget_SetOnDropTextWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.kwxTextDropTarget_SetOnDropTextWithData(self, pFunction, data)
+}
+
+func cgo_kwxTextDropTarget_SetDropTextResult(self unsafe.Pointer, result int) {
+	C.kwxTextDropTarget_SetDropTextResult(self, C.int(result))
+}
+
+func cgo_kwxTextDropTarget_GetDropText(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.kwxTextDropTarget_GetDropText(self))
+}
+
 func cgo_kwxTextValidator_Create(pObject unsafe.Pointer, pFunction unsafe.Pointer, text unsafe.Pointer, style int) unsafe.Pointer {
 	return unsafe.Pointer(C.kwxTextValidator_Create(pObject, pFunction, text, C.int(style)))
 }
@@ -29373,6 +32224,26 @@ func cgo_wxApp_SetOnCreateTraits(self unsafe.Pointer, pFunction unsafe.Pointer) 
 	C.wxApp_SetOnCreateTraits(self, pFunction)
 }
 
+func cgo_wxApp_SetOnOnFatalException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.wxApp_SetOnOnFatalException(self, pFunction)
+}
+
+func cgo_wxApp_SetOnOnUnhandledException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.wxApp_SetOnOnUnhandledException(self, pFunction)
+}
+
+func cgo_wxApp_SetOnStoreCurrentException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.wxApp_SetOnStoreCurrentException(self, pFunction)
+}
+
+func cgo_wxApp_SetOnOnExceptionInMainLoop(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.wxApp_SetOnOnExceptionInMainLoop(self, pFunction)
+}
+
+func cgo_wxApp_SetOnRethrowStoredException(self unsafe.Pointer, pFunction unsafe.Pointer) {
+	C.wxApp_SetOnRethrowStoredException(self, pFunction)
+}
+
 func cgo_wxArrayString_Create() unsafe.Pointer {
 	return unsafe.Pointer(C.wxArrayString_Create())
 }
@@ -29535,6 +32406,10 @@ func cgo_wxAuiToolBarItem_CreateDefault() unsafe.Pointer {
 
 func cgo_wxAuiToolBarItem_Create(source unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxAuiToolBarItem_Create(source))
+}
+
+func cgo_wxAuiToolBarItem_Delete(self unsafe.Pointer) {
+	C.wxAuiToolBarItem_Delete(self)
 }
 
 func cgo_wxAuiToolBarItem_Copy(self unsafe.Pointer, source unsafe.Pointer) unsafe.Pointer {
@@ -29973,6 +32848,22 @@ func cgo_wxAuiToolBar_DeleteByIndex(self unsafe.Pointer, tool_id int) bool {
 	return C.wxAuiToolBar_DeleteByIndex(self, C.int(tool_id)) != 0
 }
 
+func cgo_wxAuiToolBar_DestroyTool(self unsafe.Pointer, tool_id int) bool {
+	return C.wxAuiToolBar_DestroyTool(self, C.int(tool_id)) != 0
+}
+
+func cgo_wxAuiToolBar_DestroyToolByIndex(self unsafe.Pointer, idx int) bool {
+	return C.wxAuiToolBar_DestroyToolByIndex(self, C.int(idx)) != 0
+}
+
+func cgo_wxAuiToolBar_GetToolClientData(self unsafe.Pointer, tool_id int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiToolBar_GetToolClientData(self, C.int(tool_id)))
+}
+
+func cgo_wxAuiToolBar_SetToolClientData(self unsafe.Pointer, tool_id int, clientData unsafe.Pointer) {
+	C.wxAuiToolBar_SetToolClientData(self, C.int(tool_id), clientData)
+}
+
 func cgo_wxAuiToolBar_GetToolCount(self unsafe.Pointer) int {
 	return int(C.wxAuiToolBar_GetToolCount(self))
 }
@@ -30151,6 +33042,22 @@ func cgo_wxAuiToolBar_GetHintSize(self unsafe.Pointer, dock_direction int) unsaf
 
 func cgo_wxAuiToolBar_IsPaneValid(self unsafe.Pointer, pane unsafe.Pointer) bool {
 	return C.wxAuiToolBar_IsPaneValid(self, pane) != 0
+}
+
+func cgo_wxAuiToolBar_AddToolByLabelBundle(self unsafe.Pointer, tool_id int, label unsafe.Pointer, bitmap unsafe.Pointer, shortHelpString unsafe.Pointer, kind int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiToolBar_AddToolByLabelBundle(self, C.int(tool_id), label, bitmap, shortHelpString, C.int(kind)))
+}
+
+func cgo_wxAuiToolBar_AddToolBundle(self unsafe.Pointer, tool_id int, label unsafe.Pointer, bitmap unsafe.Pointer, disabledBitmap unsafe.Pointer, kind int, shortHelpString unsafe.Pointer, longHelpString unsafe.Pointer, clientData unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiToolBar_AddToolBundle(self, C.int(tool_id), label, bitmap, disabledBitmap, C.int(kind), shortHelpString, longHelpString, clientData))
+}
+
+func cgo_wxAuiToolBar_AddToolByBitmapBundle(self unsafe.Pointer, tool_id int, bitmap unsafe.Pointer, disabledBitmap unsafe.Pointer, toggle bool, clientData unsafe.Pointer, shortHelpString unsafe.Pointer, longHelpString unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiToolBar_AddToolByBitmapBundle(self, C.int(tool_id), bitmap, disabledBitmap, boolToInt(toggle), clientData, shortHelpString, longHelpString))
+}
+
+func cgo_wxAuiToolBar_SetToolBitmapBundle(self unsafe.Pointer, tool_id int, bitmap unsafe.Pointer) {
+	C.wxAuiToolBar_SetToolBitmapBundle(self, C.int(tool_id), bitmap)
 }
 
 func cgo_wxAuiNotebook_CreateDefault() unsafe.Pointer {
@@ -30351,6 +33258,34 @@ func cgo_wxAuiNotebook_SaveLayout(self unsafe.Pointer, name unsafe.Pointer, seri
 
 func cgo_wxAuiNotebook_LoadLayout(self unsafe.Pointer, name unsafe.Pointer, deserializer unsafe.Pointer) {
 	C.wxAuiNotebook_LoadLayout(self, name, deserializer)
+}
+
+func cgo_wxAuiNotebook_AddPageWithBundle(self unsafe.Pointer, page unsafe.Pointer, caption unsafe.Pointer, sel bool, bitmap unsafe.Pointer) bool {
+	return C.wxAuiNotebook_AddPageWithBundle(self, page, caption, boolToInt(sel), bitmap) != 0
+}
+
+func cgo_wxAuiNotebook_InsertPageWithBundle(self unsafe.Pointer, page_idx int, page unsafe.Pointer, caption unsafe.Pointer, sel bool, bitmap unsafe.Pointer) bool {
+	return C.wxAuiNotebook_InsertPageWithBundle(self, C.int(page_idx), page, caption, boolToInt(sel), bitmap) != 0
+}
+
+func cgo_wxAuiNotebook_SetPageBitmapBundle(self unsafe.Pointer, page int, bitmap unsafe.Pointer) bool {
+	return C.wxAuiNotebook_SetPageBitmapBundle(self, C.int(page), bitmap) != 0
+}
+
+func cgo_wxAuiNotebook_CalculateNewSplitSize(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiNotebook_CalculateNewSplitSize(self))
+}
+
+func cgo_wxAuiNotebook_GetTabCtrlFromPoint(self unsafe.Pointer, x int, y int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiNotebook_GetTabCtrlFromPoint(self, C.int(x), C.int(y)))
+}
+
+func cgo_wxAuiNotebook_FindTabCtrl(self unsafe.Pointer, page unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiNotebook_FindTabCtrl(self, page))
+}
+
+func cgo_wxAuiNotebook_FindTabIndex(self unsafe.Pointer, page unsafe.Pointer) int {
+	return int(C.wxAuiNotebook_FindTabIndex(self, page))
 }
 
 func cgo_wxAuiTabContainerButton_Id(self unsafe.Pointer) int {
@@ -30921,6 +33856,58 @@ func cgo_wxAuiManager_GetManager(window unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxAuiManager_GetManager(window))
 }
 
+func cgo_wxAuiManager_CanDockPanel(self unsafe.Pointer, pane unsafe.Pointer) bool {
+	return C.wxAuiManager_CanDockPanel(self, pane) != 0
+}
+
+func cgo_wxAuiManager_CalculateNewSplitSize(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiManager_CalculateNewSplitSize(self))
+}
+
+func cgo_wxAuiManager_CalculateHintRect(self unsafe.Pointer, paneWindow unsafe.Pointer, x int, y int, offsetX int, offsetY int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiManager_CalculateHintRect(self, paneWindow, C.int(x), C.int(y), C.int(offsetX), C.int(offsetY)))
+}
+
+func cgo_wxAuiManager_ClosePane(self unsafe.Pointer, paneInfo unsafe.Pointer) {
+	C.wxAuiManager_ClosePane(self, paneInfo)
+}
+
+func cgo_wxAuiManager_DrawHintRect(self unsafe.Pointer, paneWindow unsafe.Pointer, x int, y int, offsetX int, offsetY int) {
+	C.wxAuiManager_DrawHintRect(self, paneWindow, C.int(x), C.int(y), C.int(offsetX), C.int(offsetY))
+}
+
+func cgo_wxAuiManager_HasLiveResize(self unsafe.Pointer) bool {
+	return C.wxAuiManager_HasLiveResize(self) != 0
+}
+
+func cgo_wxAuiManager_MaximizePane(self unsafe.Pointer, paneInfo unsafe.Pointer) {
+	C.wxAuiManager_MaximizePane(self, paneInfo)
+}
+
+func cgo_wxAuiManager_MinimizePane(self unsafe.Pointer, paneInfo unsafe.Pointer) {
+	C.wxAuiManager_MinimizePane(self, paneInfo)
+}
+
+func cgo_wxAuiManager_RestoreMaximizedPane(self unsafe.Pointer) {
+	C.wxAuiManager_RestoreMaximizedPane(self)
+}
+
+func cgo_wxAuiManager_RestorePane(self unsafe.Pointer, paneInfo unsafe.Pointer) {
+	C.wxAuiManager_RestorePane(self, paneInfo)
+}
+
+func cgo_wxAuiManager_SplitPane(self unsafe.Pointer, window unsafe.Pointer, newWindow unsafe.Pointer, direction int, dropX int, dropY int) bool {
+	return C.wxAuiManager_SplitPane(self, window, newWindow, C.int(direction), C.int(dropX), C.int(dropY)) != 0
+}
+
+func cgo_wxAuiManager_StartPaneDrag(self unsafe.Pointer, paneWindow unsafe.Pointer, offsetX int, offsetY int) {
+	C.wxAuiManager_StartPaneDrag(self, paneWindow, C.int(offsetX), C.int(offsetY))
+}
+
+func cgo_wxAuiManager_UpdateHint(self unsafe.Pointer, rect unsafe.Pointer) {
+	C.wxAuiManager_UpdateHint(self, rect)
+}
+
 func cgo_wxAuiDockArt_DrawBackground(self unsafe.Pointer, dc unsafe.Pointer, window unsafe.Pointer, orientation int, rect unsafe.Pointer) {
 	C.wxAuiDockArt_DrawBackground(self, dc, window, C.int(orientation), rect)
 }
@@ -31357,6 +34344,10 @@ func cgo_wxAuiPaneInfo_MinSizeXY(self unsafe.Pointer, x int, y int) unsafe.Point
 	return unsafe.Pointer(C.wxAuiPaneInfo_MinSizeXY(self, C.int(x), C.int(y)))
 }
 
+func cgo_wxAuiPaneInfo_IconBundle(self unsafe.Pointer, bitmap unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxAuiPaneInfo_IconBundle(self, bitmap))
+}
+
 func cgo_wxAuiManagerEvent_Create(typ int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxAuiManagerEvent_Create(C.int(typ)))
 }
@@ -31681,6 +34672,10 @@ func cgo_wxBitmapButton_Create(parent unsafe.Pointer, id int, bitmap unsafe.Poin
 	return unsafe.Pointer(C.wxBitmapButton_Create(parent, C.int(id), bitmap, C.int(left), C.int(top), C.int(width), C.int(height), C.int(style)))
 }
 
+func cgo_wxBitmapButton_CreateWithBundle(parent unsafe.Pointer, id int, bitmap unsafe.Pointer, left int, top int, width int, height int, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxBitmapButton_CreateWithBundle(parent, C.int(id), bitmap, C.int(left), C.int(top), C.int(width), C.int(height), C.int(style)))
+}
+
 func cgo_wxBitmapButton_GetBitmapDisabled(self unsafe.Pointer, ref unsafe.Pointer) {
 	C.wxBitmapButton_GetBitmapDisabled(self, ref)
 }
@@ -31719,6 +34714,22 @@ func cgo_wxBitmapButton_SetBitmapLabel(self unsafe.Pointer, bitmap unsafe.Pointe
 
 func cgo_wxBitmapButton_SetBitmapSelected(self unsafe.Pointer, sel unsafe.Pointer) {
 	C.wxBitmapButton_SetBitmapSelected(self, sel)
+}
+
+func cgo_wxBitmapButton_SetBitmapDisabledBundle(self unsafe.Pointer, disabled unsafe.Pointer) {
+	C.wxBitmapButton_SetBitmapDisabledBundle(self, disabled)
+}
+
+func cgo_wxBitmapButton_SetBitmapFocusBundle(self unsafe.Pointer, focus unsafe.Pointer) {
+	C.wxBitmapButton_SetBitmapFocusBundle(self, focus)
+}
+
+func cgo_wxBitmapButton_SetBitmapLabelBundle(self unsafe.Pointer, bitmap unsafe.Pointer) {
+	C.wxBitmapButton_SetBitmapLabelBundle(self, bitmap)
+}
+
+func cgo_wxBitmapButton_SetBitmapSelectedBundle(self unsafe.Pointer, sel unsafe.Pointer) {
+	C.wxBitmapButton_SetBitmapSelectedBundle(self, sel)
 }
 
 func cgo_wxBitmapButton_SetMargins(self unsafe.Pointer, x int, y int) {
@@ -31827,6 +34838,10 @@ func cgo_wxBitmapBundle_IsOk(self unsafe.Pointer) bool {
 
 func cgo_wxBitmapBundle_CreateFromData(data unsafe.Pointer, size int, bitmap_type int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxBitmapBundle_CreateFromData((*C.uchar)(data), C.size_t(size), C.int(bitmap_type)))
+}
+
+func cgo_wxBitmapBundle_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxBitmapBundle_CreateDefault())
 }
 
 func cgo_wxBitmapBundle_CreateFromBase64(base64 unsafe.Pointer, len int, bitmap_type int) unsafe.Pointer {
@@ -32361,6 +35376,10 @@ func cgo_wxCaret_Create(window unsafe.Pointer, width int, height int) unsafe.Poi
 	return unsafe.Pointer(C.wxCaret_Create(window, C.int(width), C.int(height)))
 }
 
+func cgo_wxCaret_Delete(self unsafe.Pointer) {
+	C.wxCaret_Delete(self)
+}
+
 func cgo_wxCaret_GetBlinkTime() int {
 	return int(C.wxCaret_GetBlinkTime())
 }
@@ -32659,6 +35678,34 @@ func cgo_wxClosure_Create(fun unsafe.Pointer, data unsafe.Pointer) unsafe.Pointe
 
 func cgo_wxClosure_GetData(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxClosure_GetData(self))
+}
+
+func cgo_wxColourDatabase_Get() unsafe.Pointer {
+	return unsafe.Pointer(C.wxColourDatabase_Get())
+}
+
+func cgo_wxColourDatabase_AddColour(self unsafe.Pointer, colourName unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxColourDatabase_AddColour(self, colourName, colour)
+}
+
+func cgo_wxColourDatabase_Find(self unsafe.Pointer, colourName unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxColourDatabase_Find(self, colourName))
+}
+
+func cgo_wxColourDatabase_FindName(self unsafe.Pointer, colour unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxColourDatabase_FindName(self, colour))
+}
+
+func cgo_wxColourDatabase_GetNameCount(self unsafe.Pointer) int {
+	return int(C.wxColourDatabase_GetNameCount(self))
+}
+
+func cgo_wxColourDatabase_GetNameAt(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxColourDatabase_GetNameAt(self, C.int(index)))
+}
+
+func cgo_wxColourDatabase_UseScheme(self unsafe.Pointer, scheme int) {
+	C.wxColourDatabase_UseScheme(self, C.int(scheme))
 }
 
 func cgo_wxColourData_Create() unsafe.Pointer {
@@ -32989,6 +36036,34 @@ func cgo_wxContextMenuEvent_SetPosition(self unsafe.Pointer, x int, y int) {
 	C.wxContextMenuEvent_SetPosition(self, C.int(x), C.int(y))
 }
 
+func cgo_wxCursorBundle_Create(bitmaps unsafe.Pointer, hotSpotX int, hotSpotY int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxCursorBundle_Create(bitmaps, C.int(hotSpotX), C.int(hotSpotY)))
+}
+
+func cgo_wxCursorBundle_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxCursorBundle_CreateDefault())
+}
+
+func cgo_wxCursorBundle_Delete(self unsafe.Pointer) {
+	C.wxCursorBundle_Delete(self)
+}
+
+func cgo_wxCursorBundle_Clear(self unsafe.Pointer) {
+	C.wxCursorBundle_Clear(self)
+}
+
+func cgo_wxCursorBundle_IsOk(self unsafe.Pointer) bool {
+	return C.wxCursorBundle_IsOk(self) != 0
+}
+
+func cgo_wxCursorBundle_GetCursorFor(self unsafe.Pointer, window unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxCursorBundle_GetCursorFor(self, window))
+}
+
+func cgo_wxCursorBundle_GetCursorForMainWindow(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxCursorBundle_GetCursorForMainWindow(self))
+}
+
 func cgo_wxCustomDataObject_Create(format unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxCustomDataObject_Create(format))
 }
@@ -33101,6 +36176,10 @@ func cgo_wxDataObjectComposite_Add(self unsafe.Pointer, data unsafe.Pointer, pre
 	C.wxDataObjectComposite_Add(self, data, C.int(preferred))
 }
 
+func cgo_wxDataObjectComposite_GetReceivedFormat(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDataObjectComposite_GetReceivedFormat(self))
+}
+
 func cgo_wxDataObjectComposite_Create() unsafe.Pointer {
 	return unsafe.Pointer(C.wxDataObjectComposite_Create())
 }
@@ -33135,6 +36214,26 @@ func cgo_wxDataObjectSimple_GetDataHere(self unsafe.Pointer, buffer unsafe.Point
 
 func cgo_wxDataObjectSimple_SetData(self unsafe.Pointer, len int, buffer unsafe.Pointer) bool {
 	return C.wxDataObjectSimple_SetData(self, C.size_t(len), buffer) != 0
+}
+
+func cgo_wxURLDataObject_Create(url unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxURLDataObject_Create(url))
+}
+
+func cgo_wxURLDataObject_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxURLDataObject_CreateDefault())
+}
+
+func cgo_wxURLDataObject_Delete(self unsafe.Pointer) {
+	C.wxURLDataObject_Delete(self)
+}
+
+func cgo_wxURLDataObject_GetURL(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxURLDataObject_GetURL(self))
+}
+
+func cgo_wxURLDataObject_SetURL(self unsafe.Pointer, url unsafe.Pointer) {
+	C.wxURLDataObject_SetURL(self, url)
 }
 
 func cgo_wxDataOutputStream_Write16(self unsafe.Pointer, i uint16) {
@@ -33345,6 +36444,30 @@ func cgo_wxAuiMDIChildFrame_GetMDIParent(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxAuiMDIChildFrame_GetMDIParent(self))
 }
 
+func cgo_wxDocManager_Create(flags int, initialize bool) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocManager_Create(C.int(flags), boolToInt(initialize)))
+}
+
+func cgo_wxDocManager_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocManager_CreateDefault())
+}
+
+func cgo_wxDocManager_Delete(self unsafe.Pointer) {
+	C.wxDocManager_Delete(self)
+}
+
+func cgo_wxDocManager_AddDocument(self unsafe.Pointer, doc unsafe.Pointer) {
+	C.wxDocManager_AddDocument(self, doc)
+}
+
+func cgo_wxDocManager_AssociateTemplate(self unsafe.Pointer, docTemplate unsafe.Pointer) {
+	C.wxDocManager_AssociateTemplate(self, docTemplate)
+}
+
+func cgo_wxDocManager_Clear(self unsafe.Pointer, force bool) bool {
+	return C.wxDocManager_Clear(self, boolToInt(force)) != 0
+}
+
 func cgo_wxDocManager_CloseDocuments(self unsafe.Pointer, force bool) bool {
 	return C.wxDocManager_CloseDocuments(self, boolToInt(force)) != 0
 }
@@ -33355,6 +36478,10 @@ func cgo_wxDocManager_CreateDocument(self unsafe.Pointer, path unsafe.Pointer, f
 
 func cgo_wxDocManager_CreateNewDocument(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDocManager_CreateNewDocument(self))
+}
+
+func cgo_wxDocManager_DisassociateTemplate(self unsafe.Pointer, docTemplate unsafe.Pointer) {
+	C.wxDocManager_DisassociateTemplate(self, docTemplate)
 }
 
 func cgo_wxDocManager_FileHistoryLoad(self unsafe.Pointer, config unsafe.Pointer) {
@@ -33369,8 +36496,40 @@ func cgo_wxDocManager_FileHistoryUseMenu(self unsafe.Pointer, menu unsafe.Pointe
 	C.wxDocManager_FileHistoryUseMenu(self, menu)
 }
 
+func cgo_wxDocManager_GetCurrentDocument(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocManager_GetCurrentDocument(self))
+}
+
+func cgo_wxDocManager_GetCurrentView(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocManager_GetCurrentView(self))
+}
+
+func cgo_wxDocManager_GetDocumentCount(self unsafe.Pointer) int {
+	return int(C.wxDocManager_GetDocumentCount(self))
+}
+
+func cgo_wxDocManager_GetDocumentAt(self unsafe.Pointer, pos int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocManager_GetDocumentAt(self, C.int(pos)))
+}
+
 func cgo_wxDocManager_GetDocumentManager() unsafe.Pointer {
 	return unsafe.Pointer(C.wxDocManager_GetDocumentManager())
+}
+
+func cgo_wxDocManager_GetMaxDocsOpen(self unsafe.Pointer) int {
+	return int(C.wxDocManager_GetMaxDocsOpen(self))
+}
+
+func cgo_wxDocManager_GetTemplateAt(self unsafe.Pointer, pos int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocManager_GetTemplateAt(self, C.int(pos)))
+}
+
+func cgo_wxDocManager_GetTemplateCount(self unsafe.Pointer) int {
+	return int(C.wxDocManager_GetTemplateCount(self))
+}
+
+func cgo_wxDocManager_RemoveDocument(self unsafe.Pointer, doc unsafe.Pointer) {
+	C.wxDocManager_RemoveDocument(self, doc)
 }
 
 func cgo_wxDocManager_SetMaxDocsOpen(self unsafe.Pointer, n int) {
@@ -33383,6 +36542,50 @@ func cgo_wxDocParentFrame_Create(manager unsafe.Pointer, parent unsafe.Pointer, 
 
 func cgo_wxDocParentFrame_GetDocumentManager(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDocParentFrame_GetDocumentManager(self))
+}
+
+func cgo_wxDocTemplate_GetDescription(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetDescription(self))
+}
+
+func cgo_wxDocTemplate_GetFileFilter(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetFileFilter(self))
+}
+
+func cgo_wxDocTemplate_SetFileFilter(self unsafe.Pointer, filter unsafe.Pointer) {
+	C.wxDocTemplate_SetFileFilter(self, filter)
+}
+
+func cgo_wxDocTemplate_GetDefaultExtension(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetDefaultExtension(self))
+}
+
+func cgo_wxDocTemplate_GetDirectory(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetDirectory(self))
+}
+
+func cgo_wxDocTemplate_SetDirectory(self unsafe.Pointer, dir unsafe.Pointer) {
+	C.wxDocTemplate_SetDirectory(self, dir)
+}
+
+func cgo_wxDocTemplate_GetViewName(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetViewName(self))
+}
+
+func cgo_wxDocTemplate_GetDocumentName(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetDocumentName(self))
+}
+
+func cgo_wxDocTemplate_GetFlags(self unsafe.Pointer) int {
+	return int(C.wxDocTemplate_GetFlags(self))
+}
+
+func cgo_wxDocTemplate_GetDocumentManager(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocTemplate_GetDocumentManager(self))
+}
+
+func cgo_wxDocTemplate_FileMatchesTemplate(self unsafe.Pointer, path unsafe.Pointer) bool {
+	return C.wxDocTemplate_FileMatchesTemplate(self, path) != 0
 }
 
 func cgo_wxDocument_DeleteContents(self unsafe.Pointer) bool {
@@ -33401,12 +36604,40 @@ func cgo_wxDocument_GetFirstView(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDocument_GetFirstView(self))
 }
 
+func cgo_wxDocument_IsModified(self unsafe.Pointer) bool {
+	return C.wxDocument_IsModified(self) != 0
+}
+
 func cgo_wxDocument_SetFilename(self unsafe.Pointer, filename unsafe.Pointer, notifyViews bool) {
 	C.wxDocument_SetFilename(self, filename, boolToInt(notifyViews))
 }
 
 func cgo_wxDocument_UpdateAllViews(self unsafe.Pointer, sender unsafe.Pointer, hint unsafe.Pointer) {
 	C.wxDocument_UpdateAllViews(self, sender, hint)
+}
+
+func cgo_wxDocument_Close(self unsafe.Pointer) bool {
+	return C.wxDocument_Close(self) != 0
+}
+
+func cgo_wxDocument_Save(self unsafe.Pointer) bool {
+	return C.wxDocument_Save(self) != 0
+}
+
+func cgo_wxDocument_SaveAs(self unsafe.Pointer) bool {
+	return C.wxDocument_SaveAs(self) != 0
+}
+
+func cgo_wxDocument_Revert(self unsafe.Pointer) bool {
+	return C.wxDocument_Revert(self) != 0
+}
+
+func cgo_wxDocument_AlreadySaved(self unsafe.Pointer) bool {
+	return C.wxDocument_AlreadySaved(self) != 0
+}
+
+func cgo_wxDocument_CanClose(self unsafe.Pointer) bool {
+	return C.wxDocument_CanClose(self) != 0
 }
 
 func cgo_wxDocument_SetOnDoOpenDocument(self unsafe.Pointer, pFunction unsafe.Pointer) {
@@ -33435,6 +36666,70 @@ func cgo_wxDocument_SetOnOnCreate(self unsafe.Pointer, pFunction unsafe.Pointer)
 
 func cgo_wxDocument_SetOnOnOpenDocument(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.wxDocument_SetOnOnOpenDocument(self, pFunction)
+}
+
+func cgo_wxDocument_SetOnDoOpenDocumentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDocument_SetOnDoOpenDocumentWithData(self, pFunction, data)
+}
+
+func cgo_wxDocument_SetDoOpenDocumentResult(self unsafe.Pointer, result bool) {
+	C.wxDocument_SetDoOpenDocumentResult(self, boolToInt(result))
+}
+
+func cgo_wxDocument_SetOnDoSaveDocumentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDocument_SetOnDoSaveDocumentWithData(self, pFunction, data)
+}
+
+func cgo_wxDocument_SetDoSaveDocumentResult(self unsafe.Pointer, result bool) {
+	C.wxDocument_SetDoSaveDocumentResult(self, boolToInt(result))
+}
+
+func cgo_wxDocument_SetOnIsModifiedWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDocument_SetOnIsModifiedWithData(self, pFunction, data)
+}
+
+func cgo_wxDocument_SetIsModifiedResult(self unsafe.Pointer, result bool) {
+	C.wxDocument_SetIsModifiedResult(self, boolToInt(result))
+}
+
+func cgo_wxDocument_SetOnModifyWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDocument_SetOnModifyWithData(self, pFunction, data)
+}
+
+func cgo_wxDocument_SetOnOnCreateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDocument_SetOnOnCreateWithData(self, pFunction, data)
+}
+
+func cgo_wxDocument_SetOnCreateResult(self unsafe.Pointer, result bool) {
+	C.wxDocument_SetOnCreateResult(self, boolToInt(result))
+}
+
+func cgo_wxDocument_SetOnOnOpenDocumentWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxDocument_SetOnOnOpenDocumentWithData(self, pFunction, data)
+}
+
+func cgo_wxDocument_SetOnOpenDocumentResult(self unsafe.Pointer, result bool) {
+	C.wxDocument_SetOnOpenDocumentResult(self, boolToInt(result))
+}
+
+func cgo_wxDocument_OnCreateBase(self unsafe.Pointer, path unsafe.Pointer, flags int) bool {
+	return C.wxDocument_OnCreateBase(self, path, C.long(flags)) != 0
+}
+
+func cgo_wxDocument_OnOpenDocumentBase(self unsafe.Pointer, filename unsafe.Pointer) bool {
+	return C.wxDocument_OnOpenDocumentBase(self, filename) != 0
+}
+
+func cgo_wxDocument_IsModifiedBase(self unsafe.Pointer) bool {
+	return C.wxDocument_IsModifiedBase(self) != 0
+}
+
+func cgo_wxDocument_ModifyBase(self unsafe.Pointer, modified bool) {
+	C.wxDocument_ModifyBase(self, boolToInt(modified))
+}
+
+func cgo_wxDocument_CreateWithParent(pObject unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDocument_CreateWithParent(pObject, parent))
 }
 
 func cgo_wxDrawControl_Create(parent unsafe.Pointer, id int, left int, top int, width int, height int, style int) unsafe.Pointer {
@@ -33469,6 +36764,10 @@ func cgo_DropSource_Create(data unsafe.Pointer, win unsafe.Pointer, copy unsafe.
 	return unsafe.Pointer(C.DropSource_Create(data, win, copy, move, none))
 }
 
+func cgo_DropSource_CreateDefault(data unsafe.Pointer, win unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.DropSource_CreateDefault(data, win))
+}
+
 func cgo_wxDropSource_DoDragDrop(self unsafe.Pointer, flags int) int {
 	return int(C.wxDropSource_DoDragDrop(self, C.int(flags)))
 }
@@ -33477,12 +36776,12 @@ func cgo_DropSource_Delete(self unsafe.Pointer) {
 	C.DropSource_Delete(self)
 }
 
-func cgo_DropSource_DoDragDrop(self unsafe.Pointer, move int) int {
-	return int(C.DropSource_DoDragDrop(self, C.int(move)))
+func cgo_wxDropTarget_GetData(self unsafe.Pointer) bool {
+	return C.wxDropTarget_GetData(self) != 0
 }
 
-func cgo_wxDropTarget_GetData(self unsafe.Pointer) {
-	C.wxDropTarget_GetData(self)
+func cgo_wxDropTarget_GetDataObject(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDropTarget_GetDataObject(self))
 }
 
 func cgo_wxDropTarget_SetDataObject(self unsafe.Pointer, dataObject unsafe.Pointer) {
@@ -33547,6 +36846,58 @@ func cgo_FileDataObject_Delete(self unsafe.Pointer) {
 
 func cgo_FileDataObject_GetFilenames(self unsafe.Pointer, list unsafe.Pointer, capacity int) int {
 	return int(C.FileDataObject_GetFilenames(self, list, C.int(capacity)))
+}
+
+func cgo_wxFileDataObject_GetFilenamesArray(self unsafe.Pointer, filenames unsafe.Pointer) {
+	C.wxFileDataObject_GetFilenamesArray(self, filenames)
+}
+
+func cgo_wxVirtualFileDataObject_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxVirtualFileDataObject_Create())
+}
+
+func cgo_wxVirtualFileDataObject_Delete(self unsafe.Pointer) {
+	C.wxVirtualFileDataObject_Delete(self)
+}
+
+func cgo_wxVirtualFileDataObject_GetCount(self unsafe.Pointer) int {
+	return int(C.wxVirtualFileDataObject_GetCount(self))
+}
+
+func cgo_wxVirtualFileDataObject_GetName(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxVirtualFileDataObject_GetName(self, C.int(index)))
+}
+
+func cgo_wxVirtualFileDataObject_IsDir(self unsafe.Pointer, index int) bool {
+	return C.wxVirtualFileDataObject_IsDir(self, C.int(index)) != 0
+}
+
+func cgo_wxVirtualFileDataObject_GetSize(self unsafe.Pointer, index int) int64 {
+	return int64(C.wxVirtualFileDataObject_GetSize(self, C.int(index)))
+}
+
+func cgo_wxVirtualFileDataObject_GetModificationTime(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxVirtualFileDataObject_GetModificationTime(self, C.int(index)))
+}
+
+func cgo_wxVirtualFileDataObject_OpenStream(self unsafe.Pointer, index int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxVirtualFileDataObject_OpenStream(self, C.int(index)))
+}
+
+func cgo_wxVirtualFileDataObject_SaveTo(self unsafe.Pointer, index int, path unsafe.Pointer) bool {
+	return C.wxVirtualFileDataObject_SaveTo(self, C.int(index), path) != 0
+}
+
+func cgo_wxVirtualFileDataObject_SaveAll(self unsafe.Pointer, dir unsafe.Pointer, paths unsafe.Pointer) bool {
+	return C.wxVirtualFileDataObject_SaveAll(self, dir, paths) != 0
+}
+
+func cgo_wxVirtualFileDataObject_SaveAllToTempDir(self unsafe.Pointer, paths unsafe.Pointer) bool {
+	return C.wxVirtualFileDataObject_SaveAllToTempDir(self, paths) != 0
+}
+
+func cgo_wxVirtualFileDataObject_DeleteAllTempFiles(self unsafe.Pointer) bool {
+	return C.wxVirtualFileDataObject_DeleteAllTempFiles(self) != 0
 }
 
 func cgo_wxFileCtrl_Create(parent unsafe.Pointer, id int, defaultDirectory unsafe.Pointer, defaultFilename unsafe.Pointer, wildCard unsafe.Pointer, x int, y int, width int, height int, style int) unsafe.Pointer {
@@ -34147,6 +37498,34 @@ func cgo_wxGenericValidator_CreateBool(value unsafe.Pointer) unsafe.Pointer {
 
 func cgo_wxGenericValidator_CreateString(value unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGenericValidator_CreateString(value))
+}
+
+func cgo_wxGenericValidator_CreateArrayInt(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateArrayInt(value))
+}
+
+func cgo_wxGenericValidator_CreateDateTime(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateDateTime(value))
+}
+
+func cgo_wxGenericValidator_CreateFileName(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateFileName(value))
+}
+
+func cgo_wxGenericValidator_CreateFloat(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateFloat(value))
+}
+
+func cgo_wxGenericValidator_CreateDouble(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateDouble(value))
+}
+
+func cgo_wxGenericValidator_CreateColour(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateColour(value))
+}
+
+func cgo_wxGenericValidator_CreateCheckBoxState(value unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericValidator_CreateCheckBoxState(value))
 }
 
 func cgo_wxGenericValidator_Delete(self unsafe.Pointer) {
@@ -35721,6 +39100,12 @@ func cgo_wxIcon_CreateFromXPMData(xpm unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxIcon_CreateFromXPMData(xpm))
 }
 
+func cgo_wxIcon_CreateFromXPMString(xpm string) unsafe.Pointer {
+	cXpm := C.CString(xpm)
+	defer C.free(unsafe.Pointer(cXpm))
+	return unsafe.Pointer(C.wxIcon_CreateFromXPMString(cXpm))
+}
+
 func cgo_wxIcon_GetDepth(self unsafe.Pointer) int {
 	return int(C.wxIcon_GetDepth(self))
 }
@@ -36805,12 +40190,52 @@ func cgo_wxMetafile_SetClipboard(self unsafe.Pointer, width int, height int) boo
 	return C.wxMetafile_SetClipboard(self, C.int(width), C.int(height)) != 0
 }
 
+func cgo_wxMetafile_GetWidth(self unsafe.Pointer) int {
+	return int(C.wxMetafile_GetWidth(self))
+}
+
+func cgo_wxMetafile_GetHeight(self unsafe.Pointer) int {
+	return int(C.wxMetafile_GetHeight(self))
+}
+
+func cgo_wxMetafile_GetSize(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxMetafile_GetSize(self))
+}
+
+func cgo_wxMetafileDataObject_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxMetafileDataObject_CreateDefault())
+}
+
+func cgo_wxMetafileDataObject_Create(metafile unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxMetafileDataObject_Create(metafile))
+}
+
+func cgo_wxMetafileDataObject_Delete(self unsafe.Pointer) {
+	C.wxMetafileDataObject_Delete(self)
+}
+
+func cgo_wxMetafileDataObject_GetMetafile(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxMetafileDataObject_GetMetafile(self))
+}
+
+func cgo_wxMetafileDataObject_SetMetafile(self unsafe.Pointer, metafile unsafe.Pointer) {
+	C.wxMetafileDataObject_SetMetafile(self, metafile)
+}
+
 func cgo_wxMetafileDC_Close(self unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxMetafileDC_Close(self))
 }
 
 func cgo_wxMetafileDC_Create(filePath unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxMetafileDC_Create(filePath))
+}
+
+func cgo_wxMetafileDC_CreateDefault() unsafe.Pointer {
+	return unsafe.Pointer(C.wxMetafileDC_CreateDefault())
+}
+
+func cgo_wxMetafileDC_CreateWithExtent(filePath unsafe.Pointer, xext int, yext int, xorg int, yorg int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxMetafileDC_CreateWithExtent(filePath, C.int(xext), C.int(yext), C.int(xorg), C.int(yorg)))
 }
 
 func cgo_wxMetafileDC_Delete(self unsafe.Pointer) {
@@ -39457,12 +42882,132 @@ func cgo_wxRegionIterator_ResetToRegion(self unsafe.Pointer, region unsafe.Point
 	C.wxRegionIterator_ResetToRegion(self, region)
 }
 
+func cgo_wxSVGAttributes_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_Create())
+}
+
+func cgo_wxSVGAttributes_Delete(self unsafe.Pointer) {
+	C.wxSVGAttributes_Delete(self)
+}
+
+func cgo_wxSVGAttributes_SetRole(self unsafe.Pointer, role unsafe.Pointer) {
+	C.wxSVGAttributes_SetRole(self, role)
+}
+
+func cgo_wxSVGAttributes_SetAriaLabel(self unsafe.Pointer, label unsafe.Pointer) {
+	C.wxSVGAttributes_SetAriaLabel(self, label)
+}
+
+func cgo_wxSVGAttributes_SetAriaLabelledBy(self unsafe.Pointer, id unsafe.Pointer) {
+	C.wxSVGAttributes_SetAriaLabelledBy(self, id)
+}
+
+func cgo_wxSVGAttributes_SetAriaDescribedBy(self unsafe.Pointer, id unsafe.Pointer) {
+	C.wxSVGAttributes_SetAriaDescribedBy(self, id)
+}
+
+func cgo_wxSVGAttributes_SetAriaHidden(self unsafe.Pointer, hidden bool) {
+	C.wxSVGAttributes_SetAriaHidden(self, boolToInt(hidden))
+}
+
+func cgo_wxSVGAttributes_SetAriaDetails(self unsafe.Pointer, id unsafe.Pointer) {
+	C.wxSVGAttributes_SetAriaDetails(self, id)
+}
+
+func cgo_wxSVGAttributes_SetAriaRoleDescription(self unsafe.Pointer, description unsafe.Pointer) {
+	C.wxSVGAttributes_SetAriaRoleDescription(self, description)
+}
+
+func cgo_wxSVGAttributes_SetId(self unsafe.Pointer, id unsafe.Pointer) {
+	C.wxSVGAttributes_SetId(self, id)
+}
+
+func cgo_wxSVGAttributes_SetClass(self unsafe.Pointer, className unsafe.Pointer) {
+	C.wxSVGAttributes_SetClass(self, className)
+}
+
+func cgo_wxSVGAttributes_Add(self unsafe.Pointer, name unsafe.Pointer, value unsafe.Pointer) {
+	C.wxSVGAttributes_Add(self, name, value)
+}
+
+func cgo_wxSVGAttributes_GetAttribute(self unsafe.Pointer, name unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAttribute(self, name))
+}
+
+func cgo_wxSVGAttributes_GetAsString(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAsString(self))
+}
+
+func cgo_wxSVGAttributes_GetRole(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetRole(self))
+}
+
+func cgo_wxSVGAttributes_GetAriaLabel(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAriaLabel(self))
+}
+
+func cgo_wxSVGAttributes_GetAriaLabelledBy(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAriaLabelledBy(self))
+}
+
+func cgo_wxSVGAttributes_GetAriaDescribedBy(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAriaDescribedBy(self))
+}
+
+func cgo_wxSVGAttributes_IsAriaHidden(self unsafe.Pointer) bool {
+	return C.wxSVGAttributes_IsAriaHidden(self) != 0
+}
+
+func cgo_wxSVGAttributes_GetAriaDetails(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAriaDetails(self))
+}
+
+func cgo_wxSVGAttributes_GetAriaRoleDescription(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetAriaRoleDescription(self))
+}
+
+func cgo_wxSVGAttributes_GetId(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetId(self))
+}
+
+func cgo_wxSVGAttributes_GetClass(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGAttributes_GetClass(self))
+}
+
+func cgo_wxSVGAttributes_IsEmpty(self unsafe.Pointer) bool {
+	return C.wxSVGAttributes_IsEmpty(self) != 0
+}
+
 func cgo_wxSVGFileDC_Create(fileName unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxSVGFileDC_Create(fileName))
 }
 
+func cgo_wxSVGFileDC_BeginAccessibleGroup(self unsafe.Pointer, attributes unsafe.Pointer, title unsafe.Pointer, desc unsafe.Pointer) {
+	C.wxSVGFileDC_BeginAccessibleGroup(self, attributes, title, desc)
+}
+
 func cgo_wxSVGFileDC_EndAccessibleGroup(self unsafe.Pointer) {
 	C.wxSVGFileDC_EndAccessibleGroup(self)
+}
+
+func cgo_wxSVGFileDC_BeginLayer(self unsafe.Pointer, opacity float64) {
+	C.wxSVGFileDC_BeginLayer(self, C.double(opacity))
+}
+
+func cgo_wxSVGFileDC_EndLayer(self unsafe.Pointer) {
+	C.wxSVGFileDC_EndLayer(self)
+}
+
+func cgo_wxSVGFileDC_Save(self unsafe.Pointer) bool {
+	return C.wxSVGFileDC_Save(self) != 0
+}
+
+func cgo_wxSVGFileDC_GetSVGDocument(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_GetSVGDocument(self))
+}
+
+func cgo_wxSVGFileDC_SetShapeRenderingMode(self unsafe.Pointer, mode int) {
+	C.wxSVGFileDC_SetShapeRenderingMode(self, C.int(mode))
 }
 
 func cgo_wxSVGFileDC_SetBitmapHandler(self unsafe.Pointer, handler unsafe.Pointer) {
@@ -39477,8 +43022,60 @@ func cgo_wxSVGFileDC_CreateWithSizeAndResolution(fileName unsafe.Pointer, width 
 	return unsafe.Pointer(C.wxSVGFileDC_CreateWithSizeAndResolution(fileName, C.int(width), C.int(height), C.float(a_dpi)))
 }
 
+func cgo_wxSVGFileDC_CreateWithTitle(fileName unsafe.Pointer, title unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_CreateWithTitle(fileName, title))
+}
+
+func cgo_wxSVGFileDC_CreateWithSizeAndTitle(fileName unsafe.Pointer, width int, height int, title unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_CreateWithSizeAndTitle(fileName, C.int(width), C.int(height), title))
+}
+
+func cgo_wxSVGFileDC_CreateWithSizeResolutionAndTitle(fileName unsafe.Pointer, width int, height int, a_dpi float32, title unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_CreateWithSizeResolutionAndTitle(fileName, C.int(width), C.int(height), C.float(a_dpi), title))
+}
+
+func cgo_wxSVGFileDC_CreateFromSize(width int, height int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_CreateFromSize(C.int(width), C.int(height)))
+}
+
+func cgo_wxSVGFileDC_CreateFromSizeWithFileAndTitle(width int, height int, fileName unsafe.Pointer, title unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_CreateFromSizeWithFileAndTitle(C.int(width), C.int(height), fileName, title))
+}
+
+func cgo_wxSVGFileDC_CreateFromSizeWithFileTitleAndResolution(width int, height int, fileName unsafe.Pointer, title unsafe.Pointer, a_dpi float32) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGFileDC_CreateFromSizeWithFileTitleAndResolution(C.int(width), C.int(height), fileName, title, C.float(a_dpi)))
+}
+
 func cgo_wxSVGFileDC_Delete(self unsafe.Pointer) {
 	C.wxSVGFileDC_Delete(self)
+}
+
+func cgo_wxSVGGraphicsContext_Create(dc unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGGraphicsContext_Create(dc))
+}
+
+func cgo_wxSVGGraphicsContext_CreateFromFile(fileName unsafe.Pointer, width int, height int, a_dpi float32, title unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGGraphicsContext_CreateFromFile(fileName, C.int(width), C.int(height), C.float(a_dpi), title))
+}
+
+func cgo_wxSVGGraphicsContext_CreateFromSize(width int, height int, fileName unsafe.Pointer, title unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGGraphicsContext_CreateFromSize(C.int(width), C.int(height), fileName, title))
+}
+
+func cgo_wxSVGGraphicsContext_GetSVGDocument(self unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxSVGGraphicsContext_GetSVGDocument(self))
+}
+
+func cgo_wxSVGGraphicsContext_Save(self unsafe.Pointer) bool {
+	return C.wxSVGGraphicsContext_Save(self) != 0
+}
+
+func cgo_wxSVGGraphicsContext_SetBitmapHandler(self unsafe.Pointer, handler unsafe.Pointer) {
+	C.wxSVGGraphicsContext_SetBitmapHandler(self, handler)
+}
+
+func cgo_wxSVGGraphicsContext_Delete(self unsafe.Pointer) {
+	C.wxSVGGraphicsContext_Delete(self)
 }
 
 func cgo_wxSashEvent_Create(id int, edge int) unsafe.Pointer {
@@ -39899,6 +43496,10 @@ func cgo_wxSizerFlags_GetBorderInPixels(self unsafe.Pointer) int {
 
 func cgo_wxSizerFlags_GetDefaultBorderFractional() float64 {
 	return float64(C.wxSizerFlags_GetDefaultBorderFractional())
+}
+
+func cgo_wxSizerFlags_GetDefaultBorder() int {
+	return int(C.wxSizerFlags_GetDefaultBorder())
 }
 
 func cgo_wxSizerFlags_DisableConsistencyChecks() {
@@ -40559,6 +44160,18 @@ func cgo_wxString_Length(self unsafe.Pointer) int {
 	return int(C.wxString_Length(self))
 }
 
+func cgo_wxString_ToLong(self unsafe.Pointer, value unsafe.Pointer) bool {
+	return C.wxString_ToLong(self, (*C.long)(value)) != 0
+}
+
+func cgo_wxString_ToLongLong(self unsafe.Pointer, value unsafe.Pointer) bool {
+	return C.wxString_ToLongLong(self, (*C.longlong)(value)) != 0
+}
+
+func cgo_wxString_ToDouble(self unsafe.Pointer, value unsafe.Pointer) bool {
+	return C.wxString_ToDouble(self, (*C.double)(value)) != 0
+}
+
 func cgo_wxStringClientData_Create() unsafe.Pointer {
 	return unsafe.Pointer(C.wxStringClientData_Create())
 }
@@ -40579,12 +44192,28 @@ func cgo_wxStringClientData_SetData(self unsafe.Pointer, data unsafe.Pointer) {
 	C.wxStringClientData_SetData(self, data)
 }
 
+func cgo_wxStringClientData_FromClientData(data unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxStringClientData_FromClientData(data))
+}
+
 func cgo_wxSysColourChangedEvent_Create() unsafe.Pointer {
 	return unsafe.Pointer(C.wxSysColourChangedEvent_Create())
 }
 
 func cgo_wxSysColourChangedEvent_Delete(self unsafe.Pointer) {
 	C.wxSysColourChangedEvent_Delete(self)
+}
+
+func cgo_wxSysMetricChangedEvent_Create() unsafe.Pointer {
+	return unsafe.Pointer(C.wxSysMetricChangedEvent_Create())
+}
+
+func cgo_wxSysMetricChangedEvent_Delete(self unsafe.Pointer) {
+	C.wxSysMetricChangedEvent_Delete(self)
+}
+
+func cgo_wxSysMetricChangedEvent_GetMetric(self unsafe.Pointer) int {
+	return int(C.wxSysMetricChangedEvent_GetMetric(self))
 }
 
 func cgo_wxSystemSettings_GetColour(index int, ref unsafe.Pointer) {
@@ -40613,6 +44242,14 @@ func cgo_wxSystemSettings_SelectLightDark(colForLight unsafe.Pointer, colForDark
 
 func cgo_wxSystemAppearance_IsDark(self unsafe.Pointer) bool {
 	return C.wxSystemAppearance_IsDark(self) != 0
+}
+
+func cgo_wxSystemAppearance_IsSystemDark(self unsafe.Pointer) bool {
+	return C.wxSystemAppearance_IsSystemDark(self) != 0
+}
+
+func cgo_wxSystemAppearance_AreAppsDark(self unsafe.Pointer) bool {
+	return C.wxSystemAppearance_AreAppsDark(self) != 0
 }
 
 func cgo_wxSystemAppearance_IsUsingDarkBackground(self unsafe.Pointer) bool {
@@ -40689,6 +44326,10 @@ func cgo_wxTextEntryDialog_GetValue(self unsafe.Pointer) unsafe.Pointer {
 
 func cgo_wxTextEntryDialog_SetValue(self unsafe.Pointer, value unsafe.Pointer) {
 	C.wxTextEntryDialog_SetValue(self, value)
+}
+
+func cgo_wxPasswordEntryDialog_Create(parent unsafe.Pointer, message unsafe.Pointer, caption unsafe.Pointer, value unsafe.Pointer, style int, x int, y int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxPasswordEntryDialog_Create(parent, message, caption, value, C.long(style), C.int(x), C.int(y)))
 }
 
 func cgo_wxTextValidator_Create(style int, val unsafe.Pointer) unsafe.Pointer {
@@ -41095,6 +44736,22 @@ func cgo_wxView_SetOnOnUpdate(self unsafe.Pointer, pFunction unsafe.Pointer) {
 	C.wxView_SetOnOnUpdate(self, pFunction)
 }
 
+func cgo_wxView_SetOnOnCreateWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxView_SetOnOnCreateWithData(self, pFunction, data)
+}
+
+func cgo_wxView_SetOnCreateResult(self unsafe.Pointer, result bool) {
+	C.wxView_SetOnCreateResult(self, boolToInt(result))
+}
+
+func cgo_wxView_SetOnOnCloseWithData(self unsafe.Pointer, pFunction unsafe.Pointer, data unsafe.Pointer) {
+	C.wxView_SetOnOnCloseWithData(self, pFunction, data)
+}
+
+func cgo_wxView_SetOnCloseResult(self unsafe.Pointer, result bool) {
+	C.wxView_SetOnCloseResult(self, boolToInt(result))
+}
+
 func cgo_wxView_Activate(self unsafe.Pointer, activate bool) {
 	C.wxView_Activate(self, boolToInt(activate))
 }
@@ -41113,6 +44770,14 @@ func cgo_wxView_SetDocument(self unsafe.Pointer, doc unsafe.Pointer) {
 
 func cgo_wxView_SetFrame(self unsafe.Pointer, frame unsafe.Pointer) {
 	C.wxView_SetFrame(self, frame)
+}
+
+func cgo_wxView_Close(self unsafe.Pointer, deleteWindow bool) bool {
+	return C.wxView_Close(self, boolToInt(deleteWindow)) != 0
+}
+
+func cgo_wxView_CloseDefault(self unsafe.Pointer) bool {
+	return C.wxView_CloseDefault(self) != 0
 }
 
 func cgo_wxWebViewEvent_GetURL(self unsafe.Pointer) unsafe.Pointer {
@@ -41263,6 +44928,30 @@ func cgo_wxWizard_GetBitmapPlacement(self unsafe.Pointer) int {
 	return int(C.wxWizard_GetBitmapPlacement(self))
 }
 
+func cgo_wxWizard_IsRunning(self unsafe.Pointer) bool {
+	return C.wxWizard_IsRunning(self) != 0
+}
+
+func cgo_wxWizard_SetBitmapBackgroundColour(self unsafe.Pointer, colour unsafe.Pointer) {
+	C.wxWizard_SetBitmapBackgroundColour(self, colour)
+}
+
+func cgo_wxWizard_GetBitmapBackgroundColour(self unsafe.Pointer, ref unsafe.Pointer) {
+	C.wxWizard_GetBitmapBackgroundColour(self, ref)
+}
+
+func cgo_wxWizard_SetMinimumBitmapWidth(self unsafe.Pointer, width int) {
+	C.wxWizard_SetMinimumBitmapWidth(self, C.int(width))
+}
+
+func cgo_wxWizard_GetMinimumBitmapWidth(self unsafe.Pointer) int {
+	return int(C.wxWizard_GetMinimumBitmapWidth(self))
+}
+
+func cgo_wxWizard_TileBitmap(left int, top int, width int, height int, dc unsafe.Pointer, bitmap unsafe.Pointer) bool {
+	return C.wxWizard_TileBitmap(C.int(left), C.int(top), C.int(width), C.int(height), dc, bitmap) != 0
+}
+
 func cgo_wxWizardEvent_GetDirection(self unsafe.Pointer) int {
 	return int(C.wxWizardEvent_GetDirection(self))
 }
@@ -41293,6 +44982,10 @@ func cgo_wxWizardPageSimple_SetNext(self unsafe.Pointer, next unsafe.Pointer) {
 
 func cgo_wxWizardPageSimple_SetPrev(self unsafe.Pointer, prev unsafe.Pointer) {
 	C.wxWizardPageSimple_SetPrev(self, prev)
+}
+
+func cgo_wxWizardPageSimple_Chain(self unsafe.Pointer, next unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxWizardPageSimple_Chain(self, next))
 }
 
 func cgo_wxWizardPageSimple_CreateWithBundle(parent unsafe.Pointer, prev unsafe.Pointer, next unsafe.Pointer, bitmap unsafe.Pointer) unsafe.Pointer {
@@ -41497,6 +45190,10 @@ func cgo_wxSecureZeroMemory(data unsafe.Pointer, count uint) {
 
 func cgo_wxGetEnv(v unsafe.Pointer, value unsafe.Pointer) bool {
 	return C.wxGetEnv(v, value) != 0
+}
+
+func cgo_wxGetEnvValue(v unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGetEnvValue(v))
 }
 
 func cgo_wxSetEnv(v unsafe.Pointer, value unsafe.Pointer) bool {
@@ -41763,6 +45460,10 @@ func cgo_wxGetSingleChoiceIndex(message unsafe.Pointer, caption unsafe.Pointer, 
 	return int(C.wxGetSingleChoiceIndex(message, caption, choices, C.int(count), parent))
 }
 
+func cgo_wxGetSingleChoiceIndexArray(message unsafe.Pointer, caption unsafe.Pointer, choices unsafe.Pointer, parent unsafe.Pointer) int {
+	return int(C.wxGetSingleChoiceIndexArray(message, caption, choices, parent))
+}
+
 func cgo_wxGetSingleChoiceIndexEx(message unsafe.Pointer, caption unsafe.Pointer, n int, choices unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int, initialSelection int) int {
 	return int(C.wxGetSingleChoiceIndexEx(message, caption, C.int(n), choices, parent, C.int(x), C.int(y), boolToInt(centre), C.int(width), C.int(height), C.int(initialSelection)))
 }
@@ -41807,10 +45508,12 @@ func cgo_wxDegToRad(degrees float64) float64 {
 	return float64(C.wxDegToRad(C.double(degrees)))
 }
 
-func cgo_wxFgets(buffer string, size int, stream unsafe.Pointer) unsafe.Pointer {
-	cBuffer := C.CString(buffer)
-	defer C.free(unsafe.Pointer(cBuffer))
-	return unsafe.Pointer(C.wxFgets(cBuffer, C.int(size), stream))
+func cgo_wxFgets(buffer unsafe.Pointer, size int, stream unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxFgets((*C.char)(buffer), C.int(size), stream))
+}
+
+func cgo_wxFputs(str unsafe.Pointer, stream unsafe.Pointer) int {
+	return int(C.wxFputs(str, stream))
 }
 
 func cgo_wxGetCwd() unsafe.Pointer {
@@ -41881,20 +45584,20 @@ func cgo_wxGetPowerType() int {
 	return int(C.wxGetPowerType())
 }
 
-func cgo_wxGetSelectedChoices(selections unsafe.Pointer, choices unsafe.Pointer, count int, message unsafe.Pointer, caption unsafe.Pointer, parent unsafe.Pointer) int {
-	return int(C.wxGetSelectedChoices(selections, choices, C.int(count), message, caption, parent))
+func cgo_wxGetSelectedChoices(selections unsafe.Pointer, count int, choices unsafe.Pointer, message unsafe.Pointer, caption unsafe.Pointer, parent unsafe.Pointer) int {
+	return int(C.wxGetSelectedChoices(selections, C.int(count), (**C.char)(choices), message, caption, parent))
 }
 
 func cgo_wxGetSelectedChoicesEx(selections unsafe.Pointer, message unsafe.Pointer, caption unsafe.Pointer, n int, choices unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int) int {
 	return int(C.wxGetSelectedChoicesEx(selections, message, caption, C.int(n), choices, parent, C.int(x), C.int(y), boolToInt(centre), C.int(width), C.int(height)))
 }
 
-func cgo_wxGetSingleChoice(message unsafe.Pointer, caption unsafe.Pointer, choices unsafe.Pointer, count int, parent unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxGetSingleChoice(message, caption, choices, C.int(count), parent))
+func cgo_wxGetSingleChoice(message unsafe.Pointer, caption unsafe.Pointer, count int, choices unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGetSingleChoice(message, caption, C.int(count), (**C.char)(choices), parent))
 }
 
-func cgo_wxGetSingleChoiceData(message unsafe.Pointer, caption unsafe.Pointer, choices unsafe.Pointer, count int, client_data unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
-	return unsafe.Pointer(C.wxGetSingleChoiceData(message, caption, choices, C.int(count), client_data, parent))
+func cgo_wxGetSingleChoiceData(message unsafe.Pointer, caption unsafe.Pointer, count int, choices unsafe.Pointer, client_data unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGetSingleChoiceData(message, caption, C.int(count), (**C.char)(choices), client_data, parent))
 }
 
 func cgo_wxGetSingleChoiceDataEx(message unsafe.Pointer, caption unsafe.Pointer, n int, choices unsafe.Pointer, client_data unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int, initialSelection int) unsafe.Pointer {
@@ -41935,6 +45638,42 @@ func cgo_wxIslower(character int) bool {
 
 func cgo_wxMakeFloatingPointValidator(value unsafe.Pointer, style int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxMakeFloatingPointValidator((*C.double)(value), C.int(style)))
+}
+
+func cgo_wxMakeFloatingPointValidatorWithPrecision(precision int, value unsafe.Pointer, style int) unsafe.Pointer {
+	return unsafe.Pointer(C.wxMakeFloatingPointValidatorWithPrecision(C.int(precision), (*C.double)(value), C.int(style)))
+}
+
+func cgo_wxFloatingPointValidator_SetPrecision(validator unsafe.Pointer, precision int) {
+	C.wxFloatingPointValidator_SetPrecision(validator, C.int(precision))
+}
+
+func cgo_wxFloatingPointValidator_SetFactor(validator unsafe.Pointer, factor float64) {
+	C.wxFloatingPointValidator_SetFactor(validator, C.double(factor))
+}
+
+func cgo_wxFloatingPointValidator_SetStyle(validator unsafe.Pointer, style int) {
+	C.wxFloatingPointValidator_SetStyle(validator, C.int(style))
+}
+
+func cgo_wxFloatingPointValidator_SetMin(validator unsafe.Pointer, min float64) {
+	C.wxFloatingPointValidator_SetMin(validator, C.double(min))
+}
+
+func cgo_wxFloatingPointValidator_GetMin(validator unsafe.Pointer) float64 {
+	return float64(C.wxFloatingPointValidator_GetMin(validator))
+}
+
+func cgo_wxFloatingPointValidator_SetMax(validator unsafe.Pointer, max float64) {
+	C.wxFloatingPointValidator_SetMax(validator, C.double(max))
+}
+
+func cgo_wxFloatingPointValidator_GetMax(validator unsafe.Pointer) float64 {
+	return float64(C.wxFloatingPointValidator_GetMax(validator))
+}
+
+func cgo_wxFloatingPointValidator_SetRange(validator unsafe.Pointer, min float64, max float64) {
+	C.wxFloatingPointValidator_SetRange(validator, C.double(min), C.double(max))
 }
 
 func cgo_wxMutexGuiEnter() {
@@ -41983,6 +45722,12 @@ func cgo_wxSizeRefFromVariant(variant unsafe.Pointer) unsafe.Pointer {
 
 func cgo_wxStrdup(str unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxStrdup(str))
+}
+
+func cgo_wxStrlen(str string) int {
+	cStr := C.CString(str)
+	defer C.free(unsafe.Pointer(cStr))
+	return int(C.wxStrlen(cStr))
 }
 
 func cgo_wxStrtod(nptr unsafe.Pointer) float64 {
@@ -42057,12 +45802,20 @@ func cgo_wxDragIcon(icon unsafe.Pointer, x int, y int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDragIcon(icon, C.int(x), C.int(y)))
 }
 
+func cgo_wxDragIconWithCursor(icon unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDragIconWithCursor(icon, cursor))
+}
+
 func cgo_wxDragListItem(listCtrl unsafe.Pointer, id int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDragListItem(listCtrl, C.long(id)))
 }
 
 func cgo_wxDragString(text unsafe.Pointer, x int, y int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxDragString(text, C.int(x), C.int(y)))
+}
+
+func cgo_wxDragStringWithCursor(text unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxDragStringWithCursor(text, cursor))
 }
 
 func cgo_wxDragTreeItem(treeCtrl unsafe.Pointer, id unsafe.Pointer) unsafe.Pointer {
@@ -42073,12 +45826,20 @@ func cgo_wxGenericDragIcon(icon unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGenericDragIcon(icon))
 }
 
+func cgo_wxGenericDragIconWithCursor(icon unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericDragIconWithCursor(icon, cursor))
+}
+
 func cgo_wxGenericDragListItem(listCtrl unsafe.Pointer, id int) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGenericDragListItem(listCtrl, C.long(id)))
 }
 
 func cgo_wxGenericDragString(text unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(C.wxGenericDragString(text))
+}
+
+func cgo_wxGenericDragStringWithCursor(text unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return unsafe.Pointer(C.wxGenericDragStringWithCursor(text, cursor))
 }
 
 func cgo_wxGenericDragTreeItem(treeCtrl unsafe.Pointer, id unsafe.Pointer) unsafe.Pointer {
@@ -42171,6 +45932,10 @@ func cgo_kwxConsoleInitialize(argc int, argv unsafe.Pointer) int {
 	return int(C.kwxConsoleInitialize(C.int(argc), argv))
 }
 
+func cgo_kwxConsoleInitializeFromArgs(argc int, argv unsafe.Pointer) int {
+	return int(C.kwxConsoleInitializeFromArgs(C.int(argc), (**C.char)(argv)))
+}
+
 func cgo_kwxConsoleRun() int {
 	return int(C.kwxConsoleRun())
 }
@@ -42199,8 +45964,40 @@ func cgo_kwxConsoleYield() int {
 	return int(C.kwxConsoleYield())
 }
 
+func cgo_kwxConsoleOnInitCmdLineBase(parser unsafe.Pointer) {
+	C.kwxConsoleOnInitCmdLineBase(parser)
+}
+
+func cgo_kwxConsoleOnCmdLineParsedBase(parser unsafe.Pointer) bool {
+	return C.kwxConsoleOnCmdLineParsedBase(parser) != 0
+}
+
+func cgo_kwxStdin() unsafe.Pointer {
+	return unsafe.Pointer(C.kwxStdin())
+}
+
+func cgo_kwxStdout() unsafe.Pointer {
+	return unsafe.Pointer(C.kwxStdout())
+}
+
+func cgo_kwxStderr() unsafe.Pointer {
+	return unsafe.Pointer(C.kwxStderr())
+}
+
+func cgo_kwxConsoleCheckBuildOptions(componentName string) bool {
+	cComponentName := C.CString(componentName)
+	defer C.free(unsafe.Pointer(cComponentName))
+	return C.kwxConsoleCheckBuildOptions(cComponentName) != 0
+}
+
 func cgo_wxPrintf(text unsafe.Pointer) int {
 	return int(C.wxPrintf(text))
+}
+
+func cgo_wxPrintfLen(text string, len int) int {
+	cText := C.CString(text)
+	defer C.free(unsafe.Pointer(cText))
+	return int(C.wxPrintfLen(cText, C.int(len)))
 }
 
 func cgo_kwxMessageOutputUseStderr() {
@@ -42213,6 +46010,10 @@ func cgo_kwxMessageOutputUseStdout() {
 
 func cgo_kwxMessageOutputReset() {
 	C.kwxMessageOutputReset()
+}
+
+func cgo_kwxLogUseStderr() {
+	C.kwxLogUseStderr()
 }
 
 func cgo_wxBase64EncodeBuffer(source unsafe.Pointer, src_length int) unsafe.Pointer {
@@ -42375,6 +46176,10 @@ func cgo_expPROPSHEET_SHRINKTOFIT() int {
 	return int(C.expPROPSHEET_SHRINKTOFIT())
 }
 
+func cgo_wxCreateSVGBitmapEmbedHandler() unsafe.Pointer {
+	return unsafe.Pointer(C.wxCreateSVGBitmapEmbedHandler())
+}
+
 func cgo_kwxGetMousePositionPoint() unsafe.Pointer {
 	return unsafe.Pointer(C.kwxGetMousePositionPoint())
 }
@@ -42522,6 +46327,8 @@ func cgo_exp_wxEVT_AUI_PANE_BUTTON() int { return int(C.exp_wxEVT_AUI_PANE_BUTTO
 func cgo_exp_wxEVT_AUI_PANE_CLOSE() int { return int(C.exp_wxEVT_AUI_PANE_CLOSE()) }
 func cgo_exp_wxEVT_AUI_PANE_MAXIMIZE() int { return int(C.exp_wxEVT_AUI_PANE_MAXIMIZE()) }
 func cgo_exp_wxEVT_AUI_PANE_RESTORE() int { return int(C.exp_wxEVT_AUI_PANE_RESTORE()) }
+func cgo_exp_wxEVT_AUI_PANE_ACTIVATED() int { return int(C.exp_wxEVT_AUI_PANE_ACTIVATED()) }
+func cgo_exp_wxEVT_AUI_PANE_MINIMIZE() int { return int(C.exp_wxEVT_AUI_PANE_MINIMIZE()) }
 func cgo_exp_wxEVT_AUI_RENDER() int { return int(C.exp_wxEVT_AUI_RENDER()) }
 func cgo_exp_wxEVT_AUI_FIND_MANAGER() int { return int(C.exp_wxEVT_AUI_FIND_MANAGER()) }
 func cgo_exp_wxEVT_CALENDAR_SEL_CHANGED() int { return int(C.exp_wxEVT_CALENDAR_SEL_CHANGED()) }
@@ -43064,10 +46871,16 @@ func cgo_expwxHSCROLL() int { return int(C.expwxHSCROLL()) }
 func cgo_expwxCAPTION() int { return int(C.expwxCAPTION()) }
 func cgo_expwxBORDER_THEME() int { return int(C.expwxBORDER_THEME()) }
 func cgo_expwxBORDER_SUNKEN() int { return int(C.expwxBORDER_SUNKEN()) }
+func cgo_expwxSUNKEN_BORDER() int { return int(C.expwxSUNKEN_BORDER()) }
 func cgo_expwxBORDER_RAISED() int { return int(C.expwxBORDER_RAISED()) }
+func cgo_expwxRAISED_BORDER() int { return int(C.expwxRAISED_BORDER()) }
 func cgo_expwxBORDER_STATIC() int { return int(C.expwxBORDER_STATIC()) }
+func cgo_expwxSTATIC_BORDER() int { return int(C.expwxSTATIC_BORDER()) }
 func cgo_expwxBORDER_SIMPLE() int { return int(C.expwxBORDER_SIMPLE()) }
+func cgo_expwxSIMPLE_BORDER() int { return int(C.expwxSIMPLE_BORDER()) }
+func cgo_expwxBORDER() int { return int(C.expwxBORDER()) }
 func cgo_expwxBORDER_NONE() int { return int(C.expwxBORDER_NONE()) }
+func cgo_expwxNO_BORDER() int { return int(C.expwxNO_BORDER()) }
 func cgo_expwxBORDER_DEFAULT() int { return int(C.expwxBORDER_DEFAULT()) }
 func cgo_expwxALWAYS_SHOW_SB() int { return int(C.expwxALWAYS_SHOW_SB()) }
 func cgo_expwxCLIP_CHILDREN() int { return int(C.expwxCLIP_CHILDREN()) }
@@ -43200,6 +47013,7 @@ func cgo_expwxCAL_NO_YEAR_CHANGE() int { return int(C.expwxCAL_NO_YEAR_CHANGE())
 func cgo_expwxCAL_NO_MONTH_CHANGE() int { return int(C.expwxCAL_NO_MONTH_CHANGE()) }
 func cgo_expwxICON_WARNING() int { return int(C.expwxICON_WARNING()) }
 func cgo_expwxICON_ERROR() int { return int(C.expwxICON_ERROR()) }
+func cgo_expwxICON_HAND() int { return int(C.expwxICON_HAND()) }
 func cgo_expwxICON_QUESTION() int { return int(C.expwxICON_QUESTION()) }
 func cgo_expwxICON_INFORMATION() int { return int(C.expwxICON_INFORMATION()) }
 func cgo_expwxFORWARD() int { return int(C.expwxFORWARD()) }
@@ -43551,6 +47365,8 @@ func cgo_expwxLIST_NEXT_LEFT() int { return int(C.expwxLIST_NEXT_LEFT()) }
 func cgo_expwxLIST_NEXT_RIGHT() int { return int(C.expwxLIST_NEXT_RIGHT()) }
 func cgo_expwxRA_SPECIFY_COLS() int { return int(C.expwxRA_SPECIFY_COLS()) }
 func cgo_expwxRA_SPECIFY_ROWS() int { return int(C.expwxRA_SPECIFY_ROWS()) }
+func cgo_expwxTEMPLATE_INVISIBLE() int { return int(C.expwxTEMPLATE_INVISIBLE()) }
+func cgo_expwxTEMPLATE_VISIBLE() int { return int(C.expwxTEMPLATE_VISIBLE()) }
 func cgo_expwxTREE_HITTEST_ABOVE() int { return int(C.expwxTREE_HITTEST_ABOVE()) }
 func cgo_expwxTREE_HITTEST_BELOW() int { return int(C.expwxTREE_HITTEST_BELOW()) }
 func cgo_expwxTREE_HITTEST_NOWHERE() int { return int(C.expwxTREE_HITTEST_NOWHERE()) }
@@ -43609,6 +47425,39 @@ func cgo_expwxITALIC_FONT() unsafe.Pointer { return unsafe.Pointer(C.expwxITALIC
 func cgo_expwxNORMAL_FONT() unsafe.Pointer { return unsafe.Pointer(C.expwxNORMAL_FONT()) }
 func cgo_expwxSMALL_FONT() unsafe.Pointer { return unsafe.Pointer(C.expwxSMALL_FONT()) }
 func cgo_expwxSWISS_FONT() unsafe.Pointer { return unsafe.Pointer(C.expwxSWISS_FONT()) }
+func cgo_expwxPEN_STOCK_RED() int { return int(C.expwxPEN_STOCK_RED()) }
+func cgo_expwxPEN_STOCK_CYAN() int { return int(C.expwxPEN_STOCK_CYAN()) }
+func cgo_expwxPEN_STOCK_GREEN() int { return int(C.expwxPEN_STOCK_GREEN()) }
+func cgo_expwxPEN_STOCK_BLACK() int { return int(C.expwxPEN_STOCK_BLACK()) }
+func cgo_expwxPEN_STOCK_WHITE() int { return int(C.expwxPEN_STOCK_WHITE()) }
+func cgo_expwxPEN_STOCK_TRANSPARENT() int { return int(C.expwxPEN_STOCK_TRANSPARENT()) }
+func cgo_expwxPEN_STOCK_BLACK_DASHED() int { return int(C.expwxPEN_STOCK_BLACK_DASHED()) }
+func cgo_expwxPEN_STOCK_GREY() int { return int(C.expwxPEN_STOCK_GREY()) }
+func cgo_expwxPEN_STOCK_MEDIUM_GREY() int { return int(C.expwxPEN_STOCK_MEDIUM_GREY()) }
+func cgo_expwxPEN_STOCK_LIGHT_GREY() int { return int(C.expwxPEN_STOCK_LIGHT_GREY()) }
+func cgo_expwxBRUSH_STOCK_BLUE() int { return int(C.expwxBRUSH_STOCK_BLUE()) }
+func cgo_expwxBRUSH_STOCK_GREEN() int { return int(C.expwxBRUSH_STOCK_GREEN()) }
+func cgo_expwxBRUSH_STOCK_WHITE() int { return int(C.expwxBRUSH_STOCK_WHITE()) }
+func cgo_expwxBRUSH_STOCK_BLACK() int { return int(C.expwxBRUSH_STOCK_BLACK()) }
+func cgo_expwxBRUSH_STOCK_GREY() int { return int(C.expwxBRUSH_STOCK_GREY()) }
+func cgo_expwxBRUSH_STOCK_MEDIUM_GREY() int { return int(C.expwxBRUSH_STOCK_MEDIUM_GREY()) }
+func cgo_expwxBRUSH_STOCK_LIGHT_GREY() int { return int(C.expwxBRUSH_STOCK_LIGHT_GREY()) }
+func cgo_expwxBRUSH_STOCK_TRANSPARENT() int { return int(C.expwxBRUSH_STOCK_TRANSPARENT()) }
+func cgo_expwxBRUSH_STOCK_CYAN() int { return int(C.expwxBRUSH_STOCK_CYAN()) }
+func cgo_expwxBRUSH_STOCK_RED() int { return int(C.expwxBRUSH_STOCK_RED()) }
+func cgo_expwxCOLOUR_STOCK_BLACK() int { return int(C.expwxCOLOUR_STOCK_BLACK()) }
+func cgo_expwxCOLOUR_STOCK_WHITE() int { return int(C.expwxCOLOUR_STOCK_WHITE()) }
+func cgo_expwxCOLOUR_STOCK_RED() int { return int(C.expwxCOLOUR_STOCK_RED()) }
+func cgo_expwxCOLOUR_STOCK_BLUE() int { return int(C.expwxCOLOUR_STOCK_BLUE()) }
+func cgo_expwxCOLOUR_STOCK_GREEN() int { return int(C.expwxCOLOUR_STOCK_GREEN()) }
+func cgo_expwxCOLOUR_STOCK_CYAN() int { return int(C.expwxCOLOUR_STOCK_CYAN()) }
+func cgo_expwxCOLOUR_STOCK_LIGHT_GREY() int { return int(C.expwxCOLOUR_STOCK_LIGHT_GREY()) }
+func cgo_expwxFONT_STOCK_ITALIC() int { return int(C.expwxFONT_STOCK_ITALIC()) }
+func cgo_expwxFONT_STOCK_NORMAL() int { return int(C.expwxFONT_STOCK_NORMAL()) }
+func cgo_expwxFONT_STOCK_SMALL() int { return int(C.expwxFONT_STOCK_SMALL()) }
+func cgo_expwxFONT_STOCK_SWISS() int { return int(C.expwxFONT_STOCK_SWISS()) }
+func cgo_expwxDebugReport_Context_Current() int { return int(C.expwxDebugReport_Context_Current()) }
+func cgo_expwxDebugReport_Context_Exception() int { return int(C.expwxDebugReport_Context_Exception()) }
 func cgo_expwxNOT_FOUND() int { return int(C.expwxNOT_FOUND()) }
 func cgo_expwxPRINTER_NO_ERROR() int { return int(C.expwxPRINTER_NO_ERROR()) }
 func cgo_expwxPRINTER_CANCELLED() int { return int(C.expwxPRINTER_CANCELLED()) }
@@ -44105,6 +47954,7 @@ func cgo_expwxART_CMN_DIALOG() unsafe.Pointer { return unsafe.Pointer(C.expwxART
 func cgo_expwxART_HELP_BROWSER() unsafe.Pointer { return unsafe.Pointer(C.expwxART_HELP_BROWSER()) }
 func cgo_expwxART_MESSAGE_BOX() unsafe.Pointer { return unsafe.Pointer(C.expwxART_MESSAGE_BOX()) }
 func cgo_expwxART_BUTTON() unsafe.Pointer { return unsafe.Pointer(C.expwxART_BUTTON()) }
+func cgo_expwxART_LIST() unsafe.Pointer { return unsafe.Pointer(C.expwxART_LIST()) }
 func cgo_expwxART_OTHER() unsafe.Pointer { return unsafe.Pointer(C.expwxART_OTHER()) }
 func cgo_expwxART_ADD_BOOKMARK() unsafe.Pointer { return unsafe.Pointer(C.expwxART_ADD_BOOKMARK()) }
 func cgo_expwxART_DEL_BOOKMARK() unsafe.Pointer { return unsafe.Pointer(C.expwxART_DEL_BOOKMARK()) }
@@ -44119,6 +47969,8 @@ func cgo_expwxART_GO_UP() unsafe.Pointer { return unsafe.Pointer(C.expwxART_GO_U
 func cgo_expwxART_GO_DOWN() unsafe.Pointer { return unsafe.Pointer(C.expwxART_GO_DOWN()) }
 func cgo_expwxART_GO_TO_PARENT() unsafe.Pointer { return unsafe.Pointer(C.expwxART_GO_TO_PARENT()) }
 func cgo_expwxART_GO_HOME() unsafe.Pointer { return unsafe.Pointer(C.expwxART_GO_HOME()) }
+func cgo_expwxART_GOTO_FIRST() unsafe.Pointer { return unsafe.Pointer(C.expwxART_GOTO_FIRST()) }
+func cgo_expwxART_GOTO_LAST() unsafe.Pointer { return unsafe.Pointer(C.expwxART_GOTO_LAST()) }
 func cgo_expwxART_FILE_OPEN() unsafe.Pointer { return unsafe.Pointer(C.expwxART_FILE_OPEN()) }
 func cgo_expwxART_FILE_SAVE() unsafe.Pointer { return unsafe.Pointer(C.expwxART_FILE_SAVE()) }
 func cgo_expwxART_FILE_SAVE_AS() unsafe.Pointer { return unsafe.Pointer(C.expwxART_FILE_SAVE_AS()) }
@@ -44143,6 +47995,7 @@ func cgo_expwxART_ERROR() unsafe.Pointer { return unsafe.Pointer(C.expwxART_ERRO
 func cgo_expwxART_QUESTION() unsafe.Pointer { return unsafe.Pointer(C.expwxART_QUESTION()) }
 func cgo_expwxART_WARNING() unsafe.Pointer { return unsafe.Pointer(C.expwxART_WARNING()) }
 func cgo_expwxART_INFORMATION() unsafe.Pointer { return unsafe.Pointer(C.expwxART_INFORMATION()) }
+func cgo_expwxTRACE_OleCalls() unsafe.Pointer { return unsafe.Pointer(C.expwxTRACE_OleCalls()) }
 func cgo_expwxART_MISSING_IMAGE() unsafe.Pointer { return unsafe.Pointer(C.expwxART_MISSING_IMAGE()) }
 func cgo_expwxART_COPY() unsafe.Pointer { return unsafe.Pointer(C.expwxART_COPY()) }
 func cgo_expwxART_CUT() unsafe.Pointer { return unsafe.Pointer(C.expwxART_CUT()) }
@@ -44151,10 +48004,17 @@ func cgo_expwxART_DELETE() unsafe.Pointer { return unsafe.Pointer(C.expwxART_DEL
 func cgo_expwxART_NEW() unsafe.Pointer { return unsafe.Pointer(C.expwxART_NEW()) }
 func cgo_expwxART_UNDO() unsafe.Pointer { return unsafe.Pointer(C.expwxART_UNDO()) }
 func cgo_expwxART_REDO() unsafe.Pointer { return unsafe.Pointer(C.expwxART_REDO()) }
+func cgo_expwxART_PLUS() unsafe.Pointer { return unsafe.Pointer(C.expwxART_PLUS()) }
+func cgo_expwxART_MINUS() unsafe.Pointer { return unsafe.Pointer(C.expwxART_MINUS()) }
+func cgo_expwxART_CLOSE() unsafe.Pointer { return unsafe.Pointer(C.expwxART_CLOSE()) }
 func cgo_expwxART_QUIT() unsafe.Pointer { return unsafe.Pointer(C.expwxART_QUIT()) }
 func cgo_expwxART_FIND() unsafe.Pointer { return unsafe.Pointer(C.expwxART_FIND()) }
 func cgo_expwxART_FIND_AND_REPLACE() unsafe.Pointer { return unsafe.Pointer(C.expwxART_FIND_AND_REPLACE()) }
 func cgo_expwxART_FULL_SCREEN() unsafe.Pointer { return unsafe.Pointer(C.expwxART_FULL_SCREEN()) }
+func cgo_expwxART_EDIT() unsafe.Pointer { return unsafe.Pointer(C.expwxART_EDIT()) }
+func cgo_expwxART_WX_LOGO() unsafe.Pointer { return unsafe.Pointer(C.expwxART_WX_LOGO()) }
+func cgo_expwxART_REFRESH() unsafe.Pointer { return unsafe.Pointer(C.expwxART_REFRESH()) }
+func cgo_expwxART_STOP() unsafe.Pointer { return unsafe.Pointer(C.expwxART_STOP()) }
 func cgo_expwxMINOR_VERSION() int { return int(C.expwxMINOR_VERSION()) }
 func cgo_expwxALPHA_OPAQUE() int { return int(C.expwxALPHA_OPAQUE()) }
 func cgo_expwxVERSION_NUM_DOT_STRING() unsafe.Pointer { return unsafe.Pointer(C.expwxVERSION_NUM_DOT_STRING()) }
@@ -44492,6 +48352,46 @@ func cgo_expwxAUI_TB_HORZ_TEXT() int { return int(C.expwxAUI_TB_HORZ_TEXT()) }
 func cgo_expwxAUI_TB_OVERFLOW() int { return int(C.expwxAUI_TB_OVERFLOW()) }
 func cgo_expwxAUI_TB_TEXT() int { return int(C.expwxAUI_TB_TEXT()) }
 func cgo_expwxAUI_TB_VERTICAL() int { return int(C.expwxAUI_TB_VERTICAL()) }
+func cgo_expwxAUI_DOCK_NONE() int { return int(C.expwxAUI_DOCK_NONE()) }
+func cgo_expwxAUI_DOCK_TOP() int { return int(C.expwxAUI_DOCK_TOP()) }
+func cgo_expwxAUI_DOCK_RIGHT() int { return int(C.expwxAUI_DOCK_RIGHT()) }
+func cgo_expwxAUI_DOCK_BOTTOM() int { return int(C.expwxAUI_DOCK_BOTTOM()) }
+func cgo_expwxAUI_DOCK_LEFT() int { return int(C.expwxAUI_DOCK_LEFT()) }
+func cgo_expwxAUI_DOCK_CENTER() int { return int(C.expwxAUI_DOCK_CENTER()) }
+func cgo_expwxAUI_DOCK_CENTRE() int { return int(C.expwxAUI_DOCK_CENTRE()) }
+func cgo_expwxAUI_BUTTON_CLOSE() int { return int(C.expwxAUI_BUTTON_CLOSE()) }
+func cgo_expwxAUI_BUTTON_MAXIMIZE_RESTORE() int { return int(C.expwxAUI_BUTTON_MAXIMIZE_RESTORE()) }
+func cgo_expwxAUI_BUTTON_MINIMIZE() int { return int(C.expwxAUI_BUTTON_MINIMIZE()) }
+func cgo_expwxAUI_BUTTON_PIN() int { return int(C.expwxAUI_BUTTON_PIN()) }
+func cgo_expwxAUI_BUTTON_OPTIONS() int { return int(C.expwxAUI_BUTTON_OPTIONS()) }
+func cgo_expwxAUI_BUTTON_WINDOWLIST() int { return int(C.expwxAUI_BUTTON_WINDOWLIST()) }
+func cgo_expwxAUI_BUTTON_LEFT() int { return int(C.expwxAUI_BUTTON_LEFT()) }
+func cgo_expwxAUI_BUTTON_RIGHT() int { return int(C.expwxAUI_BUTTON_RIGHT()) }
+func cgo_expwxAUI_BUTTON_UP() int { return int(C.expwxAUI_BUTTON_UP()) }
+func cgo_expwxAUI_BUTTON_DOWN() int { return int(C.expwxAUI_BUTTON_DOWN()) }
+func cgo_expwxAUI_BUTTON_CUSTOM1() int { return int(C.expwxAUI_BUTTON_CUSTOM1()) }
+func cgo_expwxAUI_BUTTON_CUSTOM2() int { return int(C.expwxAUI_BUTTON_CUSTOM2()) }
+func cgo_expwxAUI_BUTTON_CUSTOM3() int { return int(C.expwxAUI_BUTTON_CUSTOM3()) }
+func cgo_expwxAUI_BUTTON_STATE_NORMAL() int { return int(C.expwxAUI_BUTTON_STATE_NORMAL()) }
+func cgo_expwxAUI_BUTTON_STATE_HOVER() int { return int(C.expwxAUI_BUTTON_STATE_HOVER()) }
+func cgo_expwxAUI_BUTTON_STATE_PRESSED() int { return int(C.expwxAUI_BUTTON_STATE_PRESSED()) }
+func cgo_expwxAUI_BUTTON_STATE_DISABLED() int { return int(C.expwxAUI_BUTTON_STATE_DISABLED()) }
+func cgo_expwxAUI_BUTTON_STATE_HIDDEN() int { return int(C.expwxAUI_BUTTON_STATE_HIDDEN()) }
+func cgo_expwxAUI_BUTTON_STATE_CHECKED() int { return int(C.expwxAUI_BUTTON_STATE_CHECKED()) }
+func cgo_expwxAUI_INSERT_PANE() int { return int(C.expwxAUI_INSERT_PANE()) }
+func cgo_expwxAUI_INSERT_ROW() int { return int(C.expwxAUI_INSERT_ROW()) }
+func cgo_expwxAUI_INSERT_DOCK() int { return int(C.expwxAUI_INSERT_DOCK()) }
+func cgo_expwxAUI_TB_NO_TOOLTIPS() int { return int(C.expwxAUI_TB_NO_TOOLTIPS()) }
+func cgo_expwxAUI_TB_NO_AUTORESIZE() int { return int(C.expwxAUI_TB_NO_AUTORESIZE()) }
+func cgo_expwxAUI_TB_GRIPPER() int { return int(C.expwxAUI_TB_GRIPPER()) }
+func cgo_expwxAUI_TB_HORZ_LAYOUT() int { return int(C.expwxAUI_TB_HORZ_LAYOUT()) }
+func cgo_expwxAUI_TB_PLAIN_BACKGROUND() int { return int(C.expwxAUI_TB_PLAIN_BACKGROUND()) }
+func cgo_expwxAUI_MGR_DEFAULT() int { return int(C.expwxAUI_MGR_DEFAULT()) }
+func cgo_expwxAUI_MGR_NO_VENETIAN_BLINDS_FADE() int { return int(C.expwxAUI_MGR_NO_VENETIAN_BLINDS_FADE()) }
+func cgo_expwxAUI_NB_MIDDLE_CLICK_CLOSE() int { return int(C.expwxAUI_NB_MIDDLE_CLICK_CLOSE()) }
+func cgo_expwxAUI_TAB_NORMAL() int { return int(C.expwxAUI_TAB_NORMAL()) }
+func cgo_expwxAUI_TAB_PINNED() int { return int(C.expwxAUI_TAB_PINNED()) }
+func cgo_expwxAUI_TAB_LOCKED() int { return int(C.expwxAUI_TAB_LOCKED()) }
 func cgo_expwxBATTERY_CRITICAL_STATE() int { return int(C.expwxBATTERY_CRITICAL_STATE()) }
 func cgo_expwxBATTERY_LOW_STATE() int { return int(C.expwxBATTERY_LOW_STATE()) }
 func cgo_expwxBATTERY_NORMAL_STATE() int { return int(C.expwxBATTERY_NORMAL_STATE()) }
@@ -44615,12 +48515,22 @@ func cgo_expwxCONTROL_SPECIAL() int { return int(C.expwxCONTROL_SPECIAL()) }
 func cgo_expwxCONTROL_UNDETERMINED() int { return int(C.expwxCONTROL_UNDETERMINED()) }
 func cgo_expwxCURSOR_ARROWWAIT() int { return int(C.expwxCURSOR_ARROWWAIT()) }
 func cgo_expwxColourData_NUM_CUSTOM() int { return int(C.expwxColourData_NUM_CUSTOM()) }
+func cgo_expwxColourDatabase_CSS() int { return int(C.expwxColourDatabase_CSS()) }
+func cgo_expwxColourDatabase_Traditional() int { return int(C.expwxColourDatabase_Traditional()) }
 func cgo_expwxDATAVIEW_CELL_ACTIVATABLE() int { return int(C.expwxDATAVIEW_CELL_ACTIVATABLE()) }
 func cgo_expwxDATAVIEW_CELL_EDITABLE() int { return int(C.expwxDATAVIEW_CELL_EDITABLE()) }
 func cgo_expwxDATAVIEW_CELL_INERT() int { return int(C.expwxDATAVIEW_CELL_INERT()) }
 func cgo_expwxDATAVIEW_COL_REORDERABLE() int { return int(C.expwxDATAVIEW_COL_REORDERABLE()) }
 func cgo_expwxDATAVIEW_COL_RESIZABLE() int { return int(C.expwxDATAVIEW_COL_RESIZABLE()) }
 func cgo_expwxDATAVIEW_COL_SORTABLE() int { return int(C.expwxDATAVIEW_COL_SORTABLE()) }
+func cgo_expwxDV_SINGLE() int { return int(C.expwxDV_SINGLE()) }
+func cgo_expwxDV_MULTIPLE() int { return int(C.expwxDV_MULTIPLE()) }
+func cgo_expwxDV_NO_HEADER() int { return int(C.expwxDV_NO_HEADER()) }
+func cgo_expwxDV_HORIZ_RULES() int { return int(C.expwxDV_HORIZ_RULES()) }
+func cgo_expwxDV_VERT_RULES() int { return int(C.expwxDV_VERT_RULES()) }
+func cgo_expwxDV_ROW_LINES() int { return int(C.expwxDV_ROW_LINES()) }
+func cgo_expwxDV_VARIABLE_LINE_HEIGHT() int { return int(C.expwxDV_VARIABLE_LINE_HEIGHT()) }
+func cgo_expwxDVR_DEFAULT_ALIGNMENT() int { return int(C.expwxDVR_DEFAULT_ALIGNMENT()) }
 func cgo_expwxCHOICEDLG_STYLE() int { return int(C.expwxCHOICEDLG_STYLE()) }
 func cgo_expwxDEFAULT_DIALOG_STYLE() int { return int(C.expwxDEFAULT_DIALOG_STYLE()) }
 func cgo_expwxDIALOG_ADAPTATION_MODE_ENABLED() int { return int(C.expwxDIALOG_ADAPTATION_MODE_ENABLED()) }
@@ -44630,11 +48540,13 @@ func cgo_expwxDIRCTRL_EDIT_LABELS() int { return int(C.expwxDIRCTRL_EDIT_LABELS(
 func cgo_expwxDIRCTRL_MULTIPLE() int { return int(C.expwxDIRCTRL_MULTIPLE()) }
 func cgo_expwxDIRCTRL_SELECT_FIRST() int { return int(C.expwxDIRCTRL_SELECT_FIRST()) }
 func cgo_expwxDIRCTRL_SHOW_FILTERS() int { return int(C.expwxDIRCTRL_SHOW_FILTERS()) }
+func cgo_expwxDEFAULT_TEMPLATE_FLAGS() int { return int(C.expwxDEFAULT_TEMPLATE_FLAGS()) }
 func cgo_expwxDIRP_CHANGE_DIR() int { return int(C.expwxDIRP_CHANGE_DIR()) }
 func cgo_expwxDIRP_DEFAULT_STYLE() int { return int(C.expwxDIRP_DEFAULT_STYLE()) }
 func cgo_expwxDIRP_DIR_MUST_EXIST() int { return int(C.expwxDIRP_DIR_MUST_EXIST()) }
 func cgo_expwxDIRP_SMALL() int { return int(C.expwxDIRP_SMALL()) }
 func cgo_expwxDIRP_USE_TEXTCTRL() int { return int(C.expwxDIRP_USE_TEXTCTRL()) }
+func cgo_expwxDOC_NEW() int { return int(C.expwxDOC_NEW()) }
 func cgo_expwxDOC_SILENT() int { return int(C.expwxDOC_SILENT()) }
 func cgo_expwxDOUBLE_BORDER() int { return int(C.expwxDOUBLE_BORDER()) }
 func cgo_expwxDP_ALLOWNONE() int { return int(C.expwxDP_ALLOWNONE()) }
@@ -44827,6 +48739,7 @@ func cgo_expwxMOUSE_BTN_LEFT() int { return int(C.expwxMOUSE_BTN_LEFT()) }
 func cgo_expwxMOUSE_WHEEL_VERTICAL() int { return int(C.expwxMOUSE_WHEEL_VERTICAL()) }
 func cgo_expwxNUM_VAL_NO_TRAILING_ZEROES() int { return int(C.expwxNUM_VAL_NO_TRAILING_ZEROES()) }
 func cgo_expwxNUM_VAL_SIGN_PLUS() int { return int(C.expwxNUM_VAL_SIGN_PLUS()) }
+func cgo_expwxNUM_VAL_SIGN_SPACE() int { return int(C.expwxNUM_VAL_SIGN_SPACE()) }
 func cgo_expwxNUM_VAL_THOUSANDS_SEPARATOR() int { return int(C.expwxNUM_VAL_THOUSANDS_SEPARATOR()) }
 func cgo_expwxNUM_VAL_ZERO_AS_BLANK() int { return int(C.expwxNUM_VAL_ZERO_AS_BLANK()) }
 func cgo_expwxNotificationMessage_Timeout_Auto() int { return int(C.expwxNotificationMessage_Timeout_Auto()) }
@@ -44987,6 +48900,7 @@ func cgo_expwxRICHTEXT_TYPE_PDF() int { return int(C.expwxRICHTEXT_TYPE_PDF()) }
 func cgo_expwxRICHTEXT_TYPE_RTF() int { return int(C.expwxRICHTEXT_TYPE_RTF()) }
 func cgo_expwxRICHTEXT_TYPE_TEXT() int { return int(C.expwxRICHTEXT_TYPE_TEXT()) }
 func cgo_expwxRICHTEXT_TYPE_XML() int { return int(C.expwxRICHTEXT_TYPE_XML()) }
+func cgo_expwxRichTextFormattingDialog_Option_AllowPixelFontSize() int { return int(C.expwxRichTextFormattingDialog_Option_AllowPixelFontSize()) }
 func cgo_expwxSHOW_SB_DEFAULT() int { return int(C.expwxSHOW_SB_DEFAULT()) }
 func cgo_expwxSHOW_SB_NEVER() int { return int(C.expwxSHOW_SB_NEVER()) }
 func cgo_expwxSOCKET_BLOCK() int { return int(C.expwxSOCKET_BLOCK()) }
@@ -45030,6 +48944,8 @@ func cgo_expwxSYS_COLOUR_MAX() int { return int(C.expwxSYS_COLOUR_MAX()) }
 func cgo_expwxSYS_COLOUR_MENUBAR() int { return int(C.expwxSYS_COLOUR_MENUBAR()) }
 func cgo_expwxSYS_COLOUR_MENUHILIGHT() int { return int(C.expwxSYS_COLOUR_MENUHILIGHT()) }
 func cgo_expwxS_DIR_DEFAULT() int { return int(C.expwxS_DIR_DEFAULT()) }
+func cgo_expwxSysMetric_CursorSize() int { return int(C.expwxSysMetric_CursorSize()) }
+func cgo_expwxSysMetric_Other() int { return int(C.expwxSysMetric_Other()) }
 func cgo_expwxTASKBAR_BUTTON_ERROR() int { return int(C.expwxTASKBAR_BUTTON_ERROR()) }
 func cgo_expwxTASKBAR_BUTTON_INDETERMINATE() int { return int(C.expwxTASKBAR_BUTTON_INDETERMINATE()) }
 func cgo_expwxTASKBAR_BUTTON_NORMAL() int { return int(C.expwxTASKBAR_BUTTON_NORMAL()) }

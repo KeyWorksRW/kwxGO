@@ -18,6 +18,26 @@ func XmlDocumentFromPtr(ptr unsafe.Pointer) *XmlDocument {
 	return obj
 }
 
+func (o *XmlDocument) LoadFile(filename string, flags int) bool {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_wxXmlDocument_LoadFile(o.Ptr(), wxFilename.Ptr(), flags)
+}
+
+func (o *XmlDocument) LoadStream(stream unsafe.Pointer, flags int) bool {
+	return cgo_wxXmlDocument_LoadStream(o.Ptr(), stream, flags)
+}
+
+func (o *XmlDocument) SaveFile(filename string, indentstep int) bool {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_wxXmlDocument_SaveFile(o.Ptr(), wxFilename.Ptr(), indentstep)
+}
+
+func (o *XmlDocument) SaveStream(stream unsafe.Pointer, indentstep int) bool {
+	return cgo_wxXmlDocument_SaveStream(o.Ptr(), stream, indentstep)
+}
+
 func NewXmlDocument() *XmlDocument {
 	ptr := cgo_wxXmlDocument_Create()
 	if ptr == nil {

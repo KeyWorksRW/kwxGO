@@ -18,6 +18,45 @@ func DocManagerFromPtr(ptr unsafe.Pointer) *DocManager {
 	return obj
 }
 
+func NewDocManager(flags int, initialize bool) *DocManager {
+	ptr := cgo_wxDocManager_Create(flags, initialize)
+	if ptr == nil {
+		return nil
+	}
+	obj := &DocManager{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewDocManagerDefault() *DocManager {
+	ptr := cgo_wxDocManager_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &DocManager{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *DocManager) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxDocManager_Delete(o.Ptr())
+}
+
+func (o *DocManager) AddDocument(doc unsafe.Pointer) {
+	cgo_wxDocManager_AddDocument(o.Ptr(), doc)
+}
+
+func (o *DocManager) AssociateTemplate(docTemplate unsafe.Pointer) {
+	cgo_wxDocManager_AssociateTemplate(o.Ptr(), docTemplate)
+}
+
+func (o *DocManager) Clear(force bool) bool {
+	return cgo_wxDocManager_Clear(o.Ptr(), force)
+}
+
 func (o *DocManager) CloseDocuments(force bool) bool {
 	return cgo_wxDocManager_CloseDocuments(o.Ptr(), force)
 }
@@ -32,6 +71,10 @@ func (o *DocManager) CreateNewDocument() unsafe.Pointer {
 	return cgo_wxDocManager_CreateNewDocument(o.Ptr())
 }
 
+func (o *DocManager) DisassociateTemplate(docTemplate unsafe.Pointer) {
+	cgo_wxDocManager_DisassociateTemplate(o.Ptr(), docTemplate)
+}
+
 func (o *DocManager) FileHistoryLoad(config unsafe.Pointer) {
 	cgo_wxDocManager_FileHistoryLoad(o.Ptr(), config)
 }
@@ -44,8 +87,40 @@ func (o *DocManager) FileHistoryUseMenu(menu unsafe.Pointer) {
 	cgo_wxDocManager_FileHistoryUseMenu(o.Ptr(), menu)
 }
 
+func (o *DocManager) GetCurrentDocument() unsafe.Pointer {
+	return cgo_wxDocManager_GetCurrentDocument(o.Ptr())
+}
+
+func (o *DocManager) GetCurrentView() unsafe.Pointer {
+	return cgo_wxDocManager_GetCurrentView(o.Ptr())
+}
+
+func (o *DocManager) GetDocumentCount() int {
+	return cgo_wxDocManager_GetDocumentCount(o.Ptr())
+}
+
+func (o *DocManager) GetDocumentAt(pos int) unsafe.Pointer {
+	return cgo_wxDocManager_GetDocumentAt(o.Ptr(), pos)
+}
+
 func DocManager_GetDocumentManager() unsafe.Pointer {
 	return cgo_wxDocManager_GetDocumentManager()
+}
+
+func (o *DocManager) GetMaxDocsOpen() int {
+	return cgo_wxDocManager_GetMaxDocsOpen(o.Ptr())
+}
+
+func (o *DocManager) GetTemplateAt(pos int) unsafe.Pointer {
+	return cgo_wxDocManager_GetTemplateAt(o.Ptr(), pos)
+}
+
+func (o *DocManager) GetTemplateCount() int {
+	return cgo_wxDocManager_GetTemplateCount(o.Ptr())
+}
+
+func (o *DocManager) RemoveDocument(doc unsafe.Pointer) {
+	cgo_wxDocManager_RemoveDocument(o.Ptr(), doc)
 }
 
 func (o *DocManager) SetMaxDocsOpen(n int) {

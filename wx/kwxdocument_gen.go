@@ -63,3 +63,77 @@ func (o *KwxDocument) SetOnOnOpenDocument(pFunction unsafe.Pointer) {
 	cgo_kwxDocument_SetOnOnOpenDocument(o.Ptr(), pFunction)
 }
 
+func (o *KwxDocument) SetOnDoOpenDocumentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDocument_SetOnDoOpenDocumentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDocument) SetDoOpenDocumentResult(result bool) {
+	cgo_kwxDocument_SetDoOpenDocumentResult(o.Ptr(), result)
+}
+
+func (o *KwxDocument) SetOnDoSaveDocumentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDocument_SetOnDoSaveDocumentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDocument) SetDoSaveDocumentResult(result bool) {
+	cgo_kwxDocument_SetDoSaveDocumentResult(o.Ptr(), result)
+}
+
+func (o *KwxDocument) SetOnIsModifiedWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDocument_SetOnIsModifiedWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDocument) SetIsModifiedResult(result bool) {
+	cgo_kwxDocument_SetIsModifiedResult(o.Ptr(), result)
+}
+
+func (o *KwxDocument) SetOnModifyWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDocument_SetOnModifyWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDocument) SetOnOnCreateWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDocument_SetOnOnCreateWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDocument) SetOnCreateResult(result bool) {
+	cgo_kwxDocument_SetOnCreateResult(o.Ptr(), result)
+}
+
+func (o *KwxDocument) SetOnOnOpenDocumentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDocument_SetOnOnOpenDocumentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDocument) SetOnOpenDocumentResult(result bool) {
+	cgo_kwxDocument_SetOnOpenDocumentResult(o.Ptr(), result)
+}
+
+func (o *KwxDocument) OnCreateBase(path string, flags int) bool {
+	wxPath := NewWxString(path)
+	defer wxPath.Free()
+	return cgo_kwxDocument_OnCreateBase(o.Ptr(), wxPath.Ptr(), flags)
+}
+
+func (o *KwxDocument) OnOpenDocumentBase(filename string) bool {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_kwxDocument_OnOpenDocumentBase(o.Ptr(), wxFilename.Ptr())
+}
+
+func (o *KwxDocument) IsModifiedBase() bool {
+	return cgo_kwxDocument_IsModifiedBase(o.Ptr())
+}
+
+func (o *KwxDocument) ModifyBase(modified bool) {
+	cgo_kwxDocument_ModifyBase(o.Ptr(), modified)
+}
+
+func NewKwxDocumentWithParent(pObject unsafe.Pointer, parent unsafe.Pointer) *KwxDocument {
+	ptr := cgo_kwxDocument_CreateWithParent(pObject, parent)
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxDocument{}
+	obj.SetPtr(ptr)
+	return obj
+}
+

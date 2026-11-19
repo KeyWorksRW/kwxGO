@@ -57,3 +57,13 @@ func NewCursorLoad(name string, typ int, width int, height int) *Cursor {
 	return obj
 }
 
+func NewCursorFromXPMString(xpm string) *Cursor {
+	ptr := cgo_Cursor_CreateFromXPMString(xpm)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Cursor{}
+	obj.SetPtr(ptr)
+	return obj
+}
+

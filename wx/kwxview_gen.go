@@ -51,3 +51,23 @@ func (o *KwxView) SetOnOnUpdate(pFunction unsafe.Pointer) {
 	cgo_kwxView_SetOnOnUpdate(o.Ptr(), pFunction)
 }
 
+func (o *KwxView) SetOnOnCreateWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxView_SetOnOnCreateWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxView) SetOnCreateResult(result bool) {
+	cgo_kwxView_SetOnCreateResult(o.Ptr(), result)
+}
+
+func (o *KwxView) SetOnOnCloseWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxView_SetOnOnCloseWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxView) SetOnCloseResult(result bool) {
+	cgo_kwxView_SetOnCloseResult(o.Ptr(), result)
+}
+
+func (o *KwxView) OnCloseBase(deleteWindow bool) bool {
+	return cgo_kwxView_OnCloseBase(o.Ptr(), deleteWindow)
+}
+

@@ -4,7 +4,7 @@ package wx
 
 import "unsafe"
 
-type BufferedDC struct{ DC }
+type BufferedDC struct{ MemoryDC }
 
 // BufferedDCFromPtr wraps ptr without taking ownership of the native object:
 // Delete() is a no-op for the returned wrapper.

@@ -145,7 +145,7 @@ func UILocale_GetLanguageCanonicalName(language int) string {
 
 func UILocale_GetInfo(index int, category int) string {
 	retPtr := cgo_wxUILocale_GetInfo(index, category)
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
 func UILocale_IsSet() bool {

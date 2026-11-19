@@ -47,3 +47,8 @@ func (o *TextUrlEvent) GetURLEnd() int {
 	return cgo_wxTextUrlEvent_GetURLEnd(o.Ptr())
 }
 
+func (o *TextUrlEvent) GetString() string {
+	retPtr := cgo_wxTextUrlEvent_GetString(o.Ptr())
+	return WxStringToGoAndFree(retPtr)
+}
+

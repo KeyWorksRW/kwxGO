@@ -24,7 +24,7 @@ func (o *InputSinkEvent) LastError() int {
 
 func (o *InputSinkEvent) LastInput() string {
 	retPtr := cgo_wxInputSinkEvent_LastInput(o.Ptr())
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGo(retPtr)
 }
 
 func (o *InputSinkEvent) LastRead() int {

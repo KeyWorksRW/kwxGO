@@ -128,3 +128,19 @@ func (o *ScrolledWindow) GetViewStartPixels(x unsafe.Pointer, y unsafe.Pointer) 
 	cgo_wxScrolledWindow_GetViewStartPixels(o.Ptr(), x, y)
 }
 
+func (o *ScrolledWindow) EnableAutoScrollInside(insideWidth int) {
+	cgo_wxScrolledWindow_EnableAutoScrollInside(o.Ptr(), insideWidth)
+}
+
+func (o *ScrolledWindow) DisableAutoScrollOutside() {
+	cgo_wxScrolledWindow_DisableAutoScrollOutside(o.Ptr())
+}
+
+func (o *ScrolledWindow) EnableAutoscrollWithoutCapture() {
+	cgo_wxScrolledWindow_EnableAutoscrollWithoutCapture(o.Ptr())
+}
+
+func (o *ScrolledWindow) DisableAutoscrollWithoutCapture() {
+	cgo_wxScrolledWindow_DisableAutoscrollWithoutCapture(o.Ptr())
+}
+

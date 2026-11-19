@@ -55,3 +55,55 @@ func (o *KwxFileDropTarget) SetOnLeave(pFunction unsafe.Pointer) {
 	cgo_kwxFileDropTarget_SetOnLeave(o.Ptr(), pFunction)
 }
 
+func (o *KwxFileDropTarget) SetOnDataWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxFileDropTarget_SetOnDataWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxFileDropTarget) SetOnDropWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxFileDropTarget_SetOnDropWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxFileDropTarget) SetOnEnterWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxFileDropTarget_SetOnEnterWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxFileDropTarget) SetOnDragOverWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxFileDropTarget_SetOnDragOverWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxFileDropTarget) SetOnLeaveWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxFileDropTarget_SetOnLeaveWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxFileDropTarget) SetDataResult(result int) {
+	cgo_kwxFileDropTarget_SetDataResult(o.Ptr(), result)
+}
+
+func (o *KwxFileDropTarget) SetDropResult(result int) {
+	cgo_kwxFileDropTarget_SetDropResult(o.Ptr(), result)
+}
+
+func (o *KwxFileDropTarget) SetEnterResult(result int) {
+	cgo_kwxFileDropTarget_SetEnterResult(o.Ptr(), result)
+}
+
+func (o *KwxFileDropTarget) SetDragOverResult(result int) {
+	cgo_kwxFileDropTarget_SetDragOverResult(o.Ptr(), result)
+}
+
+func (o *KwxFileDropTarget) GetDropResult() int {
+	return cgo_kwxFileDropTarget_GetDropResult(o.Ptr())
+}
+
+func (o *KwxFileDropTarget) SetOnDropFilesWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxFileDropTarget_SetOnDropFilesWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxFileDropTarget) SetDropFilesResult(result int) {
+	cgo_kwxFileDropTarget_SetDropFilesResult(o.Ptr(), result)
+}
+
+func (o *KwxFileDropTarget) GetDropFiles() unsafe.Pointer {
+	return cgo_kwxFileDropTarget_GetDropFiles(o.Ptr())
+}
+

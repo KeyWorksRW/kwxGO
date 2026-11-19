@@ -103,6 +103,16 @@ func NewMenu(title string, style int) *Menu {
 	return obj
 }
 
+func NewMenuDefault() *Menu {
+	ptr := cgo_wxMenu_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &Menu{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *Menu) DeleteById(id int) {
 	cgo_wxMenu_DeleteById(o.Ptr(), id)
 }

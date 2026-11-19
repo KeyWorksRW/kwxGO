@@ -119,3 +119,23 @@ func (o *App) SetOnCreateTraits(pFunction unsafe.Pointer) {
 	cgo_wxApp_SetOnCreateTraits(o.Ptr(), pFunction)
 }
 
+func (o *App) SetOnOnFatalException(pFunction unsafe.Pointer) {
+	cgo_wxApp_SetOnOnFatalException(o.Ptr(), pFunction)
+}
+
+func (o *App) SetOnOnUnhandledException(pFunction unsafe.Pointer) {
+	cgo_wxApp_SetOnOnUnhandledException(o.Ptr(), pFunction)
+}
+
+func (o *App) SetOnStoreCurrentException(pFunction unsafe.Pointer) {
+	cgo_wxApp_SetOnStoreCurrentException(o.Ptr(), pFunction)
+}
+
+func (o *App) SetOnOnExceptionInMainLoop(pFunction unsafe.Pointer) {
+	cgo_wxApp_SetOnOnExceptionInMainLoop(o.Ptr(), pFunction)
+}
+
+func (o *App) SetOnRethrowStoredException(pFunction unsafe.Pointer) {
+	cgo_wxApp_SetOnRethrowStoredException(o.Ptr(), pFunction)
+}
+

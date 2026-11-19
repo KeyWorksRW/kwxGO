@@ -26,8 +26,14 @@ func (o *WizardPage) GetNext() unsafe.Pointer {
 	return cgo_wxWizardPage_GetNext(o.Ptr())
 }
 
-func (o *WizardPage) GetBitmap() unsafe.Pointer {
-	return cgo_wxWizardPage_GetBitmap(o.Ptr())
+func (o *WizardPage) GetBitmap() *Bitmap {
+	ptr := cgo_wxWizardPage_GetBitmap(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *WizardPage) SetOnGetNext(pFunction unsafe.Pointer) {

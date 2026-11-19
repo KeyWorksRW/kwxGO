@@ -45,6 +45,10 @@ func (o *Object) IsScrolledWindow() bool {
 	return cgo_wxObject_IsScrolledWindow(o.Ptr())
 }
 
+func (o *Object) IsOfClass(className string) bool {
+	return cgo_wxObject_IsOfClass(o.Ptr(), className)
+}
+
 func (o *Object) SetClientClosure(closure unsafe.Pointer) {
 	cgo_wxObject_SetClientClosure(o.Ptr(), closure)
 }

@@ -132,6 +132,42 @@ func NewVariantFromArrayString(value unsafe.Pointer, name string) *Variant {
 	return obj
 }
 
+func NewVariantFromDataViewIconText(text string, icon unsafe.Pointer, name string) *Variant {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	ptr := cgo_wxVariant_CreateFromDataViewIconText(wxText.Ptr(), icon, wxName.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Variant{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewVariantFromDataViewCheckIconText(text string, icon unsafe.Pointer, checkedState int, name string) *Variant {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	ptr := cgo_wxVariant_CreateFromDataViewCheckIconText(wxText.Ptr(), icon, checkedState, wxName.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Variant{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func (o *Variant) GetDataViewIconText(result unsafe.Pointer) bool {
+	return cgo_wxVariant_GetDataViewIconText(o.Ptr(), result)
+}
+
+func (o *Variant) GetDataViewCheckIconText(result unsafe.Pointer) bool {
+	return cgo_wxVariant_GetDataViewCheckIconText(o.Ptr(), result)
+}
+
 func (o *Variant) SetName(name string) {
 	wxName := NewWxString(name)
 	defer wxName.Free()

@@ -80,6 +80,10 @@ func (o *NumValidator) SetMinDouble(min_value float64) {
 	cgo_wxNumValidator_SetMinDouble(o.Ptr(), min_value)
 }
 
+func (o *NumValidator) SetPrecision(precision int) {
+	cgo_wxNumValidator_SetPrecision(o.Ptr(), precision)
+}
+
 func (o *NumValidator) SetRange(min_value int, max_value int) {
 	cgo_wxNumValidator_SetRange(o.Ptr(), min_value, max_value)
 }

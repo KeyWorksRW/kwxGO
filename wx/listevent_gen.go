@@ -46,7 +46,7 @@ func (o *ListEvent) GetColumn() int {
 	return cgo_wxListEvent_GetColumn(o.Ptr())
 }
 
-func (o *ListEvent) GetData() int {
+func (o *ListEvent) GetData() uintptr {
 	return cgo_wxListEvent_GetData(o.Ptr())
 }
 

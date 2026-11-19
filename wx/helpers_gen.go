@@ -57,6 +57,60 @@ func WxStringToGoAndFree(ptr unsafe.Pointer) string {
 	return cgo_WxStringToGoAndFree(ptr)
 }
 
+// WxStringToGo converts a borrowed wxString pointer into a Go string WITHOUT
+// freeing it. Use it for the `const wxString*` a callback receives as an
+// argument (for example the serializer/deserializer notebook name); that
+// string belongs to wxWidgets. Convert only a wxString allocated for you by a
+// wrapper with WxStringToGoAndFree.
+func WxStringToGo(ptr unsafe.Pointer) string {
+	return cgo_WxStringToGo(ptr)
+}
+
+// CStringToGoAndFree converts a strdup'ed UTF-8 C string returned by a C wrapper into a
+// Go string, then frees it with the library allocator. The pointer must not be used
+// after this call.
+func CStringToGoAndFree(ptr unsafe.Pointer) string {
+	return cgo_CStringToGoAndFree(ptr)
+}
+
+// CStringToGo converts a borrowed UTF-8 C string returned by a C wrapper into a Go
+// string WITHOUT freeing it. The buffer belongs to another object (or is one of the
+// call's own arguments), so it must not be released with wxCFree.
+func CStringToGo(ptr unsafe.Pointer) string {
+	return cgo_CStringToGo(ptr)
+}
+
+// wxPoint, wxSize and wxRect are hand-maintained Go value types, so the
+// generated class files carry no constructor for them. These helpers allocate a
+// native object for a C parameter that takes a TClass(wxPoint), TClass(wxSize)
+// or TClass(wxRect) pointer; wxWidgets copies the value during the call, so
+// release the handle with the matching Free* as soon as the call returns.
+func NewSizePtr(width, height int) unsafe.Pointer { return cgo_wxSize_Create(width, height) }
+
+func FreeSizePtr(ptr unsafe.Pointer) {
+	if ptr != nil {
+		cgo_wxSize_Delete(ptr)
+	}
+}
+
+func NewPointPtr(x, y int) unsafe.Pointer { return cgo_wxPoint_Create(x, y) }
+
+func FreePointPtr(ptr unsafe.Pointer) {
+	if ptr != nil {
+		cgo_wxPoint_Delete(ptr)
+	}
+}
+
+func NewRectPtr(x, y, width, height int) unsafe.Pointer {
+	return cgo_wxRect_Create(x, y, width, height)
+}
+
+func FreeRectPtr(ptr unsafe.Pointer) {
+	if ptr != nil {
+		cgo_wxRect_Delete(ptr)
+	}
+}
+
 // wxStringTable packs items into one NUL-terminated UTF-8 block and returns
 // a pointer to a table of char* entries into that block, plus a release
 // function. wxRadioBox and similar constructors take `int count, char**

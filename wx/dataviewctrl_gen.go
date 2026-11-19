@@ -4,7 +4,7 @@ package wx
 
 import "unsafe"
 
-type DataViewCtrl struct{ BaseObject }
+type DataViewCtrl struct{ Control }
 
 // DataViewCtrlFromPtr wraps ptr without taking ownership of the native object:
 // Delete() is a no-op for the returned wrapper.
@@ -30,6 +30,10 @@ func (o *DataViewCtrl) EnableDragSource(format unsafe.Pointer) bool {
 	return cgo_wxDataViewCtrl_EnableDragSource(o.Ptr(), format)
 }
 
+func (o *DataViewCtrl) EnableDropTarget(format unsafe.Pointer) bool {
+	return cgo_wxDataViewCtrl_EnableDropTarget(o.Ptr(), format)
+}
+
 func (o *DataViewCtrl) SetBackgroundColour(colour unsafe.Pointer) bool {
 	return cgo_wxDataViewCtrl_SetBackgroundColour(o.Ptr(), colour)
 }
@@ -38,8 +42,24 @@ func (o *DataViewCtrl) SetFocus() {
 	cgo_wxDataViewCtrl_SetFocus(o.Ptr())
 }
 
-func (o *DataViewCtrl) SetForegroundColour(colour unsafe.Pointer) bool {
+func (o *DataViewCtrl) SetForegroundColour(colour unsafe.Pointer) int {
 	return cgo_wxDataViewCtrl_SetForegroundColour(o.Ptr(), colour)
+}
+
+func (o *DataViewCtrl) GetSortingColumnCount() int {
+	return cgo_wxDataViewCtrl_GetSortingColumnCount(o.Ptr())
+}
+
+func (o *DataViewCtrl) GetSortingColumnAt(pos int) unsafe.Pointer {
+	return cgo_wxDataViewCtrl_GetSortingColumnAt(o.Ptr(), pos)
+}
+
+func (o *DataViewCtrl) GenericGetHeader() unsafe.Pointer {
+	return cgo_wxDataViewCtrl_GenericGetHeader(o.Ptr())
+}
+
+func (o *DataViewCtrl) HitTestColumnPosition(x int, y int, item unsafe.Pointer) int {
+	return cgo_wxDataViewCtrl_HitTestColumnPosition(o.Ptr(), x, y, item)
 }
 
 func NewDataViewCtrl(parent unsafe.Pointer, id int, x int, y int, width int, height int, style int) *DataViewCtrl {

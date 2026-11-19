@@ -38,8 +38,21 @@ func NewAuiToolBarItem(source unsafe.Pointer) *AuiToolBarItem {
 	return obj
 }
 
-func (o *AuiToolBarItem) Copy(source unsafe.Pointer) unsafe.Pointer {
-	return cgo_wxAuiToolBarItem_Copy(o.Ptr(), source)
+func (o *AuiToolBarItem) Delete() {
+	if o.Borrowed() {
+		return
+	}
+	cgo_wxAuiToolBarItem_Delete(o.Ptr())
+}
+
+func (o *AuiToolBarItem) Copy(source unsafe.Pointer) *AuiToolBarItem {
+	ptr := cgo_wxAuiToolBarItem_Copy(o.Ptr(), source)
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiToolBarItem{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *AuiToolBarItem) Assign(source unsafe.Pointer) {

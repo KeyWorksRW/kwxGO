@@ -417,3 +417,7 @@ func (o *AuiPaneInfo) MinSizeXY(x int, y int) unsafe.Pointer {
 	return cgo_wxAuiPaneInfo_MinSizeXY(o.Ptr(), x, y)
 }
 
+func (o *AuiPaneInfo) IconBundle(bitmap unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxAuiPaneInfo_IconBundle(o.Ptr(), bitmap)
+}
+

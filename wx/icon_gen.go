@@ -73,6 +73,16 @@ func NewIconFromXPMData(xpm unsafe.Pointer) *Icon {
 	return obj
 }
 
+func NewIconFromXPMString(xpm string) *Icon {
+	ptr := cgo_wxIcon_CreateFromXPMString(xpm)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Icon{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *Icon) GetDepth() int {
 	return cgo_wxIcon_GetDepth(o.Ptr())
 }

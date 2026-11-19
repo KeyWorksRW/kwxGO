@@ -63,3 +63,23 @@ func (o *KwxApp) SetOnCreateTraits(pFunction unsafe.Pointer) {
 	cgo_kwxApp_SetOnCreateTraits(o.Ptr(), pFunction)
 }
 
+func (o *KwxApp) SetOnOnFatalException(pFunction unsafe.Pointer) {
+	cgo_kwxApp_SetOnOnFatalException(o.Ptr(), pFunction)
+}
+
+func (o *KwxApp) SetOnOnUnhandledException(pFunction unsafe.Pointer) {
+	cgo_kwxApp_SetOnOnUnhandledException(o.Ptr(), pFunction)
+}
+
+func (o *KwxApp) SetOnStoreCurrentException(pFunction unsafe.Pointer) {
+	cgo_kwxApp_SetOnStoreCurrentException(o.Ptr(), pFunction)
+}
+
+func (o *KwxApp) SetOnOnExceptionInMainLoop(pFunction unsafe.Pointer) {
+	cgo_kwxApp_SetOnOnExceptionInMainLoop(o.Ptr(), pFunction)
+}
+
+func (o *KwxApp) SetOnRethrowStoredException(pFunction unsafe.Pointer) {
+	cgo_kwxApp_SetOnRethrowStoredException(o.Ptr(), pFunction)
+}
+

@@ -147,7 +147,7 @@ func (o *Locale) GetString(szOrigString string, szDomain string) string {
 	wxSzDomain := NewWxString(szDomain)
 	defer wxSzDomain.Free()
 	retPtr := cgo_wxLocale_GetString(o.Ptr(), wxSzOrigString.Ptr(), wxSzDomain.Ptr())
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
 func (o *Locale) IsLoaded(szDomain string) bool {

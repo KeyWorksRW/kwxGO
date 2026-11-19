@@ -35,6 +35,10 @@ func (o *Document) GetFirstView() unsafe.Pointer {
 	return cgo_wxDocument_GetFirstView(o.Ptr())
 }
 
+func (o *Document) IsModified() bool {
+	return cgo_wxDocument_IsModified(o.Ptr())
+}
+
 func (o *Document) SetFilename(filename string, notifyViews bool) {
 	wxFilename := NewWxString(filename)
 	defer wxFilename.Free()
@@ -43,6 +47,30 @@ func (o *Document) SetFilename(filename string, notifyViews bool) {
 
 func (o *Document) UpdateAllViews(sender unsafe.Pointer, hint unsafe.Pointer) {
 	cgo_wxDocument_UpdateAllViews(o.Ptr(), sender, hint)
+}
+
+func (o *Document) Close() bool {
+	return cgo_wxDocument_Close(o.Ptr())
+}
+
+func (o *Document) Save() bool {
+	return cgo_wxDocument_Save(o.Ptr())
+}
+
+func (o *Document) SaveAs() bool {
+	return cgo_wxDocument_SaveAs(o.Ptr())
+}
+
+func (o *Document) Revert() bool {
+	return cgo_wxDocument_Revert(o.Ptr())
+}
+
+func (o *Document) AlreadySaved() bool {
+	return cgo_wxDocument_AlreadySaved(o.Ptr())
+}
+
+func (o *Document) CanClose() bool {
+	return cgo_wxDocument_CanClose(o.Ptr())
 }
 
 func (o *Document) SetOnDoOpenDocument(pFunction unsafe.Pointer) {
@@ -71,5 +99,79 @@ func (o *Document) SetOnOnCreate(pFunction unsafe.Pointer) {
 
 func (o *Document) SetOnOnOpenDocument(pFunction unsafe.Pointer) {
 	cgo_wxDocument_SetOnOnOpenDocument(o.Ptr(), pFunction)
+}
+
+func (o *Document) SetOnDoOpenDocumentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxDocument_SetOnDoOpenDocumentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Document) SetDoOpenDocumentResult(result bool) {
+	cgo_wxDocument_SetDoOpenDocumentResult(o.Ptr(), result)
+}
+
+func (o *Document) SetOnDoSaveDocumentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxDocument_SetOnDoSaveDocumentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Document) SetDoSaveDocumentResult(result bool) {
+	cgo_wxDocument_SetDoSaveDocumentResult(o.Ptr(), result)
+}
+
+func (o *Document) SetOnIsModifiedWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxDocument_SetOnIsModifiedWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Document) SetIsModifiedResult(result bool) {
+	cgo_wxDocument_SetIsModifiedResult(o.Ptr(), result)
+}
+
+func (o *Document) SetOnModifyWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxDocument_SetOnModifyWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Document) SetOnOnCreateWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxDocument_SetOnOnCreateWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Document) SetOnCreateResult(result bool) {
+	cgo_wxDocument_SetOnCreateResult(o.Ptr(), result)
+}
+
+func (o *Document) SetOnOnOpenDocumentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxDocument_SetOnOnOpenDocumentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Document) SetOnOpenDocumentResult(result bool) {
+	cgo_wxDocument_SetOnOpenDocumentResult(o.Ptr(), result)
+}
+
+func (o *Document) OnCreateBase(path string, flags int) bool {
+	wxPath := NewWxString(path)
+	defer wxPath.Free()
+	return cgo_wxDocument_OnCreateBase(o.Ptr(), wxPath.Ptr(), flags)
+}
+
+func (o *Document) OnOpenDocumentBase(filename string) bool {
+	wxFilename := NewWxString(filename)
+	defer wxFilename.Free()
+	return cgo_wxDocument_OnOpenDocumentBase(o.Ptr(), wxFilename.Ptr())
+}
+
+func (o *Document) IsModifiedBase() bool {
+	return cgo_wxDocument_IsModifiedBase(o.Ptr())
+}
+
+func (o *Document) ModifyBase(modified bool) {
+	cgo_wxDocument_ModifyBase(o.Ptr(), modified)
+}
+
+func NewDocumentWithParent(pObject unsafe.Pointer, parent unsafe.Pointer) *Document {
+	ptr := cgo_wxDocument_CreateWithParent(pObject, parent)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Document{}
+	obj.SetPtr(ptr)
+	return obj
 }
 

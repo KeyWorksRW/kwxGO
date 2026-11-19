@@ -112,7 +112,7 @@ func Utf8Buffer_Create(str string) unsafe.Pointer {
 
 func Utf8Buffer_Data(buf unsafe.Pointer) string {
 	retPtr := cgo_kwxUtf8Buffer_Data(buf)
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGo(retPtr)
 }
 
 func Utf8Buffer_Delete(buf unsafe.Pointer) {
@@ -222,6 +222,13 @@ func GetEnv(v string, value string) bool {
 	wxValue := NewWxString(value)
 	defer wxValue.Free()
 	return cgo_wxGetEnv(wxV.Ptr(), wxValue.Ptr())
+}
+
+func GetEnvValue(v string) string {
+	wxV := NewWxString(v)
+	defer wxV.Free()
+	retPtr := cgo_wxGetEnvValue(wxV.Ptr())
+	return WxStringToGoAndFree(retPtr)
 }
 
 func SetEnv(v string, value string) bool {
@@ -610,6 +617,14 @@ func GetSingleChoiceIndex(message string, caption string, choices string, count 
 	return cgo_wxGetSingleChoiceIndex(wxMessage.Ptr(), wxCaption.Ptr(), wxChoices.Ptr(), count, parent)
 }
 
+func GetSingleChoiceIndexArray(message string, caption string, choices unsafe.Pointer, parent unsafe.Pointer) int {
+	wxMessage := NewWxString(message)
+	defer wxMessage.Free()
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxGetSingleChoiceIndexArray(wxMessage.Ptr(), wxCaption.Ptr(), choices, parent)
+}
+
 func GetSingleChoiceIndexEx(message string, caption string, n int, choices unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int, initialSelection int) int {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
@@ -662,9 +677,15 @@ func DegToRad(degrees float64) float64 {
 	return cgo_wxDegToRad(degrees)
 }
 
-func Fgets(buffer string, size int, stream unsafe.Pointer) string {
+func Fgets(buffer unsafe.Pointer, size int, stream unsafe.Pointer) string {
 	retPtr := cgo_wxFgets(buffer, size, stream)
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGo(retPtr)
+}
+
+func Fputs(str string, stream unsafe.Pointer) int {
+	wxStr := NewWxString(str)
+	defer wxStr.Free()
+	return cgo_wxFputs(wxStr.Ptr(), stream)
 }
 
 func GetCwd() string {
@@ -752,14 +773,14 @@ func GetPowerType() int {
 	return cgo_wxGetPowerType()
 }
 
-func GetSelectedChoices(selections unsafe.Pointer, choices string, count int, message string, caption string, parent unsafe.Pointer) int {
-	wxChoices := NewWxString(choices)
-	defer wxChoices.Free()
+func GetSelectedChoices(selections unsafe.Pointer, choices []string, message string, caption string, parent unsafe.Pointer) int {
+	choicesPtr, releaseChoices := wxStringTable(choices)
+	defer releaseChoices()
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
-	return cgo_wxGetSelectedChoices(selections, wxChoices.Ptr(), count, wxMessage.Ptr(), wxCaption.Ptr(), parent)
+	return cgo_wxGetSelectedChoices(selections, len(choices), choicesPtr, wxMessage.Ptr(), wxCaption.Ptr(), parent)
 }
 
 func GetSelectedChoicesEx(selections unsafe.Pointer, message string, caption string, n int, choices unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int) int {
@@ -770,25 +791,25 @@ func GetSelectedChoicesEx(selections unsafe.Pointer, message string, caption str
 	return cgo_wxGetSelectedChoicesEx(selections, wxMessage.Ptr(), wxCaption.Ptr(), n, choices, parent, x, y, centre, width, height)
 }
 
-func GetSingleChoice(message string, caption string, choices string, count int, parent unsafe.Pointer) string {
+func GetSingleChoice(message string, caption string, choices []string, parent unsafe.Pointer) string {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
-	wxChoices := NewWxString(choices)
-	defer wxChoices.Free()
-	retPtr := cgo_wxGetSingleChoice(wxMessage.Ptr(), wxCaption.Ptr(), wxChoices.Ptr(), count, parent)
+	choicesPtr, releaseChoices := wxStringTable(choices)
+	defer releaseChoices()
+	retPtr := cgo_wxGetSingleChoice(wxMessage.Ptr(), wxCaption.Ptr(), len(choices), choicesPtr, parent)
 	return WxStringToGoAndFree(retPtr)
 }
 
-func GetSingleChoiceData(message string, caption string, choices string, count int, client_data unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
+func GetSingleChoiceData(message string, caption string, choices []string, client_data unsafe.Pointer, parent unsafe.Pointer) unsafe.Pointer {
 	wxMessage := NewWxString(message)
 	defer wxMessage.Free()
 	wxCaption := NewWxString(caption)
 	defer wxCaption.Free()
-	wxChoices := NewWxString(choices)
-	defer wxChoices.Free()
-	return cgo_wxGetSingleChoiceData(wxMessage.Ptr(), wxCaption.Ptr(), wxChoices.Ptr(), count, client_data, parent)
+	choicesPtr, releaseChoices := wxStringTable(choices)
+	defer releaseChoices()
+	return cgo_wxGetSingleChoiceData(wxMessage.Ptr(), wxCaption.Ptr(), len(choices), choicesPtr, client_data, parent)
 }
 
 func GetSingleChoiceDataEx(message string, caption string, n int, choices unsafe.Pointer, client_data unsafe.Pointer, parent unsafe.Pointer, x int, y int, centre bool, width int, height int, initialSelection int) unsafe.Pointer {
@@ -837,6 +858,42 @@ func Islower(character int) bool {
 
 func MakeFloatingPointValidator(value unsafe.Pointer, style int) unsafe.Pointer {
 	return cgo_wxMakeFloatingPointValidator(value, style)
+}
+
+func MakeFloatingPointValidatorWithPrecision(precision int, value unsafe.Pointer, style int) unsafe.Pointer {
+	return cgo_wxMakeFloatingPointValidatorWithPrecision(precision, value, style)
+}
+
+func FloatingPointValidator_SetPrecision(validator unsafe.Pointer, precision int) {
+	cgo_wxFloatingPointValidator_SetPrecision(validator, precision)
+}
+
+func FloatingPointValidator_SetFactor(validator unsafe.Pointer, factor float64) {
+	cgo_wxFloatingPointValidator_SetFactor(validator, factor)
+}
+
+func FloatingPointValidator_SetStyle(validator unsafe.Pointer, style int) {
+	cgo_wxFloatingPointValidator_SetStyle(validator, style)
+}
+
+func FloatingPointValidator_SetMin(validator unsafe.Pointer, min float64) {
+	cgo_wxFloatingPointValidator_SetMin(validator, min)
+}
+
+func FloatingPointValidator_GetMin(validator unsafe.Pointer) float64 {
+	return cgo_wxFloatingPointValidator_GetMin(validator)
+}
+
+func FloatingPointValidator_SetMax(validator unsafe.Pointer, max float64) {
+	cgo_wxFloatingPointValidator_SetMax(validator, max)
+}
+
+func FloatingPointValidator_GetMax(validator unsafe.Pointer) float64 {
+	return cgo_wxFloatingPointValidator_GetMax(validator)
+}
+
+func FloatingPointValidator_SetRange(validator unsafe.Pointer, min float64, max float64) {
+	cgo_wxFloatingPointValidator_SetRange(validator, min, max)
 }
 
 func MutexGuiEnter() {
@@ -895,7 +952,11 @@ func Strdup(str string) string {
 	wxStr := NewWxString(str)
 	defer wxStr.Free()
 	retPtr := cgo_wxStrdup(wxStr.Ptr())
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
+}
+
+func Strlen(str string) int {
+	return cgo_wxStrlen(str)
 }
 
 func Strtod(nptr string) float64 {
@@ -966,7 +1027,7 @@ func SetPixelRowRGBA(buffer unsafe.Pointer, width int, x int, y int, rgba0 uint,
 
 func SvgStringFromBase64(base64 unsafe.Pointer, len int) string {
 	retPtr := cgo_kwxSvgStringFromBase64(base64, len)
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
 func SystemSettingsGetColour(systemColour int) unsafe.Pointer {
@@ -981,6 +1042,10 @@ func DragIcon(icon unsafe.Pointer, x int, y int) unsafe.Pointer {
 	return cgo_wxDragIcon(icon, x, y)
 }
 
+func DragIconWithCursor(icon unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxDragIconWithCursor(icon, cursor)
+}
+
 func DragListItem(listCtrl unsafe.Pointer, id int) unsafe.Pointer {
 	return cgo_wxDragListItem(listCtrl, id)
 }
@@ -991,12 +1056,22 @@ func DragString(text string, x int, y int) unsafe.Pointer {
 	return cgo_wxDragString(wxText.Ptr(), x, y)
 }
 
+func DragStringWithCursor(text string, cursor unsafe.Pointer) unsafe.Pointer {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxDragStringWithCursor(wxText.Ptr(), cursor)
+}
+
 func DragTreeItem(treeCtrl unsafe.Pointer, id unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxDragTreeItem(treeCtrl, id)
 }
 
 func GenericDragIcon(icon unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxGenericDragIcon(icon)
+}
+
+func GenericDragIconWithCursor(icon unsafe.Pointer, cursor unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGenericDragIconWithCursor(icon, cursor)
 }
 
 func GenericDragListItem(listCtrl unsafe.Pointer, id int) unsafe.Pointer {
@@ -1007,6 +1082,12 @@ func GenericDragString(text string) unsafe.Pointer {
 	wxText := NewWxString(text)
 	defer wxText.Free()
 	return cgo_wxGenericDragString(wxText.Ptr())
+}
+
+func GenericDragStringWithCursor(text string, cursor unsafe.Pointer) unsafe.Pointer {
+	wxText := NewWxString(text)
+	defer wxText.Free()
+	return cgo_wxGenericDragStringWithCursor(wxText.Ptr(), cursor)
 }
 
 func GenericDragTreeItem(treeCtrl unsafe.Pointer, id unsafe.Pointer) unsafe.Pointer {
@@ -1082,6 +1163,12 @@ func ConsoleInitialize(argc int, argv unsafe.Pointer) int {
 	return cgo_kwxConsoleInitialize(argc, argv)
 }
 
+func ConsoleInitializeFromArgs(argv []string) int {
+	argvPtr, releaseArgv := wxStringTable(argv)
+	defer releaseArgv()
+	return cgo_kwxConsoleInitializeFromArgs(len(argv), argvPtr)
+}
+
 func ConsoleRun() int {
 	return cgo_kwxConsoleRun()
 }
@@ -1110,10 +1197,38 @@ func ConsoleYield() int {
 	return cgo_kwxConsoleYield()
 }
 
+func ConsoleOnInitCmdLineBase(parser unsafe.Pointer) {
+	cgo_kwxConsoleOnInitCmdLineBase(parser)
+}
+
+func ConsoleOnCmdLineParsedBase(parser unsafe.Pointer) bool {
+	return cgo_kwxConsoleOnCmdLineParsedBase(parser)
+}
+
+func Stdin() unsafe.Pointer {
+	return cgo_kwxStdin()
+}
+
+func Stdout() unsafe.Pointer {
+	return cgo_kwxStdout()
+}
+
+func Stderr() unsafe.Pointer {
+	return cgo_kwxStderr()
+}
+
+func ConsoleCheckBuildOptions(componentName string) bool {
+	return cgo_kwxConsoleCheckBuildOptions(componentName)
+}
+
 func Printf(text string) int {
 	wxText := NewWxString(text)
 	defer wxText.Free()
 	return cgo_wxPrintf(wxText.Ptr())
+}
+
+func PrintfLen(text string, len int) int {
+	return cgo_wxPrintfLen(text, len)
 }
 
 func MessageOutputUseStderr() {
@@ -1126,6 +1241,10 @@ func MessageOutputUseStdout() {
 
 func MessageOutputReset() {
 	cgo_kwxMessageOutputReset()
+}
+
+func LogUseStderr() {
+	cgo_kwxLogUseStderr()
 }
 
 func Base64EncodeBuffer(source unsafe.Pointer, src_length int) string {
@@ -1293,6 +1412,10 @@ func ExpPROPSHEET_TREEBOOK() int {
 
 func ExpPROPSHEET_SHRINKTOFIT() int {
 	return cgo_expPROPSHEET_SHRINKTOFIT()
+}
+
+func CreateSVGBitmapEmbedHandler() unsafe.Pointer {
+	return cgo_wxCreateSVGBitmapEmbedHandler()
 }
 
 func GetMousePositionPoint() Point {

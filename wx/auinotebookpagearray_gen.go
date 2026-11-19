@@ -39,7 +39,13 @@ func (o *AuiNotebookPageArray) GetCount() int {
 	return cgo_wxAuiNotebookPageArray_GetCount(o.Ptr())
 }
 
-func (o *AuiNotebookPageArray) Item(index int) unsafe.Pointer {
-	return cgo_wxAuiNotebookPageArray_Item(o.Ptr(), index)
+func (o *AuiNotebookPageArray) Item(index int) *AuiNotebookPage {
+	ptr := cgo_wxAuiNotebookPageArray_Item(o.Ptr(), index)
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiNotebookPage{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
