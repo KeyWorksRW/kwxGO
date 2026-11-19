@@ -7,6 +7,10 @@ bin/
 lib/
 .kwxgen-tmp/
 
+tests/
+samples/
+kwxSamples/
+
 # Windows resource files (compiled by windres)
 *.syso
 .shared/
