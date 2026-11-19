@@ -18,8 +18,12 @@ func DropTargetFromPtr(ptr unsafe.Pointer) *DropTarget {
 	return obj
 }
 
-func (o *DropTarget) GetData() {
-	cgo_wxDropTarget_GetData(o.Ptr())
+func (o *DropTarget) GetData() bool {
+	return cgo_wxDropTarget_GetData(o.Ptr())
+}
+
+func (o *DropTarget) GetDataObject() unsafe.Pointer {
+	return cgo_wxDropTarget_GetDataObject(o.Ptr())
 }
 
 func (o *DropTarget) SetDataObject(dataObject unsafe.Pointer) {

@@ -18,14 +18,42 @@ func MetafileDCFromPtr(ptr unsafe.Pointer) *MetafileDC {
 	return obj
 }
 
-func (o *MetafileDC) Close() unsafe.Pointer {
-	return cgo_wxMetafileDC_Close(o.Ptr())
+func (o *MetafileDC) Close() *Metafile {
+	ptr := cgo_wxMetafileDC_Close(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Metafile{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func NewMetafileDC(filePath string) *MetafileDC {
 	wxFilePath := NewWxString(filePath)
 	defer wxFilePath.Free()
 	ptr := cgo_wxMetafileDC_Create(wxFilePath.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &MetafileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewMetafileDCDefault() *MetafileDC {
+	ptr := cgo_wxMetafileDC_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &MetafileDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewMetafileDCWithExtent(filePath string, xext int, yext int, xorg int, yorg int) *MetafileDC {
+	wxFilePath := NewWxString(filePath)
+	defer wxFilePath.Free()
+	ptr := cgo_wxMetafileDC_CreateWithExtent(wxFilePath.Ptr(), xext, yext, xorg, yorg)
 	if ptr == nil {
 		return nil
 	}

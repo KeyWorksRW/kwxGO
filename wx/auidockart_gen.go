@@ -22,8 +22,14 @@ func (o *AuiDockArt) DrawBackground(dc unsafe.Pointer, window unsafe.Pointer, or
 	cgo_wxAuiDockArt_DrawBackground(o.Ptr(), dc, window, orientation, rect)
 }
 
-func (o *AuiDockArt) GetColor(id int) unsafe.Pointer {
-	return cgo_wxAuiDockArt_GetColor(o.Ptr(), id)
+func (o *AuiDockArt) GetColor(id int) *Colour {
+	ptr := cgo_wxAuiDockArt_GetColor(o.Ptr(), id)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Colour{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *AuiDockArt) GetMetricForWindow(id int, window unsafe.Pointer) int {
@@ -56,12 +62,24 @@ func (o *AuiDockArt) DrawSash(dc unsafe.Pointer, window unsafe.Pointer, orientat
 	cgo_wxAuiDockArt_DrawSash(o.Ptr(), dc, window, orientation, rect)
 }
 
-func (o *AuiDockArt) GetColour(id int) unsafe.Pointer {
-	return cgo_wxAuiDockArt_GetColour(o.Ptr(), id)
+func (o *AuiDockArt) GetColour(id int) *Colour {
+	ptr := cgo_wxAuiDockArt_GetColour(o.Ptr(), id)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Colour{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
-func (o *AuiDockArt) GetFont(id int) unsafe.Pointer {
-	return cgo_wxAuiDockArt_GetFont(o.Ptr(), id)
+func (o *AuiDockArt) GetFont(id int) *Font {
+	ptr := cgo_wxAuiDockArt_GetFont(o.Ptr(), id)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Font{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *AuiDockArt) GetMetric(id int) int {

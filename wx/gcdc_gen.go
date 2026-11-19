@@ -48,6 +48,16 @@ func NewGCDCFromPrinter(dc unsafe.Pointer) *GCDC {
 	return obj
 }
 
+func NewGCDCDefault() *GCDC {
+	ptr := cgo_wxGCDC_CreateDefault()
+	if ptr == nil {
+		return nil
+	}
+	obj := &GCDC{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *GCDC) Delete() {
 	if o.Borrowed() {
 		return

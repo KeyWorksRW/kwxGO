@@ -43,7 +43,13 @@ func (o *AuiToolBarItemArray) Add(item unsafe.Pointer) {
 	cgo_wxAuiToolBarItemArray_Add(o.Ptr(), item)
 }
 
-func (o *AuiToolBarItemArray) Item(index int) unsafe.Pointer {
-	return cgo_wxAuiToolBarItemArray_Item(o.Ptr(), index)
+func (o *AuiToolBarItemArray) Item(index int) *AuiToolBarItem {
+	ptr := cgo_wxAuiToolBarItemArray_Item(o.Ptr(), index)
+	if ptr == nil {
+		return nil
+	}
+	obj := &AuiToolBarItem{}
+	obj.SetPtr(ptr)
+	return obj
 }
 

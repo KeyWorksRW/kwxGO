@@ -22,6 +22,14 @@ func (o *SystemAppearance) IsDark() bool {
 	return cgo_wxSystemAppearance_IsDark(o.Ptr())
 }
 
+func (o *SystemAppearance) IsSystemDark() bool {
+	return cgo_wxSystemAppearance_IsSystemDark(o.Ptr())
+}
+
+func (o *SystemAppearance) AreAppsDark() bool {
+	return cgo_wxSystemAppearance_AreAppsDark(o.Ptr())
+}
+
 func (o *SystemAppearance) IsUsingDarkBackground() bool {
 	return cgo_wxSystemAppearance_IsUsingDarkBackground(o.Ptr())
 }

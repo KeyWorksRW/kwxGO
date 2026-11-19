@@ -114,6 +114,12 @@ func (o *CmdLineParser) ParseStringArgs(command_line string) int {
 	return cgo_wxCmdLineParser_ParseStringArgs(o.Ptr(), wxCommand_line.Ptr())
 }
 
+func (o *CmdLineParser) ParseArgv(argv []string) int {
+	argvPtr, releaseArgv := wxStringTable(argv)
+	defer releaseArgv()
+	return cgo_wxCmdLineParser_ParseArgv(o.Ptr(), len(argv), argvPtr)
+}
+
 func (o *CmdLineParser) Found(name string) bool {
 	wxName := NewWxString(name)
 	defer wxName.Free()

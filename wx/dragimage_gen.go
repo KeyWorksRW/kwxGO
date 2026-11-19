@@ -26,8 +26,22 @@ func (o *DragImage) BeginDragFullScreen(x_pos int, y_pos int, window unsafe.Poin
 	return cgo_wxDragImage_BeginDragFullScreen(o.Ptr(), x_pos, y_pos, window, fullScreen, rect)
 }
 
+func (o *DragImage) BeginDragFullScreenDefault(x_pos int, y_pos int, window unsafe.Pointer, fullScreen bool) bool {
+	return cgo_wxDragImage_BeginDragFullScreenDefault(o.Ptr(), x_pos, y_pos, window, fullScreen)
+}
+
 func NewDragImage(image unsafe.Pointer, x int, y int) *DragImage {
 	ptr := cgo_wxDragImage_Create(image, x, y)
+	if ptr == nil {
+		return nil
+	}
+	obj := &DragImage{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
+func NewDragImageWithCursor(image unsafe.Pointer, cursor unsafe.Pointer) *DragImage {
+	ptr := cgo_wxDragImage_CreateWithCursor(image, cursor)
 	if ptr == nil {
 		return nil
 	}

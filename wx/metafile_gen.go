@@ -49,3 +49,16 @@ func (o *Metafile) SetClipboard(width int, height int) bool {
 	return cgo_wxMetafile_SetClipboard(o.Ptr(), width, height)
 }
 
+func (o *Metafile) GetWidth() int {
+	return cgo_wxMetafile_GetWidth(o.Ptr())
+}
+
+func (o *Metafile) GetHeight() int {
+	return cgo_wxMetafile_GetHeight(o.Ptr())
+}
+
+func (o *Metafile) GetSize() Size {
+	retPtr := cgo_wxMetafile_GetSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+

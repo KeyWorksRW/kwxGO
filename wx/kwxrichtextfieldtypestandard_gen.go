@@ -32,6 +32,18 @@ func NewKwxRichTextFieldTypeStandard(pObject unsafe.Pointer, name string, label 
 	return obj
 }
 
+func NewKwxRichTextFieldTypeStandardWithBitmap(pObject unsafe.Pointer, name string, bitmap unsafe.Pointer, displayStyle int) *KwxRichTextFieldTypeStandard {
+	wxName := NewWxString(name)
+	defer wxName.Free()
+	ptr := cgo_kwxRichTextFieldTypeStandard_CreateWithBitmap(pObject, wxName.Ptr(), bitmap, displayStyle)
+	if ptr == nil {
+		return nil
+	}
+	obj := &KwxRichTextFieldTypeStandard{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *KwxRichTextFieldTypeStandard) Delete() {
 	if o.Borrowed() {
 		return
@@ -79,5 +91,25 @@ func (o *KwxRichTextFieldTypeStandard) SetOnUpdateField(pFunction unsafe.Pointer
 
 func (o *KwxRichTextFieldTypeStandard) SetOnIsTopLevel(pFunction unsafe.Pointer) {
 	cgo_kwxRichTextFieldTypeStandard_SetOnIsTopLevel(o.Ptr(), pFunction)
+}
+
+func (o *KwxRichTextFieldTypeStandard) SetOnCanEditPropertiesWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextFieldTypeStandard_SetOnCanEditPropertiesWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextFieldTypeStandard) SetOnEditPropertiesWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextFieldTypeStandard_SetOnEditPropertiesWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextFieldTypeStandard) SetOnGetPropertiesMenuLabelWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextFieldTypeStandard_SetOnGetPropertiesMenuLabelWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextFieldTypeStandard) SetOnUpdateFieldWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextFieldTypeStandard_SetOnUpdateFieldWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextFieldTypeStandard) SetOnIsTopLevelWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextFieldTypeStandard_SetOnIsTopLevelWithData(o.Ptr(), pFunction, data)
 }
 

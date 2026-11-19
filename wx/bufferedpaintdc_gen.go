@@ -4,7 +4,7 @@ package wx
 
 import "unsafe"
 
-type BufferedPaintDC struct{ DC }
+type BufferedPaintDC struct{ BufferedDC }
 
 // BufferedPaintDCFromPtr wraps ptr without taking ownership of the native object:
 // Delete() is a no-op for the returned wrapper.

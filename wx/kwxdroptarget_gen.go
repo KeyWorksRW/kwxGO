@@ -55,3 +55,43 @@ func (o *KwxDropTarget) SetOnLeave(pFunction unsafe.Pointer) {
 	cgo_kwxDropTarget_SetOnLeave(o.Ptr(), pFunction)
 }
 
+func (o *KwxDropTarget) SetOnDataWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDropTarget_SetOnDataWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDropTarget) SetOnDropWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDropTarget_SetOnDropWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDropTarget) SetOnEnterWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDropTarget_SetOnEnterWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDropTarget) SetOnDragOverWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDropTarget_SetOnDragOverWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDropTarget) SetOnLeaveWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxDropTarget_SetOnLeaveWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxDropTarget) SetDataResult(result int) {
+	cgo_kwxDropTarget_SetDataResult(o.Ptr(), result)
+}
+
+func (o *KwxDropTarget) SetDropResult(result int) {
+	cgo_kwxDropTarget_SetDropResult(o.Ptr(), result)
+}
+
+func (o *KwxDropTarget) SetEnterResult(result int) {
+	cgo_kwxDropTarget_SetEnterResult(o.Ptr(), result)
+}
+
+func (o *KwxDropTarget) SetDragOverResult(result int) {
+	cgo_kwxDropTarget_SetDragOverResult(o.Ptr(), result)
+}
+
+func (o *KwxDropTarget) GetDropResult() int {
+	return cgo_kwxDropTarget_GetDropResult(o.Ptr())
+}
+

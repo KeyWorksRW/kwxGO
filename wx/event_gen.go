@@ -78,6 +78,14 @@ func (o *Event) Skip(skip bool) {
 	cgo_wxEvent_Skip(o.Ptr(), skip)
 }
 
+func (o *Event) StopPropagation() int {
+	return cgo_wxEvent_StopPropagation(o.Ptr())
+}
+
+func (o *Event) ResumePropagation(propagationLevel int) {
+	cgo_wxEvent_ResumePropagation(o.Ptr(), propagationLevel)
+}
+
 func (o *Event) SetOnClone(pFunction unsafe.Pointer) {
 	cgo_wxEvent_SetOnClone(o.Ptr(), pFunction)
 }

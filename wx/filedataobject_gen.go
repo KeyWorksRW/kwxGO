@@ -47,3 +47,7 @@ func (o *FileDataObject) GetFilenames(list unsafe.Pointer, capacity int) int {
 	return cgo_FileDataObject_GetFilenames(o.Ptr(), list, capacity)
 }
 
+func (o *FileDataObject) GetFilenamesArray(filenames unsafe.Pointer) {
+	cgo_wxFileDataObject_GetFilenamesArray(o.Ptr(), filenames)
+}
+

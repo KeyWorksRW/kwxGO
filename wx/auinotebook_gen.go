@@ -260,3 +260,36 @@ func (o *AuiNotebook) LoadLayout(name string, deserializer unsafe.Pointer) {
 	cgo_wxAuiNotebook_LoadLayout(o.Ptr(), wxName.Ptr(), deserializer)
 }
 
+func (o *AuiNotebook) AddPageWithBundle(page unsafe.Pointer, caption string, sel bool, bitmap unsafe.Pointer) bool {
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxAuiNotebook_AddPageWithBundle(o.Ptr(), page, wxCaption.Ptr(), sel, bitmap)
+}
+
+func (o *AuiNotebook) InsertPageWithBundle(page_idx int, page unsafe.Pointer, caption string, sel bool, bitmap unsafe.Pointer) bool {
+	wxCaption := NewWxString(caption)
+	defer wxCaption.Free()
+	return cgo_wxAuiNotebook_InsertPageWithBundle(o.Ptr(), page_idx, page, wxCaption.Ptr(), sel, bitmap)
+}
+
+func (o *AuiNotebook) SetPageBitmapBundle(page int, bitmap unsafe.Pointer) bool {
+	return cgo_wxAuiNotebook_SetPageBitmapBundle(o.Ptr(), page, bitmap)
+}
+
+func (o *AuiNotebook) CalculateNewSplitSize() Size {
+	retPtr := cgo_wxAuiNotebook_CalculateNewSplitSize(o.Ptr())
+	return sizeFromPtr(retPtr)
+}
+
+func (o *AuiNotebook) GetTabCtrlFromPoint(x int, y int) unsafe.Pointer {
+	return cgo_wxAuiNotebook_GetTabCtrlFromPoint(o.Ptr(), x, y)
+}
+
+func (o *AuiNotebook) FindTabCtrl(page unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxAuiNotebook_FindTabCtrl(o.Ptr(), page)
+}
+
+func (o *AuiNotebook) FindTabIndex(page unsafe.Pointer) int {
+	return cgo_wxAuiNotebook_FindTabIndex(o.Ptr(), page)
+}
+

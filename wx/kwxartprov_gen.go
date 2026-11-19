@@ -32,3 +32,27 @@ func (o *KwxArtProv) Release() {
 	cgo_kwxArtProv_Release(o.Ptr())
 }
 
+func (o *KwxArtProv) Push() {
+	cgo_kwxArtProv_Push(o.Ptr())
+}
+
+func (o *KwxArtProv) PushBack() {
+	cgo_kwxArtProv_PushBack(o.Ptr())
+}
+
+func (o *KwxArtProv) SetOnCreateBitmapWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxArtProv_SetOnCreateBitmapWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxArtProv) GetRequestedWidth() int {
+	return cgo_kwxArtProv_GetRequestedWidth(o.Ptr())
+}
+
+func (o *KwxArtProv) GetRequestedHeight() int {
+	return cgo_kwxArtProv_GetRequestedHeight(o.Ptr())
+}
+
+func (o *KwxArtProv) SetCreateBitmapResult(bitmap unsafe.Pointer) {
+	cgo_kwxArtProv_SetCreateBitmapResult(o.Ptr(), bitmap)
+}
+

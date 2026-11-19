@@ -56,6 +56,18 @@ func (o *GraphicsContext) CreatePen(pen unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxGraphicsContext_CreatePen(o.Ptr(), pen)
 }
 
+func (o *GraphicsContext) CreatePenFromInfo(info unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGraphicsContext_CreatePenFromInfo(o.Ptr(), info)
+}
+
+func (o *GraphicsContext) CreateLinearGradientBrushFromStops(x1 float64, y1 float64, x2 float64, y2 float64, stops unsafe.Pointer, matrix unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGraphicsContext_CreateLinearGradientBrushFromStops(o.Ptr(), x1, y1, x2, y2, stops, matrix)
+}
+
+func (o *GraphicsContext) CreateRadialGradientBrushFromStops(startX float64, startY float64, endX float64, endY float64, radius float64, stops unsafe.Pointer, matrix unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxGraphicsContext_CreateRadialGradientBrushFromStops(o.Ptr(), startX, startY, endX, endY, radius, stops, matrix)
+}
+
 func (o *GraphicsContext) CreateRadialGradientBrush(startX float64, startY float64, endX float64, endY float64, radius float64, oColor unsafe.Pointer, cColor unsafe.Pointer, matrix unsafe.Pointer) unsafe.Pointer {
 	return cgo_wxGraphicsContext_CreateRadialGradientBrush(o.Ptr(), startX, startY, endX, endY, radius, oColor, cColor, matrix)
 }
@@ -170,6 +182,10 @@ func (o *GraphicsContext) Delete() {
 
 func (o *GraphicsContext) DrawBitmap(bmp unsafe.Pointer, x float64, y float64, width float64, height float64) {
 	cgo_wxGraphicsContext_DrawBitmap(o.Ptr(), bmp, x, y, width, height)
+}
+
+func (o *GraphicsContext) DrawGraphicsBitmap(bmp unsafe.Pointer, x float64, y float64, width float64, height float64) {
+	cgo_wxGraphicsContext_DrawGraphicsBitmap(o.Ptr(), bmp, x, y, width, height)
 }
 
 func (o *GraphicsContext) DrawEllipse(x float64, y float64, width float64, height float64) {

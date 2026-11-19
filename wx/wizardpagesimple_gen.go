@@ -28,8 +28,14 @@ func NewWizardPageSimple(parent unsafe.Pointer, prev unsafe.Pointer, next unsafe
 	return obj
 }
 
-func (o *WizardPageSimple) GetBitmap() unsafe.Pointer {
-	return cgo_wxWizardPageSimple_GetBitmap(o.Ptr())
+func (o *WizardPageSimple) GetBitmap() *Bitmap {
+	ptr := cgo_wxWizardPageSimple_GetBitmap(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *WizardPageSimple) GetNext() unsafe.Pointer {
@@ -46,6 +52,10 @@ func (o *WizardPageSimple) SetNext(next unsafe.Pointer) {
 
 func (o *WizardPageSimple) SetPrev(prev unsafe.Pointer) {
 	cgo_wxWizardPageSimple_SetPrev(o.Ptr(), prev)
+}
+
+func (o *WizardPageSimple) Chain(next unsafe.Pointer) unsafe.Pointer {
+	return cgo_wxWizardPageSimple_Chain(o.Ptr(), next)
 }
 
 func NewWizardPageSimpleWithBundle(parent unsafe.Pointer, prev unsafe.Pointer, next unsafe.Pointer, bitmap unsafe.Pointer) *WizardPageSimple {

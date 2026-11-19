@@ -47,11 +47,51 @@ func (o *KwxRichTextCtrl) SetOnCanInsertContent(pFunction unsafe.Pointer) {
 	cgo_kwxRichTextCtrl_SetOnCanInsertContent(o.Ptr(), pFunction)
 }
 
+func (o *KwxRichTextCtrl) SetOnPrepareContentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextCtrl_SetOnPrepareContentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextCtrl) SetOnCanDeleteRangeWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextCtrl_SetOnCanDeleteRangeWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextCtrl) SetOnCanInsertContentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextCtrl_SetOnCanInsertContentWithData(o.Ptr(), pFunction, data)
+}
+
 func (o *KwxRichTextCtrl) SetCanDeleteRangeResult(result bool) {
 	cgo_kwxRichTextCtrl_SetCanDeleteRangeResult(o.Ptr(), result)
 }
 
 func (o *KwxRichTextCtrl) SetCanInsertContentResult(result bool) {
 	cgo_kwxRichTextCtrl_SetCanInsertContentResult(o.Ptr(), result)
+}
+
+func (o *KwxRichTextCtrl) SetCallbackObject(object unsafe.Pointer) {
+	cgo_kwxRichTextCtrl_SetCallbackObject(o.Ptr(), object)
+}
+
+func (o *KwxRichTextCtrl) GetCallbackObject() unsafe.Pointer {
+	return cgo_kwxRichTextCtrl_GetCallbackObject(o.Ptr())
+}
+
+func (o *KwxRichTextCtrl) SetLockId(id int) {
+	cgo_kwxRichTextCtrl_SetLockId(o.Ptr(), id)
+}
+
+func (o *KwxRichTextCtrl) GetLockId() int {
+	return cgo_kwxRichTextCtrl_GetLockId(o.Ptr())
+}
+
+func (o *KwxRichTextCtrl) BeginLock() {
+	cgo_kwxRichTextCtrl_BeginLock(o.Ptr())
+}
+
+func (o *KwxRichTextCtrl) EndLock() {
+	cgo_kwxRichTextCtrl_EndLock(o.Ptr())
+}
+
+func (o *KwxRichTextCtrl) IsLocked() bool {
+	return cgo_kwxRichTextCtrl_IsLocked(o.Ptr())
 }
 

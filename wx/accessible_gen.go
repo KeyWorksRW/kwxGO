@@ -115,3 +115,119 @@ func (o *Accessible) SetOnGetFocus(pFunction unsafe.Pointer) {
 	cgo_wxAccessible_SetOnGetFocus(o.Ptr(), pFunction)
 }
 
+func (o *Accessible) SetOnGetSelections(pFunction unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetSelections(o.Ptr(), pFunction)
+}
+
+func (o *Accessible) SetOnHitTestWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnHitTestWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetLocationWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetLocationWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnNavigateWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnNavigateWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetNameWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetNameWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetChildCountWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetChildCountWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetChildWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetChildWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetParentWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetParentWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnDoDefaultActionWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnDoDefaultActionWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetDefaultActionWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetDefaultActionWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetDescriptionWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetDescriptionWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetHelpTextWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetHelpTextWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetKeyboardShortcutWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetKeyboardShortcutWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetRoleWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetRoleWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetStateWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetStateWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetValueWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetValueWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnSelectWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnSelectWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetFocusWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetFocusWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetOnGetSelectionsWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxAccessible_SetOnGetSelectionsWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *Accessible) SetHookResult(result int) {
+	cgo_wxAccessible_SetHookResult(o.Ptr(), result)
+}
+
+func (o *Accessible) SetHitTestResult(childId int, childObject unsafe.Pointer) {
+	cgo_wxAccessible_SetHitTestResult(o.Ptr(), childId, childObject)
+}
+
+func (o *Accessible) SetGetLocationResult(x int, y int, width int, height int) {
+	cgo_wxAccessible_SetGetLocationResult(o.Ptr(), x, y, width, height)
+}
+
+func (o *Accessible) SetNavigateResult(toId int, toObject unsafe.Pointer) {
+	cgo_wxAccessible_SetNavigateResult(o.Ptr(), toId, toObject)
+}
+
+func (o *Accessible) SetGetChildCountResult(childCount int) {
+	cgo_wxAccessible_SetGetChildCountResult(o.Ptr(), childCount)
+}
+
+func (o *Accessible) SetGetChildResult(child unsafe.Pointer) {
+	cgo_wxAccessible_SetGetChildResult(o.Ptr(), child)
+}
+
+func (o *Accessible) SetGetParentResult(parent unsafe.Pointer) {
+	cgo_wxAccessible_SetGetParentResult(o.Ptr(), parent)
+}
+
+func (o *Accessible) SetGetRoleResult(role int) {
+	cgo_wxAccessible_SetGetRoleResult(o.Ptr(), role)
+}
+
+func (o *Accessible) SetGetStateResult(state int) {
+	cgo_wxAccessible_SetGetStateResult(o.Ptr(), state)
+}
+
+func (o *Accessible) SetGetFocusResult(childId int, child unsafe.Pointer) {
+	cgo_wxAccessible_SetGetFocusResult(o.Ptr(), childId, child)
+}
+

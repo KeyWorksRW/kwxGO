@@ -202,6 +202,10 @@ func (o *TextEntry) AutoComplete(count int, items unsafe.Pointer) bool {
 	return cgo_wxTextEntry_AutoComplete(o.Ptr(), count, items)
 }
 
+func (o *TextEntry) AutoCompleteStrings(items unsafe.Pointer) bool {
+	return cgo_wxTextEntry_AutoCompleteStrings(o.Ptr(), items)
+}
+
 func (o *TextEntry) AutoCompleteFileNames() bool {
 	return cgo_wxTextEntry_AutoCompleteFileNames(o.Ptr())
 }

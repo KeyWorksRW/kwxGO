@@ -155,6 +155,16 @@ func NewBitmapFromXPM(data unsafe.Pointer) *Bitmap {
 	return obj
 }
 
+func NewBitmapFromXPMString(xpm string) *Bitmap {
+	ptr := cgo_wxBitmap_CreateFromXPMString(xpm)
+	if ptr == nil {
+		return nil
+	}
+	obj := &Bitmap{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func NewBitmapLoad(name string, typ int) *Bitmap {
 	wxName := NewWxString(name)
 	defer wxName.Free()

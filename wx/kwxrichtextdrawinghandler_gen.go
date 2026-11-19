@@ -57,6 +57,26 @@ func (o *KwxRichTextDrawingHandler) SetOnGetVirtualText(pFunction unsafe.Pointer
 	cgo_kwxRichTextDrawingHandler_SetOnGetVirtualText(o.Ptr(), pFunction)
 }
 
+func (o *KwxRichTextDrawingHandler) SetOnHasVirtualAttributesWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextDrawingHandler_SetOnHasVirtualAttributesWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextDrawingHandler) SetOnGetVirtualAttributesWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextDrawingHandler_SetOnGetVirtualAttributesWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextDrawingHandler) SetOnGetVirtualSubobjectAttributesCountWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextDrawingHandler_SetOnGetVirtualSubobjectAttributesCountWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextDrawingHandler) SetOnHasVirtualTextWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextDrawingHandler_SetOnHasVirtualTextWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *KwxRichTextDrawingHandler) SetOnGetVirtualTextWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_kwxRichTextDrawingHandler_SetOnGetVirtualTextWithData(o.Ptr(), pFunction, data)
+}
+
 func (o *KwxRichTextDrawingHandler) SetVirtualTextResult(text string) {
 	wxText := NewWxString(text)
 	defer wxText.Free()

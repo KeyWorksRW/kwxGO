@@ -34,8 +34,14 @@ func (o *AuiToolBarArt) SetFont(font unsafe.Pointer) {
 	cgo_wxAuiToolBarArt_SetFont(o.Ptr(), font)
 }
 
-func (o *AuiToolBarArt) GetFont() unsafe.Pointer {
-	return cgo_wxAuiToolBarArt_GetFont(o.Ptr())
+func (o *AuiToolBarArt) GetFont() *Font {
+	ptr := cgo_wxAuiToolBarArt_GetFont(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &Font{}
+	obj.SetPtr(ptr)
+	return obj
 }
 
 func (o *AuiToolBarArt) SetTextOrientation(orientation int) {

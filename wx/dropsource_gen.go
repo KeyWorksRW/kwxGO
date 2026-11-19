@@ -28,6 +28,16 @@ func NewDropSource(data unsafe.Pointer, win unsafe.Pointer, copy unsafe.Pointer,
 	return obj
 }
 
+func NewDropSourceDefault(data unsafe.Pointer, win unsafe.Pointer) *DropSource {
+	ptr := cgo_DropSource_CreateDefault(data, win)
+	if ptr == nil {
+		return nil
+	}
+	obj := &DropSource{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func (o *DropSource) DoDragDrop(flags int) int {
 	return cgo_wxDropSource_DoDragDrop(o.Ptr(), flags)
 }

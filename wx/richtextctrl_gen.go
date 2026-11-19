@@ -462,6 +462,14 @@ func (o *RichTextCtrl) GetAdjustedCaretPosition(caretPosition int) int {
 	return cgo_wxRichTextCtrl_GetAdjustedCaretPosition(o.Ptr(), caretPosition)
 }
 
+func (o *RichTextCtrl) GetCaretPosition() int {
+	return cgo_wxRichTextCtrl_GetCaretPosition(o.Ptr())
+}
+
+func (o *RichTextCtrl) SetMargins(left int, top int) bool {
+	return cgo_wxRichTextCtrl_SetMargins(o.Ptr(), left, top)
+}
+
 func (o *RichTextCtrl) FindNextWordPosition(direction int) int {
 	return cgo_wxRichTextCtrl_FindNextWordPosition(o.Ptr(), direction)
 }

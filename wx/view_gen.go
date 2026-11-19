@@ -34,6 +34,22 @@ func (o *View) SetOnOnUpdate(pFunction unsafe.Pointer) {
 	cgo_wxView_SetOnOnUpdate(o.Ptr(), pFunction)
 }
 
+func (o *View) SetOnOnCreateWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxView_SetOnOnCreateWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *View) SetOnCreateResult(result bool) {
+	cgo_wxView_SetOnCreateResult(o.Ptr(), result)
+}
+
+func (o *View) SetOnOnCloseWithData(pFunction unsafe.Pointer, data unsafe.Pointer) {
+	cgo_wxView_SetOnOnCloseWithData(o.Ptr(), pFunction, data)
+}
+
+func (o *View) SetOnCloseResult(result bool) {
+	cgo_wxView_SetOnCloseResult(o.Ptr(), result)
+}
+
 func (o *View) Activate(activate bool) {
 	cgo_wxView_Activate(o.Ptr(), activate)
 }
@@ -52,5 +68,13 @@ func (o *View) SetDocument(doc unsafe.Pointer) {
 
 func (o *View) SetFrame(frame unsafe.Pointer) {
 	cgo_wxView_SetFrame(o.Ptr(), frame)
+}
+
+func (o *View) Close(deleteWindow bool) bool {
+	return cgo_wxView_Close(o.Ptr(), deleteWindow)
+}
+
+func (o *View) CloseDefault() bool {
+	return cgo_wxView_CloseDefault(o.Ptr())
 }
 

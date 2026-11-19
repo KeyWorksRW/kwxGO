@@ -59,6 +59,10 @@ func (o *ListCtrl) SetItemPtrData(item int, data uintptr) bool {
 	return cgo_wxListCtrl_SetItemPtrData(o.Ptr(), item, data)
 }
 
+func (o *ListCtrl) GetItemPtrData(item int) uintptr {
+	return cgo_wxListCtrl_GetItemPtrData(o.Ptr(), item)
+}
+
 func (o *ListCtrl) GetItemTextColour(item int) unsafe.Pointer {
 	return cgo_wxListCtrl_GetItemTextColour(o.Ptr(), item)
 }

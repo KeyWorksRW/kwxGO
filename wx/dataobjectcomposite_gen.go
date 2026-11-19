@@ -22,6 +22,16 @@ func (o *DataObjectComposite) Add(data unsafe.Pointer, preferred int) {
 	cgo_wxDataObjectComposite_Add(o.Ptr(), data, preferred)
 }
 
+func (o *DataObjectComposite) GetReceivedFormat() *DataFormat {
+	ptr := cgo_wxDataObjectComposite_GetReceivedFormat(o.Ptr())
+	if ptr == nil {
+		return nil
+	}
+	obj := &DataFormat{}
+	obj.SetPtr(ptr)
+	return obj
+}
+
 func NewDataObjectComposite() *DataObjectComposite {
 	ptr := cgo_wxDataObjectComposite_Create()
 	if ptr == nil {

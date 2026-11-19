@@ -155,6 +155,22 @@ func (o *AuiToolBar) DeleteByIndex(tool_id int) bool {
 	return cgo_wxAuiToolBar_DeleteByIndex(o.Ptr(), tool_id)
 }
 
+func (o *AuiToolBar) DestroyTool(tool_id int) bool {
+	return cgo_wxAuiToolBar_DestroyTool(o.Ptr(), tool_id)
+}
+
+func (o *AuiToolBar) DestroyToolByIndex(idx int) bool {
+	return cgo_wxAuiToolBar_DestroyToolByIndex(o.Ptr(), idx)
+}
+
+func (o *AuiToolBar) GetToolClientData(tool_id int) unsafe.Pointer {
+	return cgo_wxAuiToolBar_GetToolClientData(o.Ptr(), tool_id)
+}
+
+func (o *AuiToolBar) SetToolClientData(tool_id int, clientData unsafe.Pointer) {
+	cgo_wxAuiToolBar_SetToolClientData(o.Ptr(), tool_id, clientData)
+}
+
 func (o *AuiToolBar) GetToolCount() int {
 	return cgo_wxAuiToolBar_GetToolCount(o.Ptr())
 }
@@ -345,5 +361,35 @@ func (o *AuiToolBar) GetHintSize(dock_direction int) Size {
 
 func (o *AuiToolBar) IsPaneValid(pane unsafe.Pointer) bool {
 	return cgo_wxAuiToolBar_IsPaneValid(o.Ptr(), pane)
+}
+
+func (o *AuiToolBar) AddToolByLabelBundle(tool_id int, label string, bitmap unsafe.Pointer, shortHelpString string, kind int) unsafe.Pointer {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	wxShortHelpString := NewWxString(shortHelpString)
+	defer wxShortHelpString.Free()
+	return cgo_wxAuiToolBar_AddToolByLabelBundle(o.Ptr(), tool_id, wxLabel.Ptr(), bitmap, wxShortHelpString.Ptr(), kind)
+}
+
+func (o *AuiToolBar) AddToolBundle(tool_id int, label string, bitmap unsafe.Pointer, disabledBitmap unsafe.Pointer, kind int, shortHelpString string, longHelpString string, clientData unsafe.Pointer) unsafe.Pointer {
+	wxLabel := NewWxString(label)
+	defer wxLabel.Free()
+	wxShortHelpString := NewWxString(shortHelpString)
+	defer wxShortHelpString.Free()
+	wxLongHelpString := NewWxString(longHelpString)
+	defer wxLongHelpString.Free()
+	return cgo_wxAuiToolBar_AddToolBundle(o.Ptr(), tool_id, wxLabel.Ptr(), bitmap, disabledBitmap, kind, wxShortHelpString.Ptr(), wxLongHelpString.Ptr(), clientData)
+}
+
+func (o *AuiToolBar) AddToolByBitmapBundle(tool_id int, bitmap unsafe.Pointer, disabledBitmap unsafe.Pointer, toggle bool, clientData unsafe.Pointer, shortHelpString string, longHelpString string) unsafe.Pointer {
+	wxShortHelpString := NewWxString(shortHelpString)
+	defer wxShortHelpString.Free()
+	wxLongHelpString := NewWxString(longHelpString)
+	defer wxLongHelpString.Free()
+	return cgo_wxAuiToolBar_AddToolByBitmapBundle(o.Ptr(), tool_id, bitmap, disabledBitmap, toggle, clientData, wxShortHelpString.Ptr(), wxLongHelpString.Ptr())
+}
+
+func (o *AuiToolBar) SetToolBitmapBundle(tool_id int, bitmap unsafe.Pointer) {
+	cgo_wxAuiToolBar_SetToolBitmapBundle(o.Ptr(), tool_id, bitmap)
 }
 

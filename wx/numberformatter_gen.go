@@ -62,21 +62,21 @@ func NumberFormatter_RemoveCurrencySymbolOrCode(text string, style int) string {
 
 func NumberFormatter_GetDecimalSeparator() string {
 	retPtr := cgo_wxNumberFormatter_GetDecimalSeparator()
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
 func NumberFormatter_GetThousandsSeparator() string {
 	retPtr := cgo_wxNumberFormatter_GetThousandsSeparator()
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
 func NumberFormatter_ToStringDouble(value float64, precision int, style int) string {
 	retPtr := cgo_wxNumberFormatter_ToStringDouble(value, precision, style)
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
 func NumberFormatter_ToStringLongLong(value int64, style int) string {
 	retPtr := cgo_wxNumberFormatter_ToStringLongLong(value, style)
-	return WxStringToGoAndFree(retPtr)
+	return CStringToGoAndFree(retPtr)
 }
 
